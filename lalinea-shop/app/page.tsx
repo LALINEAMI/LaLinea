@@ -1,89 +1,147 @@
+"use client";
+
+import { useState } from "react";
 const prodotti = [
   { id: 1, nome: "Coming Soon", categoria: "LaLinea", prezzo: "—" },
   { id: 2, nome: "Coming Soon", categoria: "LaLinea", prezzo: "—" },
   { id: 3, nome: "Coming Soon", categoria: "LaLinea", prezzo: "—" },
 ];
 
-export default function Home() {
+export default function Home() {const [carrello, setCarrello] = useState<
+    { id: number; nome: string; prezzo: number; quantita: number }[]
+  >([]);
+
+  const [checkoutAperto, setCheckoutAperto] = useState(false);
+const [datiCliente, setDatiCliente] = useState({
+  nome: "",
+  cognome: "",
+  email: "",
+  telefono: "",
+});
+const [categoriaAttiva, setCategoriaAttiva] = useState("Premium Filtred");  
+const aggiungiAlCarrello = () => {
+    setCarrello((prev) => {
+      const esistente = prev.find((item) => item.id === 1);
+
+      if (esistente) {
+        return prev.map((item) =>
+          item.id === 1
+            ? { ...item, quantita: item.quantita + 1 }
+            : item
+        );
+      }
+
+      return [
+        ...prev,
+        {
+          id: 1,
+          nome: "Cover iPhone LaLinea UltraResistente",
+          prezzo: 10,
+          quantita: 1,
+        },
+      ];
+    });
+  };
+
+  const cambiaQuantita = (id: number, differenza: number) => {
+    setCarrello((prev) =>
+      prev
+        .map((item) =>
+          item.id === id
+            ? { ...item, quantita: item.quantita + differenza }
+            : item
+        )
+        .filter((item) => item.quantita > 0)
+    );
+  };
+
+  const eliminaDalCarrello = (id: number) => {
+    setCarrello((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  const totaleCarrello = carrello.reduce(
+    (totale, item) => totale + item.prezzo * item.quantita,
+    0
+  );
+const costoConsegna = 10;
+const totaleOrdine = totaleCarrello + costoConsegna;
+  const inviaOrdineTelegram = () => {
+  const prodottiOrdine = carrello
+    .map(
+      (item) =>
+        `${item.nome} x${item.quantita} - ${item.prezzo * item.quantita} €`
+    )
+    .join("\n");
+
+  const messaggio = `
+NUOVO ORDINE LALINEA
+
+Nome: ${datiCliente.nome}
+Cognome: ${datiCliente.cognome}
+Email: ${datiCliente.email}
+Telefono: ${datiCliente.telefono}
+
+PRODOTTI:
+${prodottiOrdine}
+
+Prodotti: ${totaleCarrello} €
+Consegna: ${costoConsegna} €
+TOTALE ORDINE: ${totaleOrdine} €
+  `;
+
+  const testo = encodeURIComponent(messaggio);
+  window.open(`https://t.me/LaLineaMiOrdini?text=${testo}`, "_blank");
+};
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="min-h-screen text-white">
+{/* VIDEO BANNER */}
+<section className="relative w-full overflow-hidden">
+  <video
+  autoPlay
+  muted
+  loop
+  playsInline
+  controls={false}
+  className="block h-[420px] w-full object-cover"
+>
+  <source src="/banner.mp4" type="video/mp4" />
+</video>
 
-      {/* HEADER */}
-      <header className="sticky top-0 z-50 border-b border-yellow-400/30 bg-black/95 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
-          <div>
-            <h1 className="text-3xl font-black italic tracking-tight">
-              LaLinea
-            </h1>
-            <div className="mt-1 h-1 w-12 bg-yellow-400" />
-          </div>
+  <div className="pointer-events-none absolute inset-0 bg-black/20" />
+</section>
+   {/* HEADER */}
+<header className="sticky top-0 z-50 border-b border-yellow-400/30 bg-black/95 backdrop-blur">
+  <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+    <img
+      src="/Threema_2025-12-01_22-11-08 2.PNG"
+      alt="LaLinea"
+      className="h-40 w-auto object-contain"
+    />
 
-          <nav className="flex gap-5 text-xs font-bold tracking-widest sm:text-sm">
-            <a className="transition hover:text-yellow-400" href="#shop">
-              SHOP
-            </a>
-            <a className="transition hover:text-yellow-400" href="#storia">
-              LALINEA
-            </a>
-            <a className="transition hover:text-yellow-400" href="#contatti">
-              CONTATTI
-            </a>
-          </nav>
-        </div>
-      </header>
-
-      {/* HERO */}
-      <section className="relative overflow-hidden border-b border-zinc-800">
-        <div className="absolute -right-40 top-10 h-96 w-96 rounded-full bg-yellow-400/10 blur-3xl" />
-        <div className="absolute -left-40 bottom-0 h-80 w-80 rounded-full bg-green-500/10 blur-3xl" />
-
-        <div className="relative mx-auto grid min-h-[75vh] max-w-7xl items-center gap-12 px-6 py-20 lg:grid-cols-2">
-
-          <div>
-            <p className="mb-5 font-bold uppercase tracking-[0.35em] text-yellow-400">
-              Milano • Street Culture
-            </p>
-
-            <h2 className="text-6xl font-black uppercase leading-[0.9] tracking-tighter sm:text-7xl lg:text-8xl">
-              Segui
-              <br />
-              la tua
-              <br />
-              <span className="text-yellow-400">Linea.</span>
-            </h2>
-
-            <p className="mt-8 max-w-lg text-lg leading-8 text-zinc-400">
-              Streetwear, identità e cultura urbana.
-              Una linea che parte dalla strada e racconta chi la vive.
-            </p>
-
-            <div className="mt-10 flex flex-wrap gap-4">
-              <a
-                href="#shop"
-                className="bg-yellow-400 px-8 py-4 font-black text-black transition hover:bg-yellow-300"
-              >
-                SCOPRI IL DROP →
-              </a>
-
-              <a
-                href="#storia"
-                className="border border-zinc-700 px-8 py-4 font-bold transition hover:border-white"
-              >
-                LA NOSTRA STORIA
-              </a>
-            </div>
-          </div>
-
-          {/* SPAZIO LOGO */}
-          <div className="flex items-center justify-center">
-  <img
-  src="/logo.jpg"
-  alt="LaLinea"
-  className="w-full max-w-lg object-contain"
-/>
-</div>
-</div>
-      </section>
+    <nav className="flex gap-6 text-lg font-black tracking-widest sm:text-xl">
+      <a className="transition hover:text-yellow-400" href="#shop">
+        SHOP
+      </a>
+      <a className="transition hover:text-yellow-400" href="#lalinea">
+        LALINEA
+      </a><a
+  className="transition hover:text-yellow-400"
+  href="#point"
+>
+  I NOSTRI POINT
+</a>
+<a
+  className="transition hover:text-yellow-400"
+  href="#delivery"
+>
+  DELIVERY
+</a>
+      <a className="transition hover:text-yellow-400" href="#contatti">
+        CONTATTI
+      </a>
+    </nav>
+  </div>
+</header>
 
       {/* MARQUEE */}
       <section className="overflow-hidden bg-yellow-400 py-4 text-black">
@@ -92,7 +150,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SHOP */}
+     
+{/* SHOP */}
       <section id="shop" className="mx-auto max-w-7xl px-6 py-24">
         <div className="mb-14">
           <p className="font-bold uppercase tracking-[0.3em] text-yellow-400">
@@ -104,47 +163,363 @@ export default function Home() {
           </h2>
 
           <p className="mt-4 text-zinc-500">
-            I prodotti della nuova collezione stanno arrivando.
+            Prodotti LaLinea. Street culture, identità e stile.
           </p>
         </div>
+{/* CATEGORIE SHOP */}
+<div className="mb-12 grid grid-cols-2 gap-3 md:grid-cols-4">
+  {[
+    "Premium Filtred",
+    "Frozen e Static",
+    "Rosin & Pen",
+    "Flowers",
+    "Other",
+    "Gadget",
+    "Abbigliamento",
+  ].map((categoria) => (
+    <button
+      key={categoria}
+      type="button"
+      onClick={() => setCategoriaAttiva(categoria)}
+      className={`border px-4 py-4 text-sm font-black uppercase tracking-wider transition ${
+        categoriaAttiva === categoria
+          ? "border-yellow-400 bg-yellow-400 text-black"
+          : "border-zinc-800 bg-zinc-950 text-white hover:border-yellow-400 hover:text-yellow-400"
+      }`}
+    >
+      {categoria}
+    </button>
+  ))}
+</div>
+{/* PRODOTTI PREMIUM FILTRED */}
+{categoriaAttiva === "Premium Filtred" && (
+  <div className="mt-10">
+    <div className="border border-yellow-400/40 bg-black/80 p-5">
 
-        <div className="grid gap-6 md:grid-cols-3">
-          {prodotti.map((prodotto) => (
-            <article
-              key={prodotto.id}
-              className="group border border-zinc-800 bg-zinc-950 p-4 transition hover:border-yellow-400"
-            >
-              <div className="relative flex aspect-[4/5] items-center justify-center overflow-hidden bg-zinc-900">
-                <div className="absolute left-4 top-4 bg-yellow-400 px-3 py-2 text-xs font-black text-black">
-                  COMING SOON
-                </div>
+      <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+        Premium Filtred
+      </p>
 
-                <span className="text-center text-sm font-bold tracking-[0.25em] text-zinc-600">
-                  FOTO PRODOTTO
-                  <br />
-                  IN ARRIVO
-                </span>
+      <h3 className="mt-2 text-3xl font-black uppercase text-white">
+        LAMPONI 120U
+      </h3>
+
+      <p className="mt-1 font-bold uppercase text-zinc-400">
+        BY MARADONA SELECTION
+      </p>
+
+      <div className="mt-6 flex items-start gap-4">
+
+  {/* VIDEO A SINISTRA */}
+  <video
+    src="/products/premium-filtred/maradona1.mp4"
+    autoPlay
+    muted
+    loop
+    playsInline
+    className="w-1/4 aspect-square object-cover flex-shrink-0"
+  />
+
+  {/* FOTO A DESTRA */}
+  <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
+    {[2, 3, 4, 5, 6, 7, 8].map((numero) => (
+      <img
+        key={numero}
+        src={`/products/premium-filtred/maradona${numero}.jpg`}
+        alt={`LAMPONI 120U - foto ${numero}`}
+        className="w-full aspect-square object-cover"
+      />
+    ))}
+  </div>
+
+</div>
+
+      <a
+        href="https://t.me/+UIRWbzgEJ8w4ZWI0"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-6 inline-block border border-yellow-400 bg-yellow-400 px-6 py-4 font-black uppercase tracking-widest text-black"
+      >
+        Informazioni su Telegram
+      </a>
+
+    </div>
+  </div>
+)}
+
+<div className="mb-8">
+  <p className="text-xs font-bold uppercase tracking-[0.3em] text-zinc-500">
+    Categoria
+  </p>
+  <h2 className="mt-2 text-4xl font-black uppercase text-white">
+    {categoriaAttiva}
+  </h2>
+</div>
+{categoriaAttiva === "Gadget" && (
+        <article className="overflow-hidden border border-zinc-800 bg-zinc-950">
+          <div className="grid md:grid-cols-2">
+            <div className="p-4">
+              <img
+                src="/cover1.jpg"
+                alt="Cover iPhone LaLinea UltraResistente"
+                className="h-[600px] w-full object-contain bg-black"
+              />
+
+              <div className="mt-4 grid grid-cols-4 gap-3">
+                <img
+                  src="/cover1.jpg"
+                  alt="Cover LaLinea foto 1"
+                  className="h-28 w-full object-cover"
+                />
+
+                <img
+                  src="/cover2.jpg"
+                  alt="Cover LaLinea foto 2"
+                  className="h-28 w-full object-cover"
+                />
+
+                <img
+                  src="/cover3.jpg"
+                  alt="Cover LaLinea foto 3"
+                  className="h-28 w-full object-cover"
+                />
+
+                <img
+                  src="/cover4.jpg"
+                  alt="Cover LaLinea foto 4"
+                  className="h-28 w-full object-cover"
+                />
               </div>
+            </div>
 
-              <div className="px-2 pb-3 pt-6">
-                <p className="text-xs font-bold uppercase tracking-[0.25em] text-yellow-400">
-                  {prodotto.categoria}
+            <div className="flex flex-col justify-center p-8 md:p-12">
+              <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+                LaLinea
+              </p>
+
+              <h3 className="mt-4 text-4xl font-black uppercase">
+                Cover iPhone LaLinea UltraResistente
+              </h3>
+
+              <p className="mt-6 text-lg text-zinc-400">
+                Cover iPhone LaLinea UltraResistente con adattatore MagSafe.
+              </p>
+
+              <p className="mt-2 text-zinc-400">
+                Disponibile per tutti gli iPhone.
+              </p>
+
+              <div className="mt-8 border-t border-zinc-800 pt-8">
+                <p className="text-4xl font-black text-yellow-400">
+                  10 €
                 </p>
 
-                <div className="mt-3 flex items-center justify-between">
-                  <h3 className="text-xl font-black uppercase">
-                    {prodotto.nome}
-                  </h3>
+                <p className="mt-2 text-xl font-bold text-white">
+                  oppure 500 punti LaLinea
+                </p>
+              </div>
 
-                  <span className="text-zinc-500">{prodotto.prezzo}</span>
+              <button
+                onClick={aggiungiAlCarrello}
+                className="mt-8 w-full bg-yellow-400 px-6 py-4 font-black uppercase tracking-widest text-black transition hover:bg-yellow-300"
+              >
+                Aggiungi al carrello
+              </button>
+            </div>
+          </div>
+        </article>
+)}
+        {/* CARRELLO */}
+        <div className="mt-12 border border-yellow-400 bg-black p-6">
+          <div className="flex items-center justify-between">
+            <h3 className="text-3xl font-black uppercase">
+              Carrello
+            </h3>
+
+            <span className="rounded-full bg-yellow-400 px-4 py-2 font-black text-black">
+              {carrello.reduce(
+                (totale, item) => totale + item.quantita,
+                0
+              )}
+            </span>
+          </div>
+
+          {carrello.length === 0 ? (
+            <p className="mt-6 text-zinc-400">
+              Il tuo carrello è vuoto.
+            </p>
+          ) : (
+            <>
+              <div className="mt-6 space-y-4">
+                {carrello.map((item) => (
+                  <div
+                    key={item.id}
+                    className="border border-zinc-800 p-4"
+                  >
+                    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                      <div>
+                        <p className="font-black uppercase">
+                          {item.nome}
+                        </p>
+
+                        <p className="mt-1 text-yellow-400">
+                          {item.prezzo} € cad.
+                        </p>
+                      </div>
+
+                      <div className="flex items-center gap-3">
+                        <button
+                          onClick={() =>
+                            cambiaQuantita(item.id, -1)
+                          }
+                          className="h-10 w-10 border border-zinc-700 font-black hover:border-yellow-400"
+                        >
+                          −
+                        </button>
+
+                        <span className="min-w-8 text-center text-xl font-black">
+                          {item.quantita}
+                        </span>
+
+                        <button
+                          onClick={() =>
+                            cambiaQuantita(item.id, 1)
+                          }
+                          className="h-10 w-10 border border-zinc-700 font-black hover:border-yellow-400"
+                        >
+                          +
+                        </button>
+
+                        <button
+                          onClick={() =>
+                            eliminaDalCarrello(item.id)
+                          }
+                          className="ml-3 text-sm font-bold uppercase text-red-400"
+                        >
+                          Elimina
+                        </button>
+                      </div>
+                    </div>
+
+                    <p className="mt-4 text-right text-xl font-black">
+                      {item.prezzo * item.quantita} €
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-8 border-t border-zinc-800 pt-6">
+                <div className="flex items-center justify-between">
+                  <span className="text-xl font-bold uppercase">
+                    Totale
+                  </span>
+
+                  <span className="text-3xl font-black text-yellow-400">
+                    {totaleCarrello} €
+                  </span>
+                </div>
+
+                <div className="mt-6 grid gap-3 md:grid-cols-2">
+                  <button
+                    onClick={() => setCarrello([])}
+                    className="border border-zinc-700 px-5 py-4 font-black uppercase tracking-widest hover:border-yellow-400"
+                  >
+                    Svuota carrello
+                  </button>
+
+                  <button
+                    onClick={() => setCheckoutAperto(true)}
+                    className="bg-yellow-400 px-5 py-4 font-black uppercase tracking-widest text-black"
+                  >
+                    Checkout
+                  </button>
                 </div>
               </div>
-            </article>
-          ))}
+            </>
+          )}
         </div>
-      </section>
 
-      {/* BRAND */}
+        {/* CHECKOUT */}
+{checkoutAperto && carrello.length > 0 && (
+  <div className="mt-8 border border-zinc-700 bg-zinc-950 p-6">
+    <div className="flex items-center justify-between">
+      <h3 className="text-3xl font-black uppercase">
+        Checkout
+      </h3>
+
+      <button
+        onClick={() => setCheckoutAperto(false)}
+        className="font-black text-zinc-400 hover:text-white"
+      >
+        ✕
+      </button>
+    </div>
+
+    <p className="mt-2 text-zinc-400">
+      Inserisci i dati per completare l&apos;ordine.
+    </p>
+
+    <div className="mt-6 grid gap-4 md:grid-cols-2">
+      <input
+        type="text"
+        placeholder="Nome"
+        className="border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400"
+      />
+
+      <input
+        type="text"
+        placeholder="Cognome"
+        className="border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400"
+      />
+
+      <input
+        type="email"
+        placeholder="Email"
+        className="border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400"
+      />
+
+      <input
+        type="tel"
+        placeholder="Telefono"
+        className="border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400"
+      />
+    </div>
+
+    <div className="mt-6 border-t border-zinc-800 pt-6">
+      <div className="flex items-center justify-between">
+        <span className="font-bold uppercase">
+          Totale ordine
+        </span>
+
+        <div className="text-right">
+  <p className="text-sm text-zinc-400">
+    Prodotti: {totaleCarrello} €
+  </p>
+
+  <p className="text-sm text-zinc-400">
+    Consegna: {costoConsegna} €
+  </p>
+
+  <p className="mt-2 text-3xl font-black text-yellow-400">
+    Totale: {totaleOrdine} €
+  </p>
+</div>
+      </div>
+
+      <button
+  type="button"
+  onClick={inviaOrdineTelegram}
+  className="mt-6 w-full bg-yellow-400 px-6 py-4 font-black uppercase tracking-widest text-black"
+>
+  Conferma ordine
+</button>
+    </div>
+  </div>
+)}
+
+</section>
+
+{/* BRAND */}
       <section
         id="storia"
         className="border-y border-zinc-800 bg-zinc-950"
@@ -166,22 +541,326 @@ export default function Home() {
 
           <div className="flex items-center">
             <p className="max-w-xl text-lg leading-8 text-zinc-400">
-              LaLinea nasce dalla cultura urbana e dalla volontà di trasformare
-              un&apos;identità in qualcosa da indossare. Milano, strada,
-              persone e storie diventano parte di ogni collezione.
+              Il club piu antico sotto la Madonnina. dal 2016 La migliore selezione di prodotti e accessori per la nostra passione da tutto il mondo. Consegne sulla citta dalle 10 alle 2am con possibilita di passare in uno dei nostri point o di ricevere il pacco a casa. Scopri il mondo LaLinea e unisciti alla nostra community
             </p>
           </div>
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer id="contatti" className="bg-black">
-        <div className="mx-auto max-w-7xl px-6 py-16">
-          <div className="flex flex-col justify-between gap-10 sm:flex-row">
-            <div></div>
-            </div>
+{/* I NOSTRI POINT */}
+      <section id="point" className="border-t border-zinc-800 bg-zinc-950">
+        <div className="mx-auto max-w-7xl px-6 py-24">
+          <p className="font-bold uppercase tracking-[0.3em] text-yellow-400">
+            LALINEA MILANO
+          </p>
+
+          <h2 className="mt-3 text-5xl font-black uppercase">
+            I NOSTRI POINT
+          </h2>
+
+          <p className="mt-5 max-w-2xl text-lg leading-8 text-zinc-400">
+            Scegli il Point LaLinea più comodo per ritirare i tuoi prodotti a Milano.
+          </p>
+
+          <div className="mt-8 border border-yellow-400 bg-yellow-400/10 p-6">
+            <p className="font-black uppercase tracking-wider text-yellow-400">
+              IMPORTANTE
+            </p>
+            <p className="mt-2 text-white">
+              È gradita la prenotazione almeno 30 minuti prima.
+              Presentarsi singolarmente nei vari Point.
+            </p>
+          </div>
+
+  
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch">
+
+  {/* POINT 01 */}
+  <div className="flex flex-col justify-between border border-zinc-800 bg-black p-4 min-h-[220px]">
+    <div>
+      <p className="text-xs font-bold uppercase tracking-[0.25em] text-yellow-400">
+        POINT 01
+      </p>
+
+      <h3 className="mt-3 text-2xl font-black uppercase">
+        Piazzale Loreto
+      </h3>
+
+      <p className="mt-3 text-sm text-zinc-400">
+        Tutti i giorni
+      </p>
+
+      <p className="mt-1 text-lg font-bold">
+        19:00 - 02:00
+      </p>
+    </div>
+
+    <a
+      href="https://t.me/LaLineaMiOrdini"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="mt-4 block bg-yellow-400 px-4 py-3 text-center text-sm font-black uppercase tracking-widest text-black"
+    >
+      PRENOTA IL RITIRO
+    </a>
   </div>
-</footer>
+
+  {/* POINT 02 */}
+  <div className="flex flex-col justify-between border border-zinc-800 bg-black p-4 min-h-[220px]">
+    <div>
+      <p className="text-xs font-bold uppercase tracking-[0.25em] text-yellow-400">
+        POINT 02
+      </p>
+
+      <h3 className="mt-3 text-2xl font-black uppercase">
+        Piazzale Piemonte
+      </h3>
+
+      <p className="mt-3 text-sm text-zinc-400">
+        Tutti i giorni
+      </p>
+
+      <p className="mt-1 text-lg font-bold">
+        12:00 - 02:00
+      </p>
+    </div>
+
+    <a
+      href="https://t.me/LaLineaMiOrdini"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="mt-4 block bg-yellow-400 px-4 py-3 text-center text-sm font-black uppercase tracking-widest text-black"
+    >
+      PRENOTA IL RITIRO
+    </a>
+  </div>
+
+</div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch">
+
+  {/* POINT 03 */}
+  <div className="flex flex-col justify-between border border-zinc-800 bg-black p-4 min-h-[220px]">
+    <div>
+      <p className="text-xs font-bold uppercase tracking-[0.25em] text-yellow-400">
+        POINT 03
+      </p>
+
+      <h3 className="mt-3 text-2xl font-black uppercase">
+        Piazza Galeazzi Bruzzano
+      </h3>
+
+      <p className="mt-3 text-zinc-400">
+        Tutti i giorni
+      </p>
+
+      <p className="mt-1 text-xl font-bold">
+        10:00 — 20:00
+      </p>
+    </div>
+
+    <a
+      href="https://t.me/LaLineaMiOrdini"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="mt-6 block bg-yellow-400 px-5 py-4 text-center font-black uppercase tracking-widest text-black"
+    >
+      PRENOTA IL RITIRO
+    </a>
+  </div>
+
+  {/* POINT 04 */}
+  <div className="flex flex-col justify-between border border-zinc-800 bg-black p-4 min-h-[220px]">
+    <div>
+      <p className="text-xs font-bold uppercase tracking-[0.25em] text-yellow-400">
+        POINT 04
+      </p>
+
+      <h3 className="mt-3 text-2xl font-black uppercase">
+        Piazza 24 Maggio
+      </h3>
+
+      <p className="mt-3 text-zinc-400">
+        Tutti i giorni
+      </p>
+
+      <p className="mt-1 text-xl font-bold">
+        10:00 — 20:00
+      </p>
+    </div>
+
+    <a
+      href="https://t.me/LaLineaMiOrdini"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="mt-6 block bg-yellow-400 px-5 py-4 text-center font-black uppercase tracking-widest text-black"
+    >
+      PRENOTA IL RITIRO
+    </a>
+  </div>
+
+</div>
+<div className="flex flex-col justify-between border border-zinc-800 bg-black p-6">
+  <div>
+    <p className="text-xs font-bold uppercase tracking-[0.25em] text-yellow-400">
+      POINT 05
+    </p>
+
+    <h3 className="mt-3 text-2xl font-black uppercase">
+      Piazza Guardi
+    </h3>
+
+    <p className="mt-3 text-zinc-400">
+      Tutti i giorni
+    </p>
+
+    <p className="mt-1 text-xl font-bold">
+      18:00 — 02:00
+    </p>
+  </div>
+
+  <a
+    href="https://t.me/LaLineaMiOrdini"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="mt-6 block bg-yellow-400 px-5 py-4 text-center font-black uppercase tracking-widest text-black"
+  >
+    PRENOTA IL RITIRO
+  </a>
+</div>
+          </div>
+        
+      </section>
+      {/* CONTATTI */}
+      <footer id="contatti" className="border-t border-zinc-800 bg-black">
+        <div className="mx-auto max-w-7xl px-6 py-20">
+
+          <p className="font-bold uppercase tracking-[0.3em] text-yellow-400">
+            CONTATTI
+          </p>
+
+          <h2 className="mt-3 text-4xl font-black uppercase">
+            PARLA CON LALINEA.
+          </h2>
+
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
+
+            <div className="border border-zinc-800 bg-zinc-950 p-6">
+              <p className="text-xs font-bold uppercase tracking-[0.25em] text-yellow-400">
+                INFORMAZIONI PRE E POST VENDITA
+              </p>
+              <a
+                href="https://t.me/LaLineaInfoAssistenza"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 block text-lg font-bold hover:text-yellow-400"
+              >
+                Telegram — @LaLineaInfoAssistenza
+              </a>
+            </div>
+
+            <div className="border border-zinc-800 bg-zinc-950 p-6">
+              <p className="text-xs font-bold uppercase tracking-[0.25em] text-yellow-400">
+                ORDINI
+              </p>
+              <a
+                href="https://t.me/LaLineaMiOrdini"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 block text-lg font-bold hover:text-yellow-400"
+              >
+                Telegram — @LaLineaMiOrdini
+              </a>
+
+              <a
+                href="https://threema.id/H7JMTBM4"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 block text-lg font-bold hover:text-yellow-400"
+              >
+                Threema — H7JMTBM4
+              </a>
+            </div>
+
+            <div className="border border-zinc-800 bg-zinc-950 p-6">
+              <p className="text-xs font-bold uppercase tracking-[0.25em] text-yellow-400">
+                FORNITORI / RIVENDITORI
+              </p>
+              <a
+                href="https://t.me/LaLineaResellerPlug"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 block text-lg font-bold hover:text-yellow-400"
+              >
+                Telegram — @LaLineaResellerPlug
+              </a>
+            </div>
+
+            <div className="border border-zinc-800 bg-zinc-950 p-6">
+              <p className="text-xs font-bold uppercase tracking-[0.25em] text-yellow-400">
+                SPEDIZIONI ITALIA / ESTERO
+              </p>
+              <p className="mt-3 text-lg font-bold">
+                Pagamento all'arrivo
+              </p>
+            </div>
+
+            <div className="border border-yellow-400 p-6 md:col-span-2">
+              <p className="text-xs font-bold uppercase tracking-[0.25em] text-yellow-400">
+                VUOI LAVORARE CON NOI?
+              </p>
+              <a
+                href="mailto:igorg69@tutamail.com"
+                className="mt-3 block text-xl font-black hover:text-yellow-400"
+              >
+                igorg69@tutamail.com
+              </a>
+            </div>
+
+          </div>
+
+          <div className="mt-12 border-t border-zinc-800 pt-6 text-xs text-zinc-500">
+            © LaLinea Milano — Since2016 - Il club piu antico sotto la Madonnina. Tutti i diritti riservati.
+          </div>
+
+        </div>
+      </footer>
+      {/* DELIVERY */}
+<section
+  id="delivery"
+  className="border-t border-yellow-400/30 px-6 py-20"
+>
+  <div className="mx-auto max-w-7xl">
+    <p className="font-bold uppercase tracking-[0.3em] text-yellow-400">
+      Delivery
+    </p>
+
+    <h2 className="mt-3 text-4xl font-black uppercase">
+      Zone di consegna
+    </h2>
+
+    <p className="mt-4 text-zinc-400">
+      Consegna disponibile in tutta Milano. Costo consegna: 10 € in zona bianca 25€ in zona rossa
+    </p>
+<div className="mt-8 overflow-hidden border border-yellow-400/30">
+  <img
+    src="/mappa.jpg"
+    alt="Mappa zone di consegna LaLinea"
+    className="w-[70%] max-w-3xl mx-auto object-contain"
+  />
+</div>
+    <div className="mt-8">
+      <a
+        href="https://t.me/+UIRWbzgEJ8w4ZWI0"
+target="_blank"
+rel="noopener noreferrer"
+        className="inline-block border border-yellow-400 bg-yellow-400 px-6 py-4 font-black uppercase tracking-widest text-black"
+      >
+        Orari e gruppi Telegram
+      </a>
+    </div>
+  </div>
+</section>
 </main>
 );
 }
