@@ -68,6 +68,42 @@ const aggiungiAlCarrello = () => {
     ];
   });
 };
+const sourDieselOpzioni = [
+  { grammi: "5g", prezzo: 50 },
+  { grammi: "10g", prezzo: 80 },
+  { grammi: "25g", prezzo: 170 },
+  { grammi: "50g", prezzo: 330 },
+];
+const aggiungiSourDieselAlCarrello = (
+  grammi: string,
+  prezzo: number
+) => {
+  const id = `sour-diesel-${grammi}`;
+
+  setCarrello((prev) => {
+    const esistente = prev.find(
+      (item) => String(item.id) === id
+    );
+
+    if (esistente) {
+      return prev.map((item) =>
+        String(item.id) === id
+          ? { ...item, quantita: item.quantita + 1 }
+          : item
+      );
+    }
+
+    return [
+      ...prev,
+      {
+        id: id as any,
+        nome: `Sour Diesel X Forbidden Fruit ${grammi}`,
+        prezzo,
+        quantita: 1,
+      },
+    ];
+  });
+};
 const aggiungiMaradonaAlCarrello = (grammi: string, prezzo: number) => {
   const id = `maradona-${grammi}`;
 
@@ -408,6 +444,89 @@ TOTALE ORDINE: ${totaleOrdine} €
     ))}
   </div>
 </div>
+    </div>
+  </div>
+)}
+{/* SOUR DIESEL X FORBIDDEN FRUIT */}
+{categoriaAttiva === "Frozen e Static" && (
+  <div className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
+    <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+      Frozen e Static
+    </p>
+
+    <h3 className="mt-2 text-3xl font-black uppercase text-white">
+      SOUR DIESEL X FORBIDDEN FRUIT
+    </h3>
+
+    <div className="mt-6 flex items-start gap-4">
+      <video
+        src="/products/frozen-static/sdff2.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="w-1/4 aspect-square object-cover flex-shrink-0"
+      />
+
+      <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
+        <img
+          src="/products/frozen-static/sdff1.jpg"
+          alt="Sour Diesel X Forbidden Fruit foto 1"
+          className="w-full aspect-square object-cover"
+        />
+
+        <img
+          src="/products/frozen-static/sdff3.jpg"
+          alt="Sour Diesel X Forbidden Fruit foto 2"
+          className="w-full aspect-square object-cover"
+        />
+
+        <img
+          src="/products/frozen-static/sdff4.jpg"
+          alt="Sour Diesel X Forbidden Fruit foto 3"
+          className="w-full aspect-square object-cover"
+        />
+
+        <img
+          src="/products/frozen-static/sdff5.jpg"
+          alt="Sour Diesel X Forbidden Fruit foto 4"
+          className="w-full aspect-square object-cover"
+        />
+      </div>
+    </div>
+
+    <div className="mt-6">
+      <p className="mb-3 font-bold uppercase text-white">
+        Seleziona quantità
+      </p>
+
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        {sourDieselOpzioni.map((opzione) => (
+          <button
+            key={opzione.grammi}
+            type="button"
+            onClick={() =>
+              aggiungiSourDieselAlCarrello(
+                opzione.grammi,
+                opzione.prezzo
+              )
+            }
+            className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center hover:bg-yellow-400 hover:text-black"
+          >
+            <p className="font-black text-white">
+              {opzione.grammi}
+            </p>
+
+            <p className="mt-1 font-bold text-yellow-400">
+              {opzione.prezzo} €
+            </p>
+
+            <p className="mt-2 text-xs font-black uppercase">
+              Aggiungi al carrello
+            </p>
+          </button>
+        ))}
+      </div>
     </div>
   </div>
 )}
