@@ -19,6 +19,7 @@ const [datiCliente, setDatiCliente] = useState({
   telefono: "",
 });
 const [categoriaAttiva, setCategoriaAttiva] = useState("");  
+const [menuAperto, setMenuAperto] = useState(false);
 const aggiungiAlCarrello = () => {
     setCarrello((prev) => {
       const esistente = prev.find((item) => item.id === 1);
@@ -204,29 +205,87 @@ TOTALE ORDINE: ${totaleOrdine} €
       className="h-40 w-auto object-contain"
     />
 
-    <nav className="flex gap-6 text-lg font-black tracking-widest sm:text-xl">
-      <a className="transition hover:text-yellow-400" href="#shop">
-        SHOP
-      </a>
-      <a className="transition hover:text-yellow-400" href="#lalinea">
-        LALINEA
-      </a><a
-  className="transition hover:text-yellow-400"
-  href="#point"
->
-  I NOSTRI POINT
-</a>
-<a
-  className="transition hover:text-yellow-400"
-  href="#delivery"
->
-  DELIVERY
-</a>
-      <a className="transition hover:text-yellow-400" href="#contatti">
-        CONTATTI
-      </a>
+    <div className="relative">
+  {/* BOTTONE MENU SOLO MOBILE */}
+  <button
+    type="button"
+    onClick={() => setMenuAperto(!menuAperto)}
+    className="md:hidden border border-yellow-400 px-4 py-3 font-black uppercase text-white"
+  >
+    MENU
+  </button>
+
+  {/* MENU DESKTOP */}
+  <nav className="hidden md:flex gap-6 text-lg font-black tracking-widest sm:text-xl">
+    <a className="transition hover:text-yellow-400" href="#shop">
+      SHOP
+    </a>
+
+    <a className="transition hover:text-yellow-400" href="#lalinea">
+      LALINEA
+    </a>
+
+    <a className="transition hover:text-yellow-400" href="#point">
+      I NOSTRI POINT
+    </a>
+
+    <a className="transition hover:text-yellow-400" href="#delivery">
+      DELIVERY
+    </a>
+
+    <a className="transition hover:text-yellow-400" href="#contatti">
+      CONTATTI
+    </a>
+  </nav>
+
+  {/* MENU MOBILE */}
+  {menuAperto && (
+    <nav className="absolute right-0 top-full z-[100] mt-3 w-64 border border-yellow-400 bg-black p-4 md:hidden">
+      <div className="flex flex-col gap-4 text-lg font-black uppercase tracking-widest">
+        <a
+          href="#shop"
+          onClick={() => setMenuAperto(false)}
+          className="border-b border-zinc-800 pb-3 hover:text-yellow-400"
+        >
+          SHOP
+        </a>
+
+        <a
+          href="#lalinea"
+          onClick={() => setMenuAperto(false)}
+          className="border-b border-zinc-800 pb-3 hover:text-yellow-400"
+        >
+          LALINEA
+        </a>
+
+        <a
+          href="#point"
+          onClick={() => setMenuAperto(false)}
+          className="border-b border-zinc-800 pb-3 hover:text-yellow-400"
+        >
+          I NOSTRI POINT
+        </a>
+
+        <a
+          href="#delivery"
+          onClick={() => setMenuAperto(false)}
+          className="border-b border-zinc-800 pb-3 hover:text-yellow-400"
+        >
+          DELIVERY
+        </a>
+
+        <a
+          href="#contatti"
+          onClick={() => setMenuAperto(false)}
+          className="hover:text-yellow-400"
+        >
+          CONTATTI
+        </a>
+      </div>
     </nav>
-  </div>
+  )}
+</div>
+</div>
 </header>
 
       {/* MARQUEE */}
