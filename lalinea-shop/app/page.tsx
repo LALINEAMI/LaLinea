@@ -187,8 +187,8 @@ TOTALE ORDINE: ${totaleOrdine} €
   muted
   loop
   playsInline
-  controls={false}
-  className="block h-[420px] w-full object-cover"
+  preload="auto"
+  className="block w-full h-[220px] sm:h-[300px] md:h-[420px] object-cover"
 >
   <source src="/banner.mp4" type="video/mp4" />
 </video>
