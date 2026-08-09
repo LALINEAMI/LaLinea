@@ -20,6 +20,9 @@ const [datiCliente, setDatiCliente] = useState({
 });
 const [categoriaAttiva, setCategoriaAttiva] = useState("");  
 const [menuAperto, setMenuAperto] = useState(false);
+const [password, setPassword] = useState("");
+const [accessoConsentito, setAccessoConsentito] = useState(false);
+const [errorePassword, setErrorePassword] = useState(false);
 const aggiungiAlCarrello = () => {
     setCarrello((prev) => {
       const esistente = prev.find((item) => item.id === 1);
@@ -105,6 +108,36 @@ const aggiungiSourDieselAlCarrello = (
     ];
   });
 };
+const aggiungiGorillaAlCarrello = (
+  grammi: string,
+  prezzo: number
+) => {
+  const id = `gorilla-${grammi}`;
+
+  setCarrello((prev) => {
+    const esistente = prev.find(
+      (item) => String(item.id) === id
+    );
+
+    if (esistente) {
+      return prev.map((item) =>
+        String(item.id) === id
+          ? { ...item, quantita: item.quantita + 1 }
+          : item
+      );
+    }
+
+    return [
+      ...prev,
+      {
+        id: id as any,
+        nome: `#Gorilla Glue 2 CaliSpain ${grammi}`,
+        prezzo,
+        quantita: 1,
+      },
+    ];
+  });
+};
 const aggiungiMaradonaAlCarrello = (grammi: string, prezzo: number) => {
   const id = `maradona-${grammi}`;
 
@@ -179,7 +212,61 @@ TOTALE ORDINE: ${totaleOrdine} €
   const testo = encodeURIComponent(messaggio);
   window.open(`https://t.me/LaLineaMiOrdini?text=${testo}`, "_blank");
 };
+    if (!accessoConsentito) {
   return (
+    <main className="min-h-screen bg-black text-white flex items-center justify-center px-6">
+      <div className="w-full max-w-md border border-yellow-400 p-8 text-center">
+        <h1 className="text-4xl font-black uppercase">
+          LaLinea
+        </h1>
+
+        <p className="mt-3 text-zinc-400 uppercase font-bold">
+          Area riservata
+        </p>
+
+        <form
+          className="mt-8"
+          onSubmit={(e) => {
+            e.preventDefault();
+
+            if (password === "LaLineaOrGoHome26") {
+              setAccessoConsentito(true);
+              setErrorePassword(false);
+            } else {
+              setErrorePassword(true);
+            }
+          }}
+        >
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setErrorePassword(false);
+            }}
+            placeholder="Password"
+            className="w-full border border-zinc-700 bg-zinc-950 px-4 py-4 text-center text-white outline-none focus:border-yellow-400"
+          />
+
+          {errorePassword && (
+            <p className="mt-3 text-sm font-bold uppercase text-red-500">
+              Password non corretta
+            </p>
+          )}
+
+          <button
+            type="submit"
+            className="mt-5 w-full bg-yellow-400 px-6 py-4 font-black uppercase text-black"
+          >
+            Entra
+          </button>
+        </form>
+      </div>
+    </main>
+  );
+}
+
+return (
     <main className="min-h-screen text-white">
 {/* VIDEO BANNER */}
 <section className="relative w-full overflow-hidden">
@@ -594,6 +681,88 @@ TOTALE ORDINE: ${totaleOrdine} €
         ))}
       </div>
     </div>
+  </div>
+)}
+
+{/* FLOWERS - GORILLA GLUE 2 CALISPAIN */}
+{categoriaAttiva === "Flowers" && (
+  <div className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
+
+    <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+      Flowers
+    </p>
+
+    <h3 className="mt-2 text-3xl font-black uppercase text-white">
+      #GORILLA GLUE 2 CALISPAIN
+    </h3>
+
+    <div className="mt-6 flex items-start gap-4">
+
+      {/* VIDEO A SINISTRA */}
+      <video
+        src="/products/flowers/gorilla1.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="w-1/4 aspect-square object-cover flex-shrink-0"
+      />
+
+      {/* FOTO A DESTRA */}
+      <div className="flex-1 grid grid-cols-2 md:grid-cols-5 gap-3">
+        {[2, 3, 4, 5, 6].map((numero) => (
+          <img
+            key={numero}
+            src={`/products/flowers/gorilla${numero}.jpg`}
+            alt={`Gorilla Glue 2 CaliSpain foto ${numero}`}
+            className="w-full aspect-square object-cover"
+          />
+        ))}
+      </div>
+
+    </div>
+
+    {/* QUANTITÀ */}
+    <div className="mt-6">
+      <p className="mb-3 font-bold uppercase text-white">
+        Seleziona quantità
+      </p>
+
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
+        {[
+          { grammi: "5g", prezzo: 40 },
+          { grammi: "10g", prezzo: 70 },
+          { grammi: "25g", prezzo: 190 },
+          { grammi: "50g", prezzo: 300 },
+          { grammi: "100g", prezzo: 520 },
+        ].map((opzione) => (
+          <button
+            key={opzione.grammi}
+            type="button"
+            onClick={() =>
+              aggiungiGorillaAlCarrello(
+                opzione.grammi,
+                opzione.prezzo
+              )
+            }
+            className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center hover:bg-yellow-400 hover:text-black"
+          >
+            <p className="text-xl font-black text-white">
+              {opzione.grammi}
+            </p>
+
+            <p className="mt-3 text-xl font-black text-yellow-400">
+              {opzione.prezzo} €
+            </p>
+
+            <p className="mt-2 text-xs font-black uppercase">
+              Aggiungi al carrello
+            </p>
+          </button>
+        ))}
+      </div>
+    </div>
+
   </div>
 )}
 {categoriaAttiva === "Gadget" && (
