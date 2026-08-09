@@ -434,12 +434,23 @@ TOTALE ORDINE: ${totaleOrdine} €
     ].map((opzione) => (
       <button
         key={opzione.grammi}
+        type="button"
         onClick={() =>
           aggiungiOrangeAlCarrello(opzione.grammi, opzione.prezzo)
         }
-        className="border border-yellow-400 bg-yellow-400 px-4 py-4 font-black uppercase text-black"
+        className="border border-yellow-400 bg-zinc-950 px-4 py-8 text-center"
       >
-        {opzione.grammi} — {opzione.prezzo} €
+        <p className="text-xl font-black text-white">
+          {opzione.grammi}
+        </p>
+
+        <p className="mt-3 text-xl font-black text-yellow-400">
+          {opzione.prezzo} €
+        </p>
+
+        <p className="mt-5 text-sm font-black uppercase text-white">
+          Aggiungi al carrello
+        </p>
       </button>
     ))}
   </div>
