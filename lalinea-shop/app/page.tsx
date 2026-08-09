@@ -383,7 +383,6 @@ TOTALE ORDINE: ${totaleOrdine} €
 {/* PRODOTTO FROZEN E STATIC */}
 {categoriaAttiva === "Frozen e Static" && (
   <div className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
-
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
       Frozen e Static
     </p>
@@ -393,12 +392,10 @@ TOTALE ORDINE: ${totaleOrdine} €
     </h3>
 
     <p className="mt-1 font-bold uppercase text-zinc-400">
-      BY PABLITO FARM — BOLLE GLASSY
+      BY PABLITO FARM - BOLLE GLASSY
     </p>
 
     <div className="mt-6 flex items-start gap-4">
-
-      {/* VIDEO A SINISTRA */}
       <video
         src="/products/frozen-static/arancia2.mov"
         autoPlay
@@ -408,53 +405,52 @@ TOTALE ORDINE: ${totaleOrdine} €
         className="w-1/4 aspect-square object-cover flex-shrink-0"
       />
 
-      {/* FOTO A DESTRA */}
       <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
         {[1, 3, 4, 5].map((numero) => (
           <img
             key={numero}
             src={`/products/frozen-static/arancia${numero}.jpeg`}
-            alt={`Orange Punch Frozen - foto ${numero}`}
+            alt={`Orange Punch Frozen foto ${numero}`}
             className="w-full aspect-square object-cover"
           />
         ))}
       </div>
+    </div>
 
-<div className="mt-6">
-  <p className="mb-3 font-bold uppercase text-white">
-    Seleziona quantità
-  </p>
+    <div className="mt-6">
+      <p className="mb-3 font-bold uppercase text-white">
+        Seleziona quantità
+      </p>
 
-  <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-    {[
-      { grammi: "5g", prezzo: 50 },
-      { grammi: "10g", prezzo: 80 },
-      { grammi: "25g", prezzo: 170 },
-      { grammi: "50g", prezzo: 330 },
-    ].map((opzione) => (
-      <button
-        key={opzione.grammi}
-        type="button"
-        onClick={() =>
-          aggiungiOrangeAlCarrello(opzione.grammi, opzione.prezzo)
-        }
-        className="border border-yellow-400 bg-zinc-950 px-4 py-8 text-center"
-      >
-        <p className="text-xl font-black text-white">
-          {opzione.grammi}
-        </p>
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        {[
+          { grammi: "5g", prezzo: 50 },
+          { grammi: "10g", prezzo: 80 },
+          { grammi: "25g", prezzo: 170 },
+          { grammi: "50g", prezzo: 330 },
+        ].map((opzione) => (
+          <button
+            key={opzione.grammi}
+            type="button"
+            onClick={() =>
+              aggiungiOrangeAlCarrello(opzione.grammi, opzione.prezzo)
+            }
+            className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center"
+          >
+            <p className="text-xl font-black text-white">
+              {opzione.grammi}
+            </p>
 
-        <p className="mt-3 text-xl font-black text-yellow-400">
-          {opzione.prezzo} €
-        </p>
+            <p className="mt-3 text-xl font-black text-yellow-400">
+              {opzione.prezzo} €
+            </p>
 
-        <p className="mt-5 text-sm font-black uppercase text-white">
-          Aggiungi al carrello
-        </p>
-      </button>
-    ))}
-  </div>
-</div>
+            <p className="mt-5 text-sm font-black uppercase text-white">
+              Aggiungi al carrello
+            </p>
+          </button>
+        ))}
+      </div>
     </div>
   </div>
 )}
