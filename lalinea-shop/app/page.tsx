@@ -304,19 +304,29 @@ TOTALE ORDINE: ${totaleOrdine} €
       { grammi: "25g", prezzo: 150 },
       { grammi: "50g", prezzo: 240 },
       { grammi: "100g", prezzo: 350 },
-    ].map((opzione) => (
-      <div
-        key={opzione.grammi}
-        className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center"
-      >
-        <p className="font-black text-white">{opzione.grammi}</p>
-        <p className="mt-1 font-bold text-yellow-400">
-          {opzione.prezzo} €
-        </p>
-      </div>
-    ))}
-  </div>
+   ].map((opzione) => (
+  <button
+    key={opzione.grammi}
+    type="button"
+    onClick={() =>
+      aggiungiMaradonaAlCarrello(opzione.grammi, opzione.prezzo)
+    }
+    className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center hover:bg-yellow-400 hover:text-black"
+  >
+    <p className="font-black text-white">
+      {opzione.grammi}
+    </p>
 
+    <p className="mt-1 font-bold text-yellow-400">
+      {opzione.prezzo} €
+    </p>
+
+    <p className="mt-2 text-xs font-black uppercase">
+      Aggiungi al carrello
+    </p>
+  </button>
+))}
+</div>
   <p className="mt-4 text-sm font-bold uppercase text-zinc-400">
     Per quantità maggiori, contattare in privato. Nella sezione Contatti
     troverete tutte le info.
