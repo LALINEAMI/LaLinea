@@ -670,10 +670,137 @@ return (
 
   </div>
 </div>
-  
+  {/* SNOWHEADS 90u */}
+<div className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
+  <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+    Premium Filtred
+  </p>
+
+  <h3 className="mt-2 text-3xl font-black uppercase text-white">
+    SNOWHEADS 90u
+  </h3>
+
+  <p className="mt-1 font-bold uppercase text-zinc-400">
+    NOTE DI BUCCIA DI LIMONE, GAS E MENTOLO
+  </p>
+
+  {/* VIDEO + FOTO */}
+  <div className="mt-6 flex items-start gap-4">
+
+    {/* VIDEO A SINISTRA */}
+    <video
+      src="/products/premium-filtred/head2.MOV"
+      autoPlay
+      muted
+      loop
+      playsInline
+      className="w-1/4 aspect-square object-cover flex-shrink-0"
+    />
+
+    {/* FOTO A DESTRA */}
+    <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
+      <img
+        src="/products/premium-filtred/head1.jpg"
+        alt="SNOWHEADS 90u 1"
+        className="w-full aspect-square object-cover"
+      />
+
+      <img
+        src="/products/premium-filtred/head3.jpg"
+        alt="SNOWHEADS 90u 2"
+        className="w-full aspect-square object-cover"
+      />
+
+      <img
+        src="/products/premium-filtred/head4.jpg"
+        alt="SNOWHEADS 90u 3"
+        className="w-full aspect-square object-cover"
+      />
+
+      <img
+        src="/products/premium-filtred/head5.jpg"
+        alt="SNOWHEADS 90u 4"
+        className="w-full aspect-square object-cover"
+      />
+    </div>
+  </div>
+
+  {/* QUANTITÀ */}
+  <div className="mt-6">
+    <p className="mb-3 font-bold uppercase text-white">
+      Seleziona quantità
+    </p>
+
+    <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+      {[
+        { grammi: "5g", prezzo: 40 },
+        { grammi: "10g", prezzo: 70 },
+        { grammi: "25g", prezzo: 160 },
+        { grammi: "50g", prezzo: 270 },
+        { grammi: "100g", prezzo: 430 },
+        { grammi: "250g", prezzo: 900 },
+        { grammi: "500g", prezzo: 1500 },
+      ].map((opzione) => (
+        <button
+          key={opzione.grammi}
+          type="button"
+          onClick={() => {
+            const id = `snowheads-90u-${opzione.grammi}`;
+
+            setCarrello((prev) => {
+              const esistente = prev.find(
+                (item) => String(item.id) === id
+              );
+
+              if (esistente) {
+                return prev.map((item) =>
+                  String(item.id) === id
+                    ? {
+                        ...item,
+                        quantita: item.quantita + 1,
+                      }
+                    : item
+                );
+              }
+
+              return [
+                ...prev,
+                {
+                  id: id as any,
+                  nome: `SNOWHEADS 90u ${opzione.grammi}`,
+                  prezzo: opzione.prezzo,
+                  quantita: 1,
+                },
+              ];
+            });
+          }}
+          className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center"
+        >
+          <p className="text-xl font-black text-white">
+            {opzione.grammi}
+          </p>
+
+          <p className="mt-3 text-xl font-black text-yellow-400">
+            {opzione.prezzo} €
+          </p>
+
+          <p className="mt-2 text-xs font-black uppercase text-white">
+            Aggiungi al carrello
+          </p>
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <p className="mt-4 text-sm font-bold uppercase text-zinc-400">
+    Per quantità maggiori, contattare in privato. Nella sezione Contatti
+    troverete tutte le info.
+  </p>
+</div>
 </div>
 </>
 )}
+
 
 <div className="mb-8">
   <p className="text-xs font-bold uppercase tracking-[0.3em] text-zinc-500">
