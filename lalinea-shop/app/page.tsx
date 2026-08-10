@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 const prodotti = [
   { id: 1, nome: "Coming Soon", categoria: "LaLinea", prezzo: "—" },
   { id: 2, nome: "Coming Soon", categoria: "LaLinea", prezzo: "—" },
@@ -10,6 +10,20 @@ const prodotti = [
 export default function Home() {const [carrello, setCarrello] = useState<
     { id: number; nome: string; prezzo: number; quantita: number }[]
   >([]);
+  const totalePrecedente = useRef(0);
+
+useEffect(() => {
+  const totaleAttuale = carrello.reduce(
+    (totale, item) => totale + item.quantita,
+    0
+  );
+
+  if (totaleAttuale > totalePrecedente.current) {
+    alert("Prodotto aggiunto al carrello ✓");
+  }
+
+  totalePrecedente.current = totaleAttuale;
+}, [carrello]);
 
   const [checkoutAperto, setCheckoutAperto] = useState(false);
 const [datiCliente, setDatiCliente] = useState({
