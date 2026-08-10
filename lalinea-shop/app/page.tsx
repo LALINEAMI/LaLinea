@@ -11,6 +11,8 @@ export default function Home() {const [carrello, setCarrello] = useState<
     { id: number; nome: string; prezzo: number; quantita: number }[]
   >([]);
   const totalePrecedente = useRef(0);
+  const [fotoAnteprima, setFotoAnteprima] = useState<string | null>(null);
+  const [tipoAnteprima, setTipoAnteprima] = useState<"img" | "video">("img");
 
 useEffect(() => {
   const totaleAttuale = carrello.reduce(
@@ -24,6 +26,31 @@ useEffect(() => {
 
   totalePrecedente.current = totaleAttuale;
 }, [carrello]);
+useEffect(() => {
+  const apriAnteprima = (event: MouseEvent) => {
+    const target = event.target as HTMLElement;
+
+    const media = target.closest("img, video") as
+      | HTMLImageElement
+      | HTMLVideoElement
+      | null;
+
+    if (!media) return;
+
+    const src = media.currentSrc || media.getAttribute("src");
+
+    if (!src) return;
+
+    setTipoAnteprima(media.tagName.toLowerCase() === "video" ? "video" : "img");
+    setFotoAnteprima(src);
+  };
+
+  document.addEventListener("click", apriAnteprima);
+
+  return () => {
+    document.removeEventListener("click", apriAnteprima);
+  };
+}, []);
 
   const [checkoutAperto, setCheckoutAperto] = useState(false);
 const [datiCliente, setDatiCliente] = useState({
@@ -284,6 +311,40 @@ TOTALE ORDINE: ${totaleOrdine} €
 
 return (
     <main className="min-h-screen text-white">
+      {fotoAnteprima && (
+  <div
+    className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 p-4"
+    onClick={() => setFotoAnteprima(null)}
+  >
+    <button
+      type="button"
+      onClick={() => setFotoAnteprima(null)}
+      className="absolute right-4 top-4 z-[10000] text-4xl font-black text-white"
+    >
+      ×
+    </button>
+
+    <div
+      className="max-h-[90vh] max-w-[95vw]"
+      onClick={(e) => e.stopPropagation()}
+    >
+      {tipoAnteprima === "video" ? (
+        <video
+          src={fotoAnteprima}
+          controls
+          autoPlay
+          className="max-h-[90vh] max-w-[95vw] object-contain"
+        />
+      ) : (
+        <img
+          src={fotoAnteprima}
+          alt="Anteprima"
+          className="max-h-[90vh] max-w-[95vw] object-contain"
+        />
+      )}
+    </div>
+  </div>
+)}
 {/* VIDEO BANNER */}
 <section className="relative w-full overflow-hidden">
   <video
