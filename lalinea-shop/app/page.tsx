@@ -17,6 +17,7 @@ const [datiCliente, setDatiCliente] = useState({
   cognome: "",
   email: "",
   telefono: "",
+  indirizzo: "",
 });
 const [categoriaAttiva, setCategoriaAttiva] = useState("");  
 const [menuAperto, setMenuAperto] = useState(false);
@@ -200,6 +201,7 @@ Nome: ${datiCliente.nome}
 Cognome: ${datiCliente.cognome}
 Email: ${datiCliente.email}
 Telefono: ${datiCliente.telefono}
+Indirizzo: ${datiCliente.indirizzo}
 
 PRODOTTI:
 ${prodottiOrdine}
@@ -1277,6 +1279,11 @@ return (
         placeholder="Telefono"
         className="border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400"
       />
+      <input
+  type="text"
+  placeholder="Indirizzo di consegna"
+  className="border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400 md:col-span-2"
+/>
     </div>
 
     <div className="mt-6 border-t border-zinc-800 pt-6">
