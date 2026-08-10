@@ -1155,6 +1155,119 @@ return (
 </div>
   </div>
 )}
+{/* OTHER - DIESEL COLO */}
+{categoriaAttiva === "Other" && (
+  <div className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
+
+    <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+      Other
+    </p>
+
+    <h3 className="mt-2 text-3xl font-black uppercase text-white">
+      DIESEL COLO
+    </h3>
+
+    <div className="mt-6 flex items-start gap-4">
+
+      {/* VIDEO A SINISTRA */}
+      <video
+        src="/products/other/diesel.MP4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="w-1/4 aspect-square object-cover flex-shrink-0"
+      />
+
+      {/* FOTO A DESTRA */}
+      <div className="flex-1 grid grid-cols-2 md:grid-cols-5 gap-3">
+        {[2, 3, 4, 5].map((numero) => (
+          <img
+            key={numero}
+            src={`/products/other/diesel${numero}.jpg`}
+            alt={`Diesel Colo foto ${numero}`}
+            className="w-full aspect-square object-cover"
+          />
+        ))}
+
+       
+      </div>
+
+    </div>
+
+    {/* QUANTITA */}
+    <div className="mt-6">
+
+      <p className="mb-3 font-bold uppercase text-white">
+        Seleziona quantità
+      </p>
+
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+
+        {[
+          { grammi: "1g", prezzo: 70 },
+          { grammi: "2g", prezzo: 130 },
+          { grammi: "5g", prezzo: 240 },
+          { grammi: "10g", prezzo: 400 },
+        ].map((opzione) => (
+
+          <button
+            key={opzione.grammi}
+            type="button"
+            onClick={() => {
+              const id = `diesel-colo-${opzione.grammi}`;
+
+              setCarrello((prev) => {
+                const esistente = prev.find(
+                  (item) => String(item.id) === id
+                );
+
+                if (esistente) {
+                  return prev.map((item) =>
+                    String(item.id) === id
+                      ? {
+                          ...item,
+                          quantita: item.quantita + 1,
+                        }
+                      : item
+                  );
+                }
+
+                return [
+                  ...prev,
+                  {
+                    id: id as any,
+                    nome: `DIESEL COLO ${opzione.grammi}`,
+                    prezzo: opzione.prezzo,
+                    quantita: 1,
+                  },
+                ];
+              });
+            }}
+            className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center hover:bg-yellow-400"
+          >
+
+            <p className="text-xl font-black text-white">
+              {opzione.grammi}
+            </p>
+
+            <p className="mt-3 text-xl font-black text-yellow-400">
+              {opzione.prezzo} €
+            </p>
+
+            <p className="mt-2 text-xs font-black uppercase">
+              Aggiungi al carrello
+            </p>
+
+          </button>
+
+        ))}
+
+      </div>
+    </div>
+
+  </div>
+)}
 {categoriaAttiva === "Gadget" && (
         <article className="overflow-hidden border border-zinc-800 bg-zinc-950">
           <div className="grid md:grid-cols-2">
