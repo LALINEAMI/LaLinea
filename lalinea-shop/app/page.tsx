@@ -1048,7 +1048,111 @@ return (
         ))}
       </div>
     </div>
+{/* FLOWERS - LEMON GUMP */}
+<div className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
 
+  <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+    Flowers
+  </p>
+
+  <h3 className="mt-2 text-3xl font-black uppercase text-white">
+    LEMON GUMP
+  </h3>
+
+  <div className="mt-6 flex items-start gap-4">
+
+    {/* VIDEO A SINISTRA */}
+    <video
+      src="/products/flowers/lemgump1.MP4"
+      autoPlay
+      muted
+      loop
+      playsInline
+      className="w-1/4 aspect-square object-cover flex-shrink-0"
+    />
+
+    {/* FOTO A DESTRA */}
+    <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
+      {[2, 3, 4, 5].map((numero) => (
+        <img
+          key={numero}
+          src={`/products/flowers/lemgump${numero}.jpg`}
+          alt={`Lemon Gump foto ${numero}`}
+          className="w-full aspect-square object-cover"
+        />
+      ))}
+    </div>
+
+  </div>
+
+  {/* QUANTITÀ */}
+  <div className="mt-6">
+    <p className="mb-3 font-bold uppercase text-white">
+      Seleziona quantità
+    </p>
+
+    <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
+      {[
+        { grammi: "5g", prezzo: 30 },
+        { grammi: "10g", prezzo: 60 },
+        { grammi: "25g", prezzo: 160 },
+        { grammi: "50g", prezzo: 260 },
+        { grammi: "100g", prezzo: 440 },
+        { grammi: "500g", prezzo: 1850 },
+        { grammi: "1kg", prezzo: 3500 },
+      ].map((opzione) => (
+        <button
+          key={opzione.grammi}
+          type="button"
+          onClick={() => {
+            const id = `lemon-gump-${opzione.grammi}`;
+
+            setCarrello((prev) => {
+              const esistente = prev.find(
+                (item) => String(item.id) === id
+              );
+
+              if (esistente) {
+                return prev.map((item) =>
+                  String(item.id) === id
+                    ? {
+                        ...item,
+                        quantita: item.quantita + 1,
+                      }
+                    : item
+                );
+              }
+
+              return [
+                ...prev,
+                {
+                  id: id as any,
+                  nome: `LEMON GUMP ${opzione.grammi}`,
+                  prezzo: opzione.prezzo,
+                  quantita: 1,
+                },
+              ];
+            });
+          }}
+          className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center hover:bg-yellow-400"
+        >
+          <p className="text-xl font-black text-white">
+            {opzione.grammi}
+          </p>
+
+          <p className="mt-3 text-xl font-black text-yellow-400">
+            {opzione.prezzo} €
+          </p>
+
+          <p className="mt-2 text-xs font-black uppercase">
+            Aggiungi al carrello
+          </p>
+        </button>
+      ))}
+    </div>
+  </div>
+
+</div>
   </div>
 )}
 {categoriaAttiva === "Gadget" && (
