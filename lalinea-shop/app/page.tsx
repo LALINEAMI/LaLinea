@@ -389,6 +389,12 @@ return (
       LALINEA
     </a>
 
+<a
+  className="transition hover:text-yellow-400"
+  href="#dicono-di-noi"
+>
+  DICONO DI NOI
+</a>
     <a className="transition hover:text-yellow-400" href="#point">
       I NOSTRI POINT
     </a>
@@ -737,6 +743,139 @@ return (
             </p>
           </button>
         ))}
+      </div>
+    </div>
+
+    <p className="mt-4 text-sm font-bold uppercase text-zinc-400">
+      Per quantità maggiori, contattare in privato. Nella sezione Contatti
+      troverete tutte le info.
+    </p>
+
+  </div>
+</div>
+{/* BLUEBERRY PREMIUM 73ü */}
+<div className="mt-10">
+  <div className="border border-yellow-400/40 bg-black/80 p-5">
+
+    <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+      Premium Filtred
+    </p>
+
+    <h3 className="mt-2 text-3xl font-black uppercase text-white">
+      BLUEBERRY PREMIUM 73ü
+    </h3>
+
+    {/* VIDEO + FOTO */}
+    <div className="mt-6 flex items-start gap-4">
+
+      {/* VIDEO A SINISTRA */}
+      <video
+        src="/products/premium-filtred/blu1.MOV"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="w-1/4 aspect-square object-cover flex-shrink-0"
+      />
+
+      {/* FOTO A DESTRA */}
+      <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
+
+        <img
+          src="/products/premium-filtred/blu2.jpg"
+          alt="BlueBerry Premium 73ü 1"
+          className="w-full aspect-square object-cover"
+        />
+
+        <img
+          src="/products/premium-filtred/blu3.jpg"
+          alt="BlueBerry Premium 73ü 2"
+          className="w-full aspect-square object-cover"
+        />
+
+        <img
+          src="/products/premium-filtred/blu4.jpg"
+          alt="BlueBerry Premium 73ü 3"
+          className="w-full aspect-square object-cover"
+        />
+
+        <img
+          src="/products/premium-filtred/blu5.jpg"
+          alt="BlueBerry Premium 73ü 4"
+          className="w-full aspect-square object-cover"
+        />
+
+      </div>
+    </div>
+
+    {/* QUANTITÀ */}
+    <div className="mt-6">
+
+      <p className="mb-3 font-bold uppercase text-white">
+        Seleziona quantità
+      </p>
+
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+
+        {[
+          { grammi: "5g", prezzo: 45 },
+          { grammi: "7g", prezzo: 60 },
+          { grammi: "25g", prezzo: 170 },
+          { grammi: "50g", prezzo: 250 },
+        ].map((opzione) => (
+
+          <button
+            key={opzione.grammi}
+            type="button"
+            onClick={() => {
+              const id = `blueberry-premium-73u-${opzione.grammi}`;
+
+              setCarrello((prev) => {
+                const esistente = prev.find(
+                  (item) => String(item.id) === id
+                );
+
+                if (esistente) {
+                  return prev.map((item) =>
+                    String(item.id) === id
+                      ? {
+                          ...item,
+                          quantita: item.quantita + 1,
+                        }
+                      : item
+                  );
+                }
+
+                return [
+                  ...prev,
+                  {
+                    id: id as any,
+                    nome: `BlueBerry Premium 73ü ${opzione.grammi}`,
+                    prezzo: opzione.prezzo,
+                    quantita: 1,
+                  },
+                ];
+              });
+            }}
+            className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center"
+          >
+
+            <p className="text-xl font-black text-white">
+              {opzione.grammi}
+            </p>
+
+            <p className="mt-3 text-xl font-black text-yellow-400">
+              {opzione.prezzo} €
+            </p>
+
+            <p className="mt-2 text-xs font-black uppercase text-white">
+              Aggiungi al carrello
+            </p>
+
+          </button>
+
+        ))}
+
       </div>
     </div>
 
