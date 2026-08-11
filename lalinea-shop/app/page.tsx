@@ -13,6 +13,15 @@ export default function Home() {const [carrello, setCarrello] = useState<
   const totalePrecedente = useRef(0);
   const [fotoAnteprima, setFotoAnteprima] = useState<string | null>(null);
   const [tipoAnteprima, setTipoAnteprima] = useState<"img" | "video">("img");
+const audioRef = useRef<HTMLAudioElement | null>(null);
+const [musicaAvviata, setMusicaAvviata] = useState(false);
+
+const avviaMusica = () => {
+  if (!musicaAvviata && audioRef.current) {
+    audioRef.current.play().catch(() => {});
+    setMusicaAvviata(true);
+  }
+};
 
 useEffect(() => {
   const totaleAttuale = carrello.reduce(
@@ -310,7 +319,13 @@ TOTALE ORDINE: ${totaleOrdine} €
 }
 
 return (
-    <main className="min-h-screen text-white">
+    <main onClick={avviaMusica} className="...">
+      <audio
+  ref={audioRef}
+  src="/canzone.mp3"
+  loop
+  preload="auto"
+/>
       {fotoAnteprima && (
   <div
     className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 p-4"
