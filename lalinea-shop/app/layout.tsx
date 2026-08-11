@@ -6,6 +6,7 @@ const fredoka = Fredoka({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,7 +19,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${fredoka.className} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+     <body className="min-h-full flex flex-col">
+  {children}
+  <Analytics />
+</body>
     </html>
   );
 }
