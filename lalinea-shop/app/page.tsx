@@ -428,6 +428,13 @@ return (
           LALINEA
         </a>
 
+<a
+  href="#dicono-di-noi"
+  onClick={() => setMenuAperto(false)}
+  className="border-b border-zinc-800 pb-3 hover:text-yellow-400"
+>
+  DICONO DI NOI
+</a>
         <a
           href="#point"
           onClick={() => setMenuAperto(false)}
@@ -1770,6 +1777,34 @@ return (
         </div>
       </section>
 
+{/* DICONO DI NOI */}
+<section
+  id="dicono-di-noi"
+  className="border-y border-zinc-800 bg-zinc-950"
+>
+  <div className="mx-auto max-w-7xl px-6 py-24">
+
+    <p className="font-bold uppercase tracking-[0.3em] text-yellow-400">
+      Recensioni
+    </p>
+
+    <h2 className="mt-4 text-5xl font-black uppercase">
+      Dicono di noi
+    </h2>
+
+    <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {Array.from({ length: 10 }, (_, i) => (
+        <img
+          key={i}
+          src={`/reviews/review${i + 1}.jpg`}
+          alt={`Recensione ${i + 1}`}
+          className="w-full rounded-lg border border-zinc-800 object-contain"
+        />
+      ))}
+    </div>
+
+  </div>
+</section>
 {/* I NOSTRI POINT */}
       <section id="point" className="border-t border-zinc-800 bg-zinc-950">
         <div className="mx-auto max-w-7xl px-6 py-24">
