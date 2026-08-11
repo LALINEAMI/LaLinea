@@ -15,6 +15,7 @@ export default function Home() {const [carrello, setCarrello] = useState<
   const [tipoAnteprima, setTipoAnteprima] = useState<"img" | "video">("img");
 const audioRef = useRef<HTMLAudioElement | null>(null);
 const [musicaAvviata, setMusicaAvviata] = useState(false);
+const [caricamentoIniziale, setCaricamentoIniziale] = useState(true);
 
 const avviaMusica = () => {
   if (!musicaAvviata && audioRef.current) {
@@ -22,7 +23,13 @@ const avviaMusica = () => {
     setMusicaAvviata(true);
   }
 };
+useEffect(() => {
+  const timer = setTimeout(() => {
+    setCaricamentoIniziale(false);
+  }, 2500);
 
+  return () => clearTimeout(timer);
+}, []);
 useEffect(() => {
   const totaleAttuale = carrello.reduce(
     (totale, item) => totale + item.quantita,
@@ -264,6 +271,21 @@ TOTALE ORDINE: ${totaleOrdine} €
   const testo = encodeURIComponent(messaggio);
   window.open(`https://t.me/LaLineaMiOrdini?text=${testo}`, "_blank");
 };
+if (caricamentoIniziale) {
+  return (
+    <main className="min-h-screen bg-black text-white flex flex-col items-center justify-center">
+      <h1 className="text-5xl font-black uppercase tracking-[0.2em] text-yellow-400">
+        LALINEA
+      </h1>
+
+      <div className="mt-8 text-6xl animate-pulse">⌛</div>
+
+      <p className="mt-8 text-zinc-400 uppercase font-bold tracking-[0.2em]">
+        Sta caricando la tua sessione
+      </p>
+    </main>
+  );
+}
     if (!accessoConsentito) {
   return (
     <main className="min-h-screen bg-black text-white flex items-center justify-center px-6">
@@ -320,6 +342,7 @@ TOTALE ORDINE: ${totaleOrdine} €
 
 return (
     <main onClick={avviaMusica} className="...">
+      
       <audio
   ref={audioRef}
   src="/canzone.mp3"
