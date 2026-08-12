@@ -100,6 +100,7 @@ const [datiCliente, setDatiCliente] = useState({
   indirizzo: "",
 });
 const [orarioConsegna, setOrarioConsegna] = useState("");
+const [modalitaOrdine, setModalitaOrdine] = useState("");
 const [codiceSconto, setCodiceSconto] = useState("");
 const [scontoPercentuale, setScontoPercentuale] = useState(0);
 const [messaggioSconto, setMessaggioSconto] = useState("");
@@ -504,57 +505,13 @@ return (
           SHOP
         </a>
 
-       {/* TRACKING */}
-<section id="tracking" className="border-b border-zinc-800 bg-black">
-  <div className="mx-auto max-w-7xl px-6 py-24">
-
-    <p className="font-bold uppercase tracking-[0.3em] text-yellow-400">
-      Tracking
-    </p>
-
-    <h2 className="mt-3 text-5xl font-black uppercase tracking-tight">
-      Traccia il tuo ordine
-    </h2>
-
-    <p className="mt-4 text-zinc-400">
-      Inserisci il codice tracking ricevuto con il tuo ordine.
-    </p>
-
-    <form
-      className="mt-8 flex flex-col gap-4 sm:flex-row"
-      onSubmit={(e) => {
-        e.preventDefault();
-
-        const form = new FormData(e.currentTarget);
-        const codice = String(form.get("tracking") || "").trim();
-
-        if (!codice) return;
-
-        window.open(
-  `https://www.17track.net/it?nums=${encodeURIComponent(codice)}`,
-  "_blank",
-  "noopener,noreferrer"
-);
-      }}
-    >
-      <input
-        type="text"
-        name="tracking"
-        required
-        placeholder="Inserisci codice tracking"
-        className="w-full border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400"
-      />
-
-      <button
-        type="submit"
-        className="bg-yellow-400 px-8 py-4 font-black uppercase text-black"
-      >
-        Cerca
-      </button>
-    </form>
-
-  </div>
-</section>
+       <a
+  href="#tracking"
+  onClick={() => setMenuAperto(false)}
+  className="border-b border-zinc-800 pb-3 text-white hover:text-yellow-400"
+>
+  TRACKING
+</a>
 
 <a
   href="#dicono-di-noi"
@@ -1884,6 +1841,49 @@ return (
         placeholder="Email"
         className="border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400"
       />
+      <div className="mt-6">
+  <label className="block mb-3 text-sm font-bold uppercase">
+    Modalità ordine
+  </label>
+
+  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+    <button
+      type="button"
+      onClick={() => setModalitaOrdine("delivery")}
+      className={`border p-4 font-bold uppercase ${
+        modalitaOrdine === "delivery"
+          ? "bg-yellow-400 text-black border-yellow-400"
+          : "bg-black text-white border-zinc-700"
+      }`}
+    >
+      Delivery
+    </button>
+
+    <button
+      type="button"
+      onClick={() => setModalitaOrdine("point")}
+      className={`border p-4 font-bold uppercase ${
+        modalitaOrdine === "point"
+          ? "bg-yellow-400 text-black border-yellow-400"
+          : "bg-black text-white border-zinc-700"
+      }`}
+    >
+      Ritiro al Point
+    </button>
+
+    <button
+      type="button"
+      onClick={() => setModalitaOrdine("spedizione")}
+      className={`border p-4 font-bold uppercase ${
+        modalitaOrdine === "spedizione"
+          ? "bg-yellow-400 text-black border-yellow-400"
+          : "bg-black text-white border-zinc-700"
+      }`}
+    >
+      Spedizione
+    </button>
+  </div>
+</div>
 
       <input
         type="tel"
