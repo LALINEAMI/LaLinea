@@ -473,7 +473,7 @@ return (
         <a
           href="#shop"
           onClick={() => setMenuAperto(false)}
-          className="border-b border-zinc-800 pb-3 hover:text-yellow-400"
+          className="border-b border-zinc-800 pb-3 text-white hover:text-yellow-400"
         >
           SHOP
         </a>
@@ -481,7 +481,7 @@ return (
         <a
           href="#lalinea"
           onClick={() => setMenuAperto(false)}
-          className="border-b border-zinc-800 pb-3 hover:text-yellow-400"
+          className="border-b border-zinc-800 pb-3 text-white hover:text-yellow-400"
         >
           LALINEA
         </a>
@@ -489,14 +489,14 @@ return (
 <a
   href="#dicono-di-noi"
   onClick={() => setMenuAperto(false)}
-  className="border-b border-zinc-800 pb-3 hover:text-yellow-400"
+  className="border-b border-zinc-800 pb-3 text-white hover:text-yellow-400"
 >
   DICONO DI NOI
 </a>
         <a
           href="#point"
           onClick={() => setMenuAperto(false)}
-          className="border-b border-zinc-800 pb-3 hover:text-yellow-400"
+          className="border-b border-zinc-800 pb-3 text-white hover:text-yellow-400"
         >
           I NOSTRI POINT
         </a>
@@ -504,7 +504,7 @@ return (
         <a
           href="#delivery"
           onClick={() => setMenuAperto(false)}
-          className="border-b border-zinc-800 pb-3 hover:text-yellow-400"
+          className="border-b border-zinc-800 pb-3 text-white hover:text-yellow-400"
         >
           DELIVERY
         </a>
@@ -512,7 +512,7 @@ return (
         <a
           href="#contatti"
           onClick={() => setMenuAperto(false)}
-          className="hover:text-yellow-400"
+          className="text-white hover:text-yellow-400"
         >
           CONTATTI
         </a>
