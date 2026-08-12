@@ -24,6 +24,28 @@ const avviaMusica = () => {
   }
 };
 useEffect(() => {
+  const fermaMusica = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      setMusicaAvviata(false);
+    }
+  };
+
+  const gestisciVisibilita = () => {
+    if (document.hidden) {
+      fermaMusica();
+    }
+  };
+
+  document.addEventListener("visibilitychange", gestisciVisibilita);
+  window.addEventListener("pagehide", fermaMusica);
+
+  return () => {
+    document.removeEventListener("visibilitychange", gestisciVisibilita);
+    window.removeEventListener("pagehide", fermaMusica);
+  };
+}, []);
+useEffect(() => {
   const timer = setTimeout(() => {
     setCaricamentoIniziale(false);
   }, 2500);
