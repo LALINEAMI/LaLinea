@@ -76,6 +76,7 @@ const [datiCliente, setDatiCliente] = useState({
   telefono: "",
   indirizzo: "",
 });
+const [orarioConsegna, setOrarioConsegna] = useState("");
 const [codiceSconto, setCodiceSconto] = useState("");
 const [scontoPercentuale, setScontoPercentuale] = useState(0);
 const [messaggioSconto, setMessaggioSconto] = useState("");
@@ -279,6 +280,7 @@ Cognome: ${datiCliente.cognome}
 Email: ${datiCliente.email}
 Telefono: ${datiCliente.telefono}
 Indirizzo: ${datiCliente.indirizzo}
+Orario consegna: ${orarioConsegna}
 
 PRODOTTI:
 ${prodottiOrdine}
@@ -1768,9 +1770,25 @@ return (
       />
       <input
   type="text"
-  placeholder="Indirizzo di consegna"
+  placeholder="Indirizzo di consegna"  
   className="border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400 md:col-span-2"
 />
+<div className="mt-6">
+  <label className="block mb-2 text-sm font-bold uppercase">
+    Orario di consegna
+  </label>
+
+  <input
+    type="time"
+    value={orarioConsegna}
+    onChange={(e) => setOrarioConsegna(e.target.value)}
+    className="w-full border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400"
+  />
+
+  <p className="mt-2 text-sm text-zinc-400">
+    Indica un orario tra le 13:00 e le 14:00 oppure tra le 19:00 e le 02:00.
+  </p>
+</div>
     </div>
     <div className="mt-6">
   <label className="block mb-2 text-sm font-bold uppercase">
