@@ -76,6 +76,9 @@ const [datiCliente, setDatiCliente] = useState({
   telefono: "",
   indirizzo: "",
 });
+const [codiceSconto, setCodiceSconto] = useState("");
+const [scontoPercentuale, setScontoPercentuale] = useState(0);
+const [messaggioSconto, setMessaggioSconto] = useState("");
 const [categoriaAttiva, setCategoriaAttiva] = useState("");  
 const [menuAperto, setMenuAperto] = useState(false);
 const [password, setPassword] = useState("");
@@ -242,7 +245,24 @@ const cambiaQuantita = (id: number, differenza: number) => {
     0
   );
 const costoConsegna = 10;
-const totaleOrdine = totaleCarrello + costoConsegna;
+
+const importoSconto = totaleCarrello * (scontoPercentuale / 100);
+const totaleCarrelloScontato = totaleCarrello - importoSconto;
+const totaleOrdine = totaleCarrelloScontato + costoConsegna;
+const applicaCodiceSconto = () => {
+  const codice = codiceSconto.trim();
+
+  if (codice.toLowerCase() === "cesololalinea26") {
+    setScontoPercentuale(10);
+    setMessaggioSconto("Codice applicato: sconto del 10%");
+  } else if (codice.toUpperCase() === "VIP15") {
+    setScontoPercentuale(15);
+    setMessaggioSconto("Codice applicato: sconto del 15%");
+  } else {
+    setScontoPercentuale(0);
+    setMessaggioSconto("Codice sconto non valido");
+  }
+};
   const inviaOrdineTelegram = () => {
   const prodottiOrdine = carrello
     .map(
@@ -1752,6 +1772,39 @@ return (
   className="border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400 md:col-span-2"
 />
     </div>
+    <div className="mt-6">
+  <label className="block mb-2 text-sm font-bold uppercase">
+    Codice sconto
+  </label>
+
+  <div className="flex gap-2">
+    <input
+      type="text"
+      value={codiceSconto}
+      onChange={(e) => setCodiceSconto(e.target.value)}
+      placeholder="Inserisci codice sconto"
+      className="w-full border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400"
+    />
+
+    <button
+      type="button"
+      onClick={applicaCodiceSconto}
+      className="bg-yellow-400 px-5 py-4 font-black uppercase text-black"
+    >
+      Applica
+    </button>
+  </div>
+
+  {messaggioSconto && (
+    <p
+      className={`mt-2 text-sm font-bold ${
+        scontoPercentuale > 0 ? "text-green-400" : "text-red-400"
+      }`}
+    >
+      {messaggioSconto}
+    </p>
+  )}
+</div>
 
     <div className="mt-6 border-t border-zinc-800 pt-6">
       <div className="flex items-center justify-between">
