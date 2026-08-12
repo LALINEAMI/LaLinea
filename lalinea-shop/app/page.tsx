@@ -16,7 +16,7 @@ export default function Home() {const [carrello, setCarrello] = useState<
 const audioRef = useRef<HTMLAudioElement | null>(null);
 const [musicaAvviata, setMusicaAvviata] = useState(false);
 const [caricamentoIniziale, setCaricamentoIniziale] = useState(true);
-
+const [recensioniAperte, setRecensioniAperte] = useState(false);
 const avviaMusica = () => {
   if (!musicaAvviata && audioRef.current) {
     audioRef.current.play().catch(() => {});
@@ -1900,7 +1900,14 @@ return (
     <h2 className="mt-4 text-5xl font-black uppercase">
       Dicono di noi
     </h2>
-
+    <button
+  type="button"
+  onClick={() => setRecensioniAperte(!recensioniAperte)}
+  className="mt-6 border border-yellow-400 bg-black px-6 py-3 font-black uppercase text-white hover:text-yellow-400"
+>
+  {recensioniAperte ? "Chiudi recensioni" : "Mostra recensioni"}
+</button>
+{recensioniAperte && (
     <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {Array.from({ length: 10 }, (_, i) => (
         <img
@@ -1911,7 +1918,7 @@ return (
         />
       ))}
     </div>
-
+)}
   </div>
 </section>
 {/* I NOSTRI POINT */}
