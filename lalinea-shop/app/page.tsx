@@ -361,7 +361,7 @@ if (caricamentoIniziale) {
 }
 
 return (
-    <main onClick={avviaMusica} className="...">
+    <main onClick={avviaMusica} className="min-h-screen text-white">
       
       <audio
   ref={audioRef}
@@ -469,7 +469,7 @@ return (
   {/* MENU MOBILE */}
   {menuAperto && (
     <nav className="absolute right-0 top-full z-[100] mt-3 w-64 border border-yellow-400 bg-black p-4 md:hidden">
-      <div className="flex flex-col gap-4 text-lg font-black uppercase tracking-widest">
+     <div className="flex flex-col gap-4 text-lg font-black uppercase tracking-widest text-white">
         <a
           href="#shop"
           onClick={() => setMenuAperto(false)}
