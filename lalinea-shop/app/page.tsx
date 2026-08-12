@@ -17,6 +17,7 @@ const audioRef = useRef<HTMLAudioElement | null>(null);
 const [musicaAvviata, setMusicaAvviata] = useState(false);
 const [caricamentoIniziale, setCaricamentoIniziale] = useState(true);
 const [recensioniAperte, setRecensioniAperte] = useState(false);
+
 const avviaMusica = () => {
   if (!musicaAvviata && audioRef.current) {
     audioRef.current.play().catch(() => {});
@@ -387,6 +388,7 @@ if (caricamentoIniziale) {
 return (
     <main onClick={avviaMusica} className="min-h-screen text-white">
       
+      
       <audio
   ref={audioRef}
   src="/canzone.mp3"
@@ -467,9 +469,9 @@ return (
       SHOP
     </a>
 
-    <a className="transition hover:text-yellow-400" href="#lalinea">
-      LALINEA
-    </a>
+    <a className="transition hover:text-yellow-400" href="#tracking">
+  TRACKING
+</a>
 
 <a
   className="transition hover:text-yellow-400"
@@ -502,17 +504,64 @@ return (
           SHOP
         </a>
 
-        <a
-          href="#lalinea"
-          onClick={() => setMenuAperto(false)}
-          className="border-b border-zinc-800 pb-3 text-white hover:text-yellow-400"
-        >
-          LALINEA
-        </a>
+       {/* TRACKING */}
+<section id="tracking" className="border-b border-zinc-800 bg-black">
+  <div className="mx-auto max-w-7xl px-6 py-24">
+
+    <p className="font-bold uppercase tracking-[0.3em] text-yellow-400">
+      Tracking
+    </p>
+
+    <h2 className="mt-3 text-5xl font-black uppercase tracking-tight">
+      Traccia il tuo ordine
+    </h2>
+
+    <p className="mt-4 text-zinc-400">
+      Inserisci il codice tracking ricevuto con il tuo ordine.
+    </p>
+
+    <form
+      className="mt-8 flex flex-col gap-4 sm:flex-row"
+      onSubmit={(e) => {
+        e.preventDefault();
+
+        const form = new FormData(e.currentTarget);
+        const codice = String(form.get("tracking") || "").trim();
+
+        if (!codice) return;
+
+        window.open(
+  `https://www.17track.net/it?nums=${encodeURIComponent(codice)}`,
+  "_blank",
+  "noopener,noreferrer"
+);
+      }}
+    >
+      <input
+        type="text"
+        name="tracking"
+        required
+        placeholder="Inserisci codice tracking"
+        className="w-full border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400"
+      />
+
+      <button
+        type="submit"
+        className="bg-yellow-400 px-8 py-4 font-black uppercase text-black"
+      >
+        Cerca
+      </button>
+    </form>
+
+  </div>
+</section>
 
 <a
   href="#dicono-di-noi"
-  onClick={() => setMenuAperto(false)}
+  onClick={() => {
+ 
+  setMenuAperto(false);
+}}
   className="border-b border-zinc-800 pb-3 text-white hover:text-yellow-400"
 >
   DICONO DI NOI
@@ -554,6 +603,57 @@ return (
         </div>
       </section>
 
+{/* TRACKING */}
+<section id="tracking" className="border-b border-zinc-800 bg-black">
+  <div className="mx-auto max-w-7xl px-6 py-24">
+
+    <p className="font-bold uppercase tracking-[0.3em] text-yellow-400">
+      Tracking
+    </p>
+
+    <h2 className="mt-3 text-5xl font-black uppercase tracking-tight">
+      Traccia il tuo ordine
+    </h2>
+
+    <p className="mt-4 text-zinc-400">
+      Inserisci il codice tracking ricevuto con il tuo ordine.
+    </p>
+
+    <form
+      className="mt-8 flex flex-col gap-4 sm:flex-row"
+      onSubmit={(e) => {
+        e.preventDefault();
+
+        const form = new FormData(e.currentTarget);
+        const codice = String(form.get("tracking") || "").trim();
+
+        if (!codice) return;
+
+        window.open(
+  `https://www.17track.net/it?nums=${encodeURIComponent(codice)}`,
+  "_blank",
+  "noopener,noreferrer"
+);
+      }}
+    >
+      <input
+        type="text"
+        name="tracking"
+        required
+        placeholder="Inserisci codice tracking"
+        className="w-full border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400"
+      />
+
+      <button
+        type="submit"
+        className="bg-yellow-400 px-8 py-4 font-black uppercase text-black"
+      >
+        Cerca
+      </button>
+    </form>
+
+  </div>
+</section>
      
 {/* SHOP */}
       <section id="shop" className="mx-auto max-w-7xl px-6 py-24">
