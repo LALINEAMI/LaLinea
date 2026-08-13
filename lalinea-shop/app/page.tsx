@@ -498,14 +498,14 @@ return (
     <nav className="absolute right-0 top-full z-[100] mt-3 w-64 border border-yellow-400 bg-black p-4 md:hidden">
      <div className="flex flex-col gap-4 text-lg font-black uppercase tracking-widest text-white">
         <a
-          href="#shop"
-          onClick={() => setMenuAperto(false)}
-          className="border-b border-zinc-800 pb-3 text-white hover:text-yellow-400"
-        >
-          SHOP
-        </a>
+  href="#shop"
+  onClick={() => setMenuAperto(false)}
+  className="border-b border-zinc-800 pb-3 text-white hover:text-yellow-400"
+>
+  SHOP
+</a>
 
-       <a
+<a
   href="#tracking"
   onClick={() => setMenuAperto(false)}
   className="border-b border-zinc-800 pb-3 text-white hover:text-yellow-400"
@@ -515,37 +515,35 @@ return (
 
 <a
   href="#dicono-di-noi"
-  onClick={() => {
- 
-  setMenuAperto(false);
-}}
+  onClick={() => setMenuAperto(false)}
   className="border-b border-zinc-800 pb-3 text-white hover:text-yellow-400"
 >
   DICONO DI NOI
 </a>
-        <a
-          href="#point"
-          onClick={() => setMenuAperto(false)}
-          className="border-b border-zinc-800 pb-3 text-white hover:text-yellow-400"
-        >
-          I NOSTRI POINT
-        </a>
 
-        <a
-          href="#delivery"
-          onClick={() => setMenuAperto(false)}
-          className="border-b border-zinc-800 pb-3 text-white hover:text-yellow-400"
-        >
-          DELIVERY
-        </a>
+<a
+  href="#point"
+  onClick={() => setMenuAperto(false)}
+  className="border-b border-zinc-800 pb-3 text-white hover:text-yellow-400"
+>
+  I NOSTRI POINT
+</a>
 
-        <a
-          href="#contatti"
-          onClick={() => setMenuAperto(false)}
-          className="text-white hover:text-yellow-400"
-        >
-          CONTATTI
-        </a>
+<a
+  href="#delivery"
+  onClick={() => setMenuAperto(false)}
+  className="border-b border-zinc-800 pb-3 text-white hover:text-yellow-400"
+>
+  DELIVERY
+</a>
+
+<a
+  href="#contatti"
+  onClick={() => setMenuAperto(false)}
+  className="text-white hover:text-yellow-400"
+>
+  CONTATTI
+</a>
       </div>
     </nav>
   )}
