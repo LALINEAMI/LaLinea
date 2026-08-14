@@ -919,15 +919,15 @@ EFFETTO : Inizia con una sensazione di euforia e lucidità per poi evolvere in u
     </h3>
 
     <p className="mt-1 font-bold uppercase text-zinc-400">
-    BY MAGIC MOUNTAIN FARMERS 
+    BY ZAZA FARM MOROCCO 
     <br />
-    BILANCIAMENTO: 60% Indica / 40% Sativa 
+    BILANCIAMENTO: 80% Indica e 20% Sativa
     <br />
-    GENETICA: Sunset Sherbet x Girl Scout Cookies 
+    GENETICA: Afghani x Thai 
     <br />
-AROMA:  Fruttato, di limone, ciliegia e sfumature cremose.
+AROMA:  Dolce, con un forte profumo di mirtillo fresco e frutti di bosco.
 <br />
-EFFETTO : Inizia con una sensazione di euforia e lucidità per poi evolvere in un forte rilassamento del corpo
+EFFETTO : IMolto rilassante per il corpo, ideale per la sera o per alleviare lo stress e il dolore.
   </p>
 
     {/* VIDEO + FOTO */}
