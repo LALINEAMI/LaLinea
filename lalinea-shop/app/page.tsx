@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import SnakeGame from "../components/lalinea-shop/app/components/SnakeGame";
+import SnakeGame from "./components/SnakeGame";
 const prodotti = [
   { id: 1, nome: "Coming Soon", categoria: "LaLinea", prezzo: "—" },
   { id: 2, nome: "Coming Soon", categoria: "LaLinea", prezzo: "—" },
@@ -496,7 +496,7 @@ return (
 
  {/* MENU MOBILE */}
 {menuAperto && (
-  <nav className="fixed right-3 top-20 z-[9998] max-h-[calc(100dvh-6rem)] w-64 overflow-y-auto border border-yellow-400 bg-black p-4 md:hidden">
+  <nav className="fixed inset-0 z-[9998] overflow-y-auto bg-black px-6 py-8 md:hidden">
     <div className="mx-auto flex max-w-md flex-col gap-5 text-lg font-black uppercase tracking-widest">
 
       <button
@@ -559,23 +559,13 @@ return (
       </a>
 
       <a
-  href="#contatti"
-  onClick={() => setMenuAperto(false)}
-  className="pb-4 text-white"
->
-  CONTATTI
-</a>
+        href="#contatti"
+        onClick={() => setMenuAperto(false)}
+        className="pb-4 text-white"
+      >
+        CONTATTI
+      </a>
 
-<button
-  type="button"
-  onClick={() => {
-    setMenuAperto(false);
-    setSnakeAperto(true);
-  }}
-  className="w-full border-t border-yellow-400 pt-4 text-left font-black text-yellow-400"
->
-  GIOCA
-</button>
     </div>
   </nav>
 )}
