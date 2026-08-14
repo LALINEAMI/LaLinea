@@ -753,11 +753,19 @@ return (
   </p>
 
   <h3 className="mt-2 text-3xl font-black uppercase text-white">
-    LEMON CHERRY GELATO
+    LEMON CHERRY GELATO 
   </h3>
 
-  <p className="mt-1 font-bold uppercase text-zinc-400">
-    BY MAGIC MOUNTAIN FARMERS
+      <p className="mt-1 font-bold uppercase text-zinc-400">
+    BY MAGIC MOUNTAIN FARMERS 
+    <br />
+    BILANCIAMENTO: 60% Indica / 40% Sativa 
+    <br />
+    GENETICA: Sunset Sherbet x Girl Scout Cookies 
+    <br />
+AROMA:  Fruttato, di limone, ciliegia e sfumature cremose.
+<br />
+EFFETTO : Inizia con una sensazione di euforia e lucidità per poi evolvere in un forte rilassamento del corpo
   </p>
 
   {/* LEMON CHERRY GELATO - MAGIC MOUNTAIN FARMERS */}
@@ -822,6 +830,7 @@ return (
     />
   </div>
 </div>
+
 
     {/* QUANTITÀ */}
     <div className="mt-6">
@@ -908,6 +917,18 @@ return (
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
       BLUEBERRY PREMIUM 73ü
     </h3>
+
+    <p className="mt-1 font-bold uppercase text-zinc-400">
+    BY MAGIC MOUNTAIN FARMERS 
+    <br />
+    BILANCIAMENTO: 60% Indica / 40% Sativa 
+    <br />
+    GENETICA: Sunset Sherbet x Girl Scout Cookies 
+    <br />
+AROMA:  Fruttato, di limone, ciliegia e sfumature cremose.
+<br />
+EFFETTO : Inizia con una sensazione di euforia e lucidità per poi evolvere in un forte rilassamento del corpo
+  </p>
 
     {/* VIDEO + FOTO */}
     <div className="mt-6 flex items-start gap-4">
