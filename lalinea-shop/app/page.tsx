@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import SnakeGame from "../components/lalinea-shop/app/components/SnakeGame";
 const prodotti = [
   { id: 1, nome: "Coming Soon", categoria: "LaLinea", prezzo: "—" },
   { id: 2, nome: "Coming Soon", categoria: "LaLinea", prezzo: "—" },
@@ -17,7 +18,7 @@ const audioRef = useRef<HTMLAudioElement | null>(null);
 const [musicaAvviata, setMusicaAvviata] = useState(false);
 const [caricamentoIniziale, setCaricamentoIniziale] = useState(true);
 const [recensioniAperte, setRecensioniAperte] = useState(false);
-
+const [snakeAperto, setSnakeAperto] = useState(false);
 const avviaMusica = () => {
   if (!musicaAvviata && audioRef.current) {
     audioRef.current.play().catch(() => {});
@@ -493,60 +494,91 @@ return (
     </a>
   </nav>
 
-  {/* MENU MOBILE */}
-  {menuAperto && (
-    <nav className="absolute right-0 top-full z-[100] mt-3 w-64 border border-yellow-400 bg-black p-4 md:hidden">
-     <div className="flex flex-col gap-4 text-lg font-black uppercase tracking-widest text-white">
-        <a
-  href="#shop"
-  onClick={() => setMenuAperto(false)}
-  className="border-b border-zinc-800 pb-3 text-white hover:text-yellow-400"
->
-  SHOP
-</a>
+ {/* MENU MOBILE */}
+{menuAperto && (
+  <nav className="fixed right-3 top-20 z-[9998] max-h-[calc(100dvh-6rem)] w-64 overflow-y-auto border border-yellow-400 bg-black p-4 md:hidden">
+    <div className="mx-auto flex max-w-md flex-col gap-5 text-lg font-black uppercase tracking-widest">
 
-<a
-  href="#tracking"
-  onClick={() => setMenuAperto(false)}
-  className="border-b border-zinc-800 pb-3 text-white hover:text-yellow-400"
->
-  TRACKING
-</a>
+      <button
+        type="button"
+        onClick={() => setMenuAperto(false)}
+        className="mb-4 self-end border border-yellow-400 px-4 py-2 text-yellow-400"
+      >
+        X
+      </button>
 
-<a
-  href="#dicono-di-noi"
-  onClick={() => setMenuAperto(false)}
-  className="border-b border-zinc-800 pb-3 text-white hover:text-yellow-400"
->
-  DICONO DI NOI
-</a>
+      <button
+        type="button"
+        onClick={() => {
+          setMenuAperto(false);
+          setSnakeAperto(true);
+        }}
+        className="w-full border-b border-yellow-400 pb-4 text-left text-yellow-400"
+      >
+        GIOCA
+      </button>
 
-<a
-  href="#point"
-  onClick={() => setMenuAperto(false)}
-  className="border-b border-zinc-800 pb-3 text-white hover:text-yellow-400"
->
-  I NOSTRI POINT
-</a>
+      <a
+        href="#shop"
+        onClick={() => setMenuAperto(false)}
+        className="border-b border-zinc-800 pb-4 text-white"
+      >
+        SHOP
+      </a>
 
-<a
-  href="#delivery"
-  onClick={() => setMenuAperto(false)}
-  className="border-b border-zinc-800 pb-3 text-white hover:text-yellow-400"
->
-  DELIVERY
-</a>
+      <a
+        href="#tracking"
+        onClick={() => setMenuAperto(false)}
+        className="border-b border-zinc-800 pb-4 text-white"
+      >
+        TRACKING
+      </a>
 
-<a
+      <a
+        href="#dicono-di-noi"
+        onClick={() => setMenuAperto(false)}
+        className="border-b border-zinc-800 pb-4 text-white"
+      >
+        DICONO DI NOI
+      </a>
+
+      <a
+        href="#point"
+        onClick={() => setMenuAperto(false)}
+        className="border-b border-zinc-800 pb-4 text-white"
+      >
+        I NOSTRI POINT
+      </a>
+
+      <a
+        href="#delivery"
+        onClick={() => setMenuAperto(false)}
+        className="border-b border-zinc-800 pb-4 text-white"
+      >
+        DELIVERY
+      </a>
+
+      <a
   href="#contatti"
   onClick={() => setMenuAperto(false)}
-  className="text-white hover:text-yellow-400"
+  className="pb-4 text-white"
 >
   CONTATTI
 </a>
-      </div>
-    </nav>
-  )}
+
+<button
+  type="button"
+  onClick={() => {
+    setMenuAperto(false);
+    setSnakeAperto(true);
+  }}
+  className="w-full border-t border-yellow-400 pt-4 text-left font-black text-yellow-400"
+>
+  GIOCA
+</button>
+    </div>
+  </nav>
+)}
 </div>
 </div>
 </header>
@@ -2376,6 +2408,38 @@ rel="noopener noreferrer"
     </div>
   </div>
 </section>
+
+<div className="py-12 text-center">
+  <button
+    type="button"
+    onClick={() => setSnakeAperto(true)}
+    className="border-2 border-yellow-400 bg-black px-8 py-4 font-black uppercase text-yellow-400 hover:bg-yellow-400 hover:text-black"
+  >
+    GIOCA A SNAKE
+  </button>
+</div>
+
+{snakeAperto && (
+  <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 p-4">
+    <div className="relative max-h-[95vh] w-full max-w-lg overflow-y-auto border-2 border-yellow-400 bg-black p-6">
+      <button
+        type="button"
+        onClick={() => setSnakeAperto(false)}
+        className="absolute right-4 top-3 text-2xl font-black text-yellow-400"
+      >
+        ✕
+      </button>
+
+      <h2 className="mb-6 text-center text-2xl font-black uppercase text-yellow-400">
+        LALINEA SNAKE
+      </h2>
+
+      <SnakeGame />
+    </div>
+  </div>
+)}
+
+
 </main>
 );
 }
