@@ -496,7 +496,7 @@ return (
 
  {/* MENU MOBILE */}
 {menuAperto && (
-  <nav className="fixed inset-0 z-[9998] overflow-y-auto bg-black px-6 py-8 md:hidden">
+  <nav className="absolute left-0 right-0 top-0 z-[9998] min-h-screen bg-black px-6 py-8 md:hidden">
     <div className="mx-auto flex max-w-md flex-col gap-5 text-lg font-black uppercase tracking-widest">
 
       <button
@@ -1440,6 +1440,110 @@ EFFETTO : IMolto rilassante per il corpo, ideale per la sera o per alleviare lo 
         ))}
       </div>
     </div>
+    {/* FLOWERS - TROPICANA COOKIES CALISPAIN */}
+{categoriaAttiva === "Flowers" && (
+  <div className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
+    <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+      Flowers
+    </p>
+
+    <h3 className="mt-2 text-3xl font-black uppercase text-white">
+      TROPICANA COOKIES CALISPAIN
+    </h3>
+
+    <div className="mt-6 flex items-start gap-4">
+
+      {/* VIDEO A SINISTRA */}
+      <video
+        src="/products/flowers/tropicana1.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="w-1/4 aspect-square object-cover flex-shrink-0"
+      />
+
+      {/* FOTO A DESTRA */}
+      <div className="flex-1 grid grid-cols-2 md:grid-cols-5 gap-3">
+        {[2, 3, 4, 5, 6].map((numero) => (
+          <img
+            key={numero}
+            src={`/products/flowers/tropicana${numero}.jpg`}
+            alt={`Tropicana Cookies CaliSpain foto ${numero}`}
+            className="w-full aspect-square object-cover"
+          />
+        ))}
+      </div>
+    </div>
+
+    {/* QUANTITÀ */}
+    <div className="mt-6">
+      <p className="mb-3 font-bold uppercase text-white">
+        Seleziona quantità
+      </p>
+
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
+        {[
+          { grammi: "5g", prezzo: 50 },
+          { grammi: "10g", prezzo: 80 },
+          { grammi: "25g", prezzo: 175 },
+          { grammi: "50g", prezzo: 300 },
+          { grammi: "100g", prezzo: 550 },
+          { grammi: "500g", prezzo: 2500 },
+          { grammi: "1k", prezzo: 4000 },
+        ].map((opzione) => (
+          <button
+            key={opzione.grammi}
+            type="button"
+            onClick={() => {
+              const id = `tropicana-${opzione.grammi}`;
+
+              setCarrello((prev) => {
+                const esistente = prev.find(
+                  (item) => String(item.id) === id
+                );
+
+                if (esistente) {
+                  return prev.map((item) =>
+                    String(item.id) === id
+                      ? {
+                          ...item,
+                          quantita: item.quantita + 1,
+                        }
+                      : item
+                  );
+                }
+
+                return [
+                  ...prev,
+                  {
+                    id: id as any,
+                    nome: `Tropicana Cookies CaliSpain ${opzione.grammi}`,
+                    prezzo: opzione.prezzo,
+                    quantita: 1,
+                  },
+                ];
+              });
+            }}
+            className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center"
+          >
+            <p className="text-xl font-black text-white">
+              {opzione.grammi}
+            </p>
+
+            <p className="mt-3 text-xl font-black text-yellow-400">
+              {opzione.prezzo} €
+            </p>
+
+            <p className="mt-2 text-xs font-black uppercase">
+              Aggiungi al carrello
+            </p>
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+)}
 {/* FLOWERS - LEMON GUMP */}
 <div className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
 
