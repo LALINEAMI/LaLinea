@@ -496,78 +496,85 @@ return (
 
  {/* MENU MOBILE */}
 {menuAperto && (
-  <nav className="absolute left-0 right-0 top-0 z-[9998] min-h-screen bg-black px-6 py-8 md:hidden">
-    <div className="mx-auto flex max-w-md flex-col gap-5 text-lg font-black uppercase tracking-widest">
+  <div className="fixed inset-0 z-[99999] bg-black md:hidden overflow-y-auto overflow-x-hidden">
+    <div className="min-h-screen w-full px-6 py-8">
 
-      <button
-        type="button"
-        onClick={() => setMenuAperto(false)}
-        className="mb-4 self-end border border-yellow-400 px-4 py-2 text-yellow-400"
-      >
-        X
-      </button>
+      {/* CHIUDI */}
+      <div className="flex justify-end">
+        <button
+          type="button"
+          onClick={() => setMenuAperto(false)}
+          className="flex h-14 w-14 items-center justify-center border-2 border-yellow-400 text-3xl font-black text-yellow-400"
+        >
+          ×
+        </button>
+      </div>
 
-      <button
-        type="button"
-        onClick={() => {
-          setMenuAperto(false);
-          setSnakeAperto(true);
-        }}
-        className="w-full border-b border-yellow-400 pb-4 text-left text-yellow-400"
-      >
-        GIOCA
-      </button>
+      {/* MENU */}
+      <nav className="mt-8 flex w-full flex-col">
 
-      <a
-        href="#shop"
-        onClick={() => setMenuAperto(false)}
-        className="border-b border-zinc-800 pb-4 text-white"
-      >
-        SHOP
-      </a>
+        <button
+          type="button"
+          onClick={() => {
+            setMenuAperto(false);
+            setSnakeAperto(true);
+          }}
+          className="w-full border-b border-yellow-400/40 py-5 text-left text-2xl font-black uppercase text-yellow-400"
+        >
+          GIOCA
+        </button>
 
-      <a
-        href="#tracking"
-        onClick={() => setMenuAperto(false)}
-        className="border-b border-zinc-800 pb-4 text-white"
-      >
-        TRACKING
-      </a>
+        <a
+          href="#shop"
+          onClick={() => setMenuAperto(false)}
+          className="w-full border-b border-white/20 py-5 text-2xl font-black uppercase text-white"
+        >
+          SHOP
+        </a>
 
-      <a
-        href="#dicono-di-noi"
-        onClick={() => setMenuAperto(false)}
-        className="border-b border-zinc-800 pb-4 text-white"
-      >
-        DICONO DI NOI
-      </a>
+        <a
+          href="#tracking"
+          onClick={() => setMenuAperto(false)}
+          className="w-full border-b border-white/20 py-5 text-2xl font-black uppercase text-white"
+        >
+          TRACKING
+        </a>
 
-      <a
-        href="#point"
-        onClick={() => setMenuAperto(false)}
-        className="border-b border-zinc-800 pb-4 text-white"
-      >
-        I NOSTRI POINT
-      </a>
+        <a
+          href="#recensioni"
+          onClick={() => setMenuAperto(false)}
+          className="w-full border-b border-white/20 py-5 text-2xl font-black uppercase text-white"
+        >
+          DICONO DI NOI
+        </a>
 
-      <a
-        href="#delivery"
-        onClick={() => setMenuAperto(false)}
-        className="border-b border-zinc-800 pb-4 text-white"
-      >
-        DELIVERY
-      </a>
+        <a
+          href="#point"
+          onClick={() => setMenuAperto(false)}
+          className="w-full border-b border-white/20 py-5 text-2xl font-black uppercase text-white"
+        >
+          I NOSTRI POINT
+        </a>
 
-      <a
-        href="#contatti"
-        onClick={() => setMenuAperto(false)}
-        className="pb-4 text-white"
-      >
-        CONTATTI
-      </a>
+        <a
+          href="#delivery"
+          onClick={() => setMenuAperto(false)}
+          className="w-full border-b border-white/20 py-5 text-2xl font-black uppercase text-white"
+        >
+          DELIVERY
+        </a>
 
+        <a
+          href="#contatti"
+          onClick={() => setMenuAperto(false)}
+          className="w-full border-b border-white/20 py-5 text-2xl font-black uppercase text-white"
+        >
+          CONTATTI
+        </a>
+
+      </nav>
     </div>
-  </nav>
+  </div>
 )}
 </div>
 </div>
