@@ -272,18 +272,39 @@ const cambiaQuantita = (id: number, differenza: number) => {
   );
 const costoConsegna = 10;
 
-const importoSconto = totaleCarrello * (scontoPercentuale / 100);
-const totaleCarrelloScontato = totaleCarrello - importoSconto;
-const totaleOrdine = totaleCarrelloScontato + costoConsegna;
-const applicaCodiceSconto = () => {
-  const codice = codiceSconto.trim();
+const importoSconto =
+  scontoPercentuale < 0
+    ? Math.abs(scontoPercentuale)
+    : totaleCarrello * (scontoPercentuale / 100);
 
-  if (codice.toLowerCase() === "cesololalinea26") {
+const totaleCarrelloScontato = Math.max(
+  0,
+  totaleCarrello - importoSconto
+);
+
+const totaleOrdine = totaleCarrelloScontato + costoConsegna;
+
+const applicaCodiceSconto = () => {
+  const codice = codiceSconto.trim().toUpperCase();
+
+  if (codice === "CESOLOLALINEA26") {
     setScontoPercentuale(10);
     setMessaggioSconto("Codice applicato: sconto del 10%");
-  } else if (codice.toUpperCase() === "VIP15") {
+  } else if (codice === "VIP15") {
     setScontoPercentuale(15);
     setMessaggioSconto("Codice applicato: sconto del 15%");
+  } else if (codice === "LALINEA5") {
+    setScontoPercentuale(-5);
+    setMessaggioSconto("Premio Snake applicato: -5 €");
+  } else if (codice === "LALINEA10") {
+    setScontoPercentuale(-10);
+    setMessaggioSconto("Premio Snake applicato: -10 €");
+  } else if (codice === "LALINEA15") {
+    setScontoPercentuale(-15);
+    setMessaggioSconto("Premio Snake applicato: -15 €");
+  } else if (codice === "LALINEA20") {
+    setScontoPercentuale(-20);
+    setMessaggioSconto("Premio Snake applicato: -20 €");
   } else {
     setScontoPercentuale(0);
     setMessaggioSconto("Codice sconto non valido");
