@@ -494,7 +494,12 @@ return (
     </a>
   </nav>
 
- {/* MENU MOBILE */}
+ 
+</div>
+</div>
+</header>
+
+{/* MENU MOBILE */}
 {menuAperto && (
   <div className="fixed inset-0 z-[99999] bg-black md:hidden">
     <div className="h-[100dvh] w-full overflow-y-auto overflow-x-hidden overscroll-contain bg-black px-6 py-8">
@@ -576,9 +581,6 @@ return (
     </div>
   </div>
 )}
-</div>
-</div>
-</header>
 
       {/* MARQUEE */}
       <section className="overflow-hidden bg-yellow-400 py-4 text-black">
