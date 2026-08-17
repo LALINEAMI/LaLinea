@@ -2522,7 +2522,7 @@ EFFETTO : IMolto rilassante per il corpo, ideale per la sera o per alleviare lo 
 </div>
     <div className="mt-8">
       <a
-        href="https://t.me/+UIRWbzgEJ8w4ZWI0"
+        href="https://t.me/+WWNiFZ_7VlZlZWY0"
 target="_blank"
 rel="noopener noreferrer"
         className="inline-block border border-yellow-400 bg-yellow-400 px-6 py-4 font-black uppercase tracking-widest text-black"
