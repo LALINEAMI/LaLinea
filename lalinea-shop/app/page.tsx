@@ -1794,6 +1794,125 @@ EFFETTO : IMolto rilassante per il corpo, ideale per la sera o per alleviare lo 
 
   </div>
 )}
+
+{/* OTHER - BOLIVIAN DOLLAR LOGO */}
+{categoriaAttiva === "Other" && (
+  <div className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
+
+    <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+      Other
+    </p>
+
+    <h3 className="mt-2 text-3xl font-black uppercase text-white">
+      BOLIVIAN DOLLAR LOGO
+    </h3>
+
+    <p className="mt-3 text-zinc-400">
+      Produzione artigianale a doppio lavaggio, Ship via aerea, poca disponibilità
+    </p>
+
+    <div className="mt-6 flex items-start gap-4">
+
+      {/* VIDEO A SINISTRA */}
+      <video
+        src="/products/other/dollar1.MP4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="w-1/4 aspect-square object-cover flex-shrink-0"
+      />
+
+      {/* FOTO A DESTRA */}
+      <div className="flex-1 grid grid-cols-2 md:grid-cols-3 gap-3">
+        {[2, 3, 4, 5, 6, 7].map((numero) => (
+          <img
+            key={numero}
+            src={`/products/other/dollar${numero}.jpg`}
+            alt={`Bolivian Dollar Logo foto ${numero}`}
+            className="w-full aspect-square object-cover"
+          />
+        ))}
+      </div>
+
+    </div>
+
+    {/* QUANTITA */}
+    <div className="mt-6">
+
+      <p className="mb-3 font-bold uppercase text-white">
+        Seleziona quantità
+      </p>
+
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
+
+        {[
+          { grammi: "1G", prezzo: 60 },
+          { grammi: "3G", prezzo: 150 },
+          { grammi: "5G", prezzo: 220 },
+          { grammi: "10G", prezzo: 400 },
+          { grammi: "OFFERTA LANCIO 2 A 100€", prezzo: 100 },
+        ].map((opzione) => (
+
+          <button
+            key={opzione.grammi}
+            type="button"
+            onClick={() => {
+
+              const id = `bolivian-dollar-${opzione.grammi}`;
+
+              setCarrello((prev) => {
+
+                const esistente = prev.find(
+                  (item) => String(item.id) === id
+                );
+
+                if (esistente) {
+                  return prev.map((item) =>
+                    String(item.id) === id
+                      ? {
+                          ...item,
+                          quantita: item.quantita + 1,
+                        }
+                      : item
+                  );
+                }
+
+                return [
+                  ...prev,
+                  {
+                    id: id as any,
+                    nome: `BOLIVIAN DOLLAR LOGO ${opzione.grammi}`,
+                    prezzo: opzione.prezzo,
+                    quantita: 1,
+                  },
+                ];
+              });
+            }}
+            className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center hover:bg-yellow-400/10"
+          >
+
+            <p className="text-xl font-black text-white">
+              {opzione.grammi}
+            </p>
+
+            <p className="mt-3 text-xl font-black text-yellow-400">
+              {opzione.prezzo} €
+            </p>
+
+            <p className="mt-2 text-xs font-black uppercase">
+              Aggiungi al carrello
+            </p>
+
+          </button>
+
+        ))}
+
+      </div>
+    </div>
+
+  </div>
+)}
 {categoriaAttiva === "Gadget" && (
         <article className="overflow-hidden border border-zinc-800 bg-zinc-950">
           <div className="grid md:grid-cols-2">
