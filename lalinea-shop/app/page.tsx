@@ -2639,6 +2639,23 @@ EFFETTO : IMolto rilassante per il corpo, ideale per la sera o per alleviare lo 
     className="w-[70%] max-w-3xl mx-auto object-contain"
   />
 </div>
+{/* DESCRIZIONE ORARI DELIVERY */}
+<div className="mt-6 border border-zinc-800 bg-zinc-950 p-5">
+  <p className="text-[1.05rem] font-bold uppercase leading-relaxed text-yellow-400">
+    LE CONSEGNE VENGONO EFFETTUATE TUTTI I GIORNI DALLE 13 ALLE 14
+    <br />
+    E DALLE 19 ALLE 2AM DAL LUNEDÌ AL SABATO. 
+    LA DOMENICA DALLE
+    18 ALLE DUE.
+  </p>
+
+  <p className="text-[1.05rem] font-bold uppercase leading-relaxed text-yellow-400">
+    TUTTI GLI ORDINI VANNO EFFETTUATI COL CARRELLO.
+    <br />
+     IN CASO FOSSIMO
+    FULL IL CARRELLO RIFIUTERÀ IN AUTOMATICO L&apos;ORDINE.
+  </p>
+</div>
     <div className="mt-8">
       <a
         href="https://t.me/+WWNiFZ_7VlZlZWY0"
