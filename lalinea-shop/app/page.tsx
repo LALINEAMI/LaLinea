@@ -496,8 +496,8 @@ return (
 
  {/* MENU MOBILE */}
 {menuAperto && (
-  <div className="fixed inset-0 z-[99999] bg-black md:hidden overflow-y-auto overflow-x-hidden">
-    <div className="min-h-screen w-full px-6 py-8">
+  <div className="fixed inset-0 z-[99999] bg-black md:hidden">
+    <div className="h-[100dvh] w-full overflow-y-auto overflow-x-hidden overscroll-contain bg-black px-6 py-8">
 
       {/* CHIUDI */}
       <div className="flex justify-end">
@@ -527,7 +527,7 @@ return (
         <a
           href="#shop"
           onClick={() => setMenuAperto(false)}
-          className="w-full border-b border-white/20 py-5 text-2xl font-black uppercase text-white"
+          className="w-full border-b border-white/20 py-5 text-left text-2xl font-black uppercase text-white"
         >
           SHOP
         </a>
@@ -535,7 +535,7 @@ return (
         <a
           href="#tracking"
           onClick={() => setMenuAperto(false)}
-          className="w-full border-b border-white/20 py-5 text-2xl font-black uppercase text-white"
+          className="w-full border-b border-white/20 py-5 text-left text-2xl font-black uppercase text-white"
         >
           TRACKING
         </a>
@@ -543,7 +543,7 @@ return (
         <a
           href="#recensioni"
           onClick={() => setMenuAperto(false)}
-          className="w-full border-b border-white/20 py-5 text-2xl font-black uppercase text-white"
+          className="w-full border-b border-white/20 py-5 text-left text-2xl font-black uppercase text-white"
         >
           DICONO DI NOI
         </a>
@@ -551,7 +551,7 @@ return (
         <a
           href="#point"
           onClick={() => setMenuAperto(false)}
-          className="w-full border-b border-white/20 py-5 text-2xl font-black uppercase text-white"
+          className="w-full border-b border-white/20 py-5 text-left text-2xl font-black uppercase text-white"
         >
           I NOSTRI POINT
         </a>
@@ -559,7 +559,7 @@ return (
         <a
           href="#delivery"
           onClick={() => setMenuAperto(false)}
-          className="w-full border-b border-white/20 py-5 text-2xl font-black uppercase text-white"
+          className="w-full border-b border-white/20 py-5 text-left text-2xl font-black uppercase text-white"
         >
           DELIVERY
         </a>
@@ -567,7 +567,7 @@ return (
         <a
           href="#contatti"
           onClick={() => setMenuAperto(false)}
-          className="w-full border-b border-white/20 py-5 text-2xl font-black uppercase text-white"
+          className="w-full border-b border-white/20 py-5 text-left text-2xl font-black uppercase text-white"
         >
           CONTATTI
         </a>
