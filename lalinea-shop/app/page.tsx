@@ -717,9 +717,22 @@ return (
         LAMPONI 120U
       </h3>
 
-      <p className="mt-1 font-bold uppercase text-zinc-400">
-        BY MARADONA SELECTION
-      </p>
+     <p className="mt-1 font-bold uppercase text-zinc-400">
+      By Maradona Selection 
+      < br/>
+      
+      Indica 50%
+      < br/>
+      Sativa 50%
+      < br/>
+      GUSTO: Presenta note dolci di agrumi, frutti di bosco, vaniglia e uva
+      < br/>
+      EFFETTO: Offre un mix di gioia mentale edificante e delicato rilassamento fisico
+      < br/>
+     senza una pesante sedazione.
+    
+    </p>
+
 
       <div className="mt-6 flex items-start gap-4">
 
@@ -1114,7 +1127,13 @@ EFFETTO : IMolto rilassante per il corpo, ideale per la sera o per alleviare lo 
   </h3>
 
   <p className="mt-1 font-bold uppercase text-zinc-400">
-    NOTE DI BUCCIA DI LIMONE, GAS E MENTOLO
+    INDICA:
+< br/>
+SATIVA:
+  < br/>
+   GUSTO: NOTE DI BUCCIA DI LIMONE, GAS E MENTOLO 
+   < br/>
+   EFFETTO: Un ibrido a prevalenza sativa che offre una rapida stimolazione cerebrale, lucidità e una carica energizzante. È comunemente utilizzato per favorire la produttività diurna o alleviare lo stress.
   </p>
 
   {/* VIDEO + FOTO */}
@@ -1246,7 +1265,20 @@ EFFETTO : IMolto rilassante per il corpo, ideale per la sera o per alleviare lo 
     </h3>
 
     <p className="mt-1 font-bold uppercase text-zinc-400">
-      BY PABLITO FARM - BOLLE GLASSY
+      BY PABLITO FARM - BOLLE GLASSY da 50gr
+      < br/>
+      
+      Indica 70%
+      < br/>
+      Sativa 30%
+      < br/>
+      GUSTO: Arancia candita,Buccia di Arancia,Caramella alla frutta
+      < br/>
+      EFFETTO: Genetica gia a forte predominanza indica il setaccio congelato ed il format
+      < br/>
+      da 50gr fanno da contenitore per un vero pugno alla joshua che ti manderà a letto 
+    < br/>
+    in totale relax e con un retrogusto di zeste di arancia. Buona fumata
     </p>
 
     <div className="mt-6 flex items-start gap-4">
@@ -1318,6 +1350,24 @@ EFFETTO : IMolto rilassante per il corpo, ideale per la sera o per alleviare lo 
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
       SOUR DIESEL X FORBIDDEN FRUIT
     </h3>
+
+    <p className="mt-1 font-bold uppercase text-zinc-400">
+      BY PABLITO FARM - BOLLE GLASSY da 50gr
+      < br/>
+      
+      Indica 40%
+      < br/>
+      Sativa 60%
+      < br/>
+      GUSTO: Frutta tropicale, kiwi, papaya e uva dolce mescolati con un forte sentore di carburante (jet-fuel)
+      < br/>
+       pino e scorza di limone.  A detta di molti il cross del decennio 
+      < br/>
+      EFFETTO: focus cerebrale ed energizzante all'inizio
+      < br/>
+     abbinato a una graduale e rilassante euforia corporea
+    
+    </p>
 
     <div className="mt-6 flex items-start gap-4">
       <video
@@ -1404,6 +1454,18 @@ EFFETTO : IMolto rilassante per il corpo, ideale per la sera o per alleviare lo 
       #GORILLA GLUE 2 CALISPAIN
     </h3>
 
+    <p className="mt-3 text-zinc-400">
+      Indica 70%
+      < br/>
+      Sativa 30%
+      < br/>
+      GUSTO: Diesel,Colla,Pino,Gas  
+      < br/>
+      EFFETTO: indica 2.0 come amiamo chiamarle noi effetto kush immediato fisico
+      < br/>
+      e mentale senza lasciarti spalmato 5 ore senza far nulla 
+    </p>
+
     <div className="mt-6 flex items-start gap-4">
 
       {/* VIDEO A SINISTRA */}
@@ -1480,6 +1542,18 @@ EFFETTO : IMolto rilassante per il corpo, ideale per la sera o per alleviare lo 
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
       TROPICANA COOKIES CALISPAIN
     </h3>
+
+     <p className="mt-3 text-zinc-400">
+     Sativa: 70%
+      < br/>
+     Indica: 30%
+      < br/>
+      GUSTO: Cedro,Biscotti,Limone,Fiori tropicali
+      < br/>
+      EFFETTO: Sativa decisa ti lascia bello attivo e lucido stimolando la creativita
+      < br/>
+      mette molta voglia di socialita e una discreta fame chimica a fine sessione 
+    </p>
 
     <div className="mt-6 flex items-start gap-4">
 
@@ -1584,6 +1658,18 @@ EFFETTO : IMolto rilassante per il corpo, ideale per la sera o per alleviare lo 
   <h3 className="mt-2 text-3xl font-black uppercase text-white">
     LEMON GUMP
   </h3>
+
+<p className="mt-3 text-zinc-400">
+      Indica 50%
+      < br/>
+      Sativa 50%
+      < br/>
+      GUSTO: Lime,Agrumi,Pompelmo  
+      < br/>
+      EFFETTO: effetto bilanciato lievemente predominante la parte indica
+      < br/>
+      rispetto quanto indicato in scheda tecnica dai breeder
+    </p>
 
   <div className="mt-6 flex items-start gap-4">
 
@@ -1692,6 +1778,12 @@ EFFETTO : IMolto rilassante per il corpo, ideale per la sera o per alleviare lo 
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
       DIESEL COLO
     </h3>
+
+    <p className="mt-3 text-zinc-400">
+      Lavaggio Kerosene, Brick da 1kg, colombiana classica ad impatto fisico 
+      < br/>
+      praticamente immediato No levamisolo No lido  
+    </p>
 
     <div className="mt-6 flex items-start gap-4">
 
