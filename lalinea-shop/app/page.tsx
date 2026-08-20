@@ -2417,7 +2417,7 @@ SATIVA:
 </button>
 {recensioniAperte && (
     <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {Array.from({ length: 10 }, (_, i) => (
+      {Array.from({ length: 23 }, (_, i) => (
         <img
           key={i}
           src={`/reviews/review${i + 1}.jpg`}
