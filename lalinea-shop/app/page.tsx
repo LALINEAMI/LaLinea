@@ -159,6 +159,31 @@ const aggiungiAlCarrello = () => {
     ];
   });
 };
+const aggiungiRosinAlCarrello = (grammi: string, prezzo: number) => {
+  const id = `rosin-${grammi}`;
+
+  setCarrello((prev) => {
+    const esistente = prev.find((item) => String(item.id) === id);
+
+    if (esistente) {
+      return prev.map((item) =>
+        String(item.id) === id
+          ? { ...item, quantita: item.quantita + 1 }
+          : item
+      );
+    }
+
+    return [
+      ...prev,
+      {
+        id: id as any,
+        nome: `ROSIN H HOMEMADE 37u ${grammi}`,
+        prezzo,
+        quantita: 1,
+      },
+    ];
+  });
+};
 const sourDieselOpzioni = [
   { grammi: "5g", prezzo: 50 },
   { grammi: "10g", prezzo: 80 },
@@ -357,7 +382,7 @@ if (caricamentoIniziale) {
     if (!accessoConsentito) {
   return (
     <main className="min-h-screen bg-black text-white flex items-center justify-center px-6">
-      <div className="w-full max-w-md border border-yellow-400 p-8 text-center">
+      <div className="w-full max-w- md border border-yellow-400 p-8 text-center">
         <h1 className="text-4xl font-black uppercase">
           LaLinea
         </h1>
@@ -1693,6 +1718,86 @@ SATIVA:
             </p>
 
             <p className="mt-2 text-xs font-black uppercase">
+              Aggiungi al carrello
+            </p>
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+)}
+{/* ROSIN H HOMEMADE 37u */}
+{categoriaAttiva === "Rosin & Pen" && (
+  <div className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
+    <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+      Rosin & Pen
+    </p>
+
+    <h3 className="mt-2 text-3xl font-black uppercase text-white">
+      ROSIN H HOMEMADE 37u
+    </h3>
+
+    <p className="mt-1 font-bold uppercase text-zinc-400">
+      Rosin prodotto a Milano da noi
+      <br />
+      con presse Qnubu, crioterapia e una lunga cura
+    </p>
+
+    <div className="mt-6 flex items-start gap-4">
+      <video
+        src="/products/rosin/rosin1.MOV"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="w-1/4 aspect-square object-cover flex-shrink-0"
+      />
+
+      <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
+        {[1, 2, 3, 5].map((numero) => (
+          <img
+            key={numero}
+            src={`/products/rosin/rosint${numero}.jpg`}
+            alt={`ROSIN H HOMEMADE 37u foto ${numero}`}
+            className="w-full aspect-square object-cover"
+          />
+        ))}
+      </div>
+    </div>
+
+    <div className="mt-6">
+      <p className="mb-3 font-bold uppercase text-white">
+        Seleziona quantità
+      </p>
+
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
+        {[
+          { grammi: "2.5G", prezzo: 60 },
+          { grammi: "5G", prezzo: 100 },
+          { grammi: "10G", prezzo: 200 },
+          { grammi: "25G", prezzo: 375 },
+          { grammi: "50G", prezzo: 450 },
+        ].map((opzione) => (
+          <button
+            key={opzione.grammi}
+            type="button"
+            onClick={() =>
+              aggiungiRosinAlCarrello(
+                opzione.grammi,
+                opzione.prezzo
+              )
+            }
+            className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center"
+          >
+            <p className="text-xl font-black text-white">
+              {opzione.grammi}
+            </p>
+
+            <p className="mt-3 text-xl font-black text-yellow-400">
+              {opzione.prezzo} €
+            </p>
+
+            <p className="mt-5 text-sm font-black uppercase text-white">
               Aggiungi al carrello
             </p>
           </button>
