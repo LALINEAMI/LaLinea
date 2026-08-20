@@ -666,15 +666,21 @@ return (
       <section id="shop" className="mx-auto max-w-7xl px-6 py-24">
         <div className="mb-14">
           <p className="font-bold uppercase tracking-[0.3em] text-yellow-400">
-            LaLinea Shop
+            BENVENUTO NELLO SHOP LALINEA OFFICIAL
           </p>
 
           <h2 className="mt-3 text-5xl font-black uppercase tracking-tight">
-            Nuovo Drop
+            I NOSTRI PRODOTTI SELEZIONATI 
+            < br/>
+            10 anni di attivitità su telegram
+            < br/>
+             + di 1000FEEDBACK positivi
           </h2>
 
           <p className="mt-4 text-zinc-500">
-            Prodotti LaLinea. Street culture, identità e stile.
+            Da 10 anni selezioniamo i migliori prodotti da tutto il mondo per i nostri clienti
+            < br/>
+            ecco a voi la selezione attuale:
           </p>
         </div>
 {/* CATEGORIE SHOP */}
