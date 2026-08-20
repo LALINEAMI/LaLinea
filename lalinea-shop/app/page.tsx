@@ -496,6 +496,9 @@ return (
   TRACKING
 </a>
 
+<a className="transition hover:text-yellow-400" href="#promo">
+  LE PROMO
+</a>
 <a
   className="transition hover:text-yellow-400"
   href="#dicono-di-noi"
@@ -558,6 +561,13 @@ return (
           SHOP
         </a>
 
+<a
+  href="#promo"
+  onClick={() => setMenuAperto(false)}
+  className="w-full border-b border-white/20 py-5 text-left text-2xl font-black uppercase"
+>
+  LE PROMO
+</a>
         <a
           href="#tracking"
           onClick={() => setMenuAperto(false)}
@@ -609,6 +619,250 @@ return (
           LALINEA • MILANO • STREET CULTURE • LALINEA • MILANO • STREET CULTURE •
         </div>
       </section>
+      {/* LE PROMO */}
+<section id="promo" className="border-b border-zinc-800 bg-black">
+  <div className="mx-auto max-w-7xl px-6 py-24">
+
+    <p className="font-bold uppercase tracking-[0.3em] text-yellow-400">
+      LaLinea Promo
+    </p>
+
+    <h2 className="mt-3 text-4xl font-black uppercase text-white md:text-5xl">
+      LE PROMO
+    </h2>
+
+    <p className="mt-4 max-w-3xl text-zinc-400">
+      Pack promozionali LaLinea con più prodotti selezionati a prezzo speciale.
+    </p>
+
+    <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-3">
+
+      {/* SILVER PACK */}
+      <div className="flex flex-col border border-zinc-700 bg-zinc-950 p-6">
+
+        <video
+  src="/products/promo/silver.mp4"
+  autoPlay
+  muted
+  loop
+  playsInline
+  className="mb-6 aspect-square w-full border border-zinc-800 object-cover"
+/>
+        <p className="text-sm font-black uppercase tracking-[0.3em] text-zinc-400">
+          Promo Pack
+        </p>
+
+        <h3 className="mt-3 text-3xl font-black uppercase text-white">
+          SILVER PACK
+        </h3>
+
+        <div className="mt-6 flex-1 space-y-2 text-zinc-300">
+          <p>• 3.5 Orange Punch</p>
+          <p>• 3.5 Tropicana Cookies</p>
+          <p>• 1 Rosin Home Made Lamponi 37ü</p>
+          <p>• 1 Pack cartine + Filtri Raw</p>
+          <p>• 1 Portachiavi LaLinea</p>
+        </div>
+
+        <p className="mt-8 text-4xl font-black text-yellow-400">
+          50 €
+        </p>
+
+        <button
+          type="button"
+          onClick={() => {
+            const id = "silver-pack";
+
+            setCarrello((prev) => {
+              const esistente = prev.find(
+                (item) => String(item.id) === id
+              );
+
+              if (esistente) {
+                return prev.map((item) =>
+                  String(item.id) === id
+                    ? { ...item, quantita: item.quantita + 1 }
+                    : item
+                );
+              }
+
+              return [
+                ...prev,
+                {
+                  id: id as any,
+                  nome: "SILVER PACK",
+                  prezzo: 50,
+                  quantita: 1,
+                },
+              ];
+            });
+          }}
+          className="mt-6 w-full border border-yellow-400 bg-yellow-400 px-5 py-4 font-black uppercase text-black"
+        >
+          Aggiungi al carrello
+        </button>
+      </div>
+
+      {/* GOLD PACK */}
+      <div className="flex flex-col border border-yellow-400/60 bg-zinc-950 p-6">
+      <video
+  src="/products/promo/gold.mp4"
+  autoPlay
+  muted
+  loop
+  playsInline
+  className="mb-6 aspect-square w-full border border-zinc-800 object-cover"
+/>
+        <p className="text-sm font-black uppercase tracking-[0.3em] text-yellow-400">
+          Promo Pack
+        </p>
+
+        <h3 className="mt-3 text-3xl font-black uppercase text-white">
+          GOLD PACK
+        </h3>
+
+        <div className="mt-6 flex-1 space-y-2 text-zinc-300">
+          <p>• 10 Lamponi 120u Filtred</p>
+          <p>• 10 Gorilla Glue #2 Calispain</p>
+          <p>• 5 Sour Diesel X FF Frozen</p>
+          <p>• 1 Cover LaLinea (previa disponibilità modello)</p>
+          <p>• 1 Filtro in vetro Raw</p>
+          <p>• 1 Pack Cartine + Filtri Raw</p>
+        </div>
+
+        <p className="mt-8 text-4xl font-black text-yellow-400">
+          150 €
+        </p>
+
+        <button
+          type="button"
+          onClick={() => {
+            const id = "gold-pack";
+
+            setCarrello((prev) => {
+              const esistente = prev.find(
+                (item) => String(item.id) === id
+              );
+
+              if (esistente) {
+                return prev.map((item) =>
+                  String(item.id) === id
+                    ? { ...item, quantita: item.quantita + 1 }
+                    : item
+                );
+              }
+
+              return [
+                ...prev,
+                {
+                  id: id as any,
+                  nome: "GOLD PACK",
+                  prezzo: 150,
+                  quantita: 1,
+                },
+              ];
+            });
+          }}
+          className="mt-6 w-full border border-yellow-400 bg-yellow-400 px-5 py-4 font-black uppercase text-black"
+        >
+          Aggiungi al carrello
+        </button>
+      </div>
+
+      {/* BE A HERO PACK */}
+      <div className="flex flex-col border border-yellow-400 bg-zinc-950 p-6">
+        <video
+  src="/products/promo/hero.mp4"
+  autoPlay
+  muted
+  loop
+  playsInline
+  className="mb-6 aspect-square w-full border border-zinc-800 object-cover"
+/>
+        <p className="text-sm font-black uppercase tracking-[0.3em] text-yellow-400">
+          Top Promo
+        </p>
+
+        <h3 className="mt-3 text-3xl font-black uppercase text-white">
+          BE A HERO PACK
+        </h3>
+
+        <div className="mt-6 flex-1 space-y-2 text-zinc-300">
+          <p>• 10 Gorilla Glue #2</p>
+          <p>• 10 Blueberry Filtred 73Ü</p>
+          <p>• 10 Lemon Cherry Gelato 120ü</p>
+          <p>• 10 SnowHeads 90ü</p>
+          <p>• 3.5 Orange Soda Frozen</p>
+          <p>• 3.5 SD X FF Frozen</p>
+          <p>• 3 Rosin Home Made LaLinea</p>
+          <p>• 1 Paio calzini LaLinea</p>
+          <p>• 1 Pack Filtri + Cartine Raw</p>
+          <p>• 1 Mese abbonamento Spotify</p>
+        </div>
+
+        <p className="mt-8 text-4xl font-black text-yellow-400">
+          300 €
+        </p>
+
+        <button
+          type="button"
+          onClick={() => {
+            const id = "be-a-hero-pack";
+
+            setCarrello((prev) => {
+              const esistente = prev.find(
+                (item) => String(item.id) === id
+              );
+
+              if (esistente) {
+                return prev.map((item) =>
+                  String(item.id) === id
+                    ? { ...item, quantita: item.quantita + 1 }
+                    : item
+                );
+              }
+
+              return [
+                ...prev,
+                {
+                  id: id as any,
+                  nome: "BE A HERO PACK",
+                  prezzo: 300,
+                  quantita: 1,
+                },
+              ];
+            });
+          }}
+          className="mt-6 w-full border border-yellow-400 bg-yellow-400 px-5 py-4 font-black uppercase text-black"
+        >
+          Aggiungi al carrello
+        </button>
+      </div>
+
+    </div>
+
+    {/* INFO MODIFICHE PACK */}
+    <div className="mt-10 border border-yellow-400/40 bg-zinc-950 p-6">
+      <p className="font-black uppercase leading-relaxed text-yellow-400">
+        È POSSIBILE APPORTARE MODIFICHE AI PACCHETTI SU RICHIESTA,
+        AGGIUNGENDO ANCHE PRODOTTI DELLA CATEGORIA OTHER.
+      </p>
+
+      <p className="mt-3 text-zinc-300">
+        Per maggiori informazioni:{" "}
+        <a
+          href="https://t.me/LaLineaInfoAssistenza"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-black text-yellow-400"
+        >
+          @LaLineaInfoAssistenza
+        </a>
+      </p>
+    </div>
+
+  </div>
+</section>
 
 {/* TRACKING */}
 <section id="tracking" className="border-b border-zinc-800 bg-black">
