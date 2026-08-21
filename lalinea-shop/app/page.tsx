@@ -1538,6 +1538,119 @@ SATIVA:
 </>
 )}
 
+{/* PINK LEMON 120U PREMIUM */}
+{categoriaAttiva === "Premium Filtred" && (
+  <div className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
+    <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+      Premium Filtred
+    </p>
+
+    <h3 className="mt-2 text-3xl font-black uppercase text-white">
+      PINK LEMON 120U PREMIUM
+    </h3>
+
+    <p className="mt-1 font-bold uppercase text-zinc-400">
+      Indica 80%
+      <br />
+      Sativa 20%
+      <br />
+      Purple Kush × Lemon Skunk × Anonymous St.
+    </p>
+
+    <p className="mt-4 border border-yellow-400 bg-yellow-400 px-3 py-2 font-black uppercase text-black">
+      Prodotto in promozione — lancio domenica
+      <br />
+      I prezzi verranno aggiornati
+    </p>
+
+    <div className="mt-6 flex items-start gap-4">
+      <video
+        src="/products/premium-filtred/pivo.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="w-1/4 aspect-square object-cover flex-shrink-0"
+      />
+
+      <div className="flex-1 grid grid-cols-2 gap-3 md:grid-cols-4">
+        {[2, 3, 4, 6].map((numero) => (
+          <img
+            key={numero}
+            src={`/products/premium-filtred/pivo${numero}.jpg`}
+            alt={`PINK LEMON 120U PREMIUM foto ${numero}`}
+            className="w-full aspect-square object-cover"
+          />
+        ))}
+      </div>
+    </div>
+
+    <div className="mt-6">
+      <p className="mb-3 font-bold uppercase text-white">
+        Seleziona quantità
+      </p>
+
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
+        {[
+          { grammi: "10G", prezzo: 60 },
+          { grammi: "25G", prezzo: 130 },
+          { grammi: "50G", prezzo: 215 },
+          { grammi: "100G", prezzo: 400 },
+          { grammi: "250G", prezzo: 760 },
+        ].map((opzione) => (
+          <button
+            key={opzione.grammi}
+            type="button"
+            onClick={() => {
+              const id = `pink-lemon-${opzione.grammi}`;
+
+              setCarrello((prev) => {
+                const esistente = prev.find(
+                  (item) => String(item.id) === id
+                );
+
+                if (esistente) {
+                  return prev.map((item) =>
+                    String(item.id) === id
+                      ? {
+                          ...item,
+                          quantita: item.quantita + 1,
+                        }
+                      : item
+                  );
+                }
+
+                return [
+                  ...prev,
+                  {
+                    id: id as any,
+                    nome: `PINK LEMON 120U PREMIUM ${opzione.grammi}`,
+                    prezzo: opzione.prezzo,
+                    quantita: 1,
+                  },
+                ];
+              });
+            }}
+            className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center"
+          >
+            <p className="text-xl font-black text-white">
+              {opzione.grammi}
+            </p>
+
+            <p className="mt-3 text-xl font-black text-yellow-400">
+              {opzione.prezzo} €
+            </p>
+
+            <p className="mt-5 text-sm font-black uppercase text-white">
+              Aggiungi al carrello
+            </p>
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+)}
+
 {/* PRODOTTO FROZEN E STATIC */}
 {categoriaAttiva === "Frozen e Static" && (
   <div className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
