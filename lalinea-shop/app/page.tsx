@@ -2676,9 +2676,14 @@ SATIVA:
                   </button>
 
                   <button
-                    onClick={() => setCheckoutAperto(true)}
-                    className="bg-yellow-400 px-5 py-4 font-black uppercase tracking-widest text-black"
-                  >
+  type="button"
+  onClick={(e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setCheckoutAperto(true);
+  }}
+  className="bg-yellow-400 px-5 py-4 font-black uppercase tracking-widest"
+>
                     Checkout
                   </button>
                 </div>
@@ -2863,7 +2868,11 @@ onChange={(e) => setDatiCliente((prev) => ({ ...prev, indirizzo: e.target.value 
 
       <button
   type="button"
-  onClick={inviaOrdineTelegram}
+onClick={(e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  inviaOrdineTelegram();
+}}
   className="mt-6 w-full bg-yellow-400 px-6 py-4 font-black uppercase tracking-widest text-black"
 >
   Conferma ordine
