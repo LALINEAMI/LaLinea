@@ -335,7 +335,7 @@ const applicaCodiceSconto = () => {
     setMessaggioSconto("Codice sconto non valido");
   }
 };
- const inviaOrdineTelegram = async () => {
+ const inviaOrdineTelegram = () => {
   const prodottiOrdine = carrello
     .map(
       (item) =>
@@ -345,44 +345,31 @@ const applicaCodiceSconto = () => {
     )
     .join("\n");
 
-  const messaggio = `NUOVO ORDINE LALINEA
+  const messaggio = `
+NUOVO ORDINE LALINEA
 
 Nome: ${datiCliente.nome}
 Cognome: ${datiCliente.cognome}
 Email: ${datiCliente.email}
 Telefono: ${datiCliente.telefono}
-Indirizzo: ${datiCliente.indirizzo}
-Modalità: ${modalitaOrdine}
-Orario consegna: ${orarioConsegna}
+Indirizzo: ${datiCliente.indirizzo || "Non specificato"}
+
+Modalità: ${modalitaOrdine || "Non specificata"}
+Orario: ${orarioConsegna || "Non specificato"}
 
 PRODOTTI:
 ${prodottiOrdine}
 
-Prodotti: ${totaleCarrello} €
+Totale prodotti: ${totaleCarrello} €
 Consegna: ${costoConsegna} €
-TOTALE ORDINE: ${totaleOrdine} €`;
+TOTALE ORDINE: ${totaleOrdine} €
+  `.trim();
 
-  try {
-    const risposta = await fetch("/api/telegram-order", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ messaggio }),
-    });
+  const testo = encodeURIComponent(messaggio);
 
-    const risultato = await risposta.json();
-
-    if (!risposta.ok) {
-      throw new Error(risultato.errore);
-    }
-
-    alert("Ordine inviato correttamente!");
-    setCarrello([]);
-    setCheckoutAperto(false);
-  } catch {
-    alert("Errore durante l'invio dell'ordine.");
-  }
+  window.location.assign(
+    `https://t.me/LaLineaMiOrdini?text=${testo}`
+  );
 };
 if (caricamentoIniziale) {
   return (

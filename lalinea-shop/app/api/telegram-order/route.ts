@@ -1,54 +1,55 @@
 import { NextResponse } from "next/server";
 
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 export async function POST(request: Request) {
   try {
-    const token = process.env.TELEGRAM_BOT_TOKEN;
-    const chatId = process.env.TELEGRAM_ADMIN_CHAT_ID;
+    const token = process.env.TELEGRAM_BOT_TOKEN?.trim();
+    const chatId = process.env.TELEGRAM_ADMIN_CHAT_ID?.trim();
 
     if (!token || !chatId) {
       return NextResponse.json(
-        { errore: "Configurazione Telegram mancante" },
+        { error: "Configurazione Telegram mancante su Vercel" },
         { status: 500 }
       );
     }
 
-    const body = await request.json();
-    const messaggio = body?.messaggio;
+    const { messaggio } = await request.json();
 
-    if (typeof messaggio !== "string" || !messaggio.trim()) {
+    if (!messaggio || typeof messaggio !== "string") {
       return NextResponse.json(
-        { errore: "Ordine non valido" },
+        { error: "Messaggio dell'ordine mancante" },
         { status: 400 }
       );
     }
 
-    const risposta = await fetch(
+    const rispostaTelegram = await fetch(
       `https://api.telegram.org/bot${token}/sendMessage`,
       {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           chat_id: chatId,
           text: messaggio,
         }),
+        cache: "no-store",
       }
     );
 
-    const risultato = await risposta.json();
+    const risultato = await rispostaTelegram.json();
 
-    if (!risposta.ok || !risultato.ok) {
+    if (!rispostaTelegram.ok || !risultato.ok) {
       return NextResponse.json(
-        { errore: "Invio Telegram fallito" },
+        { error: risultato.description || "Telegram ha rifiutato l'ordine" },
         { status: 502 }
       );
     }
 
-    return NextResponse.json({ ok: true });
-  } catch {
+    return NextResponse.json({ success: true });
+  } catch (errore) {
     return NextResponse.json(
-      { errore: "Errore durante l’invio" },
+      { error: errore instanceof Error ? errore.message : "Errore server" },
       { status: 500 }
     );
   }
