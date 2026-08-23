@@ -335,22 +335,24 @@ const applicaCodiceSconto = () => {
     setMessaggioSconto("Codice sconto non valido");
   }
 };
-  const inviaOrdineTelegram = () => {
+ const inviaOrdineTelegram = async () => {
   const prodottiOrdine = carrello
     .map(
       (item) =>
-        `${item.nome} x${item.quantita} - ${item.prezzo * item.quantita} €`
+        `${item.nome} x${item.quantita} - ${
+          item.prezzo * item.quantita
+        } €`
     )
     .join("\n");
 
-  const messaggio = `
-NUOVO ORDINE LALINEA
+  const messaggio = `NUOVO ORDINE LALINEA
 
 Nome: ${datiCliente.nome}
 Cognome: ${datiCliente.cognome}
 Email: ${datiCliente.email}
 Telefono: ${datiCliente.telefono}
 Indirizzo: ${datiCliente.indirizzo}
+Modalità: ${modalitaOrdine}
 Orario consegna: ${orarioConsegna}
 
 PRODOTTI:
@@ -358,11 +360,29 @@ ${prodottiOrdine}
 
 Prodotti: ${totaleCarrello} €
 Consegna: ${costoConsegna} €
-TOTALE ORDINE: ${totaleOrdine} €
-  `;
+TOTALE ORDINE: ${totaleOrdine} €`;
 
-  const testo = encodeURIComponent(messaggio);
-  window.open(`https://t.me/LaLineaMiOrdini?text=${testo}`, "_blank");
+  try {
+    const risposta = await fetch("/api/telegram-order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ messaggio }),
+    });
+
+    const risultato = await risposta.json();
+
+    if (!risposta.ok) {
+      throw new Error(risultato.errore);
+    }
+
+    alert("Ordine inviato correttamente!");
+    setCarrello([]);
+    setCheckoutAperto(false);
+  } catch {
+    alert("Errore durante l'invio dell'ordine.");
+  }
 };
 if (caricamentoIniziale) {
   return (
@@ -2691,18 +2711,24 @@ SATIVA:
       <input
         type="text"
         placeholder="Nome"
+        value={datiCliente.nome}
+onChange={(e) => setDatiCliente((prev) => ({ ...prev, nome: e.target.value }))}
         className="border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400"
       />
 
       <input
         type="text"
         placeholder="Cognome"
+        value={datiCliente.cognome}
+onChange={(e) => setDatiCliente((prev) => ({ ...prev, cognome: e.target.value }))}
         className="border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400"
       />
 
       <input
         type="email"
         placeholder="Email"
+        value={datiCliente.email}
+onChange={(e) => setDatiCliente((prev) => ({ ...prev, email: e.target.value }))}
         className="border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400"
       />
       <div className="mt-6">
@@ -2752,11 +2778,15 @@ SATIVA:
       <input
         type="tel"
         placeholder="Telefono"
+        value={datiCliente.telefono}
+onChange={(e) => setDatiCliente((prev) => ({ ...prev, telefono: e.target.value }))}
         className="border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400"
       />
       <input
   type="text"
   placeholder="Indirizzo di consegna"  
+  value={datiCliente.indirizzo}
+onChange={(e) => setDatiCliente((prev) => ({ ...prev, indirizzo: e.target.value }))}
   className="border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400 md:col-span-2"
 />
 <div className="mt-6">
