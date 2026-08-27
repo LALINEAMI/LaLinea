@@ -7,7 +7,70 @@ const prodotti = [
   { id: 2, nome: "Coming Soon", categoria: "LaLinea", prezzo: "—" },
   { id: 3, nome: "Coming Soon", categoria: "LaLinea", prezzo: "—" },
 ];
+function PlayerMusicale() {
+  const canzoni = [
+    { titolo: "PARLU", artista: "LA REFLVENZE", file: "/canzone.mp3" },
+    { titolo: "MOLLY", artista: "GAZO", file: "/canzone2.mp3" },
+    { titolo: "BIG 7", artista: "BURNA BOY", file: "/canzone3.mp3" },
+    { titolo: "STOP DIE", artista: "BURNA BOY", file: "/canzone4.mp3" },
+    { titolo: "BORA BORA", artista: "SKINNY FLEX", file: "/canzone5.mp3" },
+    { titolo: "DUBAI", artista: "SKINNY FLEX", file: "/canzone6.mp3" },
+  ];
 
+  const [indice, setIndice] = useState(0);
+  const playerRef = useRef<HTMLAudioElement>(null);
+
+  const cambiaCanzone = (direzione: number) => {
+    const nuovoIndice =
+      (indice + direzione + canzoni.length) % canzoni.length;
+
+    setIndice(nuovoIndice);
+
+    setTimeout(() => {
+      playerRef.current?.load();
+      playerRef.current?.play().catch(() => {});
+    }, 0);
+  };
+
+  return (
+    <div className="fixed bottom-4 left-1/2 z-[9999] w-[calc(100%-2rem)] max-w-md -translate-x-1/2 border border-yellow-400 bg-black p-4 text-white shadow-2xl">
+      <p className="text-center text-xs font-black uppercase tracking-widest text-yellow-400">
+        La selezione musicale della settimana
+      </p>
+
+      <p className="my-3 text-center font-bold">
+        {canzoni[indice].titolo} — {canzoni[indice].artista}
+      </p>
+
+      <audio
+        ref={playerRef}
+        src={canzoni[indice].file}
+        controls
+        preload="metadata"
+        onEnded={() => cambiaCanzone(1)}
+        className="w-full"
+      />
+
+      <div className="mt-3 flex justify-center gap-3">
+        <button
+          type="button"
+          onClick={() => cambiaCanzone(-1)}
+          className="bg-yellow-400 px-5 py-2 font-black text-black"
+        >
+          ← Indietro
+        </button>
+
+        <button
+          type="button"
+          onClick={() => cambiaCanzone(1)}
+          className="bg-yellow-400 px-5 py-2 font-black text-black"
+        >
+          Avanti →
+        </button>
+      </div>
+    </div>
+  );
+}
 export default function Home() {const [carrello, setCarrello] = useState<
     { id: number; nome: string; prezzo: number; quantita: number }[]
   >([]);
@@ -444,12 +507,128 @@ return (
     <main onClick={avviaMusica} className="min-h-screen text-white">
       
       
-      <audio
-  ref={audioRef}
-  src="/canzone.mp3"
-  loop
-  preload="auto"
-/>
+ 
+
+ <div className="fixed bottom-4 left-1/2 z-[9999] w-[calc(100%-2rem)] max-w-md -translate-x-1/2 border border-white/20 bg-black/95 p-4 text-white shadow-2xl">
+  <p className="mb-2 text-center text-xs font-black uppercase tracking-widest text-yellow-400">
+    La selezione musicale della settimana
+  </p>
+
+  <p data-titolo-canzone className="mb-3 text-center text-sm font-bold">
+    PARLU — LA REFLVENZE
+  </p>
+
+  <audio
+    data-indice="0"
+    src="/canzone.mp3"
+    controls
+    preload="metadata"
+    className="w-full"
+    onEnded={(evento) => {
+      const canzoni = [
+        { titolo: "PARLU — LA REFLVENZE", file: "/canzone.mp3" },
+        { titolo: "MOLLY — GAZO", file: "/canzone2.mp3" },
+        { titolo: "BIG 7 — BURNA BOY", file: "/canzone3.mp3" },
+        { titolo: "STOP DIE — BURNA BOY", file: "/canzone4.mp3" },
+        { titolo: "BORA BORA — SKINNY FLEX", file: "/canzone5.mp3" },
+        { titolo: "DUBAI — SKINNY FLEX", file: "/canzone6.mp3" },
+      ];
+
+      const player = evento.currentTarget;
+      const indice =
+        (Number(player.dataset.indice || "0") + 1) % canzoni.length;
+
+      player.dataset.indice = String(indice);
+      player.src = canzoni[indice].file;
+
+      const titolo = player.parentElement?.querySelector(
+        "[data-titolo-canzone]"
+      );
+
+      if (titolo) {
+        titolo.textContent = canzoni[indice].titolo;
+      }
+
+      player.play().catch(() => {});
+    }}
+  />
+
+  <div className="mt-3 flex justify-center gap-3">
+    <button
+      type="button"
+      className="bg-yellow-400 px-5 py-2 font-black text-black"
+      onClick={(evento) => {
+        const canzoni = [
+          { titolo: "PARLU — LA REFLVENZE", file: "/canzone.mp3" },
+          { titolo: "MOLLY — GAZO", file: "/canzone2.mp3" },
+          { titolo: "BIG 7 — BURNA BOY", file: "/canzone3.mp3" },
+          { titolo: "STOP DIE — BURNA BOY", file: "/canzone4.mp3" },
+          { titolo: "BORA BORA — SKINNY FLEX", file: "/canzone5.mp3" },
+          { titolo: "DUBAI — SKINNY FLEX", file: "/canzone6.mp3" },
+        ];
+
+        const contenitore = evento.currentTarget.parentElement?.parentElement;
+        const player = contenitore?.querySelector("audio");
+
+        if (!player) return;
+
+        const indice =
+          (Number(player.dataset.indice || "0") - 1 + canzoni.length) %
+          canzoni.length;
+
+        player.dataset.indice = String(indice);
+        player.src = canzoni[indice].file;
+
+        const titolo = contenitore?.querySelector("[data-titolo-canzone]");
+
+        if (titolo) {
+          titolo.textContent = canzoni[indice].titolo;
+        }
+
+        player.play().catch(() => {});
+      }}
+    >
+      ← Indietro
+    </button>
+
+    <button
+      type="button"
+      className="bg-yellow-400 px-5 py-2 font-black text-black"
+      onClick={(evento) => {
+        const canzoni = [
+          { titolo: "PARLU — LA REFLVENZE", file: "/canzone.mp3" },
+          { titolo: "MOLLY — GAZO", file: "/canzone2.mp3" },
+          { titolo: "BIG 7 — BURNA BOY", file: "/canzone3.mp3" },
+          { titolo: "STOP DIE — BURNA BOY", file: "/canzone4.mp3" },
+          { titolo: "BORA BORA — SKINNY FLEX", file: "/canzone5.mp3" },
+          { titolo: "DUBAI — SKINNY FLEX", file: "/canzone6.mp3" },
+        ];
+
+        const contenitore = evento.currentTarget.parentElement?.parentElement;
+        const player = contenitore?.querySelector("audio");
+
+        if (!player) return;
+
+        const indice =
+          (Number(player.dataset.indice || "0") + 1) % canzoni.length;
+
+        player.dataset.indice = String(indice);
+        player.src = canzoni[indice].file;
+
+        const titolo = contenitore?.querySelector("[data-titolo-canzone]");
+
+        if (titolo) {
+          titolo.textContent = canzoni[indice].titolo;
+        }
+
+        player.play().catch(() => {});
+      }}
+    >
+      Avanti →
+    </button>
+  </div>
+</div>aa
+
       {fotoAnteprima && (
   <div
     className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 p-4"
