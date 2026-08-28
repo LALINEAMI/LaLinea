@@ -398,7 +398,7 @@ const applicaCodiceSconto = () => {
     setMessaggioSconto("Codice sconto non valido");
   }
 };
- const inviaOrdineTelegram = () => {
+ const inviaOrdineTelegram = async () => {
   const prodottiOrdine = carrello
     .map(
       (item) =>
@@ -429,7 +429,17 @@ TOTALE ORDINE: ${totaleOrdine} €
   `.trim();
 
   const testo = encodeURIComponent(messaggio);
-
+await fetch("/api/vip/order", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    telefono: datiCliente.telefono,
+    totaleProdotti: totaleCarrello,
+    costoConsegna: costoConsegna,
+  }),
+}).catch(() => {});
   window.location.assign(
     `https://t.me/LaLineaMiOrdini?text=${testo}`
   );
@@ -505,7 +515,12 @@ if (caricamentoIniziale) {
 
 return (
     <main onClick={avviaMusica} className="min-h-screen text-white">
-      
+  <a
+  href="/vip"
+  className="fixed right-4 top-4 z-[9999] bg-yellow-400 px-4 py-3 text-xs font-black uppercase tracking-widest text-black shadow-xl"
+>
+  Area VIP
+</a>
       
  
 
