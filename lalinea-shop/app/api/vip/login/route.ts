@@ -27,12 +27,19 @@ export async function POST(request: Request) {
       .eq("telefono", numeroTelefono)
       .single();
 
-    if (error || !cliente) {
-      return NextResponse.json(
-        { error: "Telefono o PIN errati" },
-        { status: 401 }
-      );
-    }
+    if (error) {
+  return NextResponse.json(
+    { error: `SUPABASE: ${error.message}` },
+    { status: 500 }
+  );
+}
+
+if (!cliente) {
+  return NextResponse.json(
+    { error: "Cliente non trovato nel database collegato a Vercel" },
+    { status: 404 }
+  );
+}
 
     const pinCorretto = await bcrypt.compare(
       pinInserito,
