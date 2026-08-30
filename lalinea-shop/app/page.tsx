@@ -418,9 +418,13 @@ const applicaCodiceSconto = () => {
   if (codice === "CESOLOLALINEA26") {
     setScontoPercentuale(10);
     setMessaggioSconto("Codice applicato: sconto del 10%");
+  
   } else if (codice === "VIP15") {
     setScontoPercentuale(15);
     setMessaggioSconto("Codice applicato: sconto del 15%");
+    } else if (codice === "AMICO PAL 20") {
+  setScontoPercentuale(20);
+  setMessaggioSconto("Codice applicato: sconto del 20%");
   } else if (codice === "LALINEA5") {
     setScontoPercentuale(-5);
     setMessaggioSconto("Premio Snake applicato: -5 €");
@@ -2594,7 +2598,7 @@ SATIVA:
 </div>
   </div>
 )}
-{/* OTHER - DIESEL COLO */}
+{/* OTHER - DIESEL COLO */} 
 {categoriaAttiva === "Other" && (
   <div className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
 
