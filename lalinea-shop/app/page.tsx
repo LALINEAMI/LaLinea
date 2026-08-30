@@ -275,7 +275,7 @@ const aggiungiSourDieselAlCarrello = (
     return [
       ...prev,
       {
-        id: id as any,
+        id: id as any, 
         nome: `Sour Diesel X Forbidden Fruit ${grammi}`,
         prezzo,
         quantita: 1,
@@ -283,6 +283,46 @@ const aggiungiSourDieselAlCarrello = (
     ];
   });
 };
+const lemonStaticOpzioni = [
+  { grammi: "5g", prezzo: 50 },
+  { grammi: "10g", prezzo: 80 },
+  { grammi: "25g", prezzo: 170 },
+  { grammi: "50g", prezzo: 330 },
+  { grammi: "100g", prezzo: 550 },
+];
+
+const aggiungiLemonStaticAlCarrello = (
+  grammi: string,
+  prezzo: number
+) => {
+  const id = `lemon-static-${grammi}`;
+
+  setCarrello((prev) => {
+    const esistente = prev.find(
+      (item) => String(item.id) === id
+    );
+
+    if (esistente) {
+      return prev.map((item) =>
+        String(item.id) === id
+          ? { ...item, quantita: item.quantita + 1 }
+          : item
+      );
+    }
+
+    return [
+      ...prev,
+      {
+        id: id as any,
+        nome: `Lemon Static Premium ${grammi}`,
+        prezzo,
+        quantita: 1,
+      },
+    ];
+  });
+};
+
+
 const aggiungiGorillaAlCarrello = (
   grammi: string,
   prezzo: number
@@ -2040,6 +2080,114 @@ SATIVA:
     </div>
   </div>
 )}
+{/* LEMON STATIC PREMIUM */}
+{categoriaAttiva === "Frozen e Static" && (
+  <div className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
+    <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+      Frozen e Static
+    </p>
+
+    <h3 className="mt-2 text-2xl font-black uppercase text-white">
+      LEMON STATIC PREMIUM
+    </h3>
+
+    <p className="mt-3 font-bold uppercase text-zinc-400">
+      INDICA 50%
+      <br />
+      SATIVA 50%
+      <br />
+      GUSTO: buccia di limone, cedro, sentori di Kush e pino
+      <br />
+      EFFETTO: uplifting totale, mentale e fisico, ottimo per il
+      sollievo dal dolore. Questa genetica viene utilizzata da circa
+      vent&apos;anni anche a livello palliativo.
+    </p>
+
+    <div className="mt-6 flex items-start gap-4">
+      <video
+        src="/products/frozen-static/lemon1.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="w-1/4 aspect-square object-cover flex-shrink-0"
+      />
+
+      <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-4">
+        <img
+          src="/products/frozen-static/lemon2.jpg"
+          alt="Lemon Static Premium foto 1"
+          className="w-full aspect-square object-cover"
+        />
+
+        <img
+          src="/products/frozen-static/lemon3.jpg"
+          alt="Lemon Static Premium foto 2"
+          className="w-full aspect-square object-cover"
+        />
+
+        <img
+          src="/products/frozen-static/lemon4.jpg"
+          alt="Lemon Static Premium foto 3"
+          className="w-full aspect-square object-cover"
+        />
+
+        <img
+          src="/products/frozen-static/lemon5.jpg"
+          alt="Lemon Static Premium foto 4"
+          className="w-full aspect-square object-cover"
+        />
+
+        <img
+          src="/products/frozen-static/lemon6.jpg"
+          alt="Lemon Static Premium foto 5"
+          className="w-full aspect-square object-cover"
+        />
+
+        <img
+          src="/products/frozen-static/lemon7.jpg"
+          alt="Lemon Static Premium foto 6"
+          className="w-full aspect-square object-cover"
+        />
+      </div>
+    </div>
+
+    <div className="mt-6">
+      <p className="text-sm font-bold uppercase text-white">
+        Seleziona quantità
+      </p>
+
+      <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
+        {lemonStaticOpzioni.map((opzione) => (
+          <button
+            key={opzione.grammi}
+            type="button"
+            onClick={() =>
+              aggiungiLemonStaticAlCarrello(
+                opzione.grammi,
+                opzione.prezzo
+              )
+            }
+            className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center hover:bg-yellow-400 hover:text-black transition"
+          >
+            <p className="font-black text-white">
+              {opzione.grammi}
+            </p>
+
+            <p className="mt-1 font-bold text-yellow-400">
+              {opzione.prezzo} €
+            </p>
+
+            <p className="mt-2 text-xs font-black uppercase">
+              Aggiungi al carrello
+            </p>
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+)}
+
 {/* ROSIN H HOMEMADE 37u */}
 {categoriaAttiva === "Rosin & Pen" && (
   <div className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
