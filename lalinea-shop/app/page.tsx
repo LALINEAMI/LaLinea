@@ -2284,20 +2284,29 @@ SATIVA:
       LIVE ROS ETH TROPICANA COOKIES 45u
     </h3>
 
-    <p className="mt-3 text-zinc-400">
-      Per quantitativi più grossi, vi preghiamo di ordinare con qualche
-      giorno di anticipo
+    <p className="mt-1 font-bold uppercase text-zinc-400">
+      Per quantitativi più grossi, vi preghiamo di ordinare
+      <br />
+      con qualche giorno di anticipo
     </p>
 
-    <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-5">
-      {[1, 2, 3, 4, 5].map((numero) => (
-        <img
-          key={numero}
-          src={`/products/rosin/etere${numero}.jpg`}
-          alt={`LIVE ROS ETH TROPICANA COOKIES 45u foto ${numero}`}
-          className="w-full aspect-square object-cover"
-        />
-      ))}
+    <div className="mt-6 flex items-start gap-4">
+      <img
+        src="/products/rosin/etere1.jpg"
+        alt="LIVE ROS ETH TROPICANA COOKIES 45u foto 1"
+        className="w-1/4 aspect-square object-cover flex-shrink-0"
+      />
+
+      <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
+        {[2, 3, 4, 5].map((numero) => (
+          <img
+            key={numero}
+            src={`/products/rosin/etere${numero}.jpg`}
+            alt={`LIVE ROS ETH TROPICANA COOKIES 45u foto ${numero}`}
+            className="w-full aspect-square object-cover"
+          />
+        ))}
+      </div>
     </div>
 
     <div className="mt-6">
@@ -2342,7 +2351,7 @@ SATIVA:
                 ];
               });
             }}
-            className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center hover:bg-yellow-400"
+            className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center"
           >
             <p className="text-xl font-black text-white">
               {opzione.grammi}
@@ -2352,7 +2361,7 @@ SATIVA:
               {opzione.prezzo} €
             </p>
 
-            <p className="mt-2 text-sm font-black uppercase text-white">
+            <p className="mt-5 text-sm font-black uppercase text-white">
               Aggiungi al carrello
             </p>
           </button>
