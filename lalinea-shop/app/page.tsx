@@ -369,6 +369,29 @@ const aggiungiCoverConPunti = () => {
     ];
   });
 };
+const aggiungiPortachiaviConPunti = () => {
+  setCarrello((prev) => {
+    const esistente = prev.find((item) => item.id === 10002);
+
+    if (esistente) {
+      return prev.map((item) =>
+        item.id === 10002
+          ? { ...item, quantita: item.quantita + 1 }
+          : item
+      );
+    }
+
+    return [
+      ...prev,
+      {
+        id: 10002,
+        nome: "Portachiavi in resina - Riscatto 200 punti",
+        prezzo: 0,
+        quantita: 1,
+      },
+    ];
+  });
+};
   const aggiungiOrangeAlCarrello = (grammi: string, prezzo: number) => {
   const id = `orange-${grammi}`;
 
@@ -1028,89 +1051,115 @@ return (
 
 {/* MENU MOBILE */}
 {menuAperto && (
-  <div className="fixed inset-0 z-[99999] bg-black md:hidden">
-    <div className="h-[100dvh] w-full overflow-y-auto overflow-x-hidden overscroll-contain bg-black px-6 py-8">
+  <div
+    className="fixed inset-0 z-[99999] bg-black/75 px-4 pt-24 backdrop-blur-sm md:hidden"
+    onClick={() => setMenuAperto(false)}
+  >
+    <div
+      className="mx-auto max-w-sm overflow-hidden rounded-2xl border border-yellow-400/60 bg-zinc-950 shadow-2xl"
+      onClick={(event) => event.stopPropagation()}
+    >
+      <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
+        <div>
+          <p className="text-xs font-black uppercase tracking-[0.25em] text-yellow-400">
+            LaLinea
+          </p>
 
-      {/* CHIUDI */}
-      <div className="flex justify-end">
+          <p className="mt-1 text-sm font-bold text-white">
+            Scegli una sezione
+          </p>
+        </div>
+
         <button
           type="button"
           onClick={() => setMenuAperto(false)}
-          className="flex h-14 w-14 items-center justify-center border-2 border-yellow-400 text-3xl font-black text-yellow-400"
+          aria-label="Chiudi menu"
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-2xl text-white"
         >
           ×
         </button>
       </div>
 
-      {/* MENU */}
-      <nav className="mt-8 flex w-full flex-col">
-
+      <nav className="grid grid-cols-2 gap-px bg-white/10">
         <button
           type="button"
           onClick={() => {
             setMenuAperto(false);
             setSnakeAperto(true);
           }}
-          className="w-full border-b border-yellow-400/40 py-5 text-left text-2xl font-black uppercase text-yellow-400"
+          className="bg-zinc-950 px-3 py-5 text-left text-sm font-black uppercase text-white active:bg-yellow-400 active:text-black"
         >
-          GIOCA
+          Gioca
         </button>
 
         <a
           href="#shop"
           onClick={() => setMenuAperto(false)}
-          className="w-full border-b border-white/20 py-5 text-left text-2xl font-black uppercase text-white"
+          className="bg-zinc-950 px-3 py-5 text-left text-sm font-black uppercase text-white active:bg-yellow-400 active:text-black"
         >
-          SHOP
+          Shop
         </a>
 
-<a
-  href="#promo"
-  onClick={() => setMenuAperto(false)}
-  className="w-full border-b border-white/20 py-5 text-left text-2xl font-black uppercase"
->
-  LE PROMO
-</a>
+        <a
+          href="#promo"
+          onClick={() => setMenuAperto(false)}
+          className="bg-zinc-950 px-3 py-5 text-left text-sm font-black uppercase text-white active:bg-yellow-400 active:text-black"
+        >
+          Le promo
+        </a>
+
         <a
           href="#tracking"
           onClick={() => setMenuAperto(false)}
-          className="w-full border-b border-white/20 py-5 text-left text-2xl font-black uppercase text-white"
+          className="bg-zinc-950 px-3 py-5 text-left text-sm font-black uppercase text-white active:bg-yellow-400 active:text-black"
         >
-          TRACKING
+          Tracking
         </a>
 
         <a
-          href="#recensioni"
-          onClick={() => setMenuAperto(false)}
-          className="w-full border-b border-white/20 py-5 text-left text-2xl font-black uppercase text-white"
+          href="#dicono-di-noi"
+          onClick={(event) => {
+            event.preventDefault();
+            setMenuAperto(false);
+            setRecensioniAperte(true);
+
+            setTimeout(() => {
+              document
+                .getElementById("dicono-di-noi")
+                ?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+            }, 50);
+          }}
+          className="bg-zinc-950 px-3 py-5 text-left text-sm font-black uppercase text-white active:bg-yellow-400 active:text-black"
         >
-          DICONO DI NOI
+          Recensioni
         </a>
 
         <a
           href="#point"
           onClick={() => setMenuAperto(false)}
-          className="w-full border-b border-white/20 py-5 text-left text-2xl font-black uppercase text-white"
+          className="bg-zinc-950 px-3 py-5 text-left text-sm font-black uppercase text-white active:bg-yellow-400 active:text-black"
         >
-          I NOSTRI POINT
+          I nostri point
         </a>
 
         <a
           href="#delivery"
           onClick={() => setMenuAperto(false)}
-          className="w-full border-b border-white/20 py-5 text-left text-2xl font-black uppercase text-white"
+          className="bg-zinc-950 px-3 py-5 text-left text-sm font-black uppercase text-white active:bg-yellow-400 active:text-black"
         >
-          DELIVERY
+          Delivery
         </a>
 
         <a
           href="#contatti"
           onClick={() => setMenuAperto(false)}
-          className="w-full border-b border-white/20 py-5 text-left text-2xl font-black uppercase text-white"
+          className="bg-zinc-950 px-3 py-5 text-left text-sm font-black uppercase text-white active:bg-yellow-400 active:text-black"
         >
-          CONTATTI
+          Contatti
         </a>
-
       </nav>
     </div>
   </div>
@@ -3356,6 +3405,74 @@ SATIVA:
             </div>
           </div>
         </article>
+)}
+{categoriaAttiva === "Gadget" && (
+  <article className="mt-12 overflow-hidden border border-zinc-800 bg-zinc-950">
+    <div className="grid md:grid-cols-2">
+      <div className="p-4">
+        <video
+          src="/porta1.mp4"
+          poster="/porta1.jpg"
+          controls
+          muted
+          playsInline
+          className="h-[600px] w-full bg-black object-contain"
+        />
+
+        <div className="mt-4 grid grid-cols-3 gap-3">
+          <img
+            src="/porta1.jpg"
+            alt="Portachiavi in resina foto 1"
+            className="h-28 w-full object-cover"
+          />
+
+          <img
+            src="/porta2.jpg"
+            alt="Portachiavi in resina foto 2"
+            className="h-28 w-full object-cover"
+          />
+
+          <img
+            src="/porta5.jpg"
+            alt="Portachiavi in resina foto 3"
+            className="h-28 w-full object-cover"
+          />
+        </div>
+      </div>
+
+      <div className="flex flex-col justify-center p-8 md:p-12">
+        <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+          LaLinea
+        </p>
+
+        <h3 className="mt-4 text-4xl font-black uppercase">
+          Portachiavi in resina
+        </h3>
+
+        <p className="mt-6 text-lg text-zinc-400">
+          In euro: regalo
+        </p>
+
+        <div className="mt-8 border-t border-zinc-800 pt-8">
+          <p className="text-4xl font-black text-yellow-400">
+            200
+          </p>
+
+          <p className="mt-2 text-xl font-bold text-white">
+            punti LaLinea
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={aggiungiPortachiaviConPunti}
+          className="mt-8 w-full bg-yellow-400 px-6 py-4 font-black uppercase text-black"
+        >
+          Aggiungi con 200 punti
+        </button>
+      </div>
+    </div>
+  </article>
 )}
         {/* CARRELLO */}
         <div className="mt-12 border border-yellow-400 bg-black p-6">
