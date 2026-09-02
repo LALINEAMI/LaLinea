@@ -19,18 +19,74 @@ function PlayerMusicale() {
 
   const [indice, setIndice] = useState(0);
   const [playerVisibile, setPlayerVisibile] = useState(true);
+
   const playerRef = useRef<HTMLAudioElement>(null);
+  const riproduciDopoCambio = useRef(false);
 
-  const cambiaCanzone = (direzione: number) => {
-    const nuovoIndice =
-      (indice + direzione + canzoni.length) % canzoni.length;
+  useEffect(() => {
+    const fermaAudio = () => {
+      playerRef.current?.pause();
+    };
 
-    setIndice(nuovoIndice);
+    const controllaVisibilita = () => {
+      if (document.hidden) {
+        fermaAudio();
+      }
+    };
 
-    setTimeout(() => {
-      playerRef.current?.load();
-      playerRef.current?.play().catch(() => {});
-    }, 0);
+    document.addEventListener(
+      "visibilitychange",
+      controllaVisibilita
+    );
+
+    window.addEventListener("blur", fermaAudio);
+    window.addEventListener("pagehide", fermaAudio);
+
+    return () => {
+      document.removeEventListener(
+        "visibilitychange",
+        controllaVisibilita
+      );
+
+      window.removeEventListener("blur", fermaAudio);
+      window.removeEventListener("pagehide", fermaAudio);
+
+      fermaAudio();
+    };
+  }, []);
+
+  useEffect(() => {
+    const audio = playerRef.current;
+
+    if (!audio) {
+      return;
+    }
+
+    audio.load();
+
+    if (riproduciDopoCambio.current) {
+      riproduciDopoCambio.current = false;
+      audio.play().catch(() => {});
+    }
+  }, [indice]);
+
+  const cambiaCanzone = (
+    direzione: number,
+    riproduciSempre = false
+  ) => {
+    const audio = playerRef.current;
+
+    riproduciDopoCambio.current =
+      riproduciSempre ||
+      Boolean(audio && !audio.paused && !audio.ended);
+
+    audio?.pause();
+
+    setIndice(
+      (indiceAttuale) =>
+        (indiceAttuale + direzione + canzoni.length) %
+        canzoni.length
+    );
   };
 
   const chiudiPlayer = () => {
@@ -43,84 +99,47 @@ function PlayerMusicale() {
       <button
         type="button"
         onClick={() => setPlayerVisibile(true)}
-        style={{
-          position: "fixed",
-          right: "16px",
-          bottom: "16px",
-          zIndex: 9999,
-          border: "1px solid #facc15",
-          backgroundColor: "#000",
-          color: "#facc15",
-          padding: "10px 16px",
-          fontWeight: 900,
-          cursor: "pointer",
-        }}
+        className="fixed bottom-4 right-4 z-[99999] border-2 border-yellow-400 bg-black px-5 py-3 font-black uppercase text-yellow-400"
       >
-        MUSICA
+        Apri musica
       </button>
     );
   }
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        left: "50%",
-        bottom: "16px",
-        transform: "translateX(-50%)",
-        zIndex: 9999,
-        width: "calc(100% - 32px)",
-        maxWidth: "448px",
-        boxSizing: "border-box",
-        border: "1px solid #52525b",
-        backgroundColor: "rgba(0, 0, 0, 0.95)",
-        padding: "20px",
-      }}
-    >
+    <div className="fixed bottom-4 left-1/2 z-[99999] w-[calc(100%-2rem)] max-w-md -translate-x-1/2 border border-zinc-500 bg-black/95 p-4 shadow-2xl">
       <button
         type="button"
         onClick={chiudiPlayer}
         aria-label="Chiudi player musicale"
-        style={{
-          position: "absolute",
-          top: "6px",
-          right: "8px",
-          zIndex: 10000,
-          border: "1px solid #facc15",
-          backgroundColor: "#000",
-          color: "#facc15",
-          padding: "2px 9px",
-          fontSize: "20px",
-          fontWeight: 900,
-          lineHeight: 1.2,
-          cursor: "pointer",
-        }}
+        className="mb-3 block w-full border-2 border-yellow-400 bg-yellow-400 px-4 py-3 text-center text-base font-black uppercase text-black"
       >
-        X
+        Chiudi player X
       </button>
 
-      <p className="pr-10 text-center text-xs font-black uppercase tracking-widest text-yellow-400">
+      <p className="text-center text-xs font-black uppercase tracking-widest text-yellow-400">
         La selezione musicale della settimana
       </p>
 
-      <p className="my-3 text-center font-bold">
+      <p className="my-3 text-center font-bold text-white">
         {canzoni[indice].titolo} – {canzoni[indice].artista}
       </p>
 
       <audio
+        key={canzoni[indice].file}
         ref={playerRef}
         src={canzoni[indice].file}
         controls
         preload="metadata"
-        onEnded={() => cambiaCanzone(1)}
+        onEnded={() => cambiaCanzone(1, true)}
         className="w-full"
       />
 
-      <div className="mt-3 flex justify-center gap-3">
+      <div className="mt-3 flex gap-3">
         <button
           type="button"
           onClick={() => cambiaCanzone(-1)}
-          className="bg-yellow-400 px-5 py-2 font-black text-black"
+          className="flex-1 bg-yellow-400 px-3 py-3 font-black text-black"
         >
           ← Indietro
         </button>
@@ -128,7 +147,7 @@ function PlayerMusicale() {
         <button
           type="button"
           onClick={() => cambiaCanzone(1)}
-          className="bg-yellow-400 px-5 py-2 font-black text-black"
+          className="flex-1 bg-yellow-400 px-3 py-3 font-black text-black"
         >
           Avanti →
         </button>
@@ -837,6 +856,17 @@ return (
 <a
   className="transition hover:text-yellow-400"
   href="#dicono-di-noi"
+  onClick={(event) => {
+    event.preventDefault();
+    setRecensioniAperte(true);
+
+    document
+      .getElementById("dicono-di-noi")
+      ?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+  }}
 >
   DICONO DI NOI
 </a>
@@ -3537,7 +3567,7 @@ onClick={(e) => {
 </button>
 {recensioniAperte && (
     <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {Array.from({ length: 23 }, (_, i) => (
+      {Array.from({ length: 33 }, (_, i) => (
         <img
           key={i}
           src={`/reviews/review${i + 1}.jpg`}
