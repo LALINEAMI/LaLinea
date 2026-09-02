@@ -1051,115 +1051,89 @@ return (
 
 {/* MENU MOBILE */}
 {menuAperto && (
-  <div
-    className="fixed inset-0 z-[99999] bg-black/75 px-4 pt-24 backdrop-blur-sm md:hidden"
-    onClick={() => setMenuAperto(false)}
-  >
-    <div
-      className="mx-auto max-w-sm overflow-hidden rounded-2xl border border-yellow-400/60 bg-zinc-950 shadow-2xl"
-      onClick={(event) => event.stopPropagation()}
-    >
-      <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
-        <div>
-          <p className="text-xs font-black uppercase tracking-[0.25em] text-yellow-400">
-            LaLinea
-          </p>
+  <div className="fixed inset-0 z-[99999] bg-black md:hidden">
+    <div className="h-[100dvh] w-full overflow-y-auto overflow-x-hidden overscroll-contain bg-black px-6 py-8">
 
-          <p className="mt-1 text-sm font-bold text-white">
-            Scegli una sezione
-          </p>
-        </div>
-
+      {/* CHIUDI */}
+      <div className="flex justify-end">
         <button
           type="button"
           onClick={() => setMenuAperto(false)}
-          aria-label="Chiudi menu"
-          className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-2xl text-white"
+          className="flex h-14 w-14 items-center justify-center border-2 border-yellow-400 text-3xl font-black text-yellow-400"
         >
           ×
         </button>
       </div>
 
-      <nav className="grid grid-cols-2 gap-px bg-white/10">
+      {/* MENU */}
+      <nav className="mt-8 flex w-full flex-col">
+
         <button
           type="button"
           onClick={() => {
             setMenuAperto(false);
             setSnakeAperto(true);
           }}
-          className="bg-zinc-950 px-3 py-5 text-left text-sm font-black uppercase text-white active:bg-yellow-400 active:text-black"
+          className="w-full border-b border-yellow-400/40 py-5 text-left text-2xl font-black uppercase text-yellow-400"
         >
-          Gioca
+          GIOCA
         </button>
 
         <a
           href="#shop"
           onClick={() => setMenuAperto(false)}
-          className="bg-zinc-950 px-3 py-5 text-left text-sm font-black uppercase text-white active:bg-yellow-400 active:text-black"
+          className="w-full border-b border-white/20 py-5 text-left text-2xl font-black uppercase text-white"
         >
-          Shop
+          SHOP
         </a>
 
-        <a
-          href="#promo"
-          onClick={() => setMenuAperto(false)}
-          className="bg-zinc-950 px-3 py-5 text-left text-sm font-black uppercase text-white active:bg-yellow-400 active:text-black"
-        >
-          Le promo
-        </a>
-
+<a
+  href="#promo"
+  onClick={() => setMenuAperto(false)}
+  className="w-full border-b border-white/20 py-5 text-left text-2xl font-black uppercase"
+>
+  LE PROMO
+</a>
         <a
           href="#tracking"
           onClick={() => setMenuAperto(false)}
-          className="bg-zinc-950 px-3 py-5 text-left text-sm font-black uppercase text-white active:bg-yellow-400 active:text-black"
+          className="w-full border-b border-white/20 py-5 text-left text-2xl font-black uppercase text-white"
         >
-          Tracking
+          TRACKING
         </a>
 
         <a
-          href="#dicono-di-noi"
-          onClick={(event) => {
-            event.preventDefault();
-            setMenuAperto(false);
-            setRecensioniAperte(true);
-
-            setTimeout(() => {
-              document
-                .getElementById("dicono-di-noi")
-                ?.scrollIntoView({
-                  behavior: "smooth",
-                  block: "start",
-                });
-            }, 50);
-          }}
-          className="bg-zinc-950 px-3 py-5 text-left text-sm font-black uppercase text-white active:bg-yellow-400 active:text-black"
+          href="#recensioni"
+          onClick={() => setMenuAperto(false)}
+          className="w-full border-b border-white/20 py-5 text-left text-2xl font-black uppercase text-white"
         >
-          Recensioni
+          DICONO DI NOI
         </a>
 
         <a
           href="#point"
           onClick={() => setMenuAperto(false)}
-          className="bg-zinc-950 px-3 py-5 text-left text-sm font-black uppercase text-white active:bg-yellow-400 active:text-black"
+          className="w-full border-b border-white/20 py-5 text-left text-2xl font-black uppercase text-white"
         >
-          I nostri point
+          I NOSTRI POINT
         </a>
 
         <a
           href="#delivery"
           onClick={() => setMenuAperto(false)}
-          className="bg-zinc-950 px-3 py-5 text-left text-sm font-black uppercase text-white active:bg-yellow-400 active:text-black"
+          className="w-full border-b border-white/20 py-5 text-left text-2xl font-black uppercase text-white"
         >
-          Delivery
+          DELIVERY
         </a>
 
         <a
           href="#contatti"
           onClick={() => setMenuAperto(false)}
-          className="bg-zinc-950 px-3 py-5 text-left text-sm font-black uppercase text-white active:bg-yellow-400 active:text-black"
+          className="w-full border-b border-white/20 py-5 text-left text-2xl font-black uppercase text-white"
         >
-          Contatti
+          CONTATTI
         </a>
+
       </nav>
     </div>
   </div>
