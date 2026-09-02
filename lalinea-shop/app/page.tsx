@@ -21,6 +21,32 @@ function PlayerMusicale() {
   const [playerVisibile, setPlayerVisibile] = useState(true);
 
   const playerRef = useRef<HTMLAudioElement>(null);
+  useEffect(() => {
+  const fermaTuttiGliAudio = () => {
+    document.querySelectorAll("audio").forEach((audio) => {
+      audio.pause();
+    });
+  };
+
+  const controllaVisibilita = () => {
+    if (document.hidden) {
+      fermaTuttiGliAudio();
+    }
+  };
+
+  document.addEventListener("visibilitychange", controllaVisibilita);
+  window.addEventListener("blur", fermaTuttiGliAudio);
+  window.addEventListener("pagehide", fermaTuttiGliAudio);
+  window.addEventListener("beforeunload", fermaTuttiGliAudio);
+
+  return () => {
+    fermaTuttiGliAudio();
+    document.removeEventListener("visibilitychange", controllaVisibilita);
+    window.removeEventListener("blur", fermaTuttiGliAudio);
+    window.removeEventListener("pagehide", fermaTuttiGliAudio);
+    window.removeEventListener("beforeunload", fermaTuttiGliAudio);
+  };
+}, []);
   const riproduciDopoCambio = useRef(false);
 
   useEffect(() => {
@@ -163,6 +189,41 @@ export default function Home() {const [carrello, setCarrello] = useState<
   const [tipoAnteprima, setTipoAnteprima] = useState<"img" | "video">("img");
 const audioRef = useRef<HTMLAudioElement | null>(null);
 const [musicaAvviata, setMusicaAvviata] = useState(false);
+useEffect(() => {
+  const fermaOgniAudio = () => {
+    audioRef.current?.pause();
+
+    document
+      .querySelectorAll<HTMLMediaElement>("audio, video")
+      .forEach((elemento) => elemento.pause());
+
+    setMusicaAvviata(false);
+  };
+
+  const quandoLaPaginaScompare = () => {
+    if (document.visibilityState === "hidden") {
+      fermaOgniAudio();
+    }
+  };
+
+  document.addEventListener(
+    "visibilitychange",
+    quandoLaPaginaScompare
+  );
+  window.addEventListener("pagehide", fermaOgniAudio);
+  window.addEventListener("blur", fermaOgniAudio);
+
+  return () => {
+    fermaOgniAudio();
+
+    document.removeEventListener(
+      "visibilitychange",
+      quandoLaPaginaScompare
+    );
+    window.removeEventListener("pagehide", fermaOgniAudio);
+    window.removeEventListener("blur", fermaOgniAudio);
+  };
+}, [])
 const [caricamentoIniziale, setCaricamentoIniziale] = useState(true);
 const [recensioniAperte, setRecensioniAperte] = useState(false);
 const [snakeAperto, setSnakeAperto] = useState(false);
@@ -280,7 +341,34 @@ const aggiungiAlCarrello = () => {
       ];
     });
   };
+const aggiungiCoverConPunti = () => {
+  setCarrello((prev) => {
+    const esistente = prev.find(
+      (item) => item.id === 10001
+    );
 
+    if (esistente) {
+      return prev.map((item) =>
+        item.id === 10001
+          ? {
+              ...item,
+              quantita: item.quantita + 1,
+            }
+          : item
+      );
+    }
+
+    return [
+      ...prev,
+      {
+        id: 10001,
+        nome: "Cover LaLinea - Riscatto 500 punti",
+        prezzo: 0,
+        quantita: 1,
+      },
+    ];
+  });
+};
   const aggiungiOrangeAlCarrello = (grammi: string, prezzo: number) => {
   const id = `orange-${grammi}`;
 
@@ -555,7 +643,57 @@ Totale prodotti: ${totaleCarrello} €
 Consegna: ${costoConsegna} €
 TOTALE ORDINE: ${totaleOrdine} €
   `.trim();
+const coverConPunti = carrello.find(
+  (item) => item.id === 10001
+);
 
+if (coverConPunti) {
+  const pinVip = window.prompt(
+    "Inserisci il PIN VIP per riscattare la cover"
+  );
+
+  if (!pinVip) {
+    window.alert("Riscatto annullato: PIN mancante");
+    return;
+  }
+
+  try {
+    const rispostaRiscatto = await fetch(
+      "/api/vip/redeem",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          telefono: datiCliente.telefono,
+          pin: pinVip,
+          quantita: coverConPunti.quantita,
+        }),
+      }
+    );
+
+    const risultatoRiscatto =
+      await rispostaRiscatto.json();
+
+    if (!rispostaRiscatto.ok) {
+      window.alert(
+        risultatoRiscatto.error ||
+          "Impossibile riscattare la cover"
+      );
+      return;
+    }
+
+    window.alert(
+      `Cover riscattata. Punti rimasti: ${risultatoRiscatto.puntiResidui}`
+    );
+  } catch {
+    window.alert(
+      "Errore di collegamento durante il riscatto"
+    );
+    return;
+  }
+}
   const testo = encodeURIComponent(messaggio);
 await fetch("/api/vip/order", {
   method: "POST",
@@ -3179,7 +3317,7 @@ SATIVA:
               </p>
 
               <h3 className="mt-4 text-4xl font-black uppercase">
-                Cover iPhone LaLinea UltraResistente
+                Cover LaLinea UltraResistente
               </h3>
 
               <p className="mt-6 text-lg text-zinc-400">
@@ -3187,7 +3325,7 @@ SATIVA:
               </p>
 
               <p className="mt-2 text-zinc-400">
-                Disponibile per tutti gli iPhone.
+                Disponibile per iPhone e per tutti i modelli Android.
               </p>
 
               <div className="mt-8 border-t border-zinc-800 pt-8">
@@ -3201,11 +3339,20 @@ SATIVA:
               </div>
 
               <button
-                onClick={aggiungiAlCarrello}
-                className="mt-8 w-full bg-yellow-400 px-6 py-4 font-black uppercase tracking-widest text-black transition hover:bg-yellow-300"
-              >
-                Aggiungi al carrello
-              </button>
+  type="button"
+  onClick={aggiungiAlCarrello}
+  className="mt-8 w-full bg-yellow-400 px-6 py-4 font-black uppercase tracking-widest text-black"
+>
+  Acquista a 10 €
+</button>
+
+<button
+  type="button"
+  onClick={aggiungiCoverConPunti}
+  className="mt-3 w-full border border-yellow-400 bg-black px-6 py-4 font-black uppercase text-yellow-400"
+>
+  Aggiungi con 500 punti
+</button>
             </div>
           </div>
         </article>
