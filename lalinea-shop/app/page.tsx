@@ -18,6 +18,7 @@ function PlayerMusicale() {
   ];
 
   const [indice, setIndice] = useState(0);
+  const [playerVisibile, setPlayerVisibile] = useState(true);
   const playerRef = useRef<HTMLAudioElement>(null);
 
   const cambiaCanzone = (direzione: number) => {
@@ -32,14 +33,78 @@ function PlayerMusicale() {
     }, 0);
   };
 
+  const chiudiPlayer = () => {
+    playerRef.current?.pause();
+    setPlayerVisibile(false);
+  };
+
+  if (!playerVisibile) {
+    return (
+      <button
+        type="button"
+        onClick={() => setPlayerVisibile(true)}
+        style={{
+          position: "fixed",
+          right: "16px",
+          bottom: "16px",
+          zIndex: 9999,
+          border: "1px solid #facc15",
+          backgroundColor: "#000",
+          color: "#facc15",
+          padding: "10px 16px",
+          fontWeight: 900,
+          cursor: "pointer",
+        }}
+      >
+        MUSICA
+      </button>
+    );
+  }
+
   return (
-    <div className="fixed bottom-4 left-1/2 z-[9999] w-[calc(100%-2rem)] max-w-md -translate-x-1/2 border border-yellow-400 bg-black p-4 text-white shadow-2xl">
-      <p className="text-center text-xs font-black uppercase tracking-widest text-yellow-400">
+    <div
+      style={{
+        position: "fixed",
+        left: "50%",
+        bottom: "16px",
+        transform: "translateX(-50%)",
+        zIndex: 9999,
+        width: "calc(100% - 32px)",
+        maxWidth: "448px",
+        boxSizing: "border-box",
+        border: "1px solid #52525b",
+        backgroundColor: "rgba(0, 0, 0, 0.95)",
+        padding: "20px",
+      }}
+    >
+      <button
+        type="button"
+        onClick={chiudiPlayer}
+        aria-label="Chiudi player musicale"
+        style={{
+          position: "absolute",
+          top: "6px",
+          right: "8px",
+          zIndex: 10000,
+          border: "1px solid #facc15",
+          backgroundColor: "#000",
+          color: "#facc15",
+          padding: "2px 9px",
+          fontSize: "20px",
+          fontWeight: 900,
+          lineHeight: 1.2,
+          cursor: "pointer",
+        }}
+      >
+        X
+      </button>
+
+      <p className="pr-10 text-center text-xs font-black uppercase tracking-widest text-yellow-400">
         La selezione musicale della settimana
       </p>
 
       <p className="my-3 text-center font-bold">
-        {canzoni[indice].titolo} — {canzoni[indice].artista}
+        {canzoni[indice].titolo} – {canzoni[indice].artista}
       </p>
 
       <audio
@@ -686,7 +751,7 @@ return (
       Avanti →
     </button>
   </div>
-</div>aa
+</div>
 
       {fotoAnteprima && (
   <div
