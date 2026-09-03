@@ -1050,30 +1050,36 @@ return (
 
 {/* MENU MOBILE */}
 {menuAperto && (
-  <div className="fixed inset-0 z-[99999] bg-black md:hidden">
-    <div className="h-[100dvh] w-full overflow-y-auto overflow-x-hidden overscroll-contain bg-black px-6 py-8">
+  <div className="fixed inset-0 z-[99999] overflow-hidden bg-black/80 px-4 pt-[17vh] backdrop-blur-md md:hidden">
+    <div className="mx-auto w-full max-w-md overflow-hidden rounded-[20px] border border-yellow-400/70 bg-zinc-950">
+      <div className="flex items-center justify-between border-b border-zinc-800 px-5 py-4">
+        <div>
+          <p className="text-sm font-black uppercase tracking-[0.3em] text-yellow-400">
+            LALINEA
+          </p>
 
-      {/* CHIUDI */}
-      <div className="flex justify-end">
+          <p className="mt-1 text-lg font-black text-white">
+            Scegli una sezione
+          </p>
+        </div>
+
         <button
           type="button"
           onClick={() => setMenuAperto(false)}
-          className="flex h-14 w-14 items-center justify-center border-2 border-yellow-400 text-3xl font-black text-yellow-400"
+          className="flex h-12 w-12 items-center justify-center rounded-full border border-zinc-700 text-3xl font-black text-white"
         >
           ×
         </button>
       </div>
 
-      {/* MENU */}
-      <nav className="mt-8 flex w-full flex-col">
-
+      <nav className="grid grid-cols-2">
         <button
           type="button"
           onClick={() => {
             setMenuAperto(false);
             setSnakeAperto(true);
           }}
-          className="w-full border-b border-yellow-400/40 py-5 text-left text-2xl font-black uppercase text-yellow-400"
+          className="border-b border-r border-zinc-800 px-6 py-5 text-left text-base font-black uppercase text-white"
         >
           GIOCA
         </button>
@@ -1081,38 +1087,51 @@ return (
         <a
           href="#shop"
           onClick={() => setMenuAperto(false)}
-          className="w-full border-b border-white/20 py-5 text-left text-2xl font-black uppercase text-white"
+          className="border-b border-zinc-800 px-6 py-5 text-left text-base font-black uppercase text-white"
         >
           SHOP
         </a>
 
-<a
-  href="#promo"
-  onClick={() => setMenuAperto(false)}
-  className="w-full border-b border-white/20 py-5 text-left text-2xl font-black uppercase"
->
-  LE PROMO
-</a>
+        <a
+          href="#promo"
+          onClick={() => setMenuAperto(false)}
+          className="border-b border-r border-zinc-800 px-6 py-5 text-left text-base font-black uppercase text-white"
+        >
+          LE PROMO
+        </a>
+
         <a
           href="#tracking"
           onClick={() => setMenuAperto(false)}
-          className="w-full border-b border-white/20 py-5 text-left text-2xl font-black uppercase text-white"
+          className="border-b border-zinc-800 px-6 py-5 text-left text-base font-black uppercase text-white"
         >
           TRACKING
         </a>
 
-        <a
-          href="#recensioni"
-          onClick={() => setMenuAperto(false)}
-          className="w-full border-b border-white/20 py-5 text-left text-2xl font-black uppercase text-white"
+        <button
+          type="button"
+          onClick={() => {
+            setMenuAperto(false);
+            setRecensioniAperte(true);
+
+            setTimeout(() => {
+              document
+                .getElementById("dicono-di-noi")
+                ?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+            }, 50);
+          }}
+          className="border-b border-r border-zinc-800 px-6 py-5 text-left text-base font-black uppercase text-white"
         >
-          DICONO DI NOI
-        </a>
+          RECENSIONI
+        </button>
 
         <a
           href="#point"
           onClick={() => setMenuAperto(false)}
-          className="w-full border-b border-white/20 py-5 text-left text-2xl font-black uppercase text-white"
+          className="border-b border-zinc-800 px-6 py-5 text-left text-base font-black uppercase text-white"
         >
           I NOSTRI POINT
         </a>
@@ -1120,7 +1139,7 @@ return (
         <a
           href="#delivery"
           onClick={() => setMenuAperto(false)}
-          className="w-full border-b border-white/20 py-5 text-left text-2xl font-black uppercase text-white"
+          className="border-r border-zinc-800 px-6 py-5 text-left text-base font-black uppercase text-white"
         >
           DELIVERY
         </a>
@@ -1128,16 +1147,14 @@ return (
         <a
           href="#contatti"
           onClick={() => setMenuAperto(false)}
-          className="w-full border-b border-white/20 py-5 text-left text-2xl font-black uppercase text-white"
+          className="px-6 py-5 text-left text-base font-black uppercase text-white"
         >
           CONTATTI
         </a>
-
       </nav>
     </div>
   </div>
 )}
-
       {/* MARQUEE */}
       <section className="overflow-hidden bg-yellow-400 py-4 text-black">
         <div className="whitespace-nowrap text-center text-sm font-black tracking-[0.3em]">
