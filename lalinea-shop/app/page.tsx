@@ -315,6 +315,7 @@ const [scontoPercentuale, setScontoPercentuale] = useState(0);
 const [messaggioSconto, setMessaggioSconto] = useState("");
 const [categoriaAttiva, setCategoriaAttiva] = useState("");  
 const [menuAperto, setMenuAperto] = useState(false);
+const [playerVisibile, setPlayerVisibile] = useState(true);
 const [password, setPassword] = useState("");
 const [accessoConsentito, setAccessoConsentito] = useState(false);
 const [errorePassword, setErrorePassword] = useState(false);
@@ -812,7 +813,15 @@ return (
 </a>
  
 
- <div className="fixed bottom-4 left-1/2 z-[9999] w-[calc(100%-2rem)] max-w-md -translate-x-1/2 border border-white/20 bg-black/95 p-4 text-white shadow-2xl">
+ <div style={{ display: playerVisibile ? undefined : "none" }}className="fixed bottom-4 left-1/2 z-[9999] w-[calc(100%-2rem)] max-w-md -translate-x-1/2 border border-white/20 bg-black/95 p-4 text-white shadow-2xl">
+ <button
+  type="button"
+  onClick={() => setPlayerVisibile(false)}
+  className="absolute -right-3 -top-3 z-20 flex h-9 w-9 items-center justify-center rounded-full border-2 border-yellow-400 bg-black text-xl font-black leading-none text-yellow-400 shadow-lg"
+  aria-label="Chiudi player musicale"
+>
+  ×
+</button>
   <p className="mb-2 text-center text-xs font-black uppercase tracking-widest text-yellow-400">
     La selezione musicale della settimana
   </p>
