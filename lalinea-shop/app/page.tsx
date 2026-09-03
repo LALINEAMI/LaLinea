@@ -806,11 +806,10 @@ return (
     <main onClick={avviaMusica} className="min-h-screen text-white">
   <a
   href="/vip"
-  className="fixed right-4 top-4 z-[9999] bg-yellow-400 px-4 py-3 text-xs font-black uppercase tracking-widest text-black shadow-xl"
+  className="fixed right-20 top-[18px] z-[9999] rounded-full bg-yellow-400 px-3 py-2 text-[10px] font-black uppercase tracking-widest text-black md:right-4 md:top-4 md:px-4 md:py-3 md:text-xs"
 >
-  Area VIP
+  AREA VIP
 </a>
-      
  
 
  <div className="fixed bottom-4 left-1/2 z-[9999] w-[calc(100%-2rem)] max-w-md -translate-x-1/2 border border-white/20 bg-black/95 p-4 text-white shadow-2xl">
@@ -984,23 +983,23 @@ return (
 </section>
    {/* HEADER */}
 <header className="sticky top-0 z-50 border-b border-yellow-400/30 bg-black/95 backdrop-blur">
-  <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+  <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 md:h-auto md:px-6 md:py-4">
     <img
       src="/Threema_2025-12-01_22-11-08 2.PNG"
       alt="LaLinea"
-      className="h-40 w-auto object-contain"
+      className="h-14 w-auto object-contain md:h-40"
     />
 
     <div className="relative">
   {/* BOTTONE MENU SOLO MOBILE */}
   <button
-    type="button"
-    onClick={() => setMenuAperto(!menuAperto)}
-    className="md:hidden border border-yellow-400 px-4 py-3 font-black uppercase text-white"
-  >
-    MENU
-  </button>
-
+  type="button"
+  onClick={() => setMenuAperto(!menuAperto)}
+  aria-label="Apri menu"
+  className="flex h-11 w-11 items-center justify-center rounded-full border border-yellow-400 text-2xl text-yellow-400 md:hidden"
+>
+  ☰
+</button>
   {/* MENU DESKTOP */}
   <nav className="hidden md:flex gap-6 text-lg font-black tracking-widest sm:text-xl">
     <a className="transition hover:text-yellow-400" href="#shop">
