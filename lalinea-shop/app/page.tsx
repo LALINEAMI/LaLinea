@@ -393,6 +393,29 @@ const aggiungiPortachiaviConPunti = () => {
     ];
   });
 };
+const aggiungiCalzeConPunti = () => {
+  setCarrello((prev) => {
+    const esistente = prev.find((item) => item.id === 10003);
+
+    if (esistente) {
+      return prev.map((item) =>
+        item.id === 10003
+          ? { ...item, quantita: item.quantita + 1 }
+          : item
+      );
+    }
+
+    return [
+      ...prev,
+      {
+        id: 10003,
+        nome: "Calze LaLinea - Riscatto 300 punti",
+        prezzo: 0,
+        quantita: 1,
+      },
+    ];
+  });
+};
   const aggiungiOrangeAlCarrello = (grammi: string, prezzo: number) => {
   const id = `orange-${grammi}`;
 
@@ -3470,6 +3493,58 @@ SATIVA:
           Aggiungi con 200 punti
         </button>
       </div>
+    </div>
+  </article>
+)}
+{/* CALZE LALINEA - OMAGGIO VIP */}
+{String(categoriaAttiva).toLowerCase() === "abbigliamento" && (
+  <article className="mx-auto my-10 w-[calc(100%-2rem)] max-w-5xl overflow-hidden border-2 border-yellow-400/60 bg-black text-white">
+    <div className="grid grid-cols-3 gap-2 p-3 md:gap-4 md:p-6">
+      <img
+        src="/products/abbigliamento/calza1.jpg"
+        alt="Calze LaLinea foto 1"
+        className="aspect-square w-full border border-zinc-800 object-cover"
+      />
+
+      <img
+        src="/products/abbigliamento/calza2.jpg"
+        alt="Calze LaLinea foto 2"
+        className="aspect-square w-full border border-zinc-800 object-cover"
+      />
+
+      <img
+        src="/products/abbigliamento/calza3.jpg"
+        alt="Calze LaLinea foto 3"
+        className="aspect-square w-full border border-zinc-800 object-cover"
+      />
+    </div>
+
+    <div className="border-t border-zinc-800 p-5 md:p-7">
+      <p className="text-sm font-black uppercase tracking-[0.3em] text-yellow-400">
+        OMAGGI VIP
+      </p>
+
+      <h3 className="mt-2 text-3xl font-black uppercase">
+        CALZE LALINEA
+      </h3>
+
+      <div className="mt-4 space-y-1">
+        <p className="text-xl font-black text-yellow-400">
+          300 PUNTI
+        </p>
+
+        <p className="font-bold text-zinc-300">
+          In euro: regalo
+        </p>
+      </div>
+
+      <button
+        type="button"
+        onClick={aggiungiCalzeConPunti}
+        className="mt-6 w-full bg-yellow-400 px-5 py-4 text-lg font-black uppercase text-black transition hover:bg-yellow-300"
+      >
+        AGGIUNGI AGLI OMAGGI
+      </button>
     </div>
   </article>
 )}
