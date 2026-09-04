@@ -309,6 +309,42 @@ const [datiCliente, setDatiCliente] = useState({
   indirizzo: "",
 });
 const [orarioConsegna, setOrarioConsegna] = useState("");
+const orariConsegnaDisponibili = [
+  "13:00",
+  "13:15",
+  "13:30",
+  "13:45",
+  "14:00",
+  "19:00",
+  "19:15",
+  "19:30",
+  "19:45",
+  "20:00",
+  "20:15",
+  "20:30",
+  "20:45",
+  "21:00",
+  "21:15",
+  "21:30",
+  "21:45",
+  "22:00",
+  "22:15",
+  "22:30",
+  "22:45",
+  "23:00",
+  "23:15",
+  "23:30",
+  "23:45",
+  "00:00",
+  "00:15",
+  "00:30",
+  "00:45",
+  "01:00",
+  "01:15",
+  "01:30",
+  "01:45",
+  "02:00",
+];
 const [modalitaOrdine, setModalitaOrdine] = useState("");
 const [codiceSconto, setCodiceSconto] = useState("");
 const [scontoPercentuale, setScontoPercentuale] = useState(0);
@@ -3770,12 +3806,30 @@ onChange={(e) => setDatiCliente((prev) => ({ ...prev, indirizzo: e.target.value 
     Orario di consegna
   </label>
 
-  <input
-    type="time"
-    value={orarioConsegna}
-    onChange={(e) => setOrarioConsegna(e.target.value)}
-    className="w-full border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400"
-  />
+  <select
+  value={orarioConsegna}
+  onChange={(event) => setOrarioConsegna(event.target.value)}
+  required
+  className="w-full border border-zinc-700 bg-black px-4 py-3 text-white outline-none focus:border-yellow-400"
+>
+  <option value="">Seleziona un orario</option>
+
+  <optgroup label="Consegne pranzo">
+    {orariConsegnaDisponibili.slice(0, 5).map((orario) => (
+      <option key={orario} value={orario}>
+        {orario}
+      </option>
+    ))}
+  </optgroup>
+
+  <optgroup label="Consegne sera e notte">
+    {orariConsegnaDisponibili.slice(5).map((orario) => (
+      <option key={orario} value={orario}>
+        {orario}
+      </option>
+    ))}
+  </optgroup>
+</select>
 
   <p className="mt-2 text-sm text-zinc-400">
     Indica un orario tra le 13:00 e le 14:00 oppure tra le 19:00 e le 02:00.
