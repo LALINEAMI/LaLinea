@@ -181,7 +181,29 @@ function PlayerMusicale() {
     </div>
   );
 }
-export default function Home() {const [carrello, setCarrello] = useState<
+export default function Home() {
+  const [popupConsegne, setPopupConsegne] = useState<string | null>(null);
+
+  useEffect(() => {
+    const oraItaliana = Number(
+      new Intl.DateTimeFormat("it-IT", {
+        timeZone: "Europe/Rome",
+        hour: "2-digit",
+        hourCycle: "h23",
+      }).format(new Date())
+    );
+
+    if (oraItaliana >= 13 && oraItaliana < 14) {
+      setPopupConsegne("CONSEGNE INIZIATE");
+    } else if (oraItaliana >= 14 && oraItaliana < 19) {
+      setPopupConsegne("LE CONSEGNE RIPRENDONO ALLE ORE 19:00");
+    } else if (oraItaliana >= 19 || oraItaliana < 2) {
+      setPopupConsegne("CONSEGNE IN CORSO");
+    } else {
+      setPopupConsegne("LE CONSEGNE RIPRENDONO ALLE ORE 13:00");
+    }
+  }, []);
+  const [carrello, setCarrello] = useState<
     { id: number; nome: string; prezzo: number; quantita: number }[]
   >([]);
   const totalePrecedente = useRef(0);
@@ -864,6 +886,46 @@ if (caricamentoIniziale) {
 
 return (
     <main onClick={avviaMusica} className="min-h-screen text-white">
+      {popupConsegne && (
+        <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/80 px-4">
+          <div
+            role="dialog"
+            aria-modal="true"
+            className="relative w-full max-w-lg border-2 border-yellow-400 bg-zinc-950 px-6 py-12 text-center shadow-2xl"
+          >
+            <button
+              type="button"
+              onClick={(evento) => {
+                evento.stopPropagation();
+                setPopupConsegne(null);
+              }}
+              aria-label="Chiudi popup"
+              className="absolute right-4 top-4 flex h-12 w-12 items-center justify-center rounded-full border-2 border-yellow-400 text-3xl font-black text-yellow-400"
+            >
+              ×
+            </button>
+
+            <p className="text-sm font-black uppercase tracking-[0.3em] text-yellow-400">
+              LALINEA
+            </p>
+
+            <h2 className="mt-5 text-3xl font-black uppercase text-white md:text-4xl">
+              {popupConsegne}
+            </h2>
+
+            <button
+              type="button"
+              onClick={(evento) => {
+                evento.stopPropagation();
+                setPopupConsegne(null);
+              }}
+              className="mt-8 bg-yellow-400 px-8 py-4 font-black uppercase text-black"
+            >
+              Entra nel sito
+            </button>
+          </div>
+        </div>
+      )}
   <a
   href="/vip"
   className="fixed right-20 top-[18px] z-[9999] rounded-full bg-yellow-400 px-3 py-2 text-[10px] font-black uppercase tracking-widest text-black md:right-4 md:top-4 md:px-4 md:py-3 md:text-xs"
