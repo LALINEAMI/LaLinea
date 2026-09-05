@@ -1680,7 +1680,148 @@ return (
 </div>
     </div>
   </div>
+{/* VOLTUS Z */}
+<div className="mt-10">
+  <div className="border border-yellow-400/40 bg-black/80 p-5">
+    <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+      Premium Filtred
+    </p>
 
+    <h3 className="mt-2 text-3xl font-black uppercase text-white">
+      VOLTUS Z
+    </h3>
+
+    <p className="mt-1 font-bold uppercase text-zinc-400">
+      BILANCIAMENTO: 60% Indica e 40% Sativa
+      <br />
+      EDIZIONE LIMITATA PRODOTTA DA GREATFULL SEED
+      <br />
+      INCROCIO: Key Lime Peach Sunset Z &amp; Head 6
+    </p>
+
+    {/* VIDEO + FOTO */}
+    <div className="mt-6 flex items-start gap-4">
+      <video
+        src="/products/premium-filtred/voltus.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="w-1/4 aspect-square object-cover flex-shrink-0"
+      />
+
+      <div className="flex-1 grid grid-cols-2 gap-3 md:grid-cols-3">
+        <img
+          src="/products/premium-filtred/voltus1.jpg"
+          alt="Voltus Z 1"
+          className="w-full aspect-square object-cover"
+        />
+
+        <img
+          src="/products/premium-filtred/voltus2.jpg"
+          alt="Voltus Z 2"
+          className="w-full aspect-square object-cover"
+        />
+
+        <img
+          src="/products/premium-filtred/voltus3.jpg"
+          alt="Voltus Z 3"
+          className="w-full aspect-square object-cover"
+        />
+
+        <img
+          src="/products/premium-filtred/voltus4.jpg"
+          alt="Voltus Z 4"
+          className="w-full aspect-square object-cover"
+        />
+
+        <img
+          src="/products/premium-filtred/voltus5.jpg"
+          alt="Voltus Z 5"
+          className="w-full aspect-square object-cover"
+        />
+
+        <img
+          src="/products/premium-filtred/voltus6.jpg"
+          alt="Voltus Z 6"
+          className="w-full aspect-square object-cover"
+        />
+      </div>
+    </div>
+
+    {/* QUANTITÀ */}
+    <div className="mt-6">
+      <p className="mb-3 font-bold uppercase text-white">
+        Seleziona quantità
+      </p>
+
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        {[
+          { grammi: "5G", prezzo: 35 },
+          { grammi: "10G", prezzo: 65 },
+          { grammi: "25G", prezzo: 150 },
+          { grammi: "50G", prezzo: 220 },
+          { grammi: "100G", prezzo: 400 },
+          { grammi: "500G", prezzo: 1900 },
+          { grammi: "1K", prezzo: 2900 },
+        ].map((opzione) => (
+          <button
+            key={opzione.grammi}
+            type="button"
+            onClick={() => {
+              const id = `voltus-z-${opzione.grammi}`;
+
+              setCarrello((prev) => {
+                const esistente = prev.find(
+                  (item) => String(item.id) === id
+                );
+
+                if (esistente) {
+                  return prev.map((item) =>
+                    String(item.id) === id
+                      ? {
+                          ...item,
+                          quantita: item.quantita + 1,
+                        }
+                      : item
+                  );
+                }
+
+                return [
+                  ...prev,
+                  {
+                    id: id as any,
+                    nome: `Voltus Z ${opzione.grammi}`,
+                    prezzo: opzione.prezzo,
+                    quantita: 1,
+                  },
+                ];
+              });
+            }}
+            className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center"
+          >
+            <p className="text-xl font-black text-white">
+              {opzione.grammi}
+            </p>
+
+            <p className="mt-3 text-xl font-black text-yellow-400">
+              {opzione.prezzo} €
+            </p>
+
+            <p className="mt-2 text-xs font-black uppercase text-white">
+              Aggiungi al carrello
+            </p>
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <p className="mt-4 text-sm font-bold uppercase text-zinc-400">
+      Per quantità maggiori, contattare in privato. Nella sezione Contatti
+      troverete tutte le info.
+    </p>
+  </div>
+</div>
   {/* LEMON CHERRY GELATO - MAGIC MOUNTAIN FARMERS */}
 <div className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
   <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
