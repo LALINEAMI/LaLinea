@@ -5,13 +5,23 @@ import { getSupabaseAdmin } from "../../../../lib/supabaseAdmin";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+const costiPremi: Record<string, number> = {
+  "10001": 200,
+  "10003": 300,
+  "300060": 1000,
+  "300120": 2500,
+  "300275": 5500,
+  "300550": 10000,
+  "301200": 20000,
+};
+
 export async function POST(request: Request) {
   try {
     const dati = await request.json();
 
     const telefono = String(dati.telefono || "").trim();
     const pin = String(dati.pin || "").trim();
-    const quantita = Number(dati.quantita);
+    const premi = Array.isArray(dati.premi) ? dati.premi : [];
 
     if (!telefono || !pin) {
       return NextResponse.json(
@@ -20,25 +30,42 @@ export async function POST(request: Request) {
       );
     }
 
-    if (
-      !Number.isInteger(quantita) ||
-      quantita < 1 ||
-      quantita > 10
-    ) {
+    if (premi.length === 0) {
       return NextResponse.json(
-        { error: "Quantità non valida" },
+        { error: "Nessun premio selezionato" },
         { status: 400 }
       );
     }
 
+    let puntiRichiesti = 0;
+
+    for (const premio of premi) {
+      const id = String(premio.id);
+      const quantita = Number(premio.quantita);
+      const costoUnitario = costiPremi[id];
+
+      if (
+        !costoUnitario ||
+        !Number.isInteger(quantita) ||
+        quantita < 1 ||
+        quantita > 10
+      ) {
+        return NextResponse.json(
+          { error: "Premio o quantità non validi" },
+          { status: 400 }
+        );
+      }
+
+      puntiRichiesti += costoUnitario * quantita;
+    }
+
     const supabase = getSupabaseAdmin();
 
-    const { data: cliente, error: erroreCliente } =
-      await supabase
-        .from("vip_customers")
-        .select("id, pin_hash, punti")
-        .eq("telefono", telefono)
-        .maybeSingle();
+    const { data: cliente, error: erroreCliente } = await supabase
+      .from("vip_customers")
+      .select("id, punti, pin_hash")
+      .eq("telefono", telefono)
+      .maybeSingle();
 
     if (erroreCliente) {
       throw new Error(erroreCliente.message);
@@ -51,10 +78,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const pinCorretto = await bcrypt.compare(
-      pin,
-      cliente.pin_hash
-    );
+    const pinCorretto = await bcrypt.compare(pin, cliente.pin_hash);
 
     if (!pinCorretto) {
       return NextResponse.json(
@@ -64,12 +88,11 @@ export async function POST(request: Request) {
     }
 
     const puntiAttuali = Number(cliente.punti ?? 0);
-    const puntiRichiesti = 500 * quantita;
 
     if (puntiAttuali < puntiRichiesti) {
       return NextResponse.json(
         {
-          error: `Punti insufficienti. Disponibili: ${puntiAttuali}, necessari: ${puntiRichiesti}`,
+          error: `Punti insufficienti. Disponibili ${puntiAttuali}, necessari ${puntiRichiesti}`,
         },
         { status: 400 }
       );
@@ -95,8 +118,7 @@ export async function POST(request: Request) {
     if (!clienteAggiornato) {
       return NextResponse.json(
         {
-          error:
-            "Il saldo punti è appena cambiato. Riprova.",
+          error: "Il saldo punti è appena cambiato. Riprova.",
         },
         { status: 409 }
       );

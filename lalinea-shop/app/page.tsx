@@ -474,7 +474,61 @@ const aggiungiCalzeConPunti = () => {
     ];
   });
 };
-  const aggiungiOrangeAlCarrello = (grammi: string, prezzo: number) => {
+  const aggiungiGiftCardEuro = (prezzo: number, valore: number) => {
+    const id = 200000 + valore;
+
+    setCarrello((prev) => {
+      const esistente = prev.find((item) => item.id === id);
+
+      if (esistente) {
+        return prev.map((item) =>
+          item.id === id
+            ? { ...item, quantita: item.quantita + 1 }
+            : item
+        );
+      }
+
+      return [
+        ...prev,
+        {
+          id,
+          nome: `Gift Card LaLinea ${prezzo} € - Valore ${valore} €`,
+          prezzo,
+          quantita: 1,
+        },
+      ];
+    });
+  };
+
+  const aggiungiGiftCardConPunti = (
+    valore: number,
+    punti: number
+  ) => {
+    const id = 300000 + valore;
+
+    setCarrello((prev) => {
+      const esistente = prev.find((item) => item.id === id);
+
+      if (esistente) {
+        return prev.map((item) =>
+          item.id === id
+            ? { ...item, quantita: item.quantita + 1 }
+            : item
+        );
+      }
+
+      return [
+        ...prev,
+        {
+          id,
+          nome: `Gift Card LaLinea valore ${valore} € - Riscatto ${punti} punti`,
+          prezzo: 0,
+          quantita: 1,
+        },
+      ];
+    });
+  };
+const aggiungiOrangeAlCarrello = (grammi: string, prezzo: number) => {
   const id = `orange-${grammi}`;
 
   setCarrello((prev) => {
@@ -748,57 +802,68 @@ Totale prodotti: ${totaleCarrello} €
 Consegna: ${costoConsegna} €
 TOTALE ORDINE: ${totaleOrdine} €
   `.trim();
-const coverConPunti = carrello.find(
-  (item) => item.id === 10001
-);
-
-if (coverConPunti) {
-  const pinVip = window.prompt(
-    "Inserisci il PIN VIP per riscattare la cover"
-  );
-
-  if (!pinVip) {
-    window.alert("Riscatto annullato: PIN mancante");
-    return;
-  }
-
-  try {
-    const rispostaRiscatto = await fetch(
-      "/api/vip/redeem",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          telefono: datiCliente.telefono,
-          pin: pinVip,
-          quantita: coverConPunti.quantita,
-        }),
-      }
+const premiConPunti = carrello.filter((item) =>
+      [
+        10001,
+        10003,
+        300060,
+        300120,
+        300275,
+        300550,
+        301200,
+      ].includes(Number(item.id))
     );
 
-    const risultatoRiscatto =
-      await rispostaRiscatto.json();
-
-    if (!rispostaRiscatto.ok) {
-      window.alert(
-        risultatoRiscatto.error ||
-          "Impossibile riscattare la cover"
+    if (premiConPunti.length > 0) {
+      const pinVip = window.prompt(
+        "Inserisci il PIN VIP per riscattare i premi"
       );
-      return;
-    }
 
-    window.alert(
-      `Cover riscattata. Punti rimasti: ${risultatoRiscatto.puntiResidui}`
-    );
-  } catch {
-    window.alert(
-      "Errore di collegamento durante il riscatto"
-    );
-    return;
-  }
-}
+      if (!pinVip) {
+        window.alert("Riscatto annullato: PIN mancante");
+        return;
+      }
+
+      try {
+        const rispostaRiscatto = await fetch(
+          "/api/vip/redeem",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              telefono: datiCliente.telefono,
+              pin: pinVip,
+              premi: premiConPunti.map((item) => ({
+                id: Number(item.id),
+                quantita: item.quantita,
+              })),
+            }),
+          }
+        );
+
+        const risultatoRiscatto =
+          await rispostaRiscatto.json();
+
+        if (!rispostaRiscatto.ok) {
+          window.alert(
+            risultatoRiscatto.error ||
+              "Impossibile riscattare i premi"
+          );
+          return;
+        }
+
+        window.alert(
+          `Premi riscattati. Punti utilizzati: ${risultatoRiscatto.puntiUtilizzati}. Punti rimasti: ${risultatoRiscatto.puntiResidui}`
+        );
+      } catch {
+        window.alert(
+          "Errore di collegamento durante il riscatto"
+        );
+        return;
+      }
+    }
   const testo = encodeURIComponent(messaggio);
 await fetch("/api/vip/order", {
   method: "POST",
@@ -3787,6 +3852,106 @@ SATIVA:
     </div>
   </article>
 )}
+{/* GIFT CARD */}
+      <details
+        id="gift-card"
+        className="group mt-8 border border-yellow-400/50 bg-black"
+      >
+        <summary className="cursor-pointer list-none px-5 py-5">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <p className="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.3em] text-yellow-400">
+  Categoria
+  <span className="rounded-full bg-yellow-400 px-3 py-1 font-black tracking-normal text-black">
+    Nuova
+  </span>
+</p>
+
+              <h2 className="mt-1 text-2xl font-black uppercase text-white">
+                Gift Card LaLinea
+              </h2>
+            </div>
+
+            <span className="shrink-0 border border-yellow-400 px-4 py-2 text-sm font-black uppercase text-yellow-400">
+              <span className="group-open:hidden">
+                Apri categoria +
+              </span>
+
+              <span className="hidden group-open:inline">
+                Chiudi −
+              </span>
+            </span>
+          </div>
+        </summary>
+
+        <div className="border-t border-yellow-400/30 p-5">
+          <p className="text-center font-bold text-zinc-400">
+            Acquista con euro oppure riscatta con i punti VIP. Il codice
+            verrà inviato dopo la conferma dell’ordine.
+          </p>
+
+          <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {[
+              { prezzo: 50, valore: 60, punti: 1000 },
+              { prezzo: 100, valore: 120, punti: 2500 },
+              { prezzo: 250, valore: 275, punti: 5500 },
+              { prezzo: 500, valore: 550, punti: 10000 },
+              { prezzo: 1000, valore: 1200, punti: 20000 },
+            ].map((giftCard) => (
+              <article
+                key={giftCard.valore}
+                className="flex flex-col border border-zinc-800 bg-zinc-950 p-4"
+              >
+                <p className="text-xs font-bold uppercase text-yellow-400">
+                  Gift Card
+                </p>
+
+                <h3 className="mt-2 text-2xl font-black text-white">
+                  Paghi {giftCard.prezzo.toLocaleString("it-IT")} €
+                </h3>
+
+                <p className="mt-2 text-lg font-black text-yellow-400">
+                  Valore {giftCard.valore.toLocaleString("it-IT")} €
+                </p>
+
+                <p className="mt-2 text-sm font-bold text-zinc-400">
+                  Oppure {giftCard.punti.toLocaleString("it-IT")} punti
+                  LaLinea
+                </p>
+
+                <div className="mt-auto grid grid-cols-1 gap-2 pt-5">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      aggiungiGiftCardEuro(
+                        giftCard.prezzo,
+                        giftCard.valore
+                      )
+                    }
+                    className="w-full bg-yellow-400 px-4 py-3 font-black uppercase text-black"
+                  >
+                    Acquista con €
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      aggiungiGiftCardConPunti(
+                        giftCard.valore,
+                        giftCard.punti
+                      )
+                    }
+                    className="w-full border border-yellow-400 px-4 py-3 font-black uppercase text-yellow-400"
+                  >
+                    Riscatta con punti
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </details>
+
         {/* CARRELLO */}
         <div className="mt-12 border border-yellow-400 bg-black p-6">
           <div className="flex items-center justify-between">
