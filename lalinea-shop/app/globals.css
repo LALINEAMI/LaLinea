@@ -43,42 +43,37 @@ main section {
 main article {
   background-color: rgba(0, 0, 0, 0.55) !important;
 }
-main {
-  background-image: url("/lalinea.jpg") !important;
-  background-size: cover !important;
-  background-position: center !important;
-  background-repeat: no-repeat !important;
-  background-attachment: fixed !important;
+/* Unico sfondo fisso per desktop, smartphone e tablet */
+body {
+  min-height: 100%;
+  position: relative;
+  overflow-x: hidden;
+  background-color: #000 !important;
 }
-/* Sfondo più scuro per rendere leggibili le scritte */
-main {
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: 0;
+  pointer-events: none;
+
   background-image:
     linear-gradient(
       rgba(0, 0, 0, 0.55),
       rgba(0, 0, 0, 0.55)
     ),
-    url("/lalinea.jpg") !important;
+    url("/lalinea.jpg");
+
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
 }
 
-/* Contorno alle scritte del sito */
-body,
-body * {
-  text-shadow:
-    -1px -1px 0 #000,
-     1px -1px 0 #000,
-    -1px  1px 0 #000,
-     1px  1px 0 #000,
-     0    2px 3px #000;
-}
-@media (max-width: 768px) {
-  main {
-    background-attachment: scroll !important;
-    background-position: center center !important;
-    background-size: cover !important;
-  }
-}
-/* Mantiene nitide le scritte nere sui pulsanti chiari */
-.text-black,
-.text-black * {
-  text-shadow: none;
+body > * {
+  position: relative;
+  z-index: 1;
 }
