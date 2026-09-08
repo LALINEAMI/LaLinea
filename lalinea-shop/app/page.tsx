@@ -9,11 +9,11 @@ const prodotti = [
 ];
 function PlayerMusicale() {
   const canzoni = [
-    { titolo: "PARLU", artista: "LA REFLVENZE", file: "/canzone.mp3" },
-    { titolo: "MOLLY", artista: "GAZO", file: "/canzone2.mp3" },
-    { titolo: "BIG 7", artista: "BURNA BOY", file: "/canzone3.mp3" },
-    { titolo: "STOP DIE", artista: "BURNA BOY", file: "/canzone4.mp3" },
-    { titolo: "BORA BORA", artista: "SKINNY FLEX", file: "/canzone5.mp3" },
+    { titolo: "LOVE YOU", artista: "NONO LA GRINTA", file: "/canzone.mp3" },
+    { titolo: "ESTAMOS GUCCI", artista: "SKYNNY FLEX", file: "/canzone2.mp3" },
+    { titolo: "SAY WHEN", artista: "FETTY WAP", file: "/canzone3.mp3" },
+    { titolo: "UZI", artista: "JUL", file: "/canzone4.mp3" },
+    { titolo: "WAGWAN", artista: "CENTRAL CEE", file: "/canzone5.mp3" },
     { titolo: "DUBAI", artista: "SKINNY FLEX", file: "/canzone6.mp3" },
   ];
 
