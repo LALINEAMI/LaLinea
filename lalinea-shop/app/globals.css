@@ -43,3 +43,42 @@ main section {
 main article {
   background-color: rgba(0, 0, 0, 0.55) !important;
 }
+main {
+  background-image: url("/lalinea.jpg") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+}
+/* Sfondo più scuro per rendere leggibili le scritte */
+main {
+  background-image:
+    linear-gradient(
+      rgba(0, 0, 0, 0.55),
+      rgba(0, 0, 0, 0.55)
+    ),
+    url("/lalinea.jpg") !important;
+}
+
+/* Contorno alle scritte del sito */
+body,
+body * {
+  text-shadow:
+    -1px -1px 0 #000,
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     1px  1px 0 #000,
+     0    2px 3px #000;
+}
+@media (max-width: 768px) {
+  main {
+    background-attachment: scroll !important;
+    background-position: center center !important;
+    background-size: cover !important;
+  }
+}
+/* Mantiene nitide le scritte nere sui pulsanti chiari */
+.text-black,
+.text-black * {
+  text-shadow: none;
+}
