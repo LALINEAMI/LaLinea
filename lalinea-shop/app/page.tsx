@@ -1185,170 +1185,121 @@ return (
       className="h-14 w-auto object-contain md:h-40"
     />
 
-    <div className="relative">
-  {/* BOTTONE MENU SOLO MOBILE */}
-  <button
-  type="button"
-  onClick={() => setMenuAperto(!menuAperto)}
-  aria-label="Apri menu"
-  className="flex h-11 w-11 items-center justify-center rounded-full border border-yellow-400 text-2xl text-yellow-400 md:hidden"
->
-  ☰
-</button>
-  {/* MENU DESKTOP */}
-  <nav className="hidden md:flex gap-6 text-lg font-black tracking-widest sm:text-xl">
-    <a className="transition hover:text-yellow-400" href="#shop">
-      SHOP
-    </a>
+    <button
+      type="button"
+      onClick={() => setMenuAperto(true)}
+      aria-label="Apri menu"
+      aria-haspopup="dialog"
+      aria-expanded={menuAperto}
+      className="h-11 rounded-full border border-yellow-400 px-4 font-black text-yellow-400 md:hidden"
+    >
+      ☰ MENU
+    </button>
 
-    <a className="transition hover:text-yellow-400" href="#tracking">
-  TRACKING
-</a>
-
-<a className="transition hover:text-yellow-400" href="#promo">
-  LE PROMO
-</a>
-<a
-  className="transition hover:text-yellow-400"
-  href="#dicono-di-noi"
-  onClick={(event) => {
-    event.preventDefault();
-    setRecensioniAperte(true);
-
-    document
-      .getElementById("dicono-di-noi")
-      ?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-  }}
->
-  DICONO DI NOI
-</a>
-    <a className="transition hover:text-yellow-400" href="#point">
-      I NOSTRI POINT
-    </a>
-
-    <a className="transition hover:text-yellow-400" href="#delivery">
-      DELIVERY
-    </a>
-
-    <a className="transition hover:text-yellow-400" href="#contatti">
-      CONTATTI
-    </a>
-  </nav>
-
- 
-</div>
-</div>
+    <nav className="hidden flex-wrap items-center justify-end gap-6 text-lg font-black tracking-widest md:flex">
+      <button type="button" onClick={() => setMenuAperto(true)} className="hover:text-yellow-400">
+        SHOP ▾
+      </button>
+      {[
+        ["tracking", "TRACKING"],
+        ["promo", "LE PROMO"],
+        ["dicono-di-noi", "DICONO DI NOI"],
+        ["point", "I NOSTRI POINT"],
+        ["delivery", "DELIVERY"],
+        ["contatti", "CONTATTI"],
+      ].map(([id, titolo]) => (
+        <a key={id} href={`#${id}`} onClick={() => {
+          if (id === "dicono-di-noi") setRecensioniAperte(true);
+        }} className="hover:text-yellow-400">
+          {titolo}
+        </a>
+      ))}
+    </nav>
+  </div>
 </header>
 
-{/* MENU MOBILE */}
 {menuAperto && (
-  <div className="fixed inset-0 z-[99999] overflow-hidden bg-black/80 px-4 pt-[17vh] backdrop-blur-md md:hidden">
-    <div className="mx-auto w-full max-w-md overflow-hidden rounded-[20px] border border-yellow-400/70 bg-zinc-950">
-      <div className="flex items-center justify-between border-b border-zinc-800 px-5 py-4">
-        <div>
-          <p className="text-sm font-black uppercase tracking-[0.3em] text-yellow-400">
-            LALINEA
-          </p>
-
-          <p className="mt-1 text-lg font-black text-white">
-            Scegli una sezione
-          </p>
-        </div>
-
-        <button
-          type="button"
-          onClick={() => setMenuAperto(false)}
-          className="flex h-12 w-12 items-center justify-center rounded-full border border-zinc-700 text-3xl font-black text-white"
-        >
-          ×
-        </button>
-      </div>
-
-      <nav className="grid grid-cols-2">
-        <button
-          type="button"
-          onClick={() => {
-            setMenuAperto(false);
-            setSnakeAperto(true);
-          }}
-          className="border-b border-r border-zinc-800 px-6 py-5 text-left text-base font-black uppercase text-white"
-        >
-          GIOCA
-        </button>
-
-        <a
-          href="#shop"
-          onClick={() => setMenuAperto(false)}
-          className="border-b border-zinc-800 px-6 py-5 text-left text-base font-black uppercase text-white"
-        >
-          SHOP
-        </a>
-
-        <a
-          href="#promo"
-          onClick={() => setMenuAperto(false)}
-          className="border-b border-r border-zinc-800 px-6 py-5 text-left text-base font-black uppercase text-white"
-        >
-          LE PROMO
-        </a>
-
-        <a
-          href="#tracking"
-          onClick={() => setMenuAperto(false)}
-          className="border-b border-zinc-800 px-6 py-5 text-left text-base font-black uppercase text-white"
-        >
-          TRACKING
-        </a>
-
-        <button
-          type="button"
-          onClick={() => {
-            setMenuAperto(false);
-            setRecensioniAperte(true);
-
-            setTimeout(() => {
-              document
-                .getElementById("dicono-di-noi")
-                ?.scrollIntoView({
-                  behavior: "smooth",
-                  block: "start",
-                });
-            }, 50);
-          }}
-          className="border-b border-r border-zinc-800 px-6 py-5 text-left text-base font-black uppercase text-white"
-        >
-          RECENSIONI
-        </button>
-
-        <a
-          href="#point"
-          onClick={() => setMenuAperto(false)}
-          className="border-b border-zinc-800 px-6 py-5 text-left text-base font-black uppercase text-white"
-        >
-          I NOSTRI POINT
-        </a>
-
-        <a
-          href="#delivery"
-          onClick={() => setMenuAperto(false)}
-          className="border-r border-zinc-800 px-6 py-5 text-left text-base font-black uppercase text-white"
-        >
-          DELIVERY
-        </a>
-
-        <a
-          href="#contatti"
-          onClick={() => setMenuAperto(false)}
-          className="px-6 py-5 text-left text-base font-black uppercase text-white"
-        >
-          CONTATTI
-        </a>
-      </nav>
+  <dialog
+    ref={(elemento) => {
+      if (elemento && !elemento.open) elemento.showModal();
+    }}
+    onCancel={() => setMenuAperto(false)}
+    onClose={() => setMenuAperto(false)}
+    onClick={(evento) => {
+      if (evento.target === evento.currentTarget) evento.currentTarget.close();
+    }}
+    aria-label="Menu LaLinea"
+    className="m-auto w-[calc(100%-2rem)] max-w-lg overflow-y-auto overscroll-contain rounded-2xl border border-yellow-400 bg-zinc-950 p-4 text-white backdrop:bg-black/80"
+    style={{ maxHeight: "calc(100dvh - 2rem)" }}
+  >
+    <div className="mb-4 flex items-center justify-between gap-3">
+      <h2 className="text-xl font-black text-yellow-400">MENU LALINEA</h2>
+      <form method="dialog">
+        <button aria-label="Chiudi menu" className="h-11 w-11 rounded-full border border-zinc-600 text-2xl">×</button>
+      </form>
     </div>
-  </div>
+
+    <p className="mb-3 text-sm font-black text-yellow-400">CATEGORIE SHOP</p>
+    <div className="grid grid-cols-2 gap-2">
+      {[
+        "Premium Filtred", "Frozen e Static", "Rosin & Pen", "Flowers",
+        "Other", "Gadget", "Abbigliamento", "Gift Card",
+      ].map((categoria) => (
+        <button
+          key={categoria}
+          type="button"
+          onClick={(evento) => {
+            setCategoriaAttiva(categoria === "Gift Card" ? "" : categoria);
+            evento.currentTarget.closest("dialog")?.close();
+            setMenuAperto(false);
+            requestAnimationFrame(() => {
+              const gift = document.querySelector<HTMLDetailsElement>("#gift-card");
+              if (gift) gift.open = categoria === "Gift Card";
+              const sezione = document.getElementById(categoria === "Gift Card" ? "gift-card" : "shop");
+              if (sezione) {
+                sezione.style.scrollMarginTop = `${document.querySelector("header")?.offsetHeight || 0}px`;
+                sezione.scrollIntoView({ behavior: "auto", block: "start" });
+              }
+            });
+          }}
+          className="min-h-12 min-w-0 rounded-lg border border-zinc-700 bg-black px-3 py-3 text-left text-xs font-black uppercase [overflow-wrap:anywhere] hover:border-yellow-400 sm:text-sm"
+        >
+          {categoria}
+          {categoria === "Gift Card" && <span className="ml-2 inline-block rounded-full bg-yellow-400 px-2 py-1 text-[10px] text-black">NUOVA</span>}
+        </button>
+      ))}
+    </div>
+
+    <p className="mb-3 mt-5 text-sm font-black text-yellow-400">SERVIZI</p>
+    <div className="grid grid-cols-2 gap-2">
+      {[
+        ["promo", "Le promo"], ["tracking", "Tracking"],
+        ["dicono-di-noi", "Recensioni"], ["point", "I nostri point"],
+        ["delivery", "Delivery"], ["contatti", "Contatti"],
+      ].map(([id, titolo]) => (
+        <button key={id} type="button" onClick={(evento) => {
+          if (id === "dicono-di-noi") setRecensioniAperte(true);
+          evento.currentTarget.closest("dialog")?.close();
+          setMenuAperto(false);
+          requestAnimationFrame(() => {
+            const sezione = document.getElementById(id);
+            if (sezione) {
+              sezione.style.scrollMarginTop = `${document.querySelector("header")?.offsetHeight || 0}px`;
+              sezione.scrollIntoView({ behavior: "auto", block: "start" });
+            }
+          });
+        }} className="min-h-11 rounded-lg border border-zinc-700 bg-black px-3 py-3 text-left text-sm font-bold hover:border-yellow-400">
+          {titolo}
+        </button>
+      ))}
+      <button type="button" onClick={(evento) => {
+        evento.currentTarget.closest("dialog")?.close();
+        setMenuAperto(false);
+        setSnakeAperto(true);
+      }} className="min-h-11 rounded-lg border border-zinc-700 bg-black px-3 py-3 text-left text-sm font-bold">Gioca</button>
+      <a href="/vip" className="min-h-11 rounded-lg bg-yellow-400 px-3 py-3 text-sm font-black text-black">Area VIP</a>
+    </div>
+  </dialog>
 )}
       {/* MARQUEE */}
       <section className="overflow-hidden bg-yellow-400 py-4 text-black">
