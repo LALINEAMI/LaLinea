@@ -1229,8 +1229,8 @@ return (
       if (evento.target === evento.currentTarget) evento.currentTarget.close();
     }}
     aria-label="Menu LaLinea"
-    className="m-auto w-[calc(100%-2rem)] max-w-lg overflow-y-auto overscroll-contain rounded-2xl border border-yellow-400 bg-zinc-950 p-4 text-white backdrop:bg-black/80"
-    style={{ maxHeight: "calc(100dvh - 2rem)" }}
+    className="m-auto w-[calc(100%-2rem)] max-w-lg overflow-hidden rounded-2xl border border-yellow-400 bg-zinc-950 p-4 text-white backdrop:bg-black/80"
+    style={{ maxHeight: "none)" }}
   >
     <div className="mb-4 flex items-center justify-between gap-3">
       <h2 className="text-xl font-black text-yellow-400">MENU LALINEA</h2>
