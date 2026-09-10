@@ -1290,19 +1290,29 @@ return (
           key={categoria}
           type="button"
           onClick={(evento) => {
-            setCategoriaAttiva(categoria === "Gift Card" ? "" : categoria);
-            evento.currentTarget.closest("dialog")?.close();
-            setMenuAperto(false);
-            requestAnimationFrame(() => {
-              const gift = document.querySelector<HTMLDetailsElement>("#gift-card");
-              if (gift) gift.open = categoria === "Gift Card";
-              const sezione = document.getElementById(categoria === "Gift Card" ? "gift-card" : "shop");
-              if (sezione) {
-                sezione.style.scrollMarginTop = `${document.querySelector("header")?.offsetHeight || 0}px`;
-                sezione.scrollIntoView({ behavior: "auto", block: "start" });
-              }
-            });
-          }}
+  setCategoriaAttiva(categoria === "Gift Card" ? "" : categoria);
+
+  evento.currentTarget.closest("dialog")?.close();
+  setMenuAperto(false);
+
+  setTimeout(() => {
+    const gift = document.querySelector<HTMLDetailsElement>("#gift-card");
+
+    if (categoria === "Gift Card") {
+      if (gift) gift.open = true;
+      document.getElementById("gift-card")?.scrollIntoView({
+        behavior: "auto",
+        block: "start",
+      });
+    } else {
+      if (gift) gift.open = false;
+      document.getElementById("shop")?.scrollIntoView({
+        behavior: "auto",
+        block: "start",
+      });
+    }
+  }, 50);
+}}
           className="min-h-12 min-w-0 rounded-lg border border-zinc-700 bg-black px-3 py-3 text-left text-xs font-black uppercase [overflow-wrap:anywhere] hover:border-yellow-400 sm:text-sm"
         >
           {categoria}
