@@ -1194,7 +1194,48 @@ return (
       className="h-11 rounded-full border border-yellow-400 px-4 font-black text-yellow-400 md:hidden"
     >
       ☰ MENU
-    </button>
+    </button><button
+  type="button"
+  onClick={() => {
+    setMenuAperto(false);
+
+    const carrello = Array.from(document.querySelectorAll("div")).find(
+      (elemento) =>
+        elemento.className.includes("mt-12") &&
+        elemento.className.includes("border-yellow-400") &&
+        elemento.className.includes("bg-black") &&
+        elemento.className.includes("p-6")
+    );
+
+    if (carrello) {
+      carrello.scrollIntoView({
+        behavior: "auto",
+        block: "start",
+      });
+    }
+  }}
+  aria-label="Apri carrello"
+  className="flex h-11 items-center gap-2 rounded-xl border-2 border-green-300 bg-green-500 px-4 font-black text-black shadow-lg shadow-green-500/30 md:hidden"
+>
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    className="h-6 w-6"
+    aria-hidden="true"
+  >
+    <circle cx="9" cy="20" r="1" />
+    <circle cx="19" cy="20" r="1" />
+    <path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 2-1.6L21 8H7" />
+  </svg>
+
+  <span>CARRELLO</span>
+
+  <span className="rounded-full bg-black px-2 py-0.5 text-xs text-green-400">
+    {carrello.reduce((totale, item) => totale + item.quantita, 0)}
+  </span>
+</button>
 
     <nav className="hidden flex-wrap items-center justify-end gap-6 text-lg font-black tracking-widest md:flex">
       <button type="button" onClick={() => setMenuAperto(true)} className="hover:text-yellow-400">
@@ -1258,7 +1299,7 @@ return (
               const sezione = document.getElementById(categoria === "Gift Card" ? "gift-card" : "shop");
               if (sezione) {
                 sezione.style.scrollMarginTop = `${document.querySelector("header")?.offsetHeight || 0}px`;
-                sezione.scrollIntoView({ behavior: "auto", block: "start" });
+                if (!window.matchMedia("(max-width: 1023px)").matches) sezione.scrollIntoView({ behavior: "auto", block: "start" });
               }
             });
           }}
@@ -1285,7 +1326,7 @@ return (
             const sezione = document.getElementById(id);
             if (sezione) {
               sezione.style.scrollMarginTop = `${document.querySelector("header")?.offsetHeight || 0}px`;
-              sezione.scrollIntoView({ behavior: "auto", block: "start" });
+             if (!window.matchMedia("(max-width: 1023px)").matches) sezione.scrollIntoView({ behavior: "auto", block: "start" });
             }
           });
         }} className="min-h-11 rounded-lg border border-zinc-700 bg-black px-3 py-3 text-left text-sm font-bold hover:border-yellow-400">
