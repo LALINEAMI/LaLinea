@@ -1299,7 +1299,7 @@ return (
               const sezione = document.getElementById(categoria === "Gift Card" ? "gift-card" : "shop");
               if (sezione) {
                 sezione.style.scrollMarginTop = `${document.querySelector("header")?.offsetHeight || 0}px`;
-                if (!window.matchMedia("(max-width: 1023px)").matches) sezione.scrollIntoView({ behavior: "auto", block: "start" });
+                sezione.scrollIntoView({ behavior: "auto", block: "start" });
               }
             });
           }}
@@ -1326,7 +1326,7 @@ return (
             const sezione = document.getElementById(id);
             if (sezione) {
               sezione.style.scrollMarginTop = `${document.querySelector("header")?.offsetHeight || 0}px`;
-             if (!window.matchMedia("(max-width: 1023px)").matches) sezione.scrollIntoView({ behavior: "auto", block: "start" });
+             sezione.scrollIntoView({ behavior: "auto", block: "start" });
             }
           });
         }} className="min-h-11 rounded-lg border border-zinc-700 bg-black px-3 py-3 text-left text-sm font-bold hover:border-yellow-400">
