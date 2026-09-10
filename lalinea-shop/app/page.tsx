@@ -1013,7 +1013,7 @@ return (
   </p>
 
   <p data-titolo-canzone className="mb-3 text-center text-sm font-bold">
-    PARLU — LA REFLVENZE
+    LOVE YOU — NONO LA GRINTA
   </p>
 
   <audio
@@ -1024,11 +1024,11 @@ return (
     className="w-full"
     onEnded={(evento) => {
       const canzoni = [
-        { titolo: "PARLU — LA REFLVENZE", file: "/canzone.mp3" },
-        { titolo: "MOLLY — GAZO", file: "/canzone2.mp3" },
-        { titolo: "BIG 7 — BURNA BOY", file: "/canzone3.mp3" },
-        { titolo: "STOP DIE — BURNA BOY", file: "/canzone4.mp3" },
-        { titolo: "BORA BORA — SKINNY FLEX", file: "/canzone5.mp3" },
+        { titolo: "LOVE YOU — NONO LA GRINTA", file: "/canzone.mp3" },
+        { titolo: "ESTAMOS GUCCI — SKYNNY FLEX", file: "/canzone2.mp3" },
+        { titolo: "SAY WHEN — FETTY WAP", file: "/canzone3.mp3" },
+        { titolo: "UZI — JUL", file: "/canzone4.mp3" },
+        { titolo: "WAGWAN — CENTRAL CEE", file: "/canzone5.mp3" },
         { titolo: "DUBAI — SKINNY FLEX", file: "/canzone6.mp3" },
       ];
 
@@ -1057,11 +1057,11 @@ return (
       className="bg-yellow-400 px-5 py-2 font-black text-black"
       onClick={(evento) => {
         const canzoni = [
-          { titolo: "PARLU — LA REFLVENZE", file: "/canzone.mp3" },
-          { titolo: "MOLLY — GAZO", file: "/canzone2.mp3" },
-          { titolo: "BIG 7 — BURNA BOY", file: "/canzone3.mp3" },
-          { titolo: "STOP DIE — BURNA BOY", file: "/canzone4.mp3" },
-          { titolo: "BORA BORA — SKINNY FLEX", file: "/canzone5.mp3" },
+          { titolo: "LOVE YOU — NONO LA GRINTA", file: "/canzone.mp3" },
+          { titolo: "ESTAMOS GUCCI — SKYNNY FLEX", file: "/canzone2.mp3" },
+          { titolo: "SAY WHEN — FETTY WAP", file: "/canzone3.mp3" },
+          { titolo: "UZI — JUL", file: "/canzone4.mp3" },
+          { titolo: "WAGWAN — CENTRAL CEE", file: "/canzone5.mp3" },
           { titolo: "DUBAI — SKINNY FLEX", file: "/canzone6.mp3" },
         ];
 
@@ -1094,11 +1094,11 @@ return (
       className="bg-yellow-400 px-5 py-2 font-black text-black"
       onClick={(evento) => {
         const canzoni = [
-          { titolo: "PARLU — LA REFLVENZE", file: "/canzone.mp3" },
-          { titolo: "MOLLY — GAZO", file: "/canzone2.mp3" },
-          { titolo: "BIG 7 — BURNA BOY", file: "/canzone3.mp3" },
-          { titolo: "STOP DIE — BURNA BOY", file: "/canzone4.mp3" },
-          { titolo: "BORA BORA — SKINNY FLEX", file: "/canzone5.mp3" },
+          { titolo: "LOVE YOU — NONO LA GRINTA", file: "/canzone.mp3" },
+          { titolo: "ESTAMOS GUCCI — SKYNNY FLEX", file: "/canzone2.mp3" },
+          { titolo: "SAY WHEN — FETTY WAP", file: "/canzone3.mp3" },
+          { titolo: "UZI — JUL", file: "/canzone4.mp3" },
+          { titolo: "WAGWAN — CENTRAL CEE", file: "/canzone5.mp3" },
           { titolo: "DUBAI — SKINNY FLEX", file: "/canzone6.mp3" },
         ];
 
