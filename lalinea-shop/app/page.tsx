@@ -4816,7 +4816,16 @@ rel="noopener noreferrer"
 </div>
 
 {/* I PIÙ VENDUTI DELLA SETTIMANA */}
-<div className="fixed bottom-4 right-4 z-[9998] w-[320px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-xl border border-yellow-400 bg-black/95 shadow-2xl">
+<div
+  className="w-[320px] max-w-[calc(100vw-24px)] overflow-hidden rounded-xl border border-yellow-400 bg-black/95 shadow-2xl"
+  style={{
+    position: "fixed",
+    right: "12px",
+    bottom: "12px",
+    zIndex: 99999,
+    display: "block",
+  }}
+>
 
   {/* TITOLO */}
   <div className="border-b border-yellow-400 bg-yellow-400 px-4 py-3 text-center text-sm font-black uppercase tracking-widest text-black">
