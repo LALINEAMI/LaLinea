@@ -999,9 +999,9 @@ return (
 </a>
  
 
- <div
+<div
   style={{ display: playerVisibile ? undefined : "none" }}
-  className="fixed bottom-4 left-4 z-[9999] w-[calc(50%-22px)] border border-white/20 bg-black/95 p-3 text-white shadow-2xl md:left-1/2 md:w-[calc(100%-2rem)] md:max-w-md md:-translate-x-1/2 md:p-4"
+  className="fixed bottom-3 left-3 z-[9999] w-[calc(46%-12px)] min-w-0 overflow-hidden border border-white/20 bg-black/95 p-2 text-white shadow-2xl md:bottom-4 md:left-1/2 md:w-[calc(100%-2rem)] md:max-w-md md:-translate-x-1/2 md:p-4"
 >
  <button
   type="button"
@@ -1024,7 +1024,7 @@ return (
     src="/canzone.mp3"
     controls
     preload="metadata"
-    className="w-full"
+    className="hidden w-full md:block"
     onEnded={(evento) => {
       const canzoni = [
         { titolo: "LOVE YOU — NONO LA GRINTA", file: "/canzone.mp3" },
@@ -1054,6 +1054,24 @@ return (
     }}
   />
 
+<button
+  type="button"
+  className="mx-auto block w-full bg-yellow-400 px-2 py-2 text-xs font-black text-black md:hidden"
+  onClick={(evento) => {
+    const contenitore = evento.currentTarget.parentElement;
+    const player = contenitore?.querySelector("audio");
+
+    if (!player) return;
+
+    if (player.paused) {
+      player.play().catch(() => {});
+    } else {
+      player.pause();
+    }
+  }}
+>
+  ▶ / Ⅱ MUSICA
+</button>
   <div className="mt-3 flex justify-center gap-3">
     <button
       type="button"
@@ -4820,7 +4838,7 @@ rel="noopener noreferrer"
 
 {/* I PIÙ VENDUTI DELLA SETTIMANA */}
 <div
-  className="fixed bottom-4 right-4 z-[9998] w-[calc(50%-22px)] overflow-hidden rounded-xl border border-yellow-400 bg-black/95 shadow-2xl md:w-[320px]"
+  className="fixed bottom-3 right-3 z-[9998] w-[calc(54%-12px)] overflow-hidden rounded-xl border border-yellow-400 bg-black/95 shadow-2xl md:bottom-4 md:right-4 md:w-[320px]"
 >
 
   {/* TITOLO */}
