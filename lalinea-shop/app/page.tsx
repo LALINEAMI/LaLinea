@@ -999,7 +999,10 @@ return (
 </a>
  
 
- <div style={{ display: playerVisibile ? undefined : "none" }}className="fixed bottom-4 left-1/2 z-[9999] w-[calc(100%-2rem)] max-w-md -translate-x-1/2 border border-white/20 bg-black/95 p-4 text-white shadow-2xl">
+ <div
+  style={{ display: playerVisibile ? undefined : "none" }}
+  className="fixed bottom-4 left-4 z-[9999] w-[calc(50%-22px)] border border-white/20 bg-black/95 p-3 text-white shadow-2xl md:left-1/2 md:w-[calc(100%-2rem)] md:max-w-md md:-translate-x-1/2 md:p-4"
+>
  <button
   type="button"
   onClick={() => setPlayerVisibile(false)}
@@ -4817,14 +4820,7 @@ rel="noopener noreferrer"
 
 {/* I PIÙ VENDUTI DELLA SETTIMANA */}
 <div
-  className="w-[320px] max-w-[calc(100vw-24px)] overflow-hidden rounded-xl border border-yellow-400 bg-black/95 shadow-2xl"
-  style={{
-    position: "fixed",
-    right: "12px",
-    bottom: "12px",
-    zIndex: 99999,
-    display: "block",
-  }}
+  className="fixed bottom-4 right-4 z-[9998] w-[calc(50%-22px)] overflow-hidden rounded-xl border border-yellow-400 bg-black/95 shadow-2xl md:w-[320px]"
 >
 
   {/* TITOLO */}
