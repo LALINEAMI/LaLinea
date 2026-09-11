@@ -1377,7 +1377,7 @@ return (
     <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-3">
 
       {/* SILVER PACK */}
-      <div className="flex flex-col border border-zinc-700 bg-zinc-950 p-6">
+      <div id="silver-pack-card"className="flex flex-col border border-zinc-700 bg-zinc-950 p-6">
 
         <video
   src="/products/promo/silver.mp4"
@@ -1810,7 +1810,7 @@ return (
     </div>
   </div>
 {/* VOLTUS Z */}
-<div className="mt-10">
+<div id="voltus-z"className="mt-10">
   <div className="border border-yellow-400/40 bg-black/80 p-5">
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
       Premium Filtred
@@ -3205,7 +3205,7 @@ SATIVA:
     </div>
     {/* FLOWERS - TROPICANA COOKIES CALISPAIN */}
 {categoriaAttiva === "Flowers" && (
-  <div className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
+  <div id="tropicana-cookies" className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
       Flowers
     </p>
@@ -4815,6 +4815,220 @@ rel="noopener noreferrer"
   </button>
 </div>
 
+{/* I PIÙ VENDUTI DELLA SETTIMANA */}
+<div className="fixed bottom-4 right-4 z-[9998] w-[320px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-xl border border-yellow-400 bg-black/95 shadow-2xl">
+
+  {/* TITOLO */}
+  <div className="border-b border-yellow-400 bg-yellow-400 px-4 py-3 text-center text-sm font-black uppercase tracking-widest text-black">
+    I PIÙ VENDUTI DELLA SETTIMANA
+  </div>
+
+  {/* VIDEO DEI 3 PRODOTTI */}
+  <div className="grid grid-cols-3 gap-1 bg-black p-2">
+
+    {/* VOLTUS Z */}
+    <button
+      type="button"
+      onClick={() => {
+        setCategoriaAttiva("Premium Filtred");
+        setTimeout(() => {
+          document.getElementById("voltus-z")?.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }, 50);
+      }}
+      className="overflow-hidden rounded-md border border-yellow-400/40"
+    >
+      <video
+        src="/products/premium-filtred/voltus.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="aspect-square w-full object-cover"
+      />
+    </button>
+
+    {/* SILVER PACK */}
+    <button
+      type="button"
+      onClick={() => {
+        setTimeout(() => {
+          document.getElementById("silver-pack-card")?.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }, 50);
+      }}
+      className="overflow-hidden rounded-md border border-yellow-400/40"
+    >
+      <video
+        src="/products/promo/silver.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="aspect-square w-full object-cover"
+      />
+    </button>
+
+    {/* TROPICANA COOKIES */}
+    <button
+      type="button"
+      onClick={() => {
+        setCategoriaAttiva("Flowers");
+        setTimeout(() => {
+          document.getElementById("tropicana-cookies")?.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }, 50);
+      }}
+      className="overflow-hidden rounded-md border border-yellow-400/40"
+    >
+      <video
+        src="/products/flowers/tropicana1.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="aspect-square w-full object-cover"
+      />
+    </button>
+
+  </div>
+
+  {/* NOTIZIE SCORREVOLI */}
+  <div className="overflow-hidden whitespace-nowrap border-t border-yellow-400/30 py-4">
+    <div className="best-sellers-ticker inline-flex items-center">
+
+      <button
+        type="button"
+        onClick={() => {
+          setCategoriaAttiva("Premium Filtred");
+          setTimeout(() => {
+            document.getElementById("voltus-z")?.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          }, 50);
+        }}
+        className="mx-6 font-black text-yellow-400"
+      >
+        🥇 1° VOLTUS Z 5G — 35€
+      </button>
+
+      <button
+        type="button"
+        onClick={() => {
+          setTimeout(() => {
+            document.getElementById("silver-pack-card")?.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          }, 50);
+        }}
+        className="mx-6 font-black text-white"
+      >
+        🥈 2° SILVER PACK — 50€
+      </button>
+
+      <button
+        type="button"
+        onClick={() => {
+          setCategoriaAttiva("Flowers");
+          setTimeout(() => {
+            document.getElementById("tropicana-cookies")?.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          }, 50);
+        }}
+        className="mx-6 font-black text-yellow-400"
+      >
+        🥉 3° TROPICANA COOKIES 5G — 50€
+      </button>
+
+      {/* RIPETIZIONE PER SCORRIMENTO CONTINUO */}
+
+      <button
+        type="button"
+        onClick={() => {
+          setCategoriaAttiva("Premium Filtred");
+          setTimeout(() => {
+            document.getElementById("voltus-z")?.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          }, 50);
+        }}
+        className="mx-6 font-black text-yellow-400"
+      >
+        🥇 1° VOLTUS Z 5G — 35€
+      </button>
+
+      <button
+        type="button"
+        onClick={() => {
+          setTimeout(() => {
+            document.getElementById("silver-pack-card")?.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          }, 50);
+        }}
+        className="mx-6 font-black text-white"
+      >
+        🥈 2° SILVER PACK — 50€
+      </button>
+
+      <button
+        type="button"
+        onClick={() => {
+          setCategoriaAttiva("Flowers");
+          setTimeout(() => {
+            document.getElementById("tropicana-cookies")?.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          }, 50);
+        }}
+        className="mx-6 font-black text-yellow-400"
+      >
+        🥉 3° TROPICANA COOKIES 5G — 50€
+      </button>
+
+    </div>
+  </div>
+
+  <style>{`
+    .best-sellers-ticker {
+      animation: bestSellersScroll 15s linear infinite;
+    }
+
+    .best-sellers-ticker:hover {
+      animation-play-state: paused;
+    }
+
+    @keyframes bestSellersScroll {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .best-sellers-ticker {
+        animation-duration: 12s;
+      }
+    }
+  `}</style>
+
+</div>
 {snakeAperto && (
   <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 p-4">
     <div className="relative max-h-[95vh] w-full max-w-lg overflow-y-auto border-2 border-yellow-400 bg-black p-6">
