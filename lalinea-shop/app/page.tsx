@@ -1001,7 +1001,7 @@ return (
 
 <div
   style={{ display: playerVisibile ? undefined : "none" }}
-  className="fixed bottom-3 left-3 z-[9999] w-[calc(46%-12px)] min-w-0 overflow-hidden border border-white/20 bg-black/95 p-2 text-white shadow-2xl md:bottom-4 md:left-1/2 md:w-[calc(100%-2rem)] md:max-w-md md:-translate-x-1/2 md:p-4"
+  className="fixed bottom-3 left-3 z-[9999] w-[calc(46%-12px)] min-w-0 overflow-visible rounded-xl border border-yellow-400 bg-black/95 text-white shadow-2xl md:bottom-4 md:left-1/2 md:w-[calc(100%-2rem)] md:max-w-md md:-translate-x-1/2"
 >
  <button
   type="button"
@@ -1010,10 +1010,12 @@ return (
   aria-label="Chiudi player musicale"
 >
   ×
-</button>
-  <p className="mb-2 text-center text-xs font-black uppercase tracking-widest text-yellow-400">
-    La selezione musicale della settimana
-  </p>
+  </button>
+<div className="border-b border-yellow-400 bg-yellow-400 px-4 py-3 text-center text-sm font-black uppercase tracking-widest text-black">
+  LA SELEZIONE MUSICALE DELLA SETTIMANA
+</div>
+
+<div className="p-2 md:p-4">
 
   <p data-titolo-canzone className="mb-3 text-center text-sm font-bold">
     LOVE YOU — NONO LA GRINTA
@@ -1146,6 +1148,7 @@ return (
       Avanti →
     </button>
   </div>
+</div>
 </div>
 
       {fotoAnteprima && (
@@ -4839,7 +4842,7 @@ rel="noopener noreferrer"
 {/* I PIÙ VENDUTI DELLA SETTIMANA */}
 <div
   className="fixed bottom-3 right-3 z-[9998] w-[calc(54%-12px)] overflow-hidden rounded-xl border border-yellow-400 bg-black/95 shadow-2xl md:bottom-4 md:right-4 md:w-[320px]"
->
+> 
 
   {/* TITOLO */}
   <div className="border-b border-yellow-400 bg-yellow-400 px-4 py-3 text-center text-sm font-black uppercase tracking-widest text-black">
