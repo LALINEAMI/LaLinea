@@ -1762,7 +1762,7 @@ return (
   id="shop"
   className={
     sezioneMobile === "shop"
-      ? "fixed inset-x-0 bottom-0 top-20 z-40 overflow-y-auto bg-black px-6 py-8 md:static md:z-auto md:mx-auto md:max-w-7xl md:overflow-visible md:bg-transparent md:px-6 md:py-24"
+      ? "fixed inset-0 z-[10001] overflow-y-auto overscroll-contain bg-black px-6 py-8 md:static md:z-auto md:mx-auto md:max-w-7xl md:overflow-visible md:bg-transparent md:px-6 md:py-24"
       : "hidden md:block md:mx-auto md:max-w-7xl md:px-6 md:py-24"
   }
 >
