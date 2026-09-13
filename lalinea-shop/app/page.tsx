@@ -898,14 +898,16 @@ if (caricamentoIniziale) {
     if (!accessoConsentito) {
   return (
     <main className="min-h-screen bg-black text-white flex items-center justify-center px-6">
-      <div className="w-full max-w- md border border-yellow-400 p-8 text-center">
-        <h1 className="text-4xl font-black uppercase">
-          LaLinea
-        </h1>
+      <div className="w-full max-w-md rounded-3xl border border-yellow-400 bg-transparent p-8 text-center">
+        <img
+  src="/logo-lalinea.png"
+  alt="LaLinea"
+  className="mx-auto mb-4 w-full max-w-[280px] bg-trnsparent object-contain"
+/>
 
-        <p className="mt-3 text-zinc-400 uppercase font-bold">
-          Area riservata
-        </p>
+        <p className="mt-3 text-white uppercase font-black tracking-wide">
+  AREA RISERVATA
+</p>
 
         <form
           className="mt-8"
@@ -926,9 +928,9 @@ if (caricamentoIniziale) {
             onChange={(e) => {
               setPassword(e.target.value);
               setErrorePassword(false);
-            }}
+            }} 
             placeholder="Password"
-            className="w-full border border-zinc-700 bg-zinc-950 px-4 py-4 text-center text-white outline-none focus:border-yellow-400"
+            className="w-full rounded-xl border border-zinc-700 bg-black/70 px-4 py-4 text-center text-white placeholder:text-zinc-400 outline-none"
           />
 
           {errorePassword && (
@@ -939,7 +941,7 @@ if (caricamentoIniziale) {
 
           <button
             type="submit"
-            className="mt-5 w-full bg-yellow-400 px-6 py-4 font-black uppercase text-black"
+            className="mt-5 w-full rounded-xl bg-yellow-400 px-6 py-4 font-black uppercase text-black"
           >
             Entra
           </button>
