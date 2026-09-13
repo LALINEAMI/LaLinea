@@ -161,7 +161,7 @@ function PlayerMusicale() {
         className="w-full"
       />
 
-      <div className="mt-3 flex gap-3">
+      <div className="mt-2 grid grid-cols-2 gap-2">
         <button
           type="button"
           onClick={() => cambiaCanzone(-1)}
@@ -1058,7 +1058,7 @@ return (
 
 <button
   type="button"
-  className="mx-auto block w-full bg-yellow-400 px-2 py-2 text-xs font-black text-black md:hidden"
+  className="mx-auto mt-2 block w-full rounded-md bg-yellow-400 px-2 py-2 text-[10px] font-black uppercase text-black md:hidden"
   onClick={(evento) => {
     const contenitore = evento.currentTarget.parentElement;
     const player = contenitore?.querySelector("audio");
@@ -1077,7 +1077,7 @@ return (
   <div className="mt-3 flex justify-center gap-3">
     <button
       type="button"
-      className="bg-yellow-400 px-5 py-2 font-black text-black"
+      className="w-full rounded-md bg-yellow-400 px-2 py-2 text-[10px] font-black uppercase text-black md:text-sm"
       onClick={(evento) => {
         const canzoni = [
           { titolo: "LOVE YOU — NONO LA GRINTA", file: "/canzone.mp3" },
@@ -1114,8 +1114,7 @@ return (
 
     <button
       type="button"
-      className="bg-yellow-400 px-5 py-2 font-black text-black"
-      onClick={(evento) => {
+      className="w-full rounded-md bg-yellow-400 px-2 py-2 text-[10px] font-black uppercase text-black md:text-sm"      onClick={(evento) => {
         const canzoni = [
           { titolo: "LOVE YOU — NONO LA GRINTA", file: "/canzone.mp3" },
           { titolo: "ESTAMOS GUCCI — SKYNNY FLEX", file: "/canzone2.mp3" },
