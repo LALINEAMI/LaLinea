@@ -374,6 +374,7 @@ const [messaggioSconto, setMessaggioSconto] = useState("");
 const [categoriaAttiva, setCategoriaAttiva] = useState("");  
 const [menuAperto, setMenuAperto] = useState(false);
 const [playerVisibile, setPlayerVisibile] = useState(true);
+const [piuVendutiVisibili, setPiuVendutiVisibili] = useState(true);
 const [password, setPassword] = useState("");
 const [mostraPassword, setMostraPassword] = useState(false)
 const [accessoConsentito, setAccessoConsentito] = useState(false);
@@ -4931,10 +4932,18 @@ rel="noopener noreferrer"
 </div>
 
 {/* I PIÙ VENDUTI DELLA SETTIMANA */}
+{piuVendutiVisibili && (
 <div
   className="fixed bottom-3 right-3 z-[9998] w-[calc(54%-12px)] overflow-hidden rounded-xl border border-yellow-400 bg-black/95 shadow-2xl md:bottom-4 md:right-4 md:w-[320px]"
 > 
-
+<button
+  type="button"
+  onClick={() => setPiuVendutiVisibili(false)}
+  className="absolute right-2 top-2 z-20 flex h-7 w-7 items-center justify-center rounded-full border-2 border-yellow-400 bg-black text-sm font-black text-yellow-400"
+  aria-label="Chiudi prodotti più venduti"
+>
+  ×
+</button>
   {/* TITOLO */}
   <div className="border-b border-yellow-400 bg-yellow-400 px-4 py-3 text-center text-sm font-black uppercase tracking-widest text-black">
     I PIÙ VENDUTI DELLA SETTIMANA
@@ -5146,6 +5155,7 @@ rel="noopener noreferrer"
   `}</style>
 
 </div>
+)}
 {snakeAperto && (
   <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 p-4">
     <div className="relative max-h-[95vh] w-full max-w-lg overflow-y-auto border-2 border-yellow-400 bg-black p-6">
