@@ -1461,7 +1461,7 @@ return (
         </div>
       </section>
       {/* LE PROMO */}
-<section id="promo" className="border-b border-zinc-800 bg-black">
+<section id="promo" className="hidden border-b border-zinc-800 bg-black md:block">
   <div className="mx-auto max-w-7xl px-6 py-24">
 
     <p className="font-bold uppercase tracking-[0.3em] text-yellow-400">
@@ -1773,7 +1773,7 @@ return (
 >
   ← CHIUDI SHOP / HOME
 </button>
-        <div className="mb-14">
+        <div className="mb-14 hidden md:block">
           <p className="font-bold uppercase tracking-[0.3em] text-yellow-400">
             BENVENUTO NELLO SHOP LALINEA OFFICIAL
           </p>
@@ -1793,7 +1793,7 @@ return (
           </p>
         </div>
 {/* CATEGORIE SHOP */}
-<div className="mb-12 grid grid-cols-2 gap-3 md:grid-cols-4">
+<div className="mb-12 hidden grid-cols-2 gap-3 md:grid md:grid-cols-4">
   {[
     "Premium Filtred",
     "Frozen e Static",
