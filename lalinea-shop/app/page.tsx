@@ -378,6 +378,8 @@ const [password, setPassword] = useState("");
 const [mostraPassword, setMostraPassword] = useState(false)
 const [accessoConsentito, setAccessoConsentito] = useState(false);
 const [errorePassword, setErrorePassword] = useState(false);
+const [codiceScontoCheckout, setCodiceScontoCheckout] = useState("");
+const [erroreSconto, setErroreSconto] = useState("");
 const aggiungiAlCarrello = () => {
     setCarrello((prev) => {
       const esistente = prev.find((item) => item.id === 1);
@@ -4294,6 +4296,44 @@ onChange={(e) => setDatiCliente((prev) => ({ ...prev, cognome: e.target.value })
 onChange={(e) => setDatiCliente((prev) => ({ ...prev, email: e.target.value }))}
         className="border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400"
       />
+      <div className="mt-4">
+  <label className="mb-2 block text-sm font-bold uppercase">
+    Codice sconto
+  </label>
+
+  <div className="flex gap-2">
+    <input
+      type="text"
+      placeholder="Inserisci codice sconto"
+      value={codiceScontoCheckout}
+      onChange={(e) =>
+        setCodiceScontoCheckout(e.target.value.toUpperCase())
+      }
+      className="min-w-0 flex-1 rounded-xl border border-zinc-700 bg-black p-4 text-white outline-none"
+    />
+
+    <button
+      type="button"
+      onClick={applicaCodiceSconto}
+      className="rounded-xl bg-yellow-400 px-4 py-3 text-xs font-black uppercase text-black"
+    >
+      Applica
+    </button>
+  </div>
+
+  {messaggioSconto && (
+    <p className="mt-2 text-sm font-bold text-green-400">
+      {messaggioSconto}
+    </p>
+  )}
+
+  {erroreSconto && (
+    <p className="mt-2 text-sm font-bold text-red-400">
+      {erroreSconto}
+    </p>
+  )}
+</div>
+
       <div className="mt-6">
   <label className="block mb-3 text-sm font-bold uppercase">
     Modalità ordine

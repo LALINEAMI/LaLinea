@@ -17,6 +17,11 @@ export default function VipAdminPage() {
   const [messaggio, setMessaggio] = useState("");
   const [errore, setErrore] = useState("");
   const [caricamento, setCaricamento] = useState(false);
+  const [codiceSconto, setCodiceSconto] = useState("");
+const [tipoSconto, setTipoSconto] = useState<"percentuale" | "fisso">("percentuale");
+const [valoreSconto, setValoreSconto] = useState("");
+const [scadenzaSconto, setScadenzaSconto] = useState("");
+const [maxUtilizzi, setMaxUtilizzi] = useState("");
 
   const inviaRichiesta = async (
     azione: string,
@@ -96,6 +101,35 @@ export default function VipAdminPage() {
       );
     }
   };
+const generaCodiceCasuale = () => {
+  const casuale = Math.random().toString(36).substring(2, 8).toUpperCase();
+  setCodiceSconto(`LALINEA-${casuale}`);
+};
+
+const creaCodiceSconto = async (evento: FormEvent<HTMLFormElement>) => {
+  evento.preventDefault();
+
+  try {
+    await inviaRichiesta("crea_codice_sconto", {
+      codice: codiceSconto.trim().toUpperCase(),
+      tipo: tipoSconto,
+      valore: Number(valoreSconto),
+      scadenza: scadenzaSconto || null,
+      maxUtilizzi: maxUtilizzi ? Number(maxUtilizzi) : null,
+    });
+
+    setMessaggio(`Codice sconto creato: ${codiceSconto.toUpperCase()}`);
+
+    setCodiceSconto("");
+    setValoreSconto("");
+    setScadenzaSconto("");
+    setMaxUtilizzi("");
+  } catch (errore) {
+    setErrore(
+      errore instanceof Error ? errore.message : "Errore del server"
+    );
+  }
+};
 
   return (
     <main className="min-h-screen bg-black px-4 py-10 text-white">
@@ -225,6 +259,86 @@ export default function VipAdminPage() {
             Conferma e accredita punti
           </button>
         </form>
+        <form
+  onSubmit={creaCodiceSconto}
+  className="mt-8 rounded-2xl border border-yellow-400 bg-zinc-950 p-5"
+>
+  <h2 className="text-xl font-black uppercase text-yellow-400">
+    Genera codice sconto
+  </h2>
+
+  <div className="mt-5 flex gap-2">
+    <input
+      type="text"
+      placeholder="Codice sconto"
+      value={codiceSconto}
+      onChange={(evento) =>
+        setCodiceSconto(evento.target.value.toUpperCase())
+      }
+      required
+      className="min-w-0 flex-1 rounded-xl border border-zinc-700 bg-black px-4 py-3"
+    />
+
+    <button
+      type="button"
+      onClick={generaCodiceCasuale}
+      className="rounded-xl bg-yellow-400 px-4 py-3 text-xs font-black uppercase text-black"
+    >
+      Genera
+    </button>
+  </div>
+
+  <select
+    value={tipoSconto}
+    onChange={(evento) =>
+      setTipoSconto(evento.target.value as "percentuale" | "fisso")
+    }
+    className="mt-3 w-full rounded-xl border border-zinc-700 bg-black px-4 py-3"
+  >
+    <option value="percentuale">Percentuale %</option>
+    <option value="fisso">Importo fisso €</option>
+  </select>
+
+  <input
+    type="number"
+    min="0"
+    step="0.01"
+    placeholder={tipoSconto === "percentuale" ? "Valore %" : "Valore €"}
+    value={valoreSconto}
+    onChange={(evento) => setValoreSconto(evento.target.value)}
+    required
+    className="mt-3 w-full rounded-xl border border-zinc-700 bg-black px-4 py-3"
+  />
+
+  <input
+    type="date"
+    value={scadenzaSconto}
+    onChange={(evento) => setScadenzaSconto(evento.target.value)}
+    className="mt-3 w-full rounded-xl border border-zinc-700 bg-black px-4 py-3"
+  />
+
+  <input
+    type="number"
+    min="1"
+    placeholder="Numero massimo utilizzi"
+    value={maxUtilizzi}
+    onChange={(evento) => setMaxUtilizzi(evento.target.value)}
+    className="mt-3 w-full rounded-xl border border-zinc-700 bg-black px-4 py-3"
+  />
+
+  <button
+    type="submit"
+    disabled={
+      caricamento ||
+      !password ||
+      !codiceSconto ||
+      !valoreSconto
+    }
+    className="mt-5 w-full rounded-xl bg-yellow-400 px-4 py-4 font-black uppercase text-black disabled:opacity-50"
+  >
+    Crea codice sconto
+  </button>
+</form>
       </div>
     </main>
   );

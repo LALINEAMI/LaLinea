@@ -131,6 +131,86 @@ export async function POST(request: Request) {
   });
 }
 
+if (dati.azione === "crea_codice_sconto") {
+  const codice = String(dati.codice || "").trim().toUpperCase();
+  const tipo = String(dati.tipo || "").trim();
+  const valore = Number(dati.valore);
+  const scadenza = dati.scadenza ? String(dati.scadenza) : null;
+  const maxUtilizzi =
+    dati.maxUtilizzi === null || dati.maxUtilizzi === undefined
+      ? null
+      : Number(dati.maxUtilizzi);
+
+  if (!codice) {
+    return NextResponse.json(
+      { error: "Inserisci un codice sconto" },
+      { status: 400 }
+    );
+  }
+
+  if (tipo !== "percentuale" && tipo !== "fisso") {
+    return NextResponse.json(
+      { error: "Tipo di sconto non valido" },
+      { status: 400 }
+    );
+  }
+
+  if (!Number.isFinite(valore) || valore <= 0) {
+    return NextResponse.json(
+      { error: "Valore dello sconto non valido" },
+      { status: 400 }
+    );
+  }
+
+  if (tipo === "percentuale" && valore > 100) {
+    return NextResponse.json(
+      { error: "La percentuale non può superare il 100%" },
+      { status: 400 }
+    );
+  }
+
+  if (
+    maxUtilizzi !== null &&
+    (!Number.isInteger(maxUtilizzi) || maxUtilizzi < 1)
+  ) {
+    return NextResponse.json(
+      { error: "Numero massimo di utilizzi non valido" },
+      { status: 400 }
+    );
+  }
+
+  const { data: codiceCreato, error } = await supabase
+    .from("discount_codes")
+    .insert({
+      codice,
+      tipo,
+      valore,
+      scadenza,
+      max_utilizzi: maxUtilizzi,
+      utilizzi: 0,
+      attivo: true,
+    })
+    .select(
+      "id, codice, tipo, valore, scadenza, max_utilizzi, utilizzi, attivo"
+    )
+    .single();
+
+  if (error) {
+    if (error.code === "23505") {
+      return NextResponse.json(
+        { error: "Questo codice sconto esiste già" },
+        { status: 409 }
+      );
+    }
+
+    throw new Error(error.message);
+  }
+
+  return NextResponse.json({
+    success: true,
+    codice: codiceCreato,
+  });
+}
     return NextResponse.json(
       { error: "Azione non riconosciuta" },
       { status: 400 }
