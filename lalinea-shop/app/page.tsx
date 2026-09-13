@@ -746,36 +746,94 @@ const totaleCarrelloScontato = Math.max(
 
 const totaleOrdine = totaleCarrelloScontato + costoConsegna;
 
-const applicaCodiceSconto = () => {
+const applicaCodiceSconto = async () => {
   const codice = codiceSconto.trim().toUpperCase();
 
+  if (!codice) {
+    setScontoPercentuale(0);
+    setMessaggioSconto("Inserisci un codice sconto");
+    return;
+  }
+
+  // CODICI VECCHI GIÀ ESISTENTI
   if (codice === "CESOLOLALINEA26") {
     setScontoPercentuale(10);
     setMessaggioSconto("Codice applicato: sconto del 10%");
-  
-  } else if (codice === "VIP15") {
+    return;
+  }
+
+  if (codice === "VIP15") {
     setScontoPercentuale(15);
     setMessaggioSconto("Codice applicato: sconto del 15%");
-    } else if (codice === "AMICO PAL 20") {
-  setScontoPercentuale(20);
-  setMessaggioSconto("Codice applicato: sconto del 20%");
-  } else if (codice === "LALINEA5") {
+    return;
+  }
+
+  if (codice === "AMICO PAL 20") {
+    setScontoPercentuale(20);
+    setMessaggioSconto("Codice applicato: sconto del 20%");
+    return;
+  }
+
+  if (codice === "LALINEA5") {
     setScontoPercentuale(-5);
     setMessaggioSconto("Premio Snake applicato: -5 €");
-  } else if (codice === "LALINEA10") {
+    return;
+  }
+
+  if (codice === "LALINEA10") {
     setScontoPercentuale(-10);
     setMessaggioSconto("Premio Snake applicato: -10 €");
-  } else if (codice === "LALINEA15") {
+    return;
+  }
+
+  if (codice === "LALINEA15") {
     setScontoPercentuale(-15);
     setMessaggioSconto("Premio Snake applicato: -15 €");
-  } else if (codice === "LALINEA20") {
+    return;
+  }
+
+  if (codice === "LALINEA20") {
     setScontoPercentuale(-20);
     setMessaggioSconto("Premio Snake applicato: -20 €");
-  } else {
+    return;
+  }
+
+  try {
+    const risposta = await fetch("/api/discount/validate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ codice }),
+    });
+
+    const risultato = await risposta.json();
+
+    if (!risposta.ok || !risultato.valido) {
+      setScontoPercentuale(0);
+      setMessaggioSconto(
+        risultato.error || "Codice sconto non valido"
+      );
+      return;
+    }
+
+    if (risultato.tipo === "percentuale") {
+      setScontoPercentuale(Number(risultato.valore));
+      setMessaggioSconto(
+        `Codice applicato: sconto del ${risultato.valore}%`
+      );
+    } else {
+      setScontoPercentuale(-Number(risultato.valore));
+      setMessaggioSconto(
+        `Codice applicato: -${risultato.valore} €`
+      );
+    }
+  } catch {
     setScontoPercentuale(0);
-    setMessaggioSconto("Codice sconto non valido");
+    setMessaggioSconto("Errore durante la verifica del codice");
   }
 };
+
  const inviaOrdineTelegram = async () => {
   const prodottiOrdine = carrello
     .map(
