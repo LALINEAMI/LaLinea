@@ -133,7 +133,7 @@ function PlayerMusicale() {
   }
 
   return (
-    <div className="fixed bottom-4 left-1/2 z-[99999] w-[calc(100%-2rem)] max-w-md -translate-x-1/2 border border-zinc-500 bg-black/95 p-4 shadow-2xl">
+    <div className="fixed bottom-3 left-3 z-[9999] w-[calc(46%-12px)] min-w-0 overflow-hidden rounded-xl border border-yellow-400 bg-black/95 text-white shadow-2xl md:bottom-4 md:left-1/2 md:w-[calc(100%-2rem)] md:max-w-md md:-translate-x-1/2">
       <button
         type="button"
         onClick={chiudiPlayer}
