@@ -4363,10 +4363,10 @@ onChange={(e) => setDatiCliente((prev) => ({ ...prev, email: e.target.value }))}
     <input
       type="text"
       placeholder="Inserisci codice sconto"
-      value={codiceScontoCheckout}
-      onChange={(e) =>
-        setCodiceScontoCheckout(e.target.value.toUpperCase())
-      }
+      value={codiceSconto}
+onChange={(e) =>
+  setCodiceSconto(e.target.value.toUpperCase())
+}
       className="min-w-0 flex-1 rounded-xl border border-zinc-700 bg-black p-4 text-white outline-none"
     />
 
@@ -4485,39 +4485,7 @@ onChange={(e) => setDatiCliente((prev) => ({ ...prev, indirizzo: e.target.value 
   </p>
 </div>
     </div>
-    <div className="mt-6">
-  <label className="block mb-2 text-sm font-bold uppercase">
-    Codice sconto
-  </label>
 
-  <div className="flex gap-2">
-    <input
-      type="text"
-      value={codiceSconto}
-      onChange={(e) => setCodiceSconto(e.target.value)}
-      placeholder="Inserisci codice sconto"
-      className="w-full border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400"
-    />
-
-    <button
-      type="button"
-      onClick={applicaCodiceSconto}
-      className="bg-yellow-400 px-5 py-4 font-black uppercase text-black"
-    >
-      Applica
-    </button>
-  </div>
-
-  {messaggioSconto && (
-    <p
-      className={`mt-2 text-sm font-bold ${
-        scontoPercentuale > 0 ? "text-green-400" : "text-red-400"
-      }`}
-    >
-      {messaggioSconto}
-    </p>
-  )}
-</div>
 
     <div className="mt-6 border-t border-zinc-800 pt-6">
       <div className="flex items-center justify-between">
