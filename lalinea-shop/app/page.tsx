@@ -1003,7 +1003,7 @@ return (
 
 <div
   style={{ display: playerVisibile ? undefined : "none" }}
-  className="fixed bottom-3 left-3 z-[9999] w-[calc(46%-12px)] min-w-0 overflow-hidden rounded-xl border border-yellow-400 bg-black/95 text-white shadow-2xl md:bottom-4 md:left-1/2 md:w-[calc(100%-2rem)] md:max-w-md md:-translate-x-1/2"
+ className="fixed bottom-3 left-3 z-[9999] w-[calc(46%-12px)] min-w-0 overflow-visible rounded-xl border border-yellow-400 bg-black/95 text-white shadow-2xl md:bottom-4 md:left-1/2 md:w-[calc(100%-2rem)] md:max-w-md md:-translate-x-1/2"
 >
  <button
   type="button"
@@ -1013,11 +1013,11 @@ return (
 >
   ×
   </button>
-<div className="border-b border-yellow-400 bg-yellow-400 px-4 py-3 text-center text-sm font-black uppercase tracking-widest text-black">
+<div className="rounded-t-xl border-b border-yellow-400 bg-yellow-400 px-3 py-2 text-center text-xs font-black uppercase leading-tight tracking-wider text-black md:px-4 md:py-3 md:text-sm">
   LA SELEZIONE MUSICALE DELLA SETTIMANA
 </div>
 
-<div className="p-2 md:p-4">
+<div className="rounded-b-xl p-2 md:p-4">
 
   <p data-titolo-canzone className="mb-3 text-center text-sm font-bold">
     LOVE YOU — NONO LA GRINTA
@@ -1060,7 +1060,7 @@ return (
 
 <button
   type="button"
-  className="mx-auto mt-2 block w-full rounded-md bg-yellow-400 px-2 py-2 text-[10px] font-black uppercase text-black md:hidden"
+  className="mx-auto mt-2 block w-full rounded-lg bg-yellow-400 px-2 py-1.5 text-[10px] font-black uppercase text-black md:hidden"
   onClick={(evento) => {
     const contenitore = evento.currentTarget.parentElement;
     const player = contenitore?.querySelector("audio");
@@ -4491,7 +4491,7 @@ onClick={(e) => {
           key={i}
           src={`/reviews/review${i + 1}.jpg`}
           alt={`Recensione ${i + 1}`}
-          className="w-full rounded-lg border border-zinc-800 object-contain"
+          className="w-full rounded-lg bg-yellow-400 px-2 py-1.5 text-[10px] font-black uppercase text-black md:text-sm"
         />
       ))}
     </div>
