@@ -995,7 +995,7 @@ return (
       )}
   <a
   href="/vip"
-  className="fixed right-20 top-[18px] z-[9999] rounded-full bg-yellow-400 px-3 py-2 text-[10px] font-black uppercase tracking-widest text-black md:right-4 md:top-4 md:px-4 md:py-3 md:text-xs"
+  className="absolute right-20 top-[18px] z-[9999] rounded-full bg-yellow-400 px-3 py-2 text-[10px] font-black uppercase tracking-widest text-black md:right-4 md:top-4 md:px-4 md:py-3 md:text-xs"
 >
   AREA VIP
 </a>
