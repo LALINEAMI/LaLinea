@@ -375,6 +375,7 @@ const [categoriaAttiva, setCategoriaAttiva] = useState("");
 const [menuAperto, setMenuAperto] = useState(false);
 const [playerVisibile, setPlayerVisibile] = useState(true);
 const [password, setPassword] = useState("");
+const [mostraPassword, setMostraPassword] = useState(false)
 const [accessoConsentito, setAccessoConsentito] = useState(false);
 const [errorePassword, setErrorePassword] = useState(false);
 const aggiungiAlCarrello = () => {
@@ -922,16 +923,39 @@ if (caricamentoIniziale) {
             }
           }}
         >
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-              setErrorePassword(false);
-            }} 
-            placeholder="Password"
-            className="w-full rounded-xl border border-zinc-700 bg-black/70 px-4 py-4 text-center text-white placeholder:text-zinc-400 outline-none"
-          />
+          <div className="relative">
+  <input
+    type={mostraPassword ? "text" : "password"}
+    value={password}
+    onChange={(e) => {
+      setPassword(e.target.value);
+      setErrorePassword(false);
+    }}
+    placeholder="Password"
+    className="w-full rounded-xl border border-zinc-700 bg-black/70 px-4 py-4 pr-14 text-center text-white placeholder:text-zinc-400 outline-none"
+  />
+
+  <button
+    type="button"
+    onClick={() => setMostraPassword((prev) => !prev)}
+    aria-label={mostraPassword ? "Nascondi password" : "Mostra password"}
+    className="absolute right-3 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-lg border border-yellow-400/70 bg-black/80 text-yellow-400"
+  >
+    <svg
+      viewBox="0 0 64 64"
+      className="h-5 w-5"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M32 8 L56 52 H8 Z" />
+      <path d="M20 34 C24 28, 40 28, 44 34 C40 40, 24 40, 20 34 Z" />
+      <circle cx="32" cy="34" r="4" />
+    </svg>
+  </button>
+</div>
 
           {errorePassword && (
             <p className="mt-3 text-sm font-bold uppercase text-red-500">
