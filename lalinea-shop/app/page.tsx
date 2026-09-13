@@ -1037,10 +1037,7 @@ if (caricamentoIniziale) {
 }
 
 return (
-    <main
-  onClick={avviaMusica}
-  className="min-h-screen touch-none overscroll-none text-white md:touch-auto md:overscroll-auto"
->
+    <main onClick={avviaMusica} className="min-h-screen text-white">
       {popupConsegne && (
         <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/80 px-4">
           <div
