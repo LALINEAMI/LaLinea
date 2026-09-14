@@ -1787,29 +1787,126 @@ return (
           </p>
         </div>
 {/* CATEGORIE SHOP */}
-<div className="mb-12 grid grid-cols-2 gap-3 md:grid-cols-4">
-  {[
-    "Premium Filtred",
-    "Frozen e Static",
-    "Rosin & Pen",
-    "Flowers",
-    "Other",
-    "Gadget",
-    "Abbigliamento",
-  ].map((categoria) => (
-    <button
-      key={categoria}
-      type="button"
-      onClick={() => setCategoriaAttiva(categoria)}
-      className={`border px-4 py-4 text-sm font-black uppercase tracking-wider transition ${
-        categoriaAttiva === categoria
-          ? "border-yellow-400 bg-yellow-400 text-black"
-          : "border-zinc-800 bg-zinc-950 text-white hover:border-yellow-400 hover:text-yellow-400"
-      }`}
-    >
-      {categoria}
-    </button>
-  ))}
+<div className="mb-12">
+  {/* MOBILE: navigazione categorie in stile catalogo */}
+  <div className="md:hidden">
+    <div className="rounded-[28px] border border-zinc-800 bg-zinc-950/90 p-5">
+      <h3 className="text-2xl font-black text-white">Categorie</h3>
+
+      <div className="-mx-1 mt-5 flex gap-3 overflow-x-auto px-1 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {[
+          "Premium Filtred",
+          "Frozen e Static",
+          "Rosin & Pen",
+          "Flowers",
+          "Other",
+          "Gadget",
+          "Abbigliamento",
+        ].map((categoria) => (
+          <button
+            key={`pill-${categoria}`}
+            type="button"
+            onClick={() => setCategoriaAttiva(categoria)}
+            className={`shrink-0 rounded-2xl border px-5 py-4 text-sm font-black uppercase tracking-wide transition ${
+              categoriaAttiva === categoria
+                ? "border-yellow-400 bg-yellow-400 text-black"
+                : "border-zinc-700 bg-black text-white"
+            }`}
+          >
+            <span className="flex items-center gap-3">
+              {categoria}
+              <span aria-hidden="true" className="text-xl leading-none">›</span>
+            </span>
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <div className="mt-12">
+      <p className="text-sm font-black uppercase tracking-[0.28em] text-yellow-400">
+        Esplora il catalogo
+      </p>
+      <h3 className="mt-2 text-4xl font-black tracking-tight text-white">
+        Categorie
+      </h3>
+
+      <div className="mt-6 grid grid-cols-2 gap-3">
+        {[
+          { nome: "Premium Filtred", immagine: "/products/premium-filtred/voltus1.jpg" },
+          { nome: "Frozen e Static", immagine: "/products/frozen-static/arancia1.jpeg" },
+          { nome: "Rosin & Pen", immagine: "/products/rosin/etere1.jpg" },
+          { nome: "Flowers", immagine: "/products/flowers/lmg2.jpg" },
+          { nome: "Other", immagine: "/products/other/soda2.jpg" },
+          { nome: "Gadget", immagine: "/cover1.jpg" },
+          { nome: "Abbigliamento", immagine: "/products/abbigliamento/calza1.jpg" },
+        ].map(({ nome, immagine }) => (
+          <button
+            key={`card-${nome}`}
+            type="button"
+            onClick={() => setCategoriaAttiva(nome)}
+            aria-pressed={categoriaAttiva === nome}
+            className={`group overflow-hidden rounded-[26px] border bg-black text-left transition active:scale-[0.98] ${
+              categoriaAttiva === nome
+                ? "border-yellow-400 ring-1 ring-yellow-400"
+                : "border-zinc-800"
+            }`}
+          >
+            <div className="relative aspect-[4/5] overflow-hidden bg-zinc-950">
+              <img
+                src={immagine}
+                alt={nome}
+                loading="lazy"
+                className="h-full w-full object-cover transition duration-300 group-active:scale-105"
+              />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent" />
+
+              <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-2 p-4">
+                <span className="max-w-[75%] text-base font-black uppercase leading-tight text-white">
+                  {nome}
+                </span>
+                <span
+                  aria-hidden="true"
+                  className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border text-xl font-black ${
+                    categoriaAttiva === nome
+                      ? "border-yellow-400 bg-yellow-400 text-black"
+                      : "border-white/50 bg-black/60 text-white"
+                  }`}
+                >
+                  →
+                </span>
+              </div>
+            </div>
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  {/* DESKTOP: selettore originale invariato */}
+  <div className="hidden gap-3 md:grid md:grid-cols-4">
+    {[
+      "Premium Filtred",
+      "Frozen e Static",
+      "Rosin & Pen",
+      "Flowers",
+      "Other",
+      "Gadget",
+      "Abbigliamento",
+    ].map((categoria) => (
+      <button
+        key={categoria}
+        type="button"
+        onClick={() => setCategoriaAttiva(categoria)}
+        className={`border px-4 py-4 text-sm font-black uppercase tracking-wider transition ${
+          categoriaAttiva === categoria
+            ? "border-yellow-400 bg-yellow-400 text-black"
+            : "border-zinc-800 bg-zinc-950 text-white hover:border-yellow-400 hover:text-yellow-400"
+        }`}
+      >
+        {categoria}
+      </button>
+    ))}
+  </div>
 </div>
 {/* PRODOTTI PREMIUM FILTRED */}
 {categoriaAttiva === "Premium Filtred" && (
