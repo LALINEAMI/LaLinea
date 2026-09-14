@@ -375,7 +375,6 @@ const [categoriaAttiva, setCategoriaAttiva] = useState("");
 const [menuAperto, setMenuAperto] = useState(false);
 const [playerVisibile, setPlayerVisibile] = useState(true);
 const [piuVendutiVisibili, setPiuVendutiVisibili] = useState(true);
-const [sezioneMobile, setSezioneMobile] = useState("home");
 const [password, setPassword] = useState("");
 const [mostraPassword, setMostraPassword] = useState(false)
 const [accessoConsentito, setAccessoConsentito] = useState(false);
@@ -1400,9 +1399,8 @@ return (
         <button
           key={categoria}
           type="button"
-         onClick={(evento) => {
+          onClick={(evento) => {
   setCategoriaAttiva(categoria === "Gift Card" ? "" : categoria);
-  setSezioneMobile("shop");
 
   evento.currentTarget.closest("dialog")?.close();
   setMenuAperto(false);
@@ -1410,8 +1408,18 @@ return (
   setTimeout(() => {
     const gift = document.querySelector<HTMLDetailsElement>("#gift-card");
 
-    if (gift) {
-      gift.open = categoria === "Gift Card";
+    if (categoria === "Gift Card") {
+      if (gift) gift.open = true;
+      document.getElementById("gift-card")?.scrollIntoView({
+        behavior: "auto",
+        block: "start",
+      });
+    } else {
+      if (gift) gift.open = false;
+      document.getElementById("shop")?.scrollIntoView({
+        behavior: "auto",
+        block: "start",
+      });
     }
   }, 50);
 }}
@@ -1461,7 +1469,7 @@ return (
         </div>
       </section>
       {/* LE PROMO */}
-<section id="promo" className="hidden border-b border-zinc-800 bg-black md:block">
+<section id="promo" className="border-b border-zinc-800 bg-black">
   <div className="mx-auto max-w-7xl px-6 py-24">
 
     <p className="font-bold uppercase tracking-[0.3em] text-yellow-400">
@@ -1758,22 +1766,8 @@ return (
 </section>
      
 {/* SHOP */}
-      <section
-  id="shop"
-  className={
-    sezioneMobile === "shop"
-      ? "fixed inset-0 z-[10001] overflow-y-auto overscroll-contain bg-black px-6 py-8 md:static md:z-auto md:mx-auto md:max-w-7xl md:overflow-visible md:bg-transparent md:px-6 md:py-24"
-      : "hidden md:block md:mx-auto md:max-w-7xl md:px-6 md:py-24"
-  }
->
-  <button
-  type="button"
-  onClick={() => setSezioneMobile("home")}
-  className="sticky top-0 z-50 mb-6 w-full rounded-xl border-2 border-yellow-400 bg-black px-5 py-3 font-black uppercase text-yellow-400 md:hidden"
->
-  ← CHIUDI SHOP / HOME
-</button>
-        <div className="mb-14 hidden md:block">
+      <section id="shop" className="mx-auto max-w-7xl px-6 py-24">
+        <div className="mb-14">
           <p className="font-bold uppercase tracking-[0.3em] text-yellow-400">
             BENVENUTO NELLO SHOP LALINEA OFFICIAL
           </p>
@@ -1793,7 +1787,7 @@ return (
           </p>
         </div>
 {/* CATEGORIE SHOP */}
-<div className="mb-12 hidden grid-cols-2 gap-3 md:grid md:grid-cols-4">
+<div className="mb-12 grid grid-cols-2 gap-3 md:grid-cols-4">
   {[
     "Premium Filtred",
     "Frozen e Static",
