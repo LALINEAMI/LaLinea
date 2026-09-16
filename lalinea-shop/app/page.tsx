@@ -21,6 +21,60 @@ function InfoRiga({
   );
 }
 
+function NeonGlobalStyle() {
+  return (
+    <style jsx global>{`
+      .lalinea-neon [class~="text-yellow-300"],
+      .lalinea-neon [class~="text-yellow-400"] {
+        text-shadow:
+          0 1px 1px rgba(0, 0, 0, 1),
+          0 0 5px rgba(250, 204, 21, 0.95),
+          0 0 12px rgba(250, 204, 21, 0.72),
+          0 0 22px rgba(250, 204, 21, 0.38);
+      }
+
+      .lalinea-neon .text-white,
+      .lalinea-neon [class~="text-zinc-200"],
+      .lalinea-neon [class~="text-zinc-300"],
+      .lalinea-neon [class~="text-zinc-400"] {
+        text-shadow:
+          1px 0 1px rgba(0, 0, 0, 0.95),
+          -1px 0 1px rgba(0, 0, 0, 0.95),
+          0 1px 1px rgba(0, 0, 0, 0.95),
+          0 -1px 1px rgba(0, 0, 0, 0.95);
+      }
+
+      @keyframes lalineaAccessPulse {
+        0%, 100% {
+          transform: scale(0.96);
+          opacity: 0.72;
+          box-shadow: 0 0 10px rgba(250, 204, 21, 0.35);
+        }
+        50% {
+          transform: scale(1.04);
+          opacity: 1;
+          box-shadow: 0 0 34px rgba(250, 204, 21, 0.9);
+        }
+      }
+
+      @keyframes lalineaAccessScan {
+        0% { transform: translateY(-44px); opacity: 0; }
+        20% { opacity: 1; }
+        80% { opacity: 1; }
+        100% { transform: translateY(44px); opacity: 0; }
+      }
+
+      .lalinea-access-pulse {
+        animation: lalineaAccessPulse 0.85s ease-in-out infinite;
+      }
+
+      .lalinea-access-scan {
+        animation: lalineaAccessScan 0.9s ease-in-out infinite;
+      }
+    `}</style>
+  );
+}
+
 const prodotti = [
   { id: 1, nome: "Coming Soon", categoria: "LaLinea", prezzo: "—" },
   { id: 2, nome: "Coming Soon", categoria: "LaLinea", prezzo: "—" },
@@ -144,7 +198,7 @@ function PlayerMusicale() {
       <button
         type="button"
         onClick={() => setPlayerVisibile(true)}
-        className="fixed bottom-4 right-4 z-[99999] border-2 border-yellow-400 bg-black px-5 py-3 font-black uppercase text-yellow-400"
+        className="fixed bottom-4 right-4 z-[99999] border-2 border-yellow-400 bg-black px-5 py-3 font-black uppercase text-yellow-400 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
       >
         Apri musica
       </button>
@@ -157,7 +211,7 @@ function PlayerMusicale() {
         type="button"
         onClick={chiudiPlayer}
         aria-label="Chiudi player musicale"
-        className="mb-3 block w-full border-2 border-yellow-400 bg-yellow-400 px-4 py-3 text-center text-base font-black uppercase text-black"
+        className="mb-3 block w-full border-2 border-yellow-400 bg-yellow-400 px-4 py-3 text-center text-base font-black uppercase text-black rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
       >
         Chiudi player X
       </button>
@@ -470,6 +524,7 @@ const [piuVendutiVisibili, setPiuVendutiVisibili] = useState(true);
 const [password, setPassword] = useState("");
 const [mostraPassword, setMostraPassword] = useState(false)
 const [accessoConsentito, setAccessoConsentito] = useState(false);
+const [accessoInCorso, setAccessoInCorso] = useState(false);
 const [errorePassword, setErrorePassword] = useState(false);
 const [codiceScontoCheckout, setCodiceScontoCheckout] = useState("");
 const [erroreSconto, setErroreSconto] = useState("");
@@ -1116,7 +1171,8 @@ await fetch("/api/vip/order", {
 };
 if (caricamentoIniziale) {
   return (
-    <main className="min-h-screen bg-black text-white flex flex-col items-center justify-center">
+    <main className="lalinea-neon min-h-screen bg-black text-white flex flex-col items-center justify-center">
+      <NeonGlobalStyle />
       <h1 className="text-5xl font-black uppercase tracking-[0.2em] text-yellow-400">
         LALINEA
       </h1>
@@ -1131,8 +1187,9 @@ if (caricamentoIniziale) {
 }
     if (!accessoConsentito) {
   return (
-    <main className="min-h-screen bg-black text-white flex items-center justify-center px-6">
-      <div className="w-full max-w-md rounded-3xl border border-yellow-400 bg-transparent p-8 text-center">
+    <main className="lalinea-neon min-h-screen bg-black text-white flex items-center justify-center px-6">
+      <NeonGlobalStyle />
+      <div className="relative w-full max-w-md overflow-hidden rounded-3xl border-2 border-yellow-300 bg-black/35 p-8 text-center shadow-[0_0_34px_rgba(250,204,21,0.28)]">
         <img
   src="/logo-lalinea.png"
   alt="LaLinea"
@@ -1149,9 +1206,15 @@ if (caricamentoIniziale) {
             e.preventDefault();
 
             if (password === "LaLineaOrGoHome26") {
-              setAccessoConsentito(true);
               setErrorePassword(false);
+              setAccessoInCorso(true);
+
+              window.setTimeout(() => {
+                setAccessoConsentito(true);
+                setAccessoInCorso(false);
+              }, 900);
             } else {
+              setAccessoInCorso(false);
               setErrorePassword(true);
             }
           }}
@@ -1165,14 +1228,14 @@ if (caricamentoIniziale) {
       setErrorePassword(false);
     }}
     placeholder="Password"
-    className="w-full rounded-xl border border-zinc-700 bg-black/70 px-4 py-4 pr-14 text-center text-white placeholder:text-zinc-400 outline-none"
+    className="w-full rounded-xl border border-zinc-700 bg-black/70 px-4 py-4 pr-14 text-center text-white placeholder:text-zinc-400 outline-none shadow-[0_0_14px_rgba(250,204,21,0.14)]"
   />
 
   <button
     type="button"
     onClick={() => setMostraPassword((prev) => !prev)}
     aria-label={mostraPassword ? "Nascondi password" : "Mostra password"}
-    className="absolute right-3 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-lg border border-yellow-400/70 bg-black/80 text-yellow-400"
+    className="absolute right-3 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-lg border border-yellow-400/70 bg-black/80 text-yellow-400 shadow-[0_0_14px_rgba(250,204,21,0.14)]"
   >
     <svg
       viewBox="0 0 64 64"
@@ -1198,24 +1261,45 @@ if (caricamentoIniziale) {
 
           <button
             type="submit"
-            className="mt-5 w-full rounded-xl bg-yellow-400 px-6 py-4 font-black uppercase text-black"
+            disabled={accessoInCorso}
+            className="mt-5 w-full rounded-2xl border-2 border-yellow-200 bg-yellow-400 px-6 py-4 font-black uppercase text-black shadow-[0_0_24px_rgba(250,204,21,0.55)] transition active:scale-[0.98] disabled:cursor-wait disabled:opacity-80"
           >
-            Entra
+            {accessoInCorso ? "Accesso in corso..." : "Entra"}
           </button>
         </form>
+
+        {accessoInCorso && (
+          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center rounded-3xl bg-black/95 px-6 backdrop-blur-sm">
+            <div className="lalinea-access-pulse relative flex h-28 w-28 items-center justify-center overflow-hidden rounded-full border-2 border-yellow-200 bg-yellow-400/10 shadow-[0_0_30px_rgba(250,204,21,0.65)]">
+              <div className="absolute inset-3 rounded-full border border-yellow-300/70 shadow-[0_0_14px_rgba(250,204,21,0.14)]" />
+              <div className="lalinea-access-scan absolute left-3 right-3 h-[2px] bg-yellow-200 shadow-[0_0_14px_rgba(250,204,21,1)]" />
+              <span className="text-xs font-black uppercase tracking-[0.22em] text-yellow-300">
+                LaLinea
+              </span>
+            </div>
+
+            <p className="mt-6 text-lg font-black uppercase tracking-[0.2em] text-yellow-300">
+              Accesso autorizzato
+            </p>
+            <p className="mt-2 text-xs font-bold uppercase tracking-[0.18em] text-zinc-300">
+              Apertura area riservata
+            </p>
+          </div>
+        )}
       </div>
     </main>
   );
 }
 
 return (
-    <main onClick={avviaMusica} className="min-h-screen text-white">
+    <main onClick={avviaMusica} className="lalinea-neon min-h-screen text-white">
+      <NeonGlobalStyle />
       {popupConsegne && (
         <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/80 px-4">
           <div
             role="dialog"
             aria-modal="true"
-            className="relative w-full max-w-lg border-2 border-yellow-400 bg-zinc-950 px-6 py-12 text-center shadow-2xl"
+            className="relative w-full max-w-lg border-2 border-yellow-400 bg-zinc-950 px-6 py-12 text-center shadow-2xl rounded-2xl"
           >
             <button
               type="button"
@@ -1224,7 +1308,7 @@ return (
                 setPopupConsegne(null);
               }}
               aria-label="Chiudi popup"
-              className="absolute right-4 top-4 flex h-12 w-12 items-center justify-center rounded-full border-2 border-yellow-400 text-3xl font-black text-yellow-400"
+              className="absolute right-4 top-4 flex h-12 w-12 items-center justify-center rounded-full border-2 border-yellow-400 text-3xl font-black text-yellow-400 shadow-[0_0_14px_rgba(250,204,21,0.14)]"
             >
               ×
             </button>
@@ -1473,7 +1557,7 @@ return (
       aria-label="Apri menu"
       aria-haspopup="dialog"
       aria-expanded={menuAperto}
-      className="h-11 rounded-full border border-yellow-400 px-4 font-black text-yellow-400 md:hidden"
+      className="h-11 rounded-full border border-yellow-400 px-4 font-black text-yellow-400 md:hidden shadow-[0_0_14px_rgba(250,204,21,0.14)]"
     >
       ☰ MENU
     </button><button
@@ -1552,13 +1636,13 @@ return (
       if (evento.target === evento.currentTarget) evento.currentTarget.close();
     }}
     aria-label="Menu LaLinea"
-    className="m-auto w-[calc(100%-2rem)] max-w-lg overflow-hidden rounded-2xl border border-yellow-400 bg-zinc-950 p-4 text-white backdrop:bg-black/80"
+    className="m-auto w-[calc(100%-2rem)] max-w-lg overflow-hidden rounded-2xl border border-yellow-400 bg-zinc-950 p-4 text-white backdrop:bg-black/80 shadow-[0_0_14px_rgba(250,204,21,0.14)]"
     style={{ maxHeight: "none)" }}
   >
     <div className="mb-4 flex items-center justify-between gap-3">
       <h2 className="text-xl font-black text-yellow-400">MENU LALINEA</h2>
       <form method="dialog">
-        <button aria-label="Chiudi menu" className="h-11 w-11 rounded-full border border-zinc-600 text-2xl">×</button>
+        <button aria-label="Chiudi menu" className="h-11 w-11 rounded-full border border-zinc-600 text-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">×</button>
       </form>
     </div>
 
@@ -1595,7 +1679,7 @@ return (
     }
   }, 50);
 }}
-          className="min-h-12 min-w-0 rounded-lg border border-zinc-700 bg-black px-3 py-3 text-left text-xs font-black uppercase [overflow-wrap:anywhere] hover:border-yellow-400 sm:text-sm"
+          className="min-h-12 min-w-0 rounded-lg border border-zinc-700 bg-black px-3 py-3 text-left text-xs font-black uppercase [overflow-wrap:anywhere] hover:border-yellow-400 sm:text-sm shadow-[0_0_14px_rgba(250,204,21,0.14)]"
         >
           {categoria}
           {categoria === "Gift Card" && <span className="ml-2 inline-block rounded-full bg-yellow-400 px-2 py-1 text-[10px] text-black">NUOVA</span>}
@@ -1621,7 +1705,7 @@ return (
              sezione.scrollIntoView({ behavior: "auto", block: "start" });
             }
           });
-        }} className="min-h-11 rounded-lg border border-zinc-700 bg-black px-3 py-3 text-left text-sm font-bold hover:border-yellow-400">
+        }} className="min-h-11 rounded-lg border border-zinc-700 bg-black px-3 py-3 text-left text-sm font-bold hover:border-yellow-400 shadow-[0_0_14px_rgba(250,204,21,0.14)]">
           {titolo}
         </button>
       ))}
@@ -1629,7 +1713,7 @@ return (
         evento.currentTarget.closest("dialog")?.close();
         setMenuAperto(false);
         setSnakeAperto(true);
-      }} className="min-h-11 rounded-lg border border-zinc-700 bg-black px-3 py-3 text-left text-sm font-bold">Gioca</button>
+      }} className="min-h-11 rounded-lg border border-zinc-700 bg-black px-3 py-3 text-left text-sm font-bold shadow-[0_0_14px_rgba(250,204,21,0.14)]">Gioca</button>
       <a href="/vip" className="min-h-11 rounded-lg bg-yellow-400 px-3 py-3 text-sm font-black text-black">Area VIP</a>
     </div>
   </dialog>
@@ -1659,7 +1743,7 @@ return (
     <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-3">
 
       {/* SILVER PACK */}
-      <div id="silver-pack-card"className="flex flex-col border border-zinc-700 bg-zinc-950 p-6">
+      <div id="silver-pack-card"className="flex flex-col border border-zinc-700 bg-zinc-950 p-6 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
 
         <video
   src="/products/promo/silver.mp4"
@@ -1667,7 +1751,7 @@ return (
   muted
   loop
   playsInline
-  className="mb-6 aspect-square w-full border border-zinc-800 object-cover"
+  className="mb-6 aspect-square w-full border border-zinc-800 object-cover rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
 />
         <p className="text-sm font-black uppercase tracking-[0.3em] text-zinc-400">
           Promo Pack
@@ -1718,21 +1802,21 @@ return (
               ];
             });
           }}
-          className="mt-6 w-full border border-yellow-400 bg-yellow-400 px-5 py-4 font-black uppercase text-black"
+          className="mt-6 w-full border border-yellow-400 bg-yellow-400 px-5 py-4 font-black uppercase text-black rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
         >
           Aggiungi al carrello
         </button>
       </div>
 
       {/* GOLD PACK */}
-      <div className="flex flex-col border border-yellow-400/60 bg-zinc-950 p-6">
+      <div className="flex flex-col border border-yellow-400/60 bg-zinc-950 p-6 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
       <video
   src="/products/promo/gold.mp4"
   autoPlay
   muted
   loop
   playsInline
-  className="mb-6 aspect-square w-full border border-zinc-800 object-cover"
+  className="mb-6 aspect-square w-full border border-zinc-800 object-cover rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
 />
         <p className="text-sm font-black uppercase tracking-[0.3em] text-yellow-400">
           Promo Pack
@@ -1784,21 +1868,21 @@ return (
               ];
             });
           }}
-          className="mt-6 w-full border border-yellow-400 bg-yellow-400 px-5 py-4 font-black uppercase text-black"
+          className="mt-6 w-full border border-yellow-400 bg-yellow-400 px-5 py-4 font-black uppercase text-black rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
         >
           Aggiungi al carrello
         </button>
       </div>
 
       {/* BE A HERO PACK */}
-      <div className="flex flex-col border border-yellow-400 bg-zinc-950 p-6">
+      <div className="flex flex-col border border-yellow-400 bg-zinc-950 p-6 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
         <video
   src="/products/promo/hero.mp4"
   autoPlay
   muted
   loop
   playsInline
-  className="mb-6 aspect-square w-full border border-zinc-800 object-cover"
+  className="mb-6 aspect-square w-full border border-zinc-800 object-cover rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
 />
         <p className="text-sm font-black uppercase tracking-[0.3em] text-yellow-400">
           Top Promo
@@ -1854,7 +1938,7 @@ return (
               ];
             });
           }}
-          className="mt-6 w-full border border-yellow-400 bg-yellow-400 px-5 py-4 font-black uppercase text-black"
+          className="mt-6 w-full border border-yellow-400 bg-yellow-400 px-5 py-4 font-black uppercase text-black rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
         >
           Aggiungi al carrello
         </button>
@@ -1863,7 +1947,7 @@ return (
     </div>
 
     {/* INFO MODIFICHE PACK */}
-    <div className="mt-10 border border-yellow-400/40 bg-zinc-950 p-6">
+    <div className="mt-10 border border-yellow-400/40 bg-zinc-950 p-6 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
       <p className="font-black uppercase leading-relaxed text-yellow-400">
         È POSSIBILE APPORTARE MODIFICHE AI PACCHETTI SU RICHIESTA,
         AGGIUNGENDO ANCHE PRODOTTI DELLA CATEGORIA OTHER.
@@ -1923,7 +2007,7 @@ return (
         name="tracking"
         required
         placeholder="Inserisci codice tracking"
-        className="w-full border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400"
+        className="w-full border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
       />
 
       <button
@@ -2133,7 +2217,7 @@ return (
         href="https://t.me/+UIRWbzgEJ8w4ZWI0"
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-6 inline-block border border-yellow-400 bg-yellow-400 px-6 py-4 font-black uppercase tracking-widest text-black"
+        className="mt-6 inline-block border border-yellow-400 bg-yellow-400 px-6 py-4 font-black uppercase tracking-widest text-black rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
       >
         Informazioni su Telegram
       </a>
@@ -2973,7 +3057,7 @@ return (
               });
             }}
 
-            className={`border px-4 py-4 text-center ${
+            className={`rounded-2xl border px-4 py-4 text-center shadow-[0_0_14px_rgba(250,204,21,0.14)] ${
               opzione.grammi === "17G PROMO LANCIO"
                 ? "border-yellow-300 bg-yellow-400 text-black shadow-[0_0_18px_rgba(250,204,21,0.45)]"
                 : "border-yellow-400 bg-zinc-950"
@@ -4249,7 +4333,7 @@ return (
   </div>
 )}
 {categoriaAttiva === "Gadget" && (
-        <article className="overflow-hidden border border-zinc-800 bg-zinc-950">
+        <article className="overflow-hidden border border-zinc-800 bg-zinc-950 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
           <div className="grid md:grid-cols-2">
             <div className="p-4">
               <img
@@ -4323,7 +4407,7 @@ return (
 <button
   type="button"
   onClick={aggiungiCoverConPunti}
-  className="mt-3 w-full border border-yellow-400 bg-black px-6 py-4 font-black uppercase text-yellow-400"
+  className="mt-3 w-full border border-yellow-400 bg-black px-6 py-4 font-black uppercase text-yellow-400 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
 >
   Aggiungi con 500 punti
 </button>
@@ -4332,7 +4416,7 @@ return (
         </article>
 )}
 {categoriaAttiva === "Gadget" && (
-  <article className="mt-12 overflow-hidden border border-zinc-800 bg-zinc-950">
+  <article className="mt-12 overflow-hidden border border-zinc-800 bg-zinc-950 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
     <div className="grid md:grid-cols-2">
       <div className="p-4">
         <video
@@ -4401,24 +4485,24 @@ return (
 )}
 {/* CALZE LALINEA - OMAGGIO VIP */}
 {String(categoriaAttiva).toLowerCase() === "abbigliamento" && (
-  <article className="mx-auto my-10 w-[calc(100%-2rem)] max-w-5xl overflow-hidden border-2 border-yellow-400/60 bg-black text-white">
+  <article className="mx-auto my-10 w-[calc(100%-2rem)] max-w-5xl overflow-hidden border-2 border-yellow-400/60 bg-black text-white rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
     <div className="grid grid-cols-3 gap-2 p-3 md:gap-4 md:p-6">
       <img
         src="/products/abbigliamento/calza1.jpg"
         alt="Calze LaLinea foto 1"
-        className="aspect-square w-full border border-zinc-800 object-cover"
+        className="aspect-square w-full border border-zinc-800 object-cover rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
       />
 
       <img
         src="/products/abbigliamento/calza2.jpg"
         alt="Calze LaLinea foto 2"
-        className="aspect-square w-full border border-zinc-800 object-cover"
+        className="aspect-square w-full border border-zinc-800 object-cover rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
       />
 
       <img
         src="/products/abbigliamento/calza3.jpg"
         alt="Calze LaLinea foto 3"
-        className="aspect-square w-full border border-zinc-800 object-cover"
+        className="aspect-square w-full border border-zinc-800 object-cover rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
       />
     </div>
 
@@ -4454,7 +4538,7 @@ return (
 {/* GIFT CARD */}
       <details
         id="gift-card"
-        className="group mt-8 border border-yellow-400/50 bg-black"
+        className="group mt-8 border border-yellow-400/50 bg-black rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
       >
         <summary className="cursor-pointer list-none px-5 py-5">
           <div className="flex items-center justify-between gap-4">
@@ -4471,7 +4555,7 @@ return (
               </h2>
             </div>
 
-            <span className="shrink-0 border border-yellow-400 px-4 py-2 text-sm font-black uppercase text-yellow-400">
+            <span className="shrink-0 border border-yellow-400 px-4 py-2 text-sm font-black uppercase text-yellow-400 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
               <span className="group-open:hidden">
                 Apri categoria +
               </span>
@@ -4499,7 +4583,7 @@ return (
             ].map((giftCard) => (
               <article
                 key={giftCard.valore}
-                className="flex flex-col border border-zinc-800 bg-zinc-950 p-4"
+                className="flex flex-col border border-zinc-800 bg-zinc-950 p-4 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
               >
                 <p className="text-xs font-bold uppercase text-yellow-400">
                   Gift Card
@@ -4540,7 +4624,7 @@ return (
                         giftCard.punti
                       )
                     }
-                    className="w-full border border-yellow-400 px-4 py-3 font-black uppercase text-yellow-400"
+                    className="w-full border border-yellow-400 px-4 py-3 font-black uppercase text-yellow-400 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
                   >
                     Riscatta con punti
                   </button>
@@ -4552,7 +4636,7 @@ return (
       </details>
 
         {/* CARRELLO */}
-        <div className="mt-12 border border-yellow-400 bg-black p-6">
+        <div className="mt-12 border border-yellow-400 bg-black p-6 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
           <div className="flex items-center justify-between">
             <h3 className="text-3xl font-black uppercase">
               Carrello
@@ -4576,7 +4660,7 @@ return (
                 {carrello.map((item) => (
                   <div
                     key={item.id}
-                    className="border border-zinc-800 p-4"
+                    className="border border-zinc-800 p-4 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
                   >
                     <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                       <div>
@@ -4594,7 +4678,7 @@ return (
                           onClick={() =>
                             cambiaQuantita(item.id, -1)
                           }
-                          className="h-10 w-10 border border-zinc-700 font-black hover:border-yellow-400"
+                          className="h-10 w-10 border border-zinc-700 font-black hover:border-yellow-400 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
                         >
                           −
                         </button>
@@ -4607,7 +4691,7 @@ return (
                           onClick={() =>
                             cambiaQuantita(item.id, 1)
                           }
-                          className="h-10 w-10 border border-zinc-700 font-black hover:border-yellow-400"
+                          className="h-10 w-10 border border-zinc-700 font-black hover:border-yellow-400 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
                         >
                           +
                         </button>
@@ -4644,7 +4728,7 @@ return (
                 <div className="mt-6 grid gap-3 md:grid-cols-2">
                   <button
                     onClick={() => setCarrello([])}
-                    className="border border-zinc-700 px-5 py-4 font-black uppercase tracking-widest hover:border-yellow-400"
+                    className="border border-zinc-700 px-5 py-4 font-black uppercase tracking-widest hover:border-yellow-400 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
                   >
                     Svuota carrello
                   </button>
@@ -4668,7 +4752,7 @@ return (
 
         {/* CHECKOUT */}
 {checkoutAperto && carrello.length > 0 && (
-  <div className="mt-8 border border-zinc-700 bg-zinc-950 p-6">
+  <div className="mt-8 border border-zinc-700 bg-zinc-950 p-6 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
     <div className="flex items-center justify-between">
       <h3 className="text-3xl font-black uppercase">
         Checkout
@@ -4692,7 +4776,7 @@ return (
         placeholder="Nome"
         value={datiCliente.nome}
 onChange={(e) => setDatiCliente((prev) => ({ ...prev, nome: e.target.value }))}
-        className="border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400"
+        className="border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
       />
 
       <input
@@ -4700,7 +4784,7 @@ onChange={(e) => setDatiCliente((prev) => ({ ...prev, nome: e.target.value }))}
         placeholder="Cognome"
         value={datiCliente.cognome}
 onChange={(e) => setDatiCliente((prev) => ({ ...prev, cognome: e.target.value }))}
-        className="border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400"
+        className="border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
       />
 
       <input
@@ -4708,7 +4792,7 @@ onChange={(e) => setDatiCliente((prev) => ({ ...prev, cognome: e.target.value })
         placeholder="Email"
         value={datiCliente.email}
 onChange={(e) => setDatiCliente((prev) => ({ ...prev, email: e.target.value }))}
-        className="border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400"
+        className="border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
       />
       <div className="mt-4">
   <label className="mb-2 block text-sm font-bold uppercase">
@@ -4723,7 +4807,7 @@ onChange={(e) => setDatiCliente((prev) => ({ ...prev, email: e.target.value }))}
 onChange={(e) =>
   setCodiceSconto(e.target.value.toUpperCase())
 }
-      className="min-w-0 flex-1 rounded-xl border border-zinc-700 bg-black p-4 text-white outline-none"
+      className="min-w-0 flex-1 rounded-xl border border-zinc-700 bg-black p-4 text-white outline-none shadow-[0_0_14px_rgba(250,204,21,0.14)]"
     />
 
     <button
@@ -4757,7 +4841,7 @@ onChange={(e) =>
     <button
       type="button"
       onClick={() => setModalitaOrdine("delivery")}
-      className={`border p-4 font-bold uppercase ${
+      className={`rounded-2xl border p-4 font-bold uppercase shadow-[0_0_14px_rgba(250,204,21,0.14)] ${
         modalitaOrdine === "delivery"
           ? "bg-yellow-400 text-black border-yellow-400"
           : "bg-black text-white border-zinc-700"
@@ -4769,7 +4853,7 @@ onChange={(e) =>
     <button
       type="button"
       onClick={() => setModalitaOrdine("point")}
-      className={`border p-4 font-bold uppercase ${
+      className={`rounded-2xl border p-4 font-bold uppercase shadow-[0_0_14px_rgba(250,204,21,0.14)] ${
         modalitaOrdine === "point"
           ? "bg-yellow-400 text-black border-yellow-400"
           : "bg-black text-white border-zinc-700"
@@ -4781,7 +4865,7 @@ onChange={(e) =>
     <button
       type="button"
       onClick={() => setModalitaOrdine("spedizione")}
-      className={`border p-4 font-bold uppercase ${
+      className={`rounded-2xl border p-4 font-bold uppercase shadow-[0_0_14px_rgba(250,204,21,0.14)] ${
         modalitaOrdine === "spedizione"
           ? "bg-yellow-400 text-black border-yellow-400"
           : "bg-black text-white border-zinc-700"
@@ -4797,14 +4881,14 @@ onChange={(e) =>
         placeholder="Telefono"
         value={datiCliente.telefono}
 onChange={(e) => setDatiCliente((prev) => ({ ...prev, telefono: e.target.value }))}
-        className="border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400"
+        className="border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
       />
       <input
   type="text"
   placeholder="Indirizzo di consegna"  
   value={datiCliente.indirizzo}
 onChange={(e) => setDatiCliente((prev) => ({ ...prev, indirizzo: e.target.value }))}
-  className="border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400 md:col-span-2"
+  className="border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400 md:col-span-2 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
 />
 {modalitaOrdine === "delivery" && (
   <div className="mt-6 md:col-span-2">
@@ -4821,7 +4905,7 @@ onChange={(e) => setDatiCliente((prev) => ({ ...prev, indirizzo: e.target.value 
         setOrarioConsegna("");
       }}
       required
-      className="w-full border border-zinc-700 bg-black px-4 py-3 text-white outline-none focus:border-yellow-400"
+      className="w-full border border-zinc-700 bg-black px-4 py-3 text-white outline-none focus:border-yellow-400 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
     />
 
     <label className="mb-2 mt-5 block text-sm font-bold uppercase">
@@ -4833,7 +4917,7 @@ onChange={(e) => setDatiCliente((prev) => ({ ...prev, indirizzo: e.target.value 
       onChange={(event) => setOrarioConsegna(event.target.value)}
       required
       disabled={caricamentoOrari || !dataConsegna}
-      className="w-full border border-zinc-700 bg-black px-4 py-3 text-white outline-none focus:border-yellow-400 disabled:opacity-50"
+      className="w-full border border-zinc-700 bg-black px-4 py-3 text-white outline-none focus:border-yellow-400 disabled:opacity-50 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
     >
       <option value="">
         {caricamentoOrari
@@ -4970,7 +5054,7 @@ onClick={(e) => {
     <button
   type="button"
   onClick={() => setRecensioniAperte(!recensioniAperte)}
-  className="mt-6 border border-yellow-400 bg-black px-6 py-3 font-black uppercase text-white hover:text-yellow-400"
+  className="mt-6 border border-yellow-400 bg-black px-6 py-3 font-black uppercase text-white hover:text-yellow-400 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
 >
   {recensioniAperte ? "Chiudi recensioni" : "Mostra recensioni"}
 </button>
@@ -5003,7 +5087,7 @@ onClick={(e) => {
             Scegli il Point LaLinea più comodo per ritirare i tuoi prodotti a Milano.
           </p>
 
-          <div className="mt-8 border border-yellow-400 bg-yellow-400/10 p-6">
+          <div className="mt-8 border border-yellow-400 bg-yellow-400/10 p-6 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
             <p className="font-black uppercase tracking-wider text-yellow-400">
               IMPORTANTE
             </p>
@@ -5017,7 +5101,7 @@ onClick={(e) => {
            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch">
 
   {/* POINT 01 */}
-  <div className="flex flex-col justify-between border border-zinc-800 bg-black p-4 min-h-[220px]">
+  <div className="flex flex-col justify-between border border-zinc-800 bg-black p-4 min-h-[220px] rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
     <div>
       <p className="text-xs font-bold uppercase tracking-[0.25em] text-yellow-400">
         POINT 01
@@ -5047,7 +5131,7 @@ onClick={(e) => {
   </div>
 
   {/* POINT 02 */}
-  <div className="flex flex-col justify-between border border-zinc-800 bg-black p-4 min-h-[220px]">
+  <div className="flex flex-col justify-between border border-zinc-800 bg-black p-4 min-h-[220px] rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
     <div>
       <p className="text-xs font-bold uppercase tracking-[0.25em] text-yellow-400">
         POINT 02
@@ -5081,7 +5165,7 @@ onClick={(e) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch">
 
   {/* POINT 03 */}
-  <div className="flex flex-col justify-between border border-zinc-800 bg-black p-4 min-h-[220px]">
+  <div className="flex flex-col justify-between border border-zinc-800 bg-black p-4 min-h-[220px] rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
     <div>
       <p className="text-xs font-bold uppercase tracking-[0.25em] text-yellow-400">
         POINT 03
@@ -5111,7 +5195,7 @@ onClick={(e) => {
   </div>
 
   {/* POINT 04 */}
-  <div className="flex flex-col justify-between border border-zinc-800 bg-black p-4 min-h-[220px]">
+  <div className="flex flex-col justify-between border border-zinc-800 bg-black p-4 min-h-[220px] rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
     <div>
       <p className="text-xs font-bold uppercase tracking-[0.25em] text-yellow-400">
         POINT 04
@@ -5141,7 +5225,7 @@ onClick={(e) => {
   </div>
 
 </div>
-<div className="flex flex-col justify-between border border-zinc-800 bg-black p-6">
+<div className="flex flex-col justify-between border border-zinc-800 bg-black p-6 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
   <div>
     <p className="text-xs font-bold uppercase tracking-[0.25em] text-yellow-400">
       POINT 05
@@ -5186,7 +5270,7 @@ onClick={(e) => {
 
           <div className="mt-12 grid gap-6 md:grid-cols-2">
 
-            <div className="border border-zinc-800 bg-zinc-950 p-6">
+            <div className="border border-zinc-800 bg-zinc-950 p-6 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
               <p className="text-xs font-bold uppercase tracking-[0.25em] text-yellow-400">
                 INFORMAZIONI PRE E POST VENDITA
               </p>
@@ -5200,7 +5284,7 @@ onClick={(e) => {
               </a>
             </div>
 
-            <div className="border border-zinc-800 bg-zinc-950 p-6">
+            <div className="border border-zinc-800 bg-zinc-950 p-6 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
               <p className="text-xs font-bold uppercase tracking-[0.25em] text-yellow-400">
                 ORDINI
               </p>
@@ -5223,7 +5307,7 @@ onClick={(e) => {
               </a>
             </div>
 
-            <div className="border border-zinc-800 bg-zinc-950 p-6">
+            <div className="border border-zinc-800 bg-zinc-950 p-6 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
               <p className="text-xs font-bold uppercase tracking-[0.25em] text-yellow-400">
                 FORNITORI / RIVENDITORI
               </p>
@@ -5237,7 +5321,7 @@ onClick={(e) => {
               </a>
             </div>
 
-            <div className="border border-zinc-800 bg-zinc-950 p-6">
+            <div className="border border-zinc-800 bg-zinc-950 p-6 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
               <p className="text-xs font-bold uppercase tracking-[0.25em] text-yellow-400">
                 SPEDIZIONI ITALIA / ESTERO
               </p>
@@ -5246,7 +5330,7 @@ onClick={(e) => {
               </p>
             </div>
 
-            <div className="border border-yellow-400 p-6 md:col-span-2">
+            <div className="border border-yellow-400 p-6 md:col-span-2 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
               <p className="text-xs font-bold uppercase tracking-[0.25em] text-yellow-400">
                 VUOI LAVORARE CON NOI?
               </p>
@@ -5283,7 +5367,7 @@ onClick={(e) => {
     <p className="mt-4 text-zinc-400">
       Consegna disponibile in tutta Milano. Costo consegna: 10 € in zona bianca 25€ in zona rossa
     </p>
-<div className="mt-8 overflow-hidden border border-yellow-400/30">
+<div className="mt-8 overflow-hidden border border-yellow-400/30 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
   <img
     src="/mappa.jpg"
     alt="Mappa zone di consegna LaLinea"
@@ -5291,7 +5375,7 @@ onClick={(e) => {
   />
 </div>
 {/* DESCRIZIONE ORARI DELIVERY */}
-<div className="mt-6 border border-zinc-800 bg-zinc-950 p-5">
+<div className="mt-6 border border-zinc-800 bg-zinc-950 p-5 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
   <p className="text-[1.05rem] font-bold uppercase leading-relaxed text-yellow-400">
     LE CONSEGNE VENGONO EFFETTUATE TUTTI I GIORNI DALLE 13 ALLE 14
     <br />
@@ -5312,7 +5396,7 @@ onClick={(e) => {
         href="https://t.me/+WWNiFZ_7VlZlZWY0"
 target="_blank"
 rel="noopener noreferrer"
-        className="inline-block border border-yellow-400 bg-yellow-400 px-6 py-4 font-black uppercase tracking-widest text-black"
+        className="inline-block border border-yellow-400 bg-yellow-400 px-6 py-4 font-black uppercase tracking-widest text-black rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
       >
         Orari e gruppi Telegram
       </a>
@@ -5324,7 +5408,7 @@ rel="noopener noreferrer"
   <button
     type="button"
     onClick={() => setSnakeAperto(true)}
-    className="border-2 border-yellow-400 bg-black px-8 py-4 font-black uppercase text-yellow-400 hover:bg-yellow-400 hover:text-black"
+    className="border-2 border-yellow-400 bg-black px-8 py-4 font-black uppercase text-yellow-400 hover:bg-yellow-400 hover:text-black rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
   >
     GIOCA A SNAKE
   </button>
@@ -5338,7 +5422,7 @@ rel="noopener noreferrer"
 <button
   type="button"
   onClick={() => setPiuVendutiVisibili(false)}
-  className="absolute right-2 top-2 z-20 flex h-7 w-7 items-center justify-center rounded-full border-2 border-yellow-400 bg-black text-sm font-black text-yellow-400"
+  className="absolute right-2 top-2 z-20 flex h-7 w-7 items-center justify-center rounded-full border-2 border-yellow-400 bg-black text-sm font-black text-yellow-400 shadow-[0_0_14px_rgba(250,204,21,0.14)]"
   aria-label="Chiudi prodotti più venduti"
 >
   ×
@@ -5363,7 +5447,7 @@ rel="noopener noreferrer"
           });
         }, 50);
       }}
-      className="overflow-hidden rounded-md border border-yellow-400/40"
+      className="overflow-hidden rounded-md border border-yellow-400/40 shadow-[0_0_14px_rgba(250,204,21,0.14)]"
     >
       <video
         src="/products/premium-filtred/voltus.mp4"
@@ -5386,7 +5470,7 @@ rel="noopener noreferrer"
           });
         }, 50);
       }}
-      className="overflow-hidden rounded-md border border-yellow-400/40"
+      className="overflow-hidden rounded-md border border-yellow-400/40 shadow-[0_0_14px_rgba(250,204,21,0.14)]"
     >
       <video
         src="/products/promo/silver.mp4"
@@ -5410,7 +5494,7 @@ rel="noopener noreferrer"
           });
         }, 50);
       }}
-      className="overflow-hidden rounded-md border border-yellow-400/40"
+      className="overflow-hidden rounded-md border border-yellow-400/40 shadow-[0_0_14px_rgba(250,204,21,0.14)]"
     >
       <video
         src="/products/flowers/tropicana1.mp4"
@@ -5557,7 +5641,7 @@ rel="noopener noreferrer"
 )}
 {snakeAperto && (
   <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 p-4">
-    <div className="relative max-h-[95vh] w-full max-w-lg overflow-y-auto border-2 border-yellow-400 bg-black p-6">
+    <div className="relative max-h-[95vh] w-full max-w-lg overflow-y-auto border-2 border-yellow-400 bg-black p-6 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
       <button
         type="button"
         onClick={() => setSnakeAperto(false)}
