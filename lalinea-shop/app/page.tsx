@@ -2712,7 +2712,221 @@ SATIVA:
     </div>
   </div>
 )}
+{/* COOKIES X RUNTZ 2.0 - PREMIUM STATIC 120ü */}
+{categoriaAttiva === "Frozen e Static" && (
+  <div className="mt-8 border border-yellow-400/60 bg-black/80 p-5">
 
+    <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+      Frozen e Static
+    </p>
+
+    <h3 className="mt-2 text-3xl font-black uppercase text-white">
+      COOKIES X RUNTZ 2.0
+    </h3>
+
+    <p className="mt-1 text-xl font-black uppercase text-yellow-400">
+      PREMIUM STATIC 120ü
+    </p>
+
+    {/* DESCRIZIONE */}
+    <div className="mt-6 space-y-3 text-sm font-bold uppercase text-zinc-300">
+
+      <p>
+        <span className="mr-2 inline-block border border-yellow-400/60 px-2 py-1 text-yellow-400">
+          FARM
+        </span>
+        Zaza Farm Morocco Lansarr
+      </p>
+
+      <p>
+        <span className="mr-2 inline-block border border-yellow-400/60 px-2 py-1 text-yellow-400">
+          GENETICA
+        </span>
+        Cookies X Runtz 2.0
+      </p>
+
+      <p>
+        <span className="mr-2 inline-block border border-yellow-400/60 px-2 py-1 text-yellow-400">
+          FILTRAGGIO
+        </span>
+        220 / 160 / 120
+      </p>
+
+      <p>
+        <span className="mr-2 inline-block border border-yellow-400/60 px-2 py-1 text-yellow-400">
+          BILANCIAMENTO
+        </span>
+        Indica 50% — Sativa 50%
+      </p>
+
+      <p>
+        <span className="mr-2 inline-block border border-yellow-400/60 px-2 py-1 text-yellow-400">
+          GUSTO
+        </span>
+        Caramella alla frutta, Terraceo, Nocciola
+      </p>
+
+      <p>
+        <span className="mr-2 inline-block border border-yellow-400/60 px-2 py-1 text-yellow-400">
+          EFFETTO
+        </span>
+        Euforico e rilassante allo stesso tempo, crea molta socialità e poca fame chimica
+      </p>
+
+      <p>
+        <span className="mr-2 inline-block border border-yellow-400/60 px-2 py-1 text-yellow-400">
+          TERPENE DOMINANTE
+        </span>
+        Myrcene
+      </p>
+
+      <p>
+        <span className="mr-2 inline-block border border-yellow-400/60 px-2 py-1 text-yellow-400">
+          STATO
+        </span>
+        Completamente vetro
+      </p>
+
+      <p>
+        <span className="mr-2 inline-block border border-yellow-400/60 px-2 py-1 text-yellow-400">
+          FORMATO
+        </span>
+        Bolle da 100
+      </p>
+
+    </div>
+
+    {/* VIDEO + FOTO */}
+    <div className="mt-6 flex items-start gap-4">
+
+      <video
+        src="/products/frozen-static/cokru1.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="w-1/4 aspect-square object-cover flex-shrink-0"
+      />
+
+      <div className="flex-1 grid grid-cols-2 gap-3 md:grid-cols-3">
+        {[2, 3, 4, 5, 6, 7].map((numero) => (
+          <img
+            key={numero}
+            src={`/products/frozen-static/cokru${numero}.jpg`}
+            alt={`Cookies X Runtz 2.0 foto ${numero}`}
+            className="w-full aspect-square object-cover"
+          />
+        ))}
+      </div>
+
+    </div>
+
+    {/* PREZZI */}
+    <div className="mt-6">
+
+      <p className="mb-3 font-bold uppercase text-white">
+        Seleziona quantità
+      </p>
+
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+
+        {[
+          { grammi: "5G", prezzo: 40 },
+          { grammi: "10G", prezzo: 70 },
+          { grammi: "17G PROMO LANCIO", prezzo: 100 },
+          { grammi: "25G", prezzo: 180 },
+          { grammi: "50G", prezzo: 250 },
+          { grammi: "100G", prezzo: 450 },
+          { grammi: "250G", prezzo: 990 },
+          { grammi: "500G", prezzo: 1990 },
+          { grammi: "1K", prezzo: 3300 },
+          { grammi: "2K", prezzo: 5600 },
+          { grammi: "5K", prezzo: 11750 },
+          { grammi: "10K", prezzo: 23000 },
+        ].map((opzione) => (
+
+          <button
+            key={opzione.grammi}
+            type="button"
+            onClick={() => {
+
+              const id = `cookies-runtz-2-${opzione.grammi}`;
+
+              setCarrello((prev) => {
+
+                const esistente = prev.find(
+                  (item) => String(item.id) === id
+                );
+
+                if (esistente) {
+                  return prev.map((item) =>
+                    String(item.id) === id
+                      ? {
+                          ...item,
+                          quantita: item.quantita + 1,
+                        }
+                      : item
+                  );
+                }
+
+                return [
+                  ...prev,
+                  {
+                    id: id as any,
+                    nome: `COOKIES X RUNTZ 2.0 PREMIUM STATIC 120ü ${opzione.grammi}`,
+                    prezzo: opzione.prezzo,
+                    quantita: 1,
+                  },
+                ];
+              });
+            }}
+
+            className={`border px-4 py-4 text-center ${
+              opzione.grammi === "17G PROMO LANCIO"
+                ? "border-yellow-400 bg-yellow-400 text-black"
+                : "border-yellow-400 bg-zinc-950"
+            }`}
+          >
+
+            <p
+              className={`text-lg font-black ${
+                opzione.grammi === "17G PROMO LANCIO"
+                  ? "text-black"
+                  : "text-white"
+              }`}
+            >
+              {opzione.grammi}
+            </p>
+
+            <p
+              className={`mt-3 text-xl font-black ${
+                opzione.grammi === "17G PROMO LANCIO"
+                  ? "text-black"
+                  : "text-yellow-400"
+              }`}
+            >
+              {opzione.prezzo.toLocaleString("it-IT")} €
+            </p>
+
+            <p
+              className={`mt-5 text-sm font-black uppercase ${
+                opzione.grammi === "17G PROMO LANCIO"
+                  ? "text-black"
+                  : "text-white"
+              }`}
+            >
+              Aggiungi al carrello
+            </p>
+
+          </button>
+
+        ))}
+
+      </div>
+    </div>
+
+  </div>
+)}
 {/* PRODOTTO FROZEN E STATIC */}
 {categoriaAttiva === "Frozen e Static" && (
   <div className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
