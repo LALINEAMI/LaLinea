@@ -1,7 +1,26 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import SnakeGame from "./components/SnakeGame";
+function InfoRiga({
+  etichetta,
+  children,
+}: {
+  etichetta: string;
+  children: ReactNode;
+}) {
+  return (
+    <p className="flex flex-col gap-2 sm:flex-row sm:items-start">
+      <span className="w-fit shrink-0 rounded-full border border-yellow-300/80 bg-yellow-400/10 px-3 py-1 text-[11px] font-black uppercase tracking-[0.16em] text-yellow-300 shadow-[0_0_14px_rgba(250,204,21,0.45)]">
+        {etichetta}
+      </span>
+      <span className="min-w-0 break-words text-sm font-bold uppercase leading-relaxed text-zinc-200">
+        {children}
+      </span>
+    </p>
+  );
+}
+
 const prodotti = [
   { id: 1, nome: "Coming Soon", categoria: "LaLinea", prezzo: "—" },
   { id: 2, nome: "Coming Soon", categoria: "LaLinea", prezzo: "—" },
@@ -1943,7 +1962,7 @@ return (
 <div className="mb-12">
   {/* MOBILE: navigazione categorie in stile catalogo */}
   <div className="md:hidden">
-    <div className="rounded-[28px] border border-zinc-800 bg-zinc-950/90 p-5">
+    <div className="rounded-[28px] border border-yellow-300/40 bg-zinc-950/90 p-5 shadow-[0_0_24px_rgba(250,204,21,0.10)]">
       <h3 className="text-2xl font-black text-white">Categorie</h3>
 
       <div className="-mx-1 mt-5 flex gap-3 overflow-x-auto px-1 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -1962,7 +1981,7 @@ return (
             onClick={() => setCategoriaAttiva(categoria)}
             className={`shrink-0 rounded-2xl border px-5 py-4 text-sm font-black uppercase tracking-wide transition ${
               categoriaAttiva === categoria
-                ? "border-yellow-400 bg-yellow-400 text-black"
+                ? "border-yellow-300 bg-yellow-400 text-black shadow-[0_0_18px_rgba(250,204,21,0.45)]"
                 : "border-zinc-700 bg-black text-white"
             }`}
           >
@@ -2000,8 +2019,8 @@ return (
             aria-pressed={categoriaAttiva === nome}
             className={`group overflow-hidden rounded-[26px] border bg-black text-left transition active:scale-[0.98] ${
               categoriaAttiva === nome
-                ? "border-yellow-400 ring-1 ring-yellow-400"
-                : "border-zinc-800"
+                ? "border-yellow-300 ring-1 ring-yellow-300 shadow-[0_0_20px_rgba(250,204,21,0.30)]"
+                : "border-yellow-300/20 shadow-[0_0_12px_rgba(250,204,21,0.08)]"
             }`}
           >
             <div className="relative aspect-[4/5] overflow-hidden bg-zinc-950">
@@ -2021,7 +2040,7 @@ return (
                   aria-hidden="true"
                   className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border text-xl font-black ${
                     categoriaAttiva === nome
-                      ? "border-yellow-400 bg-yellow-400 text-black"
+                      ? "border-yellow-300 bg-yellow-400 text-black shadow-[0_0_18px_rgba(250,204,21,0.45)]"
                       : "border-white/50 bg-black/60 text-white"
                   }`}
                 >
@@ -2050,10 +2069,10 @@ return (
         key={categoria}
         type="button"
         onClick={() => setCategoriaAttiva(categoria)}
-        className={`border px-4 py-4 text-sm font-black uppercase tracking-wider transition ${
+        className={`rounded-2xl border px-4 py-4 text-sm font-black uppercase tracking-wider transition ${
           categoriaAttiva === categoria
-            ? "border-yellow-400 bg-yellow-400 text-black"
-            : "border-zinc-800 bg-zinc-950 text-white hover:border-yellow-400 hover:text-yellow-400"
+            ? "border-yellow-300 bg-yellow-400 text-black shadow-[0_0_18px_rgba(250,204,21,0.45)]"
+            : "border-yellow-300/25 bg-zinc-950 text-white hover:border-yellow-300 hover:text-yellow-300 hover:shadow-[0_0_16px_rgba(250,204,21,0.25)]"
         }`}
       >
         {categoria}
@@ -2066,7 +2085,7 @@ return (
 <>
   <div className="mt-10">
   
-    <div className="border border-yellow-400/40 bg-black/80 p-5">
+    <div className="rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
 
       <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
         Premium Filtred
@@ -2076,24 +2095,15 @@ return (
         LAMPONI 120U
       </h3>
 
-     <p className="mt-1 font-bold uppercase text-zinc-400">
-      By Maradona Selection 
-      < br/>
-      
-      Indica 50%
-      < br/>
-      Sativa 50%
-      < br/>
-      GUSTO: Presenta note dolci di agrumi, frutti di bosco, vaniglia e uva
-      < br/>
-      EFFETTO: Offre un mix di gioia mentale edificante e delicato rilassamento fisico
-      < br/>
-     senza una pesante sedazione.
-    
-    </p>
+    <div className="mt-6 space-y-3">
+      <InfoRiga etichetta="FARM">Maradona Selection</InfoRiga>
+      <InfoRiga etichetta="BILANCIAMENTO">Indica 50% — Sativa 50%</InfoRiga>
+      <InfoRiga etichetta="GUSTO">Presenta note dolci di agrumi, frutti di bosco, vaniglia e uva</InfoRiga>
+      <InfoRiga etichetta="EFFETTO">Offre un mix di gioia mentale edificante e delicato rilassamento fisico senza una pesante sedazione.</InfoRiga>
+    </div>
 
 
-      <div className="mt-6 flex items-start gap-4">
+      <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
 
   {/* VIDEO A SINISTRA */}
   <video
@@ -2102,7 +2112,7 @@ return (
     muted
     loop
     playsInline
-    className="w-1/4 aspect-square object-cover flex-shrink-0"
+    className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
   />
 
   {/* FOTO A DESTRA */}
@@ -2112,7 +2122,7 @@ return (
         key={numero}
         src={`/products/premium-filtred/maradona${numero}.jpg`}
         alt={`LAMPONI 120U - foto ${numero}`}
-        className="w-full aspect-square object-cover"
+        className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
       />
     ))}
   </div>
@@ -2146,7 +2156,7 @@ return (
     onClick={() =>
       aggiungiMaradonaAlCarrello(opzione.grammi, opzione.prezzo)
     }
-    className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center hover:bg-yellow-400 hover:text-black"
+    className="rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center shadow-[0_0_14px_rgba(250,204,21,0.16)] hover:bg-yellow-400 hover:text-black"
   >
     <p className="font-black text-white">
       {opzione.grammi}
@@ -2171,7 +2181,7 @@ return (
   </div>
 {/* VOLTUS Z */}
 <div id="voltus-z"className="mt-10">
-  <div className="border border-yellow-400/40 bg-black/80 p-5">
+  <div className="rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
       Premium Filtred
     </p>
@@ -2180,60 +2190,58 @@ return (
       VOLTUS Z
     </h3>
 
-    <p className="mt-1 font-bold uppercase text-zinc-400">
-      BILANCIAMENTO: 60% Indica e 40% Sativa
-      <br />
-      EDIZIONE LIMITATA PRODOTTA DA GREATFULL SEED
-      <br />
-      INCROCIO: Key Lime Peach Sunset Z &amp; Head 6
-    </p>
+    <div className="mt-6 space-y-3">
+      <InfoRiga etichetta="BILANCIAMENTO">60% Indica — 40% Sativa</InfoRiga>
+      <InfoRiga etichetta="EDIZIONE">Limitata, prodotta da Greatfull Seed</InfoRiga>
+      <InfoRiga etichetta="INCROCIO">Key Lime Peach Sunset Z &amp; Head 6</InfoRiga>
+    </div>
 
     {/* VIDEO + FOTO */}
-    <div className="mt-6 flex items-start gap-4">
+    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
       <video
         src="/products/premium-filtred/voltus.mp4"
         autoPlay
         muted
         loop
         playsInline
-        className="w-1/4 aspect-square object-cover flex-shrink-0"
+        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
       />
 
       <div className="flex-1 grid grid-cols-2 gap-3 md:grid-cols-3">
         <img
           src="/products/premium-filtred/voltus1.jpg"
           alt="Voltus Z 1"
-          className="w-full aspect-square object-cover"
+          className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
         />
 
         <img
           src="/products/premium-filtred/voltus2.jpg"
           alt="Voltus Z 2"
-          className="w-full aspect-square object-cover"
+          className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
         />
 
         <img
           src="/products/premium-filtred/voltus3.jpg"
           alt="Voltus Z 3"
-          className="w-full aspect-square object-cover"
+          className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
         />
 
         <img
           src="/products/premium-filtred/voltus4.jpg"
           alt="Voltus Z 4"
-          className="w-full aspect-square object-cover"
+          className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
         />
 
         <img
           src="/products/premium-filtred/voltus5.jpg"
           alt="Voltus Z 5"
-          className="w-full aspect-square object-cover"
+          className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
         />
 
         <img
           src="/products/premium-filtred/voltus6.jpg"
           alt="Voltus Z 6"
-          className="w-full aspect-square object-cover"
+          className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
         />
       </div>
     </div>
@@ -2287,7 +2295,7 @@ return (
                 ];
               });
             }}
-            className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center"
+            className="rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center shadow-[0_0_14px_rgba(250,204,21,0.16)]"
           >
             <p className="text-xl font-black text-white">
               {opzione.grammi}
@@ -2312,7 +2320,7 @@ return (
   </div>
 </div>
   {/* LEMON CHERRY GELATO - MAGIC MOUNTAIN FARMERS */}
-<div className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
+<div className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
   <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
     Premium Filtred
   </p>
@@ -2321,21 +2329,17 @@ return (
     LEMON CHERRY GELATO 
   </h3>
 
-      <p className="mt-1 font-bold uppercase text-zinc-400">
-    BY MAGIC MOUNTAIN FARMERS 
-    <br />
-    BILANCIAMENTO: 60% Indica / 40% Sativa 
-    <br />
-    GENETICA: Sunset Sherbet x Girl Scout Cookies 
-    <br />
-AROMA:  Fruttato, di limone, ciliegia e sfumature cremose.
-<br />
-EFFETTO : Inizia con una sensazione di euforia e lucidità per poi evolvere in un forte rilassamento del corpo
-  </p>
+  <div className="mt-6 space-y-3">
+    <InfoRiga etichetta="FARM">Magic Mountain Farmers</InfoRiga>
+    <InfoRiga etichetta="BILANCIAMENTO">60% Indica — 40% Sativa</InfoRiga>
+    <InfoRiga etichetta="GENETICA">Sunset Sherbet x Girl Scout Cookies</InfoRiga>
+    <InfoRiga etichetta="AROMA">Fruttato, di limone, ciliegia e sfumature cremose.</InfoRiga>
+    <InfoRiga etichetta="EFFETTO">Inizia con una sensazione di euforia e lucidità per poi evolvere in un forte rilassamento del corpo.</InfoRiga>
+  </div>
 
   {/* LEMON CHERRY GELATO - MAGIC MOUNTAIN FARMERS */}
 <div className="mt-10">
-  <div className="border border-yellow-400/40 bg-black/80 p-5">
+  <div className="rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
 
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
       Premium Filtred
@@ -2350,7 +2354,7 @@ EFFETTO : Inizia con una sensazione di euforia e lucidità per poi evolvere in u
     </p>
 
     {/* VIDEO + FOTO */}
-<div className="mt-6 flex items-start gap-4">
+<div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
 
   {/* VIDEO A SINISTRA */}
   <video
@@ -2359,7 +2363,7 @@ EFFETTO : Inizia con una sensazione di euforia e lucidità per poi evolvere in u
     muted
     loop
     playsInline
-    className="w-1/4 aspect-square object-cover flex-shrink-0"
+    className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
   />
 
   {/* FOTO A DESTRA */}
@@ -2367,31 +2371,31 @@ EFFETTO : Inizia con una sensazione di euforia e lucidità per poi evolvere in u
     <img
       src="/products/premium-filtred/lm1.jpg"
       alt="Lemon Cherry Gelato 1"
-      className="w-full aspect-square object-cover"
+      className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
     />
 
     <img
       src="/products/premium-filtred/lm2.jpg"
       alt="Lemon Cherry Gelato 2"
-      className="w-full aspect-square object-cover"
+      className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
     />
 
     <img
       src="/products/premium-filtred/lm3.jpg"
       alt="Lemon Cherry Gelato 3"
-      className="w-full aspect-square object-cover"
+      className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
     />
 
     <img
       src="/products/premium-filtred/lm4.jpg"
       alt="Lemon Cherry Gelato 4"
-      className="w-full aspect-square object-cover"
+      className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
     />
 
     <img
       src="/products/premium-filtred/lm5.jpg"
       alt="Lemon Cherry Gelato 5"
-      className="w-full aspect-square object-cover"
+      className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
     />
   </div>
 </div>
@@ -2446,7 +2450,7 @@ EFFETTO : Inizia con una sensazione di euforia e lucidità per poi evolvere in u
                 ];
               });
             }}
-            className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center"
+            className="rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center shadow-[0_0_14px_rgba(250,204,21,0.16)]"
           >
             <p className="text-xl font-black text-white">
               {opzione.grammi}
@@ -2473,7 +2477,7 @@ EFFETTO : Inizia con una sensazione di euforia e lucidità per poi evolvere in u
 </div>
 {/* BLUEBERRY PREMIUM 73ü */}
 <div className="mt-10">
-  <div className="border border-yellow-400/40 bg-black/80 p-5">
+  <div className="rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
 
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
       Premium Filtred
@@ -2483,20 +2487,16 @@ EFFETTO : Inizia con una sensazione di euforia e lucidità per poi evolvere in u
       BLUEBERRY PREMIUM 73ü
     </h3>
 
-    <p className="mt-1 font-bold uppercase text-zinc-400">
-    BY ZAZA FARM MOROCCO 
-    <br />
-    BILANCIAMENTO: 80% Indica e 20% Sativa
-    <br />
-    GENETICA: Afghani x Thai 
-    <br />
-AROMA:  Dolce, con un forte profumo di mirtillo fresco e frutti di bosco.
-<br />
-EFFETTO : IMolto rilassante per il corpo, ideale per la sera o per alleviare lo stress e il dolore.
-  </p>
+    <div className="mt-6 space-y-3">
+      <InfoRiga etichetta="FARM">Zaza Farm Morocco</InfoRiga>
+      <InfoRiga etichetta="BILANCIAMENTO">80% Indica — 20% Sativa</InfoRiga>
+      <InfoRiga etichetta="GENETICA">Afghani x Thai</InfoRiga>
+      <InfoRiga etichetta="AROMA">Dolce, con un forte profumo di mirtillo fresco e frutti di bosco.</InfoRiga>
+      <InfoRiga etichetta="EFFETTO">Molto rilassante per il corpo, ideale per la sera o per alleviare lo stress e il dolore.</InfoRiga>
+    </div>
 
     {/* VIDEO + FOTO */}
-    <div className="mt-6 flex items-start gap-4">
+    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
 
       {/* VIDEO A SINISTRA */}
       <video
@@ -2505,7 +2505,7 @@ EFFETTO : IMolto rilassante per il corpo, ideale per la sera o per alleviare lo 
         muted
         loop
         playsInline
-        className="w-1/4 aspect-square object-cover flex-shrink-0"
+        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
       />
 
       {/* FOTO A DESTRA */}
@@ -2514,25 +2514,25 @@ EFFETTO : IMolto rilassante per il corpo, ideale per la sera o per alleviare lo 
         <img
           src="/products/premium-filtred/blu2.jpg"
           alt="BlueBerry Premium 73ü 1"
-          className="w-full aspect-square object-cover"
+          className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
         />
 
         <img
           src="/products/premium-filtred/blu3.jpg"
           alt="BlueBerry Premium 73ü 2"
-          className="w-full aspect-square object-cover"
+          className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
         />
 
         <img
           src="/products/premium-filtred/blu4.jpg"
           alt="BlueBerry Premium 73ü 3"
-          className="w-full aspect-square object-cover"
+          className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
         />
 
         <img
           src="/products/premium-filtred/blu5.jpg"
           alt="BlueBerry Premium 73ü 4"
-          className="w-full aspect-square object-cover"
+          className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
         />
 
       </div>
@@ -2587,7 +2587,7 @@ EFFETTO : IMolto rilassante per il corpo, ideale per la sera o per alleviare lo 
                 ];
               });
             }}
-            className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center"
+            className="rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center shadow-[0_0_14px_rgba(250,204,21,0.16)]"
           >
 
             <p className="text-xl font-black text-white">
@@ -2617,7 +2617,7 @@ EFFETTO : IMolto rilassante per il corpo, ideale per la sera o per alleviare lo 
   </div>
 </div>
   {/* SNOWHEADS 90u */}
-<div className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
+<div className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
   <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
     Premium Filtred
   </p>
@@ -2626,18 +2626,15 @@ EFFETTO : IMolto rilassante per il corpo, ideale per la sera o per alleviare lo 
     SNOWHEADS 90u
   </h3>
 
-  <p className="mt-1 font-bold uppercase text-zinc-400">
-    INDICA:
-< br/>
-SATIVA:
-  < br/>
-   GUSTO: NOTE DI BUCCIA DI LIMONE, GAS E MENTOLO 
-   < br/>
-   EFFETTO: Un ibrido a prevalenza sativa che offre una rapida stimolazione cerebrale, lucidità e una carica energizzante. È comunemente utilizzato per favorire la produttività diurna o alleviare lo stress.
-  </p>
+  <div className="mt-6 space-y-3">
+    <InfoRiga etichetta="INDICA">Dato non specificato</InfoRiga>
+    <InfoRiga etichetta="SATIVA">Dato non specificato</InfoRiga>
+    <InfoRiga etichetta="GUSTO">Note di buccia di limone, gas e mentolo</InfoRiga>
+    <InfoRiga etichetta="EFFETTO">Un ibrido a prevalenza sativa che offre una rapida stimolazione cerebrale, lucidità e una carica energizzante. È comunemente utilizzato per favorire la produttività diurna o alleviare lo stress.</InfoRiga>
+  </div>
 
   {/* VIDEO + FOTO */}
-  <div className="mt-6 flex items-start gap-4">
+  <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
 
     {/* VIDEO A SINISTRA */}
     <video
@@ -2646,7 +2643,7 @@ SATIVA:
       muted
       loop
       playsInline
-      className="w-1/4 aspect-square object-cover flex-shrink-0"
+      className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
     />
 
     {/* FOTO A DESTRA */}
@@ -2654,25 +2651,25 @@ SATIVA:
       <img
         src="/products/premium-filtred/head1.jpg"
         alt="SNOWHEADS 90u 1"
-        className="w-full aspect-square object-cover"
+        className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
       />
 
       <img
         src="/products/premium-filtred/head3.jpg"
         alt="SNOWHEADS 90u 2"
-        className="w-full aspect-square object-cover"
+        className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
       />
 
       <img
         src="/products/premium-filtred/head4.jpg"
         alt="SNOWHEADS 90u 3"
-        className="w-full aspect-square object-cover"
+        className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
       />
 
       <img
         src="/products/premium-filtred/head5.jpg"
         alt="SNOWHEADS 90u 4"
-        className="w-full aspect-square object-cover"
+        className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
       />
     </div>
   </div>
@@ -2726,7 +2723,7 @@ SATIVA:
               ];
             });
           }}
-          className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center"
+          className="rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center shadow-[0_0_14px_rgba(250,204,21,0.16)]"
         >
           <p className="text-xl font-black text-white">
             {opzione.grammi}
@@ -2755,7 +2752,7 @@ SATIVA:
 
 {/* PINK LEMON 120U PREMIUM */}
 {categoriaAttiva === "Premium Filtred" && (
-  <div className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
+  <div className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
       Premium Filtred
     </p>
@@ -2764,28 +2761,25 @@ SATIVA:
       PINK LEMON 120U PREMIUM
     </h3>
 
-    <p className="mt-1 font-bold uppercase text-zinc-400">
-      Indica 80%
-      <br />
-      Sativa 20%
-      <br />
-      Purple Kush × Lemon Skunk × Anonymous St.
-    </p>
+    <div className="mt-6 space-y-3">
+      <InfoRiga etichetta="BILANCIAMENTO">Indica 80% — Sativa 20%</InfoRiga>
+      <InfoRiga etichetta="GENETICA">Purple Kush × Lemon Skunk × Anonymous St.</InfoRiga>
+    </div>
 
-    <p className="mt-4 border border-yellow-400 bg-yellow-400 px-3 py-2 font-black uppercase text-black">
+    <p className="mt-4 rounded-2xl border border-yellow-200 bg-yellow-400 px-3 py-2 font-black uppercase text-black shadow-[0_0_18px_rgba(250,204,21,0.35)]">
       Prodotto in promozione — lancio domenica
       <br />
       I prezzi verranno aggiornati
     </p>
 
-    <div className="mt-6 flex items-start gap-4">
+    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
       <video
         src="/products/premium-filtred/pivo.mp4"
         autoPlay
         muted
         loop
         playsInline
-        className="w-1/4 aspect-square object-cover flex-shrink-0"
+        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
       />
 
       <div className="flex-1 grid grid-cols-2 gap-3 md:grid-cols-4">
@@ -2794,7 +2788,7 @@ SATIVA:
             key={numero}
             src={`/products/premium-filtred/pivo${numero}.jpg`}
             alt={`PINK LEMON 120U PREMIUM foto ${numero}`}
-            className="w-full aspect-square object-cover"
+            className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
           />
         ))}
       </div>
@@ -2846,7 +2840,7 @@ SATIVA:
                 ];
               });
             }}
-            className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center"
+            className="rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center shadow-[0_0_14px_rgba(250,204,21,0.16)]"
           >
             <p className="text-xl font-black text-white">
               {opzione.grammi}
@@ -2867,7 +2861,7 @@ SATIVA:
 )}
 {/* COOKIES X RUNTZ 2.0 - PREMIUM STATIC 120ü */}
 {categoriaAttiva === "Frozen e Static" && (
-  <div className="mt-8 border border-yellow-400/60 bg-black/80 p-5">
+  <div className="mt-8 rounded-3xl border border-yellow-300/80 bg-black/85 p-4 shadow-[0_0_30px_rgba(250,204,21,0.20)] sm:p-5">
 
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
       Frozen e Static
@@ -2882,75 +2876,20 @@ SATIVA:
     </p>
 
     {/* DESCRIZIONE */}
-    <div className="mt-6 space-y-3 text-sm font-bold uppercase text-zinc-300">
-
-      <p>
-        <span className="mr-2 inline-block border border-yellow-400/60 px-2 py-1 text-yellow-400">
-          FARM
-        </span>
-        Zaza Farm Morocco Lansarr
-      </p>
-
-      <p>
-        <span className="mr-2 inline-block border border-yellow-400/60 px-2 py-1 text-yellow-400">
-          GENETICA
-        </span>
-        Cookies X Runtz 2.0
-      </p>
-
-      <p>
-        <span className="mr-2 inline-block border border-yellow-400/60 px-2 py-1 text-yellow-400">
-          FILTRAGGIO
-        </span>
-        220 / 160 / 120
-      </p>
-
-      <p>
-        <span className="mr-2 inline-block border border-yellow-400/60 px-2 py-1 text-yellow-400">
-          BILANCIAMENTO
-        </span>
-        Indica 50% — Sativa 50%
-      </p>
-
-      <p>
-        <span className="mr-2 inline-block border border-yellow-400/60 px-2 py-1 text-yellow-400">
-          GUSTO
-        </span>
-        Caramella alla frutta, Terraceo, Nocciola
-      </p>
-
-      <p>
-        <span className="mr-2 inline-block border border-yellow-400/60 px-2 py-1 text-yellow-400">
-          EFFETTO
-        </span>
-        Euforico e rilassante allo stesso tempo, crea molta socialità e poca fame chimica
-      </p>
-
-      <p>
-        <span className="mr-2 inline-block border border-yellow-400/60 px-2 py-1 text-yellow-400">
-          TERPENE DOMINANTE
-        </span>
-        Myrcene
-      </p>
-
-      <p>
-        <span className="mr-2 inline-block border border-yellow-400/60 px-2 py-1 text-yellow-400">
-          STATO
-        </span>
-        Completamente vetro
-      </p>
-
-      <p>
-        <span className="mr-2 inline-block border border-yellow-400/60 px-2 py-1 text-yellow-400">
-          FORMATO
-        </span>
-        Bolle da 100
-      </p>
-
+    <div className="mt-6 space-y-3">
+      <InfoRiga etichetta="FARM">Zaza Farm Morocco Lansarr</InfoRiga>
+      <InfoRiga etichetta="GENETICA">Cookies X Runtz 2.0</InfoRiga>
+      <InfoRiga etichetta="FILTRAGGIO">220 / 160 / 120</InfoRiga>
+      <InfoRiga etichetta="BILANCIAMENTO">Indica 50% — Sativa 50%</InfoRiga>
+      <InfoRiga etichetta="GUSTO">Caramella alla frutta, Terraceo, Nocciola</InfoRiga>
+      <InfoRiga etichetta="EFFETTO">Euforico e rilassante allo stesso tempo, crea molta socialità e poca fame chimica</InfoRiga>
+      <InfoRiga etichetta="TERPENE DOMINANTE">Myrcene</InfoRiga>
+      <InfoRiga etichetta="STATO">Completamente vetro</InfoRiga>
+      <InfoRiga etichetta="FORMATO">Bolle da 100</InfoRiga>
     </div>
 
     {/* VIDEO + FOTO */}
-    <div className="mt-6 flex items-start gap-4">
+    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
 
       <video
         src="/products/frozen-static/cokru1.mp4"
@@ -2958,7 +2897,7 @@ SATIVA:
         muted
         loop
         playsInline
-        className="w-1/4 aspect-square object-cover flex-shrink-0"
+        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
       />
 
       <div className="flex-1 grid grid-cols-2 gap-3 md:grid-cols-3">
@@ -2967,7 +2906,7 @@ SATIVA:
             key={numero}
             src={`/products/frozen-static/cokru${numero}.jpg`}
             alt={`Cookies X Runtz 2.0 foto ${numero}`}
-            className="w-full aspect-square object-cover"
+            className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
           />
         ))}
       </div>
@@ -3036,7 +2975,7 @@ SATIVA:
 
             className={`border px-4 py-4 text-center ${
               opzione.grammi === "17G PROMO LANCIO"
-                ? "border-yellow-400 bg-yellow-400 text-black"
+                ? "border-yellow-300 bg-yellow-400 text-black shadow-[0_0_18px_rgba(250,204,21,0.45)]"
                 : "border-yellow-400 bg-zinc-950"
             }`}
           >
@@ -3082,7 +3021,7 @@ SATIVA:
 )}
 {/* PRODOTTO FROZEN E STATIC */}
 {categoriaAttiva === "Frozen e Static" && (
-  <div className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
+  <div className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
       Frozen e Static
     </p>
@@ -3091,31 +3030,22 @@ SATIVA:
       ORANGE PUNCH FROZEN
     </h3>
 
-    <p className="mt-1 font-bold uppercase text-zinc-400">
-      BY PABLITO FARM - BOLLE GLASSY da 50gr
-      < br/>
-      
-      Indica 70%
-      < br/>
-      Sativa 30%
-      < br/>
-      GUSTO: Arancia candita,Buccia di Arancia,Caramella alla frutta
-      < br/>
-      EFFETTO: Genetica gia a forte predominanza indica il setaccio congelato ed il format
-      < br/>
-      da 50gr fanno da contenitore per un vero pugno alla joshua che ti manderà a letto 
-    < br/>
-    in totale relax e con un retrogusto di zeste di arancia. Buona fumata
-    </p>
+    <div className="mt-6 space-y-3">
+      <InfoRiga etichetta="FARM">Pablito Farm</InfoRiga>
+      <InfoRiga etichetta="FORMATO">Bolle Glassy da 50gr</InfoRiga>
+      <InfoRiga etichetta="BILANCIAMENTO">Indica 70% — Sativa 30%</InfoRiga>
+      <InfoRiga etichetta="GUSTO">Arancia candita, buccia di arancia, caramella alla frutta</InfoRiga>
+      <InfoRiga etichetta="EFFETTO">Genetica già a forte predominanza indica; il setaccio congelato e il formato da 50gr fanno da contenitore per un vero pugno alla Joshua che ti manderà a letto in totale relax, con un retrogusto di zeste di arancia. Buona fumata.</InfoRiga>
+    </div>
 
-    <div className="mt-6 flex items-start gap-4">
+    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
       <video
         src="/products/frozen-static/arancia2.mov"
         autoPlay
         muted
         loop
         playsInline
-        className="w-1/4 aspect-square object-cover flex-shrink-0"
+        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
       />
 
       <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -3124,7 +3054,7 @@ SATIVA:
             key={numero}
             src={`/products/frozen-static/arancia${numero}.jpeg`}
             alt={`Orange Punch Frozen foto ${numero}`}
-            className="w-full aspect-square object-cover"
+            className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
           />
         ))}
       </div>
@@ -3148,7 +3078,7 @@ SATIVA:
             onClick={() =>
               aggiungiOrangeAlCarrello(opzione.grammi, opzione.prezzo)
             }
-            className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center"
+            className="rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center shadow-[0_0_14px_rgba(250,204,21,0.16)]"
           >
             <p className="text-xl font-black text-white">
               {opzione.grammi}
@@ -3169,7 +3099,7 @@ SATIVA:
 )}
 {/* SOUR DIESEL X FORBIDDEN FRUIT */}
 {categoriaAttiva === "Frozen e Static" && (
-  <div className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
+  <div className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
       Frozen e Static
     </p>
@@ -3178,57 +3108,47 @@ SATIVA:
       SOUR DIESEL X FORBIDDEN FRUIT
     </h3>
 
-    <p className="mt-1 font-bold uppercase text-zinc-400">
-      BY PABLITO FARM - BOLLE GLASSY da 50gr
-      < br/>
-      
-      Indica 40%
-      < br/>
-      Sativa 60%
-      < br/>
-      GUSTO: Frutta tropicale, kiwi, papaya e uva dolce mescolati con un forte sentore di carburante (jet-fuel)
-      < br/>
-       pino e scorza di limone.  A detta di molti il cross del decennio 
-      < br/>
-      EFFETTO: focus cerebrale ed energizzante all'inizio
-      < br/>
-     abbinato a una graduale e rilassante euforia corporea
-    
-    </p>
+    <div className="mt-6 space-y-3">
+      <InfoRiga etichetta="FARM">Pablito Farm</InfoRiga>
+      <InfoRiga etichetta="FORMATO">Bolle Glassy da 50gr</InfoRiga>
+      <InfoRiga etichetta="BILANCIAMENTO">Indica 40% — Sativa 60%</InfoRiga>
+      <InfoRiga etichetta="GUSTO">Frutta tropicale, kiwi, papaya e uva dolce, carburante jet-fuel, pino e scorza di limone. A detta di molti il cross del decennio.</InfoRiga>
+      <InfoRiga etichetta="EFFETTO">Focus cerebrale ed energizzante all'inizio, abbinato a una graduale e rilassante euforia corporea.</InfoRiga>
+    </div>
 
-    <div className="mt-6 flex items-start gap-4">
+    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
       <video
         src="/products/frozen-static/sdff2.mp4"
         autoPlay
         muted
         loop
         playsInline
-        className="w-1/4 aspect-square object-cover flex-shrink-0"
+        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
       />
 
       <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
         <img
           src="/products/frozen-static/sdff1.jpg"
           alt="Sour Diesel X Forbidden Fruit foto 1"
-          className="w-full aspect-square object-cover"
+          className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
         />
 
         <img
           src="/products/frozen-static/sdff3.jpg"
           alt="Sour Diesel X Forbidden Fruit foto 2"
-          className="w-full aspect-square object-cover"
+          className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
         />
 
         <img
           src="/products/frozen-static/sdff4.jpg"
           alt="Sour Diesel X Forbidden Fruit foto 3"
-          className="w-full aspect-square object-cover"
+          className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
         />
 
         <img
           src="/products/frozen-static/sdff5.jpg"
           alt="Sour Diesel X Forbidden Fruit foto 4"
-          className="w-full aspect-square object-cover"
+          className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
         />
       </div>
     </div>
@@ -3249,7 +3169,7 @@ SATIVA:
                 opzione.prezzo
               )
             }
-            className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center hover:bg-yellow-400 hover:text-black"
+            className="rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center shadow-[0_0_14px_rgba(250,204,21,0.16)] hover:bg-yellow-400 hover:text-black"
           >
             <p className="font-black text-white">
               {opzione.grammi}
@@ -3270,7 +3190,7 @@ SATIVA:
 )}
 {/* LEMON STATIC PREMIUM */}
 {categoriaAttiva === "Frozen e Static" && (
-  <div className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
+  <div className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
       Frozen e Static
     </p>
@@ -3279,63 +3199,57 @@ SATIVA:
       LEMON STATIC PREMIUM
     </h3>
 
-    <p className="mt-3 font-bold uppercase text-zinc-400">
-      INDICA 50%
-      <br />
-      SATIVA 50%
-      <br />
-      GUSTO: buccia di limone, cedro, sentori di Kush e pino
-      <br />
-      EFFETTO: uplifting totale, mentale e fisico, ottimo per il
-      sollievo dal dolore. Questa genetica viene utilizzata da circa
-      vent&apos;anni anche a livello palliativo.
-    </p>
+    <div className="mt-6 space-y-3">
+      <InfoRiga etichetta="BILANCIAMENTO">Indica 50% — Sativa 50%</InfoRiga>
+      <InfoRiga etichetta="GUSTO">Buccia di limone, cedro, sentori di Kush e pino</InfoRiga>
+      <InfoRiga etichetta="EFFETTO">Uplifting totale, mentale e fisico, ottimo per il sollievo dal dolore. Questa genetica viene utilizzata da circa vent&apos;anni anche a livello palliativo.</InfoRiga>
+    </div>
 
-    <div className="mt-6 flex items-start gap-4">
+    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
       <video
         src="/products/frozen-static/lemon1.mp4"
         autoPlay
         muted
         loop
         playsInline
-        className="w-1/4 aspect-square object-cover flex-shrink-0"
+        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
       />
 
       <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-4">
         <img
           src="/products/frozen-static/lemon2.jpg"
           alt="Lemon Static Premium foto 1"
-          className="w-full aspect-square object-cover"
+          className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
         />
 
         <img
           src="/products/frozen-static/lemon3.jpg"
           alt="Lemon Static Premium foto 2"
-          className="w-full aspect-square object-cover"
+          className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
         />
 
         <img
           src="/products/frozen-static/lemon4.jpg"
           alt="Lemon Static Premium foto 3"
-          className="w-full aspect-square object-cover"
+          className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
         />
 
         <img
           src="/products/frozen-static/lemon5.jpg"
           alt="Lemon Static Premium foto 4"
-          className="w-full aspect-square object-cover"
+          className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
         />
 
         <img
           src="/products/frozen-static/lemon6.jpg"
           alt="Lemon Static Premium foto 5"
-          className="w-full aspect-square object-cover"
+          className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
         />
 
         <img
           src="/products/frozen-static/lemon7.jpg"
           alt="Lemon Static Premium foto 6"
-          className="w-full aspect-square object-cover"
+          className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
         />
       </div>
     </div>
@@ -3356,7 +3270,7 @@ SATIVA:
                 opzione.prezzo
               )
             }
-            className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center hover:bg-yellow-400 hover:text-black transition"
+            className="rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center shadow-[0_0_14px_rgba(250,204,21,0.16)] hover:bg-yellow-400 hover:text-black transition"
           >
             <p className="font-black text-white">
               {opzione.grammi}
@@ -3378,7 +3292,7 @@ SATIVA:
 
 {/* ROSIN H HOMEMADE 37u */}
 {categoriaAttiva === "Rosin & Pen" && (
-  <div className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
+  <div className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
       Rosin & Pen
     </p>
@@ -3387,20 +3301,19 @@ SATIVA:
       ROSIN H HOMEMADE 37u
     </h3>
 
-    <p className="mt-1 font-bold uppercase text-zinc-400">
-      Rosin prodotto a Milano da noi
-      <br />
-      con presse Qnubu, crioterapia e una lunga cura
-    </p>
+    <div className="mt-6 space-y-3">
+      <InfoRiga etichetta="PRODUZIONE">Rosin prodotto a Milano da noi</InfoRiga>
+      <InfoRiga etichetta="PROCESSO">Presse Qnubu, crioterapia e una lunga cura</InfoRiga>
+    </div>
 
-    <div className="mt-6 flex items-start gap-4">
+    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
       <video
         src="/products/rosin/rosin1.MOV"
         autoPlay
         muted
         loop
         playsInline
-        className="w-1/4 aspect-square object-cover flex-shrink-0"
+        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
       />
 
       <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -3409,7 +3322,7 @@ SATIVA:
             key={numero}
             src={`/products/rosin/rosint${numero}.jpg`}
             alt={`ROSIN H HOMEMADE 37u foto ${numero}`}
-            className="w-full aspect-square object-cover"
+            className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
           />
         ))}
       </div>
@@ -3437,7 +3350,7 @@ SATIVA:
                 opzione.prezzo
               )
             }
-            className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center"
+            className="rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center shadow-[0_0_14px_rgba(250,204,21,0.16)]"
           >
             <p className="text-xl font-black text-white">
               {opzione.grammi}
@@ -3459,7 +3372,7 @@ SATIVA:
 
 {/* ROSIN & PEN - LIVE ROS ETH TROPICANA COOKIES 45u */}
 {categoriaAttiva === "Rosin & Pen" && (
-  <div className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
+  <div className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
       Rosin & Pen
     </p>
@@ -3468,17 +3381,15 @@ SATIVA:
       LIVE ROS ETH TROPICANA COOKIES 45u
     </h3>
 
-    <p className="mt-1 font-bold uppercase text-zinc-400">
-      Per quantitativi più grossi, vi preghiamo di ordinare
-      <br />
-      con qualche giorno di anticipo
-    </p>
+    <div className="mt-6 space-y-3">
+      <InfoRiga etichetta="NOTA">Per quantitativi più grossi, vi preghiamo di ordinare con qualche giorno di anticipo.</InfoRiga>
+    </div>
 
-    <div className="mt-6 flex items-start gap-4">
+    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
       <img
         src="/products/rosin/etere1.jpg"
         alt="LIVE ROS ETH TROPICANA COOKIES 45u foto 1"
-        className="w-1/4 aspect-square object-cover flex-shrink-0"
+        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
       />
 
       <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -3487,7 +3398,7 @@ SATIVA:
             key={numero}
             src={`/products/rosin/etere${numero}.jpg`}
             alt={`LIVE ROS ETH TROPICANA COOKIES 45u foto ${numero}`}
-            className="w-full aspect-square object-cover"
+            className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
           />
         ))}
       </div>
@@ -3535,7 +3446,7 @@ SATIVA:
                 ];
               });
             }}
-            className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center"
+            className="rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center shadow-[0_0_14px_rgba(250,204,21,0.16)]"
           >
             <p className="text-xl font-black text-white">
               {opzione.grammi}
@@ -3557,7 +3468,7 @@ SATIVA:
 
 {/* FLOWERS - LEMON CHERRY GELATO 2.0 */}
 {categoriaAttiva === "Flowers" && (
-  <div className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
+  <div className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
 
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
       Flowers
@@ -3567,15 +3478,13 @@ SATIVA:
       LEMON CHERRY GELATO 2.0
     </h3>
 
-    <p className="mt-3 text-zinc-400">
-      Sunset Sherbert x Girls Scout Cookies
-      <br />
-      Ibrida a predominanza Indica
-      <br />
-      GUSTO: Ciliegia, Frutti di bosco, Gas
-    </p>
+    <div className="mt-6 space-y-3">
+      <InfoRiga etichetta="GENETICA">Sunset Sherbert x Girls Scout Cookies</InfoRiga>
+      <InfoRiga etichetta="BILANCIAMENTO">Ibrida a predominanza Indica</InfoRiga>
+      <InfoRiga etichetta="GUSTO">Ciliegia, frutti di bosco, gas</InfoRiga>
+    </div>
 
-   <div className="mt-6 flex items-start gap-4">
+   <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
 
   <video
     src="/products/flowers/lmg1.mp4"
@@ -3583,39 +3492,39 @@ SATIVA:
     muted
     loop
     playsInline
-    className="w-1/4 aspect-square object-cover flex-shrink-0"
+    className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
   />
 
   <div className="flex-1 grid grid-cols-2 md:grid-cols-3 gap-3">
     <img
       src="/products/flowers/lmg2.jpg"
       alt="Lemon Cherry Gelato 2.0 foto 2"
-      className="w-full aspect-square object-cover"
+      className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
     />
     <img
       src="/products/flowers/lmg3.jpg"
       alt="Lemon Cherry Gelato 2.0 foto 3"
-      className="w-full aspect-square object-cover"
+      className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
     />
     <img
       src="/products/flowers/lmg4.jpg"
       alt="Lemon Cherry Gelato 2.0 foto 4"
-      className="w-full aspect-square object-cover"
+      className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
     />
     <img
       src="/products/flowers/lmg5.jpg"
       alt="Lemon Cherry Gelato 2.0 foto 5"
-      className="w-full aspect-square object-cover"
+      className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
     />
     <img
       src="/products/flowers/lmg6.jpg"
       alt="Lemon Cherry Gelato 2.0 foto 6"
-      className="w-full aspect-square object-cover"
+      className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
     />
     <img
       src="/products/flowers/lmg7.jpg"
       alt="Lemon Cherry Gelato 2.0 foto 7"
-      className="w-full aspect-square object-cover"
+      className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
     />
   </div>
 
@@ -3668,7 +3577,7 @@ SATIVA:
                 ];
               });
             }}
-            className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center hover:bg-yellow-400"
+            className="rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center shadow-[0_0_14px_rgba(250,204,21,0.16)] hover:bg-yellow-400"
           >
             <p className="text-xl font-black text-white">
               {opzione.grammi}
@@ -3689,7 +3598,7 @@ SATIVA:
 )}
 {/* FLOWERS - GORILLA GLUE 2 CALISPAIN */}
 {categoriaAttiva === "Flowers" && (
-  <div className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
+  <div className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
 
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
       Flowers
@@ -3699,19 +3608,13 @@ SATIVA:
       #GORILLA GLUE 2 CALISPAIN
     </h3>
 
-    <p className="mt-3 text-zinc-400">
-      Indica 70%
-      < br/>
-      Sativa 30%
-      < br/>
-      GUSTO: Diesel,Colla,Pino,Gas  
-      < br/>
-      EFFETTO: indica 2.0 come amiamo chiamarle noi effetto kush immediato fisico
-      < br/>
-      e mentale senza lasciarti spalmato 5 ore senza far nulla 
-    </p>
+    <div className="mt-6 space-y-3">
+      <InfoRiga etichetta="BILANCIAMENTO">Indica 70% — Sativa 30%</InfoRiga>
+      <InfoRiga etichetta="GUSTO">Diesel, colla, pino, gas</InfoRiga>
+      <InfoRiga etichetta="EFFETTO">Indica 2.0, come amiamo chiamarle noi: effetto Kush immediato, fisico e mentale, senza lasciarti spalmato 5 ore senza far nulla.</InfoRiga>
+    </div>
 
-    <div className="mt-6 flex items-start gap-4">
+    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
 
       {/* VIDEO A SINISTRA */}
       <video
@@ -3720,7 +3623,7 @@ SATIVA:
         muted
         loop
         playsInline
-        className="w-1/4 aspect-square object-cover flex-shrink-0"
+        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
       />
 
       {/* FOTO A DESTRA */}
@@ -3730,7 +3633,7 @@ SATIVA:
             key={numero}
             src={`/products/flowers/gorilla${numero}.jpg`}
             alt={`Gorilla Glue 2 CaliSpain foto ${numero}`}
-            className="w-full aspect-square object-cover"
+            className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
           />
         ))}
       </div>
@@ -3760,7 +3663,7 @@ SATIVA:
                 opzione.prezzo
               )
             }
-            className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center hover:bg-yellow-400 hover:text-black"
+            className="rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center shadow-[0_0_14px_rgba(250,204,21,0.16)] hover:bg-yellow-400 hover:text-black"
           >
             <p className="text-xl font-black text-white">
               {opzione.grammi}
@@ -3779,7 +3682,7 @@ SATIVA:
     </div>
     {/* FLOWERS - TROPICANA COOKIES CALISPAIN */}
 {categoriaAttiva === "Flowers" && (
-  <div id="tropicana-cookies" className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
+  <div id="tropicana-cookies" className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
       Flowers
     </p>
@@ -3788,19 +3691,13 @@ SATIVA:
       TROPICANA COOKIES CALISPAIN
     </h3>
 
-     <p className="mt-3 text-zinc-400">
-     Sativa: 70%
-      < br/>
-     Indica: 30%
-      < br/>
-      GUSTO: Cedro,Biscotti,Limone,Fiori tropicali
-      < br/>
-      EFFETTO: Sativa decisa ti lascia bello attivo e lucido stimolando la creativita
-      < br/>
-      mette molta voglia di socialita e una discreta fame chimica a fine sessione 
-    </p>
+    <div className="mt-6 space-y-3">
+      <InfoRiga etichetta="BILANCIAMENTO">Sativa 70% — Indica 30%</InfoRiga>
+      <InfoRiga etichetta="GUSTO">Cedro, biscotti, limone, fiori tropicali</InfoRiga>
+      <InfoRiga etichetta="EFFETTO">Sativa decisa: ti lascia bello attivo e lucido, stimolando la creatività; mette molta voglia di socialità e una discreta fame chimica a fine sessione.</InfoRiga>
+    </div>
 
-    <div className="mt-6 flex items-start gap-4">
+    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
 
       {/* VIDEO A SINISTRA */}
       <video
@@ -3809,7 +3706,7 @@ SATIVA:
         muted
         loop
         playsInline
-        className="w-1/4 aspect-square object-cover flex-shrink-0"
+        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
       />
 
       {/* FOTO A DESTRA */}
@@ -3819,7 +3716,7 @@ SATIVA:
             key={numero}
             src={`/products/flowers/tropicana${numero}.jpg`}
             alt={`Tropicana Cookies CaliSpain foto ${numero}`}
-            className="w-full aspect-square object-cover"
+            className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
           />
         ))}
       </div>
@@ -3874,7 +3771,7 @@ SATIVA:
                 ];
               });
             }}
-            className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center"
+            className="rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center shadow-[0_0_14px_rgba(250,204,21,0.16)]"
           >
             <p className="text-xl font-black text-white">
               {opzione.grammi}
@@ -3894,7 +3791,7 @@ SATIVA:
   </div>
 )}
 {/* FLOWERS - LEMON GUMP */}
-<div className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
+<div className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
 
   <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
     Flowers
@@ -3904,19 +3801,13 @@ SATIVA:
     LEMON GUMP
   </h3>
 
-<p className="mt-3 text-zinc-400">
-      Indica 50%
-      < br/>
-      Sativa 50%
-      < br/>
-      GUSTO: Lime,Agrumi,Pompelmo  
-      < br/>
-      EFFETTO: effetto bilanciato lievemente predominante la parte indica
-      < br/>
-      rispetto quanto indicato in scheda tecnica dai breeder
-    </p>
+<div className="mt-6 space-y-3">
+      <InfoRiga etichetta="BILANCIAMENTO">Indica 50% — Sativa 50%</InfoRiga>
+      <InfoRiga etichetta="GUSTO">Lime, agrumi, pompelmo</InfoRiga>
+      <InfoRiga etichetta="EFFETTO">Effetto bilanciato, lievemente predominante la parte indica rispetto a quanto indicato in scheda tecnica dai breeder.</InfoRiga>
+    </div>
 
-  <div className="mt-6 flex items-start gap-4">
+  <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
 
     {/* VIDEO A SINISTRA */}
     <video
@@ -3925,7 +3816,7 @@ SATIVA:
       muted
       loop
       playsInline
-      className="w-1/4 aspect-square object-cover flex-shrink-0"
+      className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
     />
 
     {/* FOTO A DESTRA */}
@@ -3935,7 +3826,7 @@ SATIVA:
           key={numero}
           src={`/products/flowers/lemgump${numero}.jpg`}
           alt={`Lemon Gump foto ${numero}`}
-          className="w-full aspect-square object-cover"
+          className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
         />
       ))}
     </div>
@@ -3991,7 +3882,7 @@ SATIVA:
               ];
             });
           }}
-          className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center hover:bg-yellow-400"
+          className="rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center shadow-[0_0_14px_rgba(250,204,21,0.16)] hover:bg-yellow-400"
         >
           <p className="text-xl font-black text-white">
             {opzione.grammi}
@@ -4014,7 +3905,7 @@ SATIVA:
 )}
   {/* OTHER - LOGO SODA */}
 {categoriaAttiva === "Other" && (
-  <div className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
+  <div className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
       Other
     </p>
@@ -4023,11 +3914,11 @@ SATIVA:
       LOGO SODA
     </h3>
 
-    <p className="mt-3 text-zinc-400">
-      Doppio lavaggio, foro di areazione, in guaina originale
-    </p>
+    <div className="mt-6 space-y-3">
+      <InfoRiga etichetta="LAVORAZIONE">Doppio lavaggio, foro di areazione, in guaina originale</InfoRiga>
+    </div>
 
-    <div className="mt-6 flex items-start gap-4">
+    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
       {/* VIDEO A SINISTRA */}
       <video
         src="/products/other/soda1.mp4"
@@ -4035,7 +3926,7 @@ SATIVA:
         muted
         loop
         playsInline
-        className="w-1/4 aspect-square object-cover flex-shrink-0"
+        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
       />
 
       {/* FOTO A DESTRA */}
@@ -4045,7 +3936,7 @@ SATIVA:
             key={numero}
             src={`/products/other/soda${numero}.jpg`}
             alt={`Logo Soda foto ${numero}`}
-            className="w-full aspect-square object-cover"
+            className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
           />
         ))}
       </div>
@@ -4099,7 +3990,7 @@ SATIVA:
                 ];
               });
             }}
-            className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center transition hover:bg-yellow-400 hover:text-black"
+            className="rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center shadow-[0_0_14px_rgba(250,204,21,0.16)] transition hover:bg-yellow-400 hover:text-black"
           >
             <p className="text-xl font-black text-white">
               {opzione.grammi}
@@ -4121,7 +4012,7 @@ SATIVA:
 
 {/* OTHER - DIESEL COLO */} 
 {categoriaAttiva === "Other" && (
-  <div className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
+  <div className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
 
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
       Other
@@ -4131,13 +4022,12 @@ SATIVA:
       DIESEL COLO
     </h3>
 
-    <p className="mt-3 text-zinc-400">
-      Lavaggio Kerosene, Brick da 1kg, colombiana classica ad impatto fisico 
-      < br/>
-      praticamente immediato No levamisolo No lido  
-    </p>
+    <div className="mt-6 space-y-3">
+      <InfoRiga etichetta="LAVORAZIONE">Lavaggio Kerosene, Brick da 1kg</InfoRiga>
+      <InfoRiga etichetta="DESCRIZIONE">Colombiana classica ad impatto fisico praticamente immediato. No levamisolo, no lido.</InfoRiga>
+    </div>
 
-    <div className="mt-6 flex items-start gap-4">
+    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
 
       {/* VIDEO A SINISTRA */}
       <video
@@ -4146,7 +4036,7 @@ SATIVA:
         muted
         loop
         playsInline
-        className="w-1/4 aspect-square object-cover flex-shrink-0"
+        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
       />
 
       {/* FOTO A DESTRA */}
@@ -4156,7 +4046,7 @@ SATIVA:
             key={numero}
             src={`/products/other/diesel${numero}.jpg`}
             alt={`Diesel Colo foto ${numero}`}
-            className="w-full aspect-square object-cover"
+            className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
           />
         ))}
 
@@ -4214,7 +4104,7 @@ SATIVA:
                 ];
               });
             }}
-            className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center hover:bg-yellow-400"
+            className="rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center shadow-[0_0_14px_rgba(250,204,21,0.16)] hover:bg-yellow-400"
           >
 
             <p className="text-xl font-black text-white">
@@ -4241,7 +4131,7 @@ SATIVA:
 
 {/* OTHER - BOLIVIAN DOLLAR LOGO */}
 {categoriaAttiva === "Other" && (
-  <div className="mt-8 border border-yellow-400/40 bg-black/80 p-5">
+  <div className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
 
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
       Other
@@ -4251,11 +4141,12 @@ SATIVA:
       BOLIVIAN DOLLAR LOGO
     </h3>
 
-    <p className="mt-3 text-zinc-400">
-      Produzione artigianale a doppio lavaggio, Ship via aerea, poca disponibilità
-    </p>
+    <div className="mt-6 space-y-3">
+      <InfoRiga etichetta="PRODUZIONE">Artigianale a doppio lavaggio</InfoRiga>
+      <InfoRiga etichetta="LOGISTICA">Ship via aerea, poca disponibilità</InfoRiga>
+    </div>
 
-    <div className="mt-6 flex items-start gap-4">
+    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
 
       {/* VIDEO A SINISTRA */}
       <video
@@ -4264,7 +4155,7 @@ SATIVA:
         muted
         loop
         playsInline
-        className="w-1/4 aspect-square object-cover flex-shrink-0"
+        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
       />
 
       {/* FOTO A DESTRA */}
@@ -4274,7 +4165,7 @@ SATIVA:
             key={numero}
             src={`/products/other/dollar${numero}.jpg`}
             alt={`Bolivian Dollar Logo foto ${numero}`}
-            className="w-full aspect-square object-cover"
+            className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
           />
         ))}
       </div>
@@ -4333,7 +4224,7 @@ SATIVA:
                 ];
               });
             }}
-            className="border border-yellow-400 bg-zinc-950 px-4 py-4 text-center hover:bg-yellow-400/10"
+            className="rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center shadow-[0_0_14px_rgba(250,204,21,0.16)] hover:bg-yellow-400/10"
           >
 
             <p className="text-xl font-black text-white">
