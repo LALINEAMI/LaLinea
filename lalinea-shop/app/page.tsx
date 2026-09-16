@@ -331,6 +331,36 @@ const [datiCliente, setDatiCliente] = useState({
   indirizzo: "",
 });
 const [orarioConsegna, setOrarioConsegna] = useState("");
+
+const oggiItalia = () =>
+  new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Europe/Rome",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date());
+
+const oraItalia = () => {
+  const parti = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Europe/Rome",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).formatToParts(new Date());
+
+  const ora =
+    parti.find((parte) => parte.type === "hour")?.value ?? "00";
+
+  const minuto =
+    parti.find((parte) => parte.type === "minute")?.value ?? "00";
+
+  return `${ora}:${minuto}`;
+};
+
+const [dataConsegna, setDataConsegna] = useState(() => oggiItalia());
+const [orariOccupati, setOrariOccupati] = useState<string[]>([]);
+const [caricamentoOrari, setCaricamentoOrari] = useState(false);
+const [erroreSlot, setErroreSlot] = useState("");
 const orariConsegnaDisponibili = [
   "13:00",
   "13:15",
@@ -368,6 +398,71 @@ const orariConsegnaDisponibili = [
   "02:00",
 ];
 const [modalitaOrdine, setModalitaOrdine] = useState("");
+useEffect(() => {
+  if (modalitaOrdine !== "delivery" || !dataConsegna) {
+    setOrariOccupati([]);
+    setErroreSlot("");
+    return;
+  }
+
+  const controller = new AbortController();
+
+  const caricaOrariOccupati = async () => {
+    setCaricamentoOrari(true);
+    setErroreSlot("");
+
+    try {
+      const risposta = await fetch(
+        `/api/delivery-slots?date=${encodeURIComponent(dataConsegna)}`,
+        {
+          cache: "no-store",
+          signal: controller.signal,
+        }
+      );
+
+      const risultato = await risposta.json();
+
+      if (!risposta.ok) {
+        throw new Error(
+          risultato.error || "Impossibile caricare gli orari"
+        );
+      }
+
+      const occupati = Array.isArray(risultato.occupati)
+        ? risultato.occupati
+        : [];
+
+      setOrariOccupati(occupati);
+
+      if (orarioConsegna && occupati.includes(orarioConsegna)) {
+        setOrarioConsegna("");
+      }
+    } catch (errore: any) {
+      if (errore?.name !== "AbortError") {
+        setErroreSlot(
+          errore?.message || "Errore durante il caricamento degli orari"
+        );
+      }
+    } finally {
+      setCaricamentoOrari(false);
+    }
+  };
+
+  caricaOrariOccupati();
+
+  return () => controller.abort();
+}, [dataConsegna, modalitaOrdine]);
+
+const orarioPrenotabile = (orario: string) => {
+  if (orariOccupati.includes(orario)) return false;
+
+  const oggi = oggiItalia();
+
+  if (dataConsegna < oggi) return false;
+  if (dataConsegna > oggi) return true;
+
+  return orario > oraItalia();
+};
 const [codiceSconto, setCodiceSconto] = useState("");
 const [scontoPercentuale, setScontoPercentuale] = useState(0);
 const [messaggioSconto, setMessaggioSconto] = useState("");
@@ -855,6 +950,7 @@ Telefono: ${datiCliente.telefono}
 Indirizzo: ${datiCliente.indirizzo || "Non specificato"}
 
 Modalità: ${modalitaOrdine || "Non specificata"}
+Data: ${dataConsegna || "Non specificata"}
 Orario: ${orarioConsegna || "Non specificato"}
 
 PRODOTTI:
@@ -864,6 +960,82 @@ Totale prodotti: ${totaleCarrello} €
 Consegna: ${costoConsegna} €
 TOTALE ORDINE: ${totaleOrdine} €
   `.trim();
+  let prenotazioneSlotId: string | null = null;
+
+if (modalitaOrdine === "delivery") {
+  if (!dataConsegna || !orarioConsegna) {
+    window.alert("Seleziona data e orario di consegna");
+    return;
+  }
+
+  try {
+    const rispostaSlot = await fetch("/api/delivery-slots", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        date: dataConsegna,
+        time: orarioConsegna,
+      }),
+    });
+
+    const risultatoSlot = await rispostaSlot.json();
+
+    if (!rispostaSlot.ok) {
+      if (rispostaSlot.status === 409) {
+        window.alert(
+          "Questo orario è stato appena prenotato. Scegline un altro."
+        );
+
+        const aggiorna = await fetch(
+          `/api/delivery-slots?date=${encodeURIComponent(dataConsegna)}`,
+          { cache: "no-store" }
+        );
+
+        if (aggiorna.ok) {
+          const datiAggiornati = await aggiorna.json();
+
+          setOrariOccupati(
+            Array.isArray(datiAggiornati.occupati)
+              ? datiAggiornati.occupati
+              : []
+          );
+        }
+
+        setOrarioConsegna("");
+        return;
+      }
+
+      window.alert(
+        risultatoSlot.error || "Impossibile prenotare questo orario"
+      );
+      return;
+    }
+
+    prenotazioneSlotId = risultatoSlot.id ?? null;
+  } catch {
+    window.alert(
+      "Errore di collegamento durante la prenotazione dell'orario"
+    );
+    return;
+  }
+}
+const liberaSlotPrenotato = async () => {
+  if (!prenotazioneSlotId) return;
+
+  await fetch("/api/delivery-slots", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      id: prenotazioneSlotId,
+    }),
+  }).catch(() => {});
+
+  prenotazioneSlotId = null;
+};
 const premiConPunti = carrello.filter((item) =>
       [
         10001,
@@ -882,9 +1054,10 @@ const premiConPunti = carrello.filter((item) =>
       );
 
       if (!pinVip) {
-        window.alert("Riscatto annullato: PIN mancante");
-        return;
-      }
+  window.alert("Riscatto annullato: PIN mancante");
+  await liberaSlotPrenotato();
+  return;
+}
 
       try {
         const rispostaRiscatto = await fetch(
@@ -913,6 +1086,7 @@ const premiConPunti = carrello.filter((item) =>
             risultatoRiscatto.error ||
               "Impossibile riscattare i premi"
           );
+            await liberaSlotPrenotato();
           return;
         }
 
@@ -923,6 +1097,7 @@ const premiConPunti = carrello.filter((item) =>
         window.alert(
           "Errore di collegamento durante il riscatto"
         );
+          await liberaSlotPrenotato();
         return;
       }
     }
@@ -4762,40 +4937,84 @@ onChange={(e) => setDatiCliente((prev) => ({ ...prev, telefono: e.target.value }
 onChange={(e) => setDatiCliente((prev) => ({ ...prev, indirizzo: e.target.value }))}
   className="border border-zinc-700 bg-black p-4 text-white outline-none focus:border-yellow-400 md:col-span-2"
 />
-<div className="mt-6">
-  <label className="block mb-2 text-sm font-bold uppercase">
-    Orario di consegna
-  </label>
+{modalitaOrdine === "delivery" && (
+  <div className="mt-6 md:col-span-2">
+    <label className="mb-2 block text-sm font-bold uppercase">
+      Data di consegna
+    </label>
 
-  <select
-  value={orarioConsegna}
-  onChange={(event) => setOrarioConsegna(event.target.value)}
-  required
-  className="w-full border border-zinc-700 bg-black px-4 py-3 text-white outline-none focus:border-yellow-400"
->
-  <option value="">Seleziona un orario</option>
+    <input
+      type="date"
+      value={dataConsegna}
+      min={oggiItalia()}
+      onChange={(event) => {
+        setDataConsegna(event.target.value);
+        setOrarioConsegna("");
+      }}
+      required
+      className="w-full border border-zinc-700 bg-black px-4 py-3 text-white outline-none focus:border-yellow-400"
+    />
 
-  <optgroup label="Consegne pranzo">
-    {orariConsegnaDisponibili.slice(0, 5).map((orario) => (
-      <option key={orario} value={orario}>
-        {orario}
+    <label className="mb-2 mt-5 block text-sm font-bold uppercase">
+      Orario di consegna
+    </label>
+
+    <select
+      value={orarioConsegna}
+      onChange={(event) => setOrarioConsegna(event.target.value)}
+      required
+      disabled={caricamentoOrari || !dataConsegna}
+      className="w-full border border-zinc-700 bg-black px-4 py-3 text-white outline-none focus:border-yellow-400 disabled:opacity-50"
+    >
+      <option value="">
+        {caricamentoOrari
+          ? "Aggiornamento disponibilità..."
+          : "Seleziona un orario"}
       </option>
-    ))}
-  </optgroup>
 
-  <optgroup label="Consegne sera e notte">
-    {orariConsegnaDisponibili.slice(5).map((orario) => (
-      <option key={orario} value={orario}>
-        {orario}
-      </option>
-    ))}
-  </optgroup>
-</select>
+      <optgroup label="Consegne pranzo">
+        {orariConsegnaDisponibili
+          .slice(0, 5)
+          .filter(orarioPrenotabile)
+          .map((orario) => (
+            <option key={orario} value={orario}>
+              {orario}
+            </option>
+          ))}
+      </optgroup>
 
-  <p className="mt-2 text-sm text-zinc-400">
-    Indica un orario tra le 13:00 e le 14:00 oppure tra le 19:00 e le 02:00.
-  </p>
-</div>
+      <optgroup label="Consegne sera e notte">
+        {orariConsegnaDisponibili
+          .slice(5)
+          .filter(orarioPrenotabile)
+          .map((orario) => (
+            <option key={orario} value={orario}>
+              {orario}
+            </option>
+          ))}
+      </optgroup>
+    </select>
+
+    {erroreSlot && (
+      <p className="mt-2 text-sm font-bold text-red-400">
+        {erroreSlot}
+      </p>
+    )}
+
+    {!caricamentoOrari &&
+      dataConsegna &&
+      orariConsegnaDisponibili.filter(orarioPrenotabile).length === 0 && (
+        <p className="mt-2 text-sm font-bold text-yellow-400">
+          Nessun orario disponibile per questa data. Seleziona un altro giorno.
+        </p>
+      )}
+
+    <p className="mt-2 text-sm text-zinc-400">
+      Gli orari già prenotati scompaiono automaticamente. Puoi prenotare anche
+      i giorni successivi.
+    </p>
+  </div>
+)}
     </div>
 
 
