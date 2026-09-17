@@ -33,6 +33,16 @@ function NeonGlobalStyle() {
           0 0 22px rgba(250, 204, 21, 0.38);
       }
 
+      .lalinea-neon .lalinea-price-neon {
+        color: rgb(74 222 128);
+        -webkit-text-stroke: 0.2px rgba(0, 0, 0, 0.9);
+        text-shadow:
+          0 1px 1px rgba(0, 0, 0, 1),
+          0 0 5px rgba(74, 222, 128, 0.98),
+          0 0 12px rgba(34, 197, 94, 0.78),
+          0 0 24px rgba(34, 197, 94, 0.48);
+      }
+
       .lalinea-neon .text-white,
       .lalinea-neon [class~="text-zinc-200"],
       .lalinea-neon [class~="text-zinc-300"],
@@ -436,17 +446,23 @@ const [caricamentoOrari, setCaricamentoOrari] = useState(false);
 const [erroreSlot, setErroreSlot] = useState("");
 const orariConsegnaDisponibili = [
   "13:00",
-  "13:45",
+  "13:30",
+
   "19:00",
-  "19:45",
+  "19:30",
+  "20:00",
   "20:30",
-  "21:15",
+  "21:00",
+  "21:30",
   "22:00",
-  "22:45",
+  "22:30",
+  "23:00",
   "23:30",
-  "00:15",
+  "00:00",
+  "00:30",
   "01:00",
-  "01:45",
+  "01:30",
+  "02:00",
 ];
 const [modalitaOrdine, setModalitaOrdine] = useState("");
 useEffect(() => {
@@ -1769,7 +1785,7 @@ return (
           <p>• 1 Portachiavi LaLinea</p>
         </div>
 
-        <p className="mt-8 text-4xl font-black text-yellow-400">
+        <p className="mt-8 text-4xl font-black lalinea-price-neon">
           50 €
         </p>
 
@@ -1835,7 +1851,7 @@ return (
           <p>• 1 Pack Cartine + Filtri Raw</p>
         </div>
 
-        <p className="mt-8 text-4xl font-black text-yellow-400">
+        <p className="mt-8 text-4xl font-black lalinea-price-neon">
           150 €
         </p>
 
@@ -1905,7 +1921,7 @@ return (
           <p>• 1 Mese abbonamento Spotify</p>
         </div> +
 
-        <p className="mt-8 text-4xl font-black text-yellow-400">
+        <p className="mt-8 text-4xl font-black lalinea-price-neon">
           300 €
         </p>
 
@@ -2246,7 +2262,7 @@ return (
       {opzione.grammi}
     </p>
 
-    <p className="mt-1 font-bold text-yellow-400">
+    <p className="mt-1 font-bold lalinea-price-neon">
       {opzione.prezzo} €
     </p>
 
@@ -2385,7 +2401,7 @@ return (
               {opzione.grammi}
             </p>
 
-            <p className="mt-3 text-xl font-black text-yellow-400">
+            <p className="mt-3 text-xl font-black lalinea-price-neon">
               {opzione.prezzo} €
             </p>
 
@@ -2540,7 +2556,7 @@ return (
               {opzione.grammi}
             </p>
 
-            <p className="mt-3 text-xl font-black text-yellow-400">
+            <p className="mt-3 text-xl font-black lalinea-price-neon">
               {opzione.prezzo} €
             </p>
 
@@ -2678,7 +2694,7 @@ return (
               {opzione.grammi}
             </p>
 
-            <p className="mt-3 text-xl font-black text-yellow-400">
+            <p className="mt-3 text-xl font-black lalinea-price-neon">
               {opzione.prezzo} €
             </p>
 
@@ -2813,7 +2829,7 @@ return (
             {opzione.grammi}
           </p>
 
-          <p className="mt-3 text-xl font-black text-yellow-400">
+          <p className="mt-3 text-xl font-black lalinea-price-neon">
             {opzione.prezzo} €
           </p>
 
@@ -2930,7 +2946,7 @@ return (
               {opzione.grammi}
             </p>
 
-            <p className="mt-3 text-xl font-black text-yellow-400">
+            <p className="mt-3 text-xl font-black lalinea-price-neon">
               {opzione.prezzo} €
             </p>
 
@@ -3074,13 +3090,7 @@ return (
               {opzione.grammi}
             </p>
 
-            <p
-              className={`mt-3 text-xl font-black ${
-                opzione.grammi === "17G PROMO LANCIO"
-                  ? "text-black"
-                  : "text-yellow-400"
-              }`}
-            >
+            <p className="mt-3 text-xl font-black lalinea-price-neon">
               {opzione.prezzo.toLocaleString("it-IT")} €
             </p>
 
@@ -3168,7 +3178,7 @@ return (
               {opzione.grammi}
             </p>
 
-            <p className="mt-3 text-xl font-black text-yellow-400">
+            <p className="mt-3 text-xl font-black lalinea-price-neon">
               {opzione.prezzo} €
             </p>
 
@@ -3259,7 +3269,7 @@ return (
               {opzione.grammi}
             </p>
 
-            <p className="mt-1 font-bold text-yellow-400">
+            <p className="mt-1 font-bold lalinea-price-neon">
               {opzione.prezzo} €
             </p>
 
@@ -3360,7 +3370,7 @@ return (
               {opzione.grammi}
             </p>
 
-            <p className="mt-1 font-bold text-yellow-400">
+            <p className="mt-1 font-bold lalinea-price-neon">
               {opzione.prezzo} €
             </p>
 
@@ -3440,7 +3450,7 @@ return (
               {opzione.grammi}
             </p>
 
-            <p className="mt-3 text-xl font-black text-yellow-400">
+            <p className="mt-3 text-xl font-black lalinea-price-neon">
               {opzione.prezzo} €
             </p>
 
@@ -3536,7 +3546,7 @@ return (
               {opzione.grammi}
             </p>
 
-            <p className="mt-3 text-xl font-black text-yellow-400">
+            <p className="mt-3 text-xl font-black lalinea-price-neon">
               {opzione.prezzo} €
             </p>
 
@@ -3667,7 +3677,7 @@ return (
               {opzione.grammi}
             </p>
 
-            <p className="mt-3 text-xl font-black text-yellow-400">
+            <p className="mt-3 text-xl font-black lalinea-price-neon">
               {opzione.prezzo} €
             </p>
 
@@ -3753,7 +3763,7 @@ return (
               {opzione.grammi}
             </p>
 
-            <p className="mt-3 text-xl font-black text-yellow-400">
+            <p className="mt-3 text-xl font-black lalinea-price-neon">
               {opzione.prezzo} €
             </p>
 
@@ -3861,7 +3871,7 @@ return (
               {opzione.grammi}
             </p>
 
-            <p className="mt-3 text-xl font-black text-yellow-400">
+            <p className="mt-3 text-xl font-black lalinea-price-neon">
               {opzione.prezzo} €
             </p>
 
@@ -3972,7 +3982,7 @@ return (
             {opzione.grammi}
           </p>
 
-          <p className="mt-3 text-xl font-black text-yellow-400">
+          <p className="mt-3 text-xl font-black lalinea-price-neon">
             {opzione.prezzo} €
           </p>
 
@@ -4080,7 +4090,7 @@ return (
               {opzione.grammi}
             </p>
 
-            <p className="mt-3 text-xl font-black text-yellow-400">
+            <p className="mt-3 text-xl font-black lalinea-price-neon">
               {opzione.prezzo} €
             </p>
 
@@ -4195,7 +4205,7 @@ return (
               {opzione.grammi}
             </p>
 
-            <p className="mt-3 text-xl font-black text-yellow-400">
+            <p className="mt-3 text-xl font-black lalinea-price-neon">
               {opzione.prezzo} €
             </p>
 
@@ -4315,7 +4325,7 @@ return (
               {opzione.grammi}
             </p>
 
-            <p className="mt-3 text-xl font-black text-yellow-400">
+            <p className="mt-3 text-xl font-black lalinea-price-neon">
               {opzione.prezzo} €
             </p>
 
@@ -4387,7 +4397,7 @@ return (
               </p>
 
               <div className="mt-8 border-t border-zinc-800 pt-8">
-                <p className="text-4xl font-black text-yellow-400">
+                <p className="text-4xl font-black lalinea-price-neon">
                   10 €
                 </p>
 
