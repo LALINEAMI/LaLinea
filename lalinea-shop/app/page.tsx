@@ -226,7 +226,7 @@ function PlayerMusicale() {
         Chiudi player X
       </button>
 
-      <p className="text-center text-xs font-black uppercase tracking-widest text-yellow-400">
+      <p className="mx-2 rounded-xl border border-yellow-400/70 px-3 py-3 text-center text-sm font-black uppercase leading-snug tracking-normal text-yellow-400 md:px-4 md:py-4 md:text-base md:tracking-wide">
         La selezione musicale della settimana
       </p>
 
@@ -331,6 +331,49 @@ useEffect(() => {
 }, [])
 const [caricamentoIniziale, setCaricamentoIniziale] = useState(true);
 const [recensioniAperte, setRecensioniAperte] = useState(false);
+const [ordineRecensioni, setOrdineRecensioni] = useState<number[]>(
+  Array.from({ length: 33 }, (_, indice) => indice + 1)
+);
+
+const prodottiInEvidenza = [
+  "COOKIES X RUNTZ 2.0",
+  "LEMON GUMP",
+  "GOLD PACK",
+  "LEMON CHERRY GELATO",
+  "ORANGE PUNCH",
+  "TROPICANA COOKIES",
+  "TOBACCO BIO SHELDIA X JOINT",
+  "LEMON STATIC",
+];
+
+const [prodottoInEvidenza, setProdottoInEvidenza] = useState(
+  prodottiInEvidenza[0]
+);
+
+useEffect(() => {
+  const aggiornaProdottoInEvidenza = () => {
+    const bloccoDueOre = Math.floor(Date.now() / (2 * 60 * 60 * 1000));
+    const indice = Math.abs((bloccoDueOre * 9301 + 49297) % prodottiInEvidenza.length);
+    setProdottoInEvidenza(prodottiInEvidenza[indice]);
+  };
+
+  aggiornaProdottoInEvidenza();
+  const timer = window.setInterval(aggiornaProdottoInEvidenza, 60 * 1000);
+
+  return () => window.clearInterval(timer);
+}, []);
+
+useEffect(() => {
+  if (!recensioniAperte) return;
+
+  const casuali = Array.from({ length: 33 }, (_, indice) => indice + 1);
+  for (let i = casuali.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [casuali[i], casuali[j]] = [casuali[j], casuali[i]];
+  }
+
+  setOrdineRecensioni(casuali);
+}, [recensioniAperte]);
 const [snakeAperto, setSnakeAperto] = useState(false);
 const avviaMusica = () => {
   if (!musicaAvviata && audioRef.current) {
@@ -447,7 +490,6 @@ const [erroreSlot, setErroreSlot] = useState("");
 const orariConsegnaDisponibili = [
   "13:00",
   "13:30",
-
   "19:00",
   "19:30",
   "20:00",
@@ -1358,6 +1400,17 @@ return (
 </a>
  
 
+{playerVisibile && (
+  <div className="fixed bottom-[17.5rem] left-3 z-[9998] w-[calc(46%-12px)] rounded-2xl border border-yellow-300 bg-black/95 px-3 py-2 text-center shadow-[0_0_18px_rgba(250,204,21,0.22)] md:bottom-4 md:left-4 md:w-[240px]">
+    <p className="text-[9px] font-black uppercase tracking-[0.16em] text-yellow-400 md:text-[10px]">
+      Prodotto in evidenza
+    </p>
+    <p className="mt-1 truncate text-[11px] font-black uppercase text-white md:text-xs">
+      {prodottoInEvidenza}
+    </p>
+  </div>
+)}
+
 <div
   style={{ display: playerVisibile ? undefined : "none" }}
  className="fixed bottom-3 left-3 z-[9999] w-[calc(46%-12px)] min-w-0 overflow-visible rounded-xl border border-yellow-400 bg-black/95 text-white shadow-2xl md:bottom-4 md:left-1/2 md:w-[calc(100%-2rem)] md:max-w-md md:-translate-x-1/2"
@@ -1370,8 +1423,14 @@ return (
 >
   ×
   </button>
-<div className="rounded-t-xl border-b border-yellow-400 bg-yellow-400 px-3 py-2 text-center text-xs font-black uppercase leading-tight tracking-wider text-black md:px-4 md:py-3 md:text-sm">
-  LA SELEZIONE MUSICALE DELLA SETTIMANA
+<div className="flex min-h-[104px] items-center justify-center rounded-t-xl border-b border-yellow-400 bg-yellow-400 py-4 pl-3 pr-11 text-center text-xs font-black uppercase leading-[1.35] tracking-wide text-black sm:min-h-[96px] sm:text-sm md:min-h-[78px] md:px-12 md:py-4 md:text-sm">
+  <span className="block">
+    LA SELEZIONE
+    <br />
+    MUSICALE DELLA
+    <br />
+    SETTIMANA
+  </span>
 </div>
 
 <div className="rounded-b-xl p-2 md:p-4">
@@ -1666,7 +1725,7 @@ return (
     <div className="grid grid-cols-2 gap-2">
       {[
         "Premium Filtred", "Frozen e Static", "Rosin & Pen", "Flowers",
-        "Other", "Gadget", "Abbigliamento", "Gift Card",
+        "White", "Tabacchi biologici", "Gadget", "Abbigliamento", "Gift Card",
       ].map((categoria) => (
         <button
           key={categoria}
@@ -1825,7 +1884,7 @@ return (
       </div>
 
       {/* GOLD PACK */}
-      <div className="flex flex-col border border-yellow-400/60 bg-zinc-950 p-6 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
+      <div id="gold-pack-card" className="flex flex-col border border-yellow-400/60 bg-zinc-950 p-6 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
       <video
   src="/products/promo/gold.mp4"
   autoPlay
@@ -1966,7 +2025,7 @@ return (
     <div className="mt-10 border border-yellow-400/40 bg-zinc-950 p-6 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
       <p className="font-black uppercase leading-relaxed text-yellow-400">
         È POSSIBILE APPORTARE MODIFICHE AI PACCHETTI SU RICHIESTA,
-        AGGIUNGENDO ANCHE PRODOTTI DELLA CATEGORIA OTHER.
+        AGGIUNGENDO ANCHE PRODOTTI DELLA CATEGORIA WHITE.
       </p>
 
       <p className="mt-3 text-zinc-300">
@@ -2071,7 +2130,8 @@ return (
           "Frozen e Static",
           "Rosin & Pen",
           "Flowers",
-          "Other",
+          "White",
+          "Tabacchi biologici",
           "Gadget",
           "Abbigliamento",
         ].map((categoria) => (
@@ -2108,7 +2168,8 @@ return (
           { nome: "Frozen e Static", immagine: "/products/frozen-static/arancia1.jpeg" },
           { nome: "Rosin & Pen", immagine: "/products/rosin/etere1.jpg" },
           { nome: "Flowers", immagine: "/products/flowers/lmg2.jpg" },
-          { nome: "Other", immagine: "/products/other/soda2.jpg" },
+          { nome: "White", immagine: "/products/other/soda2.jpg" },
+          { nome: "Tabacchi biologici", immagine: "/products/other/tab2.jpg" },
           { nome: "Gadget", immagine: "/cover1.jpg" },
           { nome: "Abbigliamento", immagine: "/products/abbigliamento/calza1.jpg" },
         ].map(({ nome, immagine }) => (
@@ -2161,7 +2222,8 @@ return (
       "Frozen e Static",
       "Rosin & Pen",
       "Flowers",
-      "Other",
+      "White",
+      "Tabacchi biologici",
       "Gadget",
       "Abbigliamento",
     ].map((categoria) => (
@@ -2961,7 +3023,7 @@ return (
 )}
 {/* COOKIES X RUNTZ 2.0 - PREMIUM STATIC 120ü */}
 {categoriaAttiva === "Frozen e Static" && (
-  <div className="mt-8 rounded-3xl border border-yellow-300/80 bg-black/85 p-4 shadow-[0_0_30px_rgba(250,204,21,0.20)] sm:p-5">
+  <div id="cookies-x-runtz" className="mt-8 rounded-3xl border border-yellow-300/80 bg-black/85 p-4 shadow-[0_0_30px_rgba(250,204,21,0.20)] sm:p-5">
 
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
       Frozen e Static
@@ -3885,7 +3947,7 @@ return (
   </div>
 )}
 {/* FLOWERS - LEMON GUMP */}
-<div className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
+<div id="lemon-gump" className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
 
   <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
     Flowers
@@ -3997,11 +4059,103 @@ return (
 </div>
   </div>
 )}
-  {/* OTHER - LOGO SODA */}
-{categoriaAttiva === "Other" && (
+  {/* TABACCHI BIOLOGICI - TOBACCO BIO SHELDIA X JOINT */}
+{categoriaAttiva === "Tabacchi biologici" && (
+  <div id="tobacco-bio-sheldia" className="mt-8 rounded-3xl border border-yellow-300/80 bg-black/85 p-4 shadow-[0_0_30px_rgba(250,204,21,0.20)] sm:p-5">
+    <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+      Tabacchi biologici
+    </p>
+
+    <h3 className="mt-2 text-3xl font-black uppercase text-white">
+      TOBACCO BIO SHELDIA X JOINT
+    </h3>
+
+    <div className="mt-6 space-y-3">
+      <InfoRiga etichetta="PROVENIENZA">Albania, Regione dello SHELDIA</InfoRiga>
+      <InfoRiga etichetta="DESCRIZIONE">
+        Tabacco lavorato naturalmente con semi tramandati di mano in mano di generazione in generazione, non contiene nessun tipo di additivo né fertilizzante, lascia un gusto naturale e completamente neutro alla fumata.
+      </InfoRiga>
+    </div>
+
+    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
+      <video
+        src="/products/other/tab1.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
+      />
+
+      <div className="flex-1 grid grid-cols-2 gap-3 md:grid-cols-3">
+        {[2, 3, 4, 5, 6, 7].map((numero) => (
+          <img
+            key={numero}
+            src={`/products/other/tab${numero}.jpg`}
+            alt={`Tobacco Bio Sheldia foto ${numero}`}
+            className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
+          />
+        ))}
+      </div>
+    </div>
+
+    <div className="mt-6">
+      <p className="mb-3 font-bold uppercase text-white">
+        Seleziona quantità
+      </p>
+
+      <div className="grid grid-cols-1 gap-3 sm:max-w-sm">
+        <button
+          type="button"
+          onClick={() => {
+            const id = "tobacco-bio-sheldia-25-5";
+
+            setCarrello((prev) => {
+              const esistente = prev.find(
+                (item) => String(item.id) === id
+              );
+
+              if (esistente) {
+                return prev.map((item) =>
+                  String(item.id) === id
+                    ? { ...item, quantita: item.quantita + 1 }
+                    : item
+                );
+              }
+
+              return [
+                ...prev,
+                {
+                  id: id as any,
+                  nome: "TOBACCO BIO SHELDIA X JOINT 25G + 5G OMAGGIO",
+                  prezzo: 5,
+                  quantita: 1,
+                },
+              ];
+            });
+          }}
+          className="rounded-2xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center shadow-[0_0_16px_rgba(250,204,21,0.18)] hover:bg-yellow-400"
+        >
+          <p className="text-xl font-black text-white">
+            25G + 5G IN OMAGGIO
+          </p>
+          <p className="mt-3 text-2xl font-black lalinea-price-neon">
+            5 €
+          </p>
+          <p className="mt-2 text-xs font-black uppercase text-white">
+            Aggiungi al carrello
+          </p>
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
+  {/* WHITE - LOGO SODA */}
+{categoriaAttiva === "White" && (
   <div className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
-      Other
+      White
     </p>
 
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
@@ -4104,12 +4258,12 @@ return (
   </div>
 )}
 
-{/* OTHER - DIESEL COLO */} 
-{categoriaAttiva === "Other" && (
+{/* WHITE - DIESEL COLO */} 
+{categoriaAttiva === "White" && (
   <div className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
 
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
-      Other
+      White
     </p>
 
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
@@ -4223,12 +4377,12 @@ return (
   </div>
 )}
 
-{/* OTHER - BOLIVIAN DOLLAR LOGO */}
-{categoriaAttiva === "Other" && (
+{/* WHITE - BOLIVIAN DOLLAR LOGO */}
+{categoriaAttiva === "White" && (
   <div className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
 
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
-      Other
+      White
     </p>
 
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
@@ -5070,11 +5224,11 @@ onClick={(e) => {
 </button>
 {recensioniAperte && (
     <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {Array.from({ length: 33 }, (_, i) => (
+      {ordineRecensioni.map((numero) => (
         <img
-          key={i}
-          src={`/reviews/review${i + 1}.jpg`}
-          alt={`Recensione ${i + 1}`}
+          key={numero}
+          src={`/reviews/review${numero}.jpg`}
+          alt={`Recensione ${numero}`}
           className="w-full rounded-lg bg-yellow-400 px-2 py-1.5 text-[10px] font-black uppercase text-black md:text-sm"
         />
       ))}
@@ -5428,39 +5582,38 @@ rel="noopener noreferrer"
 {piuVendutiVisibili && (
 <div
   className="fixed bottom-3 right-3 z-[9998] w-[calc(54%-12px)] overflow-hidden rounded-xl border border-yellow-400 bg-black/95 shadow-2xl md:bottom-4 md:right-4 md:w-[320px]"
-> 
-<button
-  type="button"
-  onClick={() => setPiuVendutiVisibili(false)}
-  className="absolute right-2 top-2 z-20 flex h-7 w-7 items-center justify-center rounded-full border-2 border-yellow-400 bg-black text-sm font-black text-yellow-400 shadow-[0_0_14px_rgba(250,204,21,0.14)]"
-  aria-label="Chiudi prodotti più venduti"
 >
-  ×
-</button>
-  {/* TITOLO */}
+  <button
+    type="button"
+    onClick={() => setPiuVendutiVisibili(false)}
+    className="absolute right-2 top-2 z-20 flex h-7 w-7 items-center justify-center rounded-full border-2 border-yellow-400 bg-black text-sm font-black text-yellow-400 shadow-[0_0_14px_rgba(250,204,21,0.14)]"
+    aria-label="Chiudi prodotti più venduti"
+  >
+    ×
+  </button>
+
   <div className="border-b border-yellow-400 bg-yellow-400 px-4 py-3 text-center text-sm font-black uppercase tracking-widest text-black">
     I PIÙ VENDUTI DELLA SETTIMANA
   </div>
 
-  {/* VIDEO DEI 3 PRODOTTI */}
   <div className="grid grid-cols-3 gap-1 bg-black p-2">
-
-    {/* VOLTUS Z */}
+    {/* 1 - COOKIES X RUNTZ */}
     <button
       type="button"
       onClick={() => {
-        setCategoriaAttiva("Premium Filtred");
+        setCategoriaAttiva("Frozen e Static");
         setTimeout(() => {
-          document.getElementById("voltus-z")?.scrollIntoView({
+          document.getElementById("cookies-x-runtz")?.scrollIntoView({
             behavior: "smooth",
             block: "center",
           });
         }, 50);
       }}
-      className="overflow-hidden rounded-md border border-yellow-400/40 shadow-[0_0_14px_rgba(250,204,21,0.14)]"
+      className="overflow-hidden rounded-xl border border-yellow-400/60 shadow-[0_0_16px_rgba(250,204,21,0.18)]"
+      aria-label="Apri Cookies X Runtz"
     >
       <video
-        src="/products/premium-filtred/voltus.mp4"
+        src="/products/frozen-static/cokru1.mp4"
         autoPlay
         muted
         loop
@@ -5469,45 +5622,23 @@ rel="noopener noreferrer"
       />
     </button>
 
-    {/* SILVER PACK */}
-    <button
-      type="button"
-      onClick={() => {
-        setTimeout(() => {
-          document.getElementById("silver-pack-card")?.scrollIntoView({
-            behavior: "smooth",
-            block: "center",
-          });
-        }, 50);
-      }}
-      className="overflow-hidden rounded-md border border-yellow-400/40 shadow-[0_0_14px_rgba(250,204,21,0.14)]"
-    >
-      <video
-        src="/products/promo/silver.mp4"
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="aspect-square w-full object-cover"
-      />
-    </button>
-
-    {/* TROPICANA COOKIES */}
+    {/* 2 - LEMON GUMP */}
     <button
       type="button"
       onClick={() => {
         setCategoriaAttiva("Flowers");
         setTimeout(() => {
-          document.getElementById("tropicana-cookies")?.scrollIntoView({
+          document.getElementById("lemon-gump")?.scrollIntoView({
             behavior: "smooth",
             block: "center",
           });
         }, 50);
       }}
-      className="overflow-hidden rounded-md border border-yellow-400/40 shadow-[0_0_14px_rgba(250,204,21,0.14)]"
+      className="overflow-hidden rounded-xl border border-yellow-400/60 shadow-[0_0_16px_rgba(250,204,21,0.18)]"
+      aria-label="Apri Lemon Gump"
     >
       <video
-        src="/products/flowers/tropicana1.mp4"
+        src="/products/flowers/lmg1.mp4"
         autoPlay
         muted
         loop
@@ -5516,108 +5647,68 @@ rel="noopener noreferrer"
       />
     </button>
 
+    {/* 3 - GOLD PACK */}
+    <button
+      type="button"
+      onClick={() => {
+        setTimeout(() => {
+          document.getElementById("gold-pack-card")?.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }, 50);
+      }}
+      className="overflow-hidden rounded-xl border border-yellow-400/60 shadow-[0_0_16px_rgba(250,204,21,0.18)]"
+      aria-label="Apri Gold Pack"
+    >
+      <video
+        src="/products/promo/gold.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="aspect-square w-full object-cover"
+      />
+    </button>
   </div>
 
-  {/* NOTIZIE SCORREVOLI */}
   <div className="overflow-hidden whitespace-nowrap border-t border-yellow-400/30 py-4">
     <div className="best-sellers-ticker inline-flex items-center">
+      {[0, 1].map((ripetizione) => (
+        <div key={ripetizione} className="inline-flex items-center">
+          <button
+            type="button"
+            onClick={() => {
+              setCategoriaAttiva("Frozen e Static");
+              setTimeout(() => document.getElementById("cookies-x-runtz")?.scrollIntoView({ behavior: "smooth", block: "center" }), 50);
+            }}
+            className="mx-6 font-black text-yellow-400"
+          >
+            🥇 1° COOKIES X RUNTZ 17.5G
+          </button>
 
-      <button
-        type="button"
-        onClick={() => {
-          setCategoriaAttiva("Premium Filtred");
-          setTimeout(() => {
-            document.getElementById("voltus-z")?.scrollIntoView({
-              behavior: "smooth",
-              block: "center",
-            });
-          }, 50);
-        }}
-        className="mx-6 font-black text-yellow-400"
-      >
-        🥇 1° VOLTUS Z 5G — 35€
-      </button>
+          <button
+            type="button"
+            onClick={() => {
+              setCategoriaAttiva("Flowers");
+              setTimeout(() => document.getElementById("lemon-gump")?.scrollIntoView({ behavior: "smooth", block: "center" }), 50);
+            }}
+            className="mx-6 font-black text-white"
+          >
+            🥈 2° LEMON GUMP 25G
+          </button>
 
-      <button
-        type="button"
-        onClick={() => {
-          setTimeout(() => {
-            document.getElementById("silver-pack-card")?.scrollIntoView({
-              behavior: "smooth",
-              block: "center",
-            });
-          }, 50);
-        }}
-        className="mx-6 font-black text-white"
-      >
-        🥈 2° SILVER PACK — 50€
-      </button>
-
-      <button
-        type="button"
-        onClick={() => {
-          setCategoriaAttiva("Flowers");
-          setTimeout(() => {
-            document.getElementById("tropicana-cookies")?.scrollIntoView({
-              behavior: "smooth",
-              block: "center",
-            });
-          }, 50);
-        }}
-        className="mx-6 font-black text-yellow-400"
-      >
-        🥉 3° TROPICANA COOKIES 5G — 50€
-      </button>
-
-      {/* RIPETIZIONE PER SCORRIMENTO CONTINUO */}
-
-      <button
-        type="button"
-        onClick={() => {
-          setCategoriaAttiva("Premium Filtred");
-          setTimeout(() => {
-            document.getElementById("voltus-z")?.scrollIntoView({
-              behavior: "smooth",
-              block: "center",
-            });
-          }, 50);
-        }}
-        className="mx-6 font-black text-yellow-400"
-      >
-        🥇 1° VOLTUS Z 5G — 35€
-      </button>
-
-      <button
-        type="button"
-        onClick={() => {
-          setTimeout(() => {
-            document.getElementById("silver-pack-card")?.scrollIntoView({
-              behavior: "smooth",
-              block: "center",
-            });
-          }, 50);
-        }}
-        className="mx-6 font-black text-white"
-      >
-        🥈 2° SILVER PACK — 50€
-      </button>
-
-      <button
-        type="button"
-        onClick={() => {
-          setCategoriaAttiva("Flowers");
-          setTimeout(() => {
-            document.getElementById("tropicana-cookies")?.scrollIntoView({
-              behavior: "smooth",
-              block: "center",
-            });
-          }, 50);
-        }}
-        className="mx-6 font-black text-yellow-400"
-      >
-        🥉 3° TROPICANA COOKIES 5G — 50€
-      </button>
-
+          <button
+            type="button"
+            onClick={() => {
+              setTimeout(() => document.getElementById("gold-pack-card")?.scrollIntoView({ behavior: "smooth", block: "center" }), 50);
+            }}
+            className="mx-6 font-black text-yellow-400"
+          >
+            🥉 3° PACK GOLD
+          </button>
+        </div>
+      ))}
     </div>
   </div>
 
@@ -5646,7 +5737,6 @@ rel="noopener noreferrer"
       }
     }
   `}</style>
-
 </div>
 )}
 {snakeAperto && (
