@@ -343,6 +343,8 @@ const prodottiInEvidenza = [
   "ORANGE PUNCH",
   "TROPICANA COOKIES",
   "TOBACCO BIO SHELDIA X JOINT",
+  "GROVE STREET OG",
+  "LAUGHING BUDDHA",
   "LEMON STATIC",
 ];
 
@@ -1725,7 +1727,7 @@ return (
     <div className="grid grid-cols-2 gap-2">
       {[
         "Premium Filtred", "Frozen e Static", "Rosin & Pen", "Flowers",
-        "White", "Tabacchi biologici", "Gadget", "Abbigliamento", "Gift Card",
+        "Dry Work", "White", "Tabacchi biologici", "Gadget", "Abbigliamento", "Gift Card",
       ].map((categoria) => (
         <button
           key={categoria}
@@ -2130,6 +2132,7 @@ return (
           "Frozen e Static",
           "Rosin & Pen",
           "Flowers",
+          "Dry Work",
           "White",
           "Tabacchi biologici",
           "Gadget",
@@ -2168,6 +2171,7 @@ return (
           { nome: "Frozen e Static", immagine: "/products/frozen-static/arancia1.jpeg" },
           { nome: "Rosin & Pen", immagine: "/products/rosin/etere1.jpg" },
           { nome: "Flowers", immagine: "/products/flowers/lmg2.jpg" },
+          { nome: "Dry Work", immagine: "/products/Dry work/cj2.jpg" },
           { nome: "White", immagine: "/products/other/soda2.jpg" },
           { nome: "Tabacchi biologici", immagine: "/products/other/tab2.jpg" },
           { nome: "Gadget", immagine: "/cover1.jpg" },
@@ -2222,6 +2226,7 @@ return (
       "Frozen e Static",
       "Rosin & Pen",
       "Flowers",
+      "Dry Work",
       "White",
       "Tabacchi biologici",
       "Gadget",
@@ -4059,6 +4064,219 @@ return (
 </div>
   </div>
 )}
+{/* FLOWERS - LAUGHING BUDDHA */}
+{categoriaAttiva === "Flowers" && (
+  <div id="laughing-buddha" className="mt-8 rounded-3xl border border-yellow-300/80 bg-black/85 p-4 shadow-[0_0_30px_rgba(250,204,21,0.20)] sm:p-5">
+    <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+      Flowers
+    </p>
+
+    <h3 className="mt-2 text-3xl font-black uppercase text-white">
+      LAUGHING BUDDHA
+    </h3>
+
+    <div className="mt-6 space-y-3">
+      <InfoRiga etichetta="PROPRIETARIO DEL SEME">Rare Seed</InfoRiga>
+      <InfoRiga etichetta="PAESE DI COLTIVAZIONE">Spagna</InfoRiga>
+      <InfoRiga etichetta="BILANCIAMENTO">80% Sativa — Indica 20%</InfoRiga>
+      <InfoRiga etichetta="GENETICA">Thai Landrace x Jamaican Scout</InfoRiga>
+      <InfoRiga etichetta="EFFETTO">Effetto indico di carattere fisico predominante, crea molta fame chimica.</InfoRiga>
+      <InfoRiga etichetta="GUSTO">Tropicale, zeste di agrume, menta piperita</InfoRiga>
+      <InfoRiga etichetta="TERPENE DOMINANTE">Terpinolene</InfoRiga>
+    </div>
+
+    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
+      <video
+        src="/products/flowers/lab1.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
+      />
+
+      <div className="flex-1 grid grid-cols-2 gap-3 md:grid-cols-4">
+        {[2, 3, 4, 5, 6, 7, 9].map((numero) => (
+          <img
+            key={numero}
+            src={`/products/flowers/lab${numero}.jpg`}
+            alt={`Laughing Buddha foto ${numero}`}
+            className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
+          />
+        ))}
+      </div>
+    </div>
+
+    <div className="mt-6">
+      <p className="mb-3 font-bold uppercase text-white">
+        Seleziona quantità
+      </p>
+
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        {[
+          { grammi: "5G", prezzo: 40 },
+          { grammi: "10G", prezzo: 70 },
+          { grammi: "25G", prezzo: 200 },
+          { grammi: "50G", prezzo: 300 },
+          { grammi: "100G", prezzo: 500 },
+          { grammi: "500G", prezzo: 1900 },
+          { grammi: "1K", prezzo: 3000 },
+        ].map((opzione) => (
+          <button
+            key={opzione.grammi}
+            type="button"
+            onClick={() => {
+              const id = `laughing-buddha-${opzione.grammi}`;
+
+              setCarrello((prev) => {
+                const esistente = prev.find(
+                  (item) => String(item.id) === id
+                );
+
+                if (esistente) {
+                  return prev.map((item) =>
+                    String(item.id) === id
+                      ? { ...item, quantita: item.quantita + 1 }
+                      : item
+                  );
+                }
+
+                return [
+                  ...prev,
+                  {
+                    id: id as any,
+                    nome: `LAUGHING BUDDHA ${opzione.grammi}`,
+                    prezzo: opzione.prezzo,
+                    quantita: 1,
+                  },
+                ];
+              });
+            }}
+            className="rounded-2xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center shadow-[0_0_16px_rgba(250,204,21,0.18)] hover:bg-yellow-400"
+          >
+            <p className="text-xl font-black text-white">
+              {opzione.grammi}
+            </p>
+            <p className="mt-3 text-xl font-black lalinea-price-neon">
+              {opzione.prezzo} €
+            </p>
+            <p className="mt-2 text-xs font-black uppercase text-white">
+              Aggiungi al carrello
+            </p>
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+)}
+
+{/* DRY WORK - GROVE STREET OG */}
+{categoriaAttiva === "Dry Work" && (
+  <div id="grove-street-og" className="mt-8 rounded-3xl border border-yellow-300/80 bg-black/85 p-4 shadow-[0_0_30px_rgba(250,204,21,0.20)] sm:p-5">
+    <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+      Dry Work
+    </p>
+
+    <h3 className="mt-2 text-3xl font-black uppercase text-white">
+      GROVE STREET OG
+    </h3>
+
+    <div className="mt-6 space-y-3">
+      <InfoRiga etichetta="FATTORIA">Sconosciuta</InfoRiga>
+      <InfoRiga etichetta="BILANCIAMENTO">Indica 60% — Sativa 40%</InfoRiga>
+      <InfoRiga etichetta="GENETICA">SFV OG or Ghost OG</InfoRiga>
+      <InfoRiga etichetta="EFFETTO">Effetto indico di carattere fisico predominante, crea molta fame chimica.</InfoRiga>
+      <InfoRiga etichetta="GUSTO">Gas, Diesel, miele</InfoRiga>
+      <InfoRiga etichetta="TERPENE DOMINANTE">Myrcene</InfoRiga>
+      <InfoRiga etichetta="FORMATO">Bolle da 100</InfoRiga>
+      <InfoRiga etichetta="STATO">Vetro 100%</InfoRiga>
+    </div>
+
+    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
+      <video
+        src="/products/Dry work/cj1.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
+      />
+
+      <div className="flex-1 grid grid-cols-2 gap-3 md:grid-cols-3">
+        {[2, 3, 4, 5, 6, 7].map((numero) => (
+          <img
+            key={numero}
+            src={`/products/Dry work/cj${numero}.jpg`}
+            alt={`Grove Street OG foto ${numero}`}
+            className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
+          />
+        ))}
+      </div>
+    </div>
+
+    <div className="mt-6">
+      <p className="mb-3 font-bold uppercase text-white">
+        Seleziona quantità
+      </p>
+
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        {[
+          { grammi: "5G", prezzo: 25 },
+          { grammi: "10G", prezzo: 40 },
+          { grammi: "25G", prezzo: 95 },
+          { grammi: "50G", prezzo: 175 },
+          { grammi: "100G", prezzo: 320 },
+          { grammi: "500G", prezzo: 1450 },
+          { grammi: "1K", prezzo: 2700 },
+        ].map((opzione) => (
+          <button
+            key={opzione.grammi}
+            type="button"
+            onClick={() => {
+              const id = `grove-street-og-${opzione.grammi}`;
+
+              setCarrello((prev) => {
+                const esistente = prev.find(
+                  (item) => String(item.id) === id
+                );
+
+                if (esistente) {
+                  return prev.map((item) =>
+                    String(item.id) === id
+                      ? { ...item, quantita: item.quantita + 1 }
+                      : item
+                  );
+                }
+
+                return [
+                  ...prev,
+                  {
+                    id: id as any,
+                    nome: `GROVE STREET OG ${opzione.grammi}`,
+                    prezzo: opzione.prezzo,
+                    quantita: 1,
+                  },
+                ];
+              });
+            }}
+            className="rounded-2xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center shadow-[0_0_16px_rgba(250,204,21,0.18)] hover:bg-yellow-400"
+          >
+            <p className="text-xl font-black text-white">
+              {opzione.grammi}
+            </p>
+            <p className="mt-3 text-xl font-black lalinea-price-neon">
+              {opzione.prezzo} €
+            </p>
+            <p className="mt-2 text-xs font-black uppercase text-white">
+              Aggiungi al carrello
+            </p>
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+)}
+
   {/* TABACCHI BIOLOGICI - TOBACCO BIO SHELDIA X JOINT */}
 {categoriaAttiva === "Tabacchi biologici" && (
   <div id="tobacco-bio-sheldia" className="mt-8 rounded-3xl border border-yellow-300/80 bg-black/85 p-4 shadow-[0_0_30px_rgba(250,204,21,0.20)] sm:p-5">
