@@ -81,6 +81,287 @@ function NeonGlobalStyle() {
       .lalinea-access-scan {
         animation: lalineaAccessScan 0.9s ease-in-out infinite;
       }
+
+      .ll-mobile-home,
+      .ll-mobile-toolbar {
+        display: none;
+      }
+
+      @media (max-width: 767px) {
+        .lalinea-mobile-shell {
+          height: 100dvh;
+          min-height: 0 !important;
+          overflow: hidden;
+          background: #000;
+        }
+
+        .lalinea-mobile-shell .ll-hero-banner,
+        .lalinea-mobile-shell > section,
+        .lalinea-mobile-shell > footer,
+        .lalinea-mobile-shell > .ll-gioca {
+          display: none !important;
+        }
+
+        .lalinea-mobile-shell > a[href="/vip"] {
+          display: none !important;
+        }
+
+        .lalinea-mobile-shell > header {
+          position: relative !important;
+          top: auto !important;
+          z-index: 70;
+          height: 4.75rem;
+          flex: 0 0 4.75rem;
+          border-bottom-color: rgba(250, 204, 21, 0.5);
+          box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+        }
+
+        .lalinea-mobile-shell > header > div {
+          height: 4.75rem !important;
+          padding-left: 0.75rem !important;
+          padding-right: 0.75rem !important;
+        }
+
+        .lalinea-mobile-shell > header img {
+          height: 3.25rem !important;
+          max-width: 34vw;
+          object-fit: contain;
+        }
+
+        .ll-mobile-home,
+        .ll-mobile-toolbar {
+          font-family: "Avenir Next Condensed", "Arial Narrow", -apple-system,
+            BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        .lalinea-mobile-shell[data-vista-mobile="home"] > .ll-mobile-home {
+          display: flex !important;
+        }
+
+        .ll-mobile-home {
+          height: calc(100dvh - 4.75rem);
+          min-height: 0;
+          flex-direction: column;
+          overflow: hidden;
+          padding: 0.75rem 0.75rem calc(10.25rem + env(safe-area-inset-bottom));
+          background:
+            radial-gradient(circle at 50% -10%, rgba(250, 204, 21, 0.16), transparent 35%),
+            linear-gradient(180deg, #090909 0%, #000 65%);
+        }
+
+        .ll-mobile-category-grid {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          grid-template-rows: repeat(3, minmax(0, 1fr));
+          gap: 0.55rem;
+          min-height: 0;
+          flex: 1 1 auto;
+        }
+
+        .ll-mobile-category-card {
+          position: relative;
+          min-width: 0;
+          min-height: 0;
+          overflow: hidden;
+          border: 1px solid rgba(253, 224, 71, 0.6);
+          border-radius: 1.15rem;
+          background: #090909;
+          box-shadow:
+            inset 0 0 0 1px rgba(255,255,255,.025),
+            0 0 16px rgba(250, 204, 21, 0.12);
+          -webkit-tap-highlight-color: transparent;
+        }
+
+        .ll-mobile-category-card:active {
+          transform: scale(0.97);
+          border-color: rgb(253 224 71);
+          box-shadow: 0 0 24px rgba(250, 204, 21, 0.32);
+        }
+
+        .ll-mobile-category-card img {
+          pointer-events: none;
+          user-select: none;
+          -webkit-user-drag: none;
+        }
+
+        .ll-mobile-toolbar {
+          height: 3.5rem;
+          min-height: 3.5rem;
+          align-items: center;
+          gap: 0.55rem;
+          border-bottom: 1px solid rgba(250, 204, 21, 0.35);
+          background: rgba(0, 0, 0, 0.96);
+          padding: 0.45rem 0.7rem;
+          box-shadow: 0 8px 22px rgba(0,0,0,.4);
+        }
+
+        .lalinea-mobile-shell:not([data-vista-mobile="home"]) > .ll-mobile-toolbar {
+          display: flex !important;
+        }
+
+        .lalinea-mobile-shell[data-vista-mobile="shop"] > #shop,
+        .lalinea-mobile-shell[data-vista-mobile="gift-card"] > #shop,
+        .lalinea-mobile-shell[data-vista-mobile="carrello"] > #shop,
+        .lalinea-mobile-shell[data-vista-mobile="promo"] > #promo,
+        .lalinea-mobile-shell[data-vista-mobile="tracking"] > #tracking,
+        .lalinea-mobile-shell[data-vista-mobile="dicono-di-noi"] > #dicono-di-noi,
+        .lalinea-mobile-shell[data-vista-mobile="point"] > #point,
+        .lalinea-mobile-shell[data-vista-mobile="delivery"] > #delivery,
+        .lalinea-mobile-shell[data-vista-mobile="contatti"] > #contatti {
+          display: block !important;
+          height: calc(100dvh - 8.25rem);
+          min-height: 0;
+          overflow-x: hidden;
+          overflow-y: auto;
+          overscroll-behavior: contain;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+          padding-bottom: calc(10rem + env(safe-area-inset-bottom)) !important;
+        }
+
+        .lalinea-mobile-shell[data-vista-mobile="shop"] > #shop::-webkit-scrollbar,
+        .lalinea-mobile-shell[data-vista-mobile="gift-card"] > #shop::-webkit-scrollbar,
+        .lalinea-mobile-shell[data-vista-mobile="carrello"] > #shop::-webkit-scrollbar,
+        .lalinea-mobile-shell[data-vista-mobile="promo"] > #promo::-webkit-scrollbar,
+        .lalinea-mobile-shell[data-vista-mobile="tracking"] > #tracking::-webkit-scrollbar,
+        .lalinea-mobile-shell[data-vista-mobile="dicono-di-noi"] > #dicono-di-noi::-webkit-scrollbar,
+        .lalinea-mobile-shell[data-vista-mobile="point"] > #point::-webkit-scrollbar,
+        .lalinea-mobile-shell[data-vista-mobile="delivery"] > #delivery::-webkit-scrollbar,
+        .lalinea-mobile-shell[data-vista-mobile="contatti"] > #contatti::-webkit-scrollbar {
+          display: none;
+        }
+
+        .lalinea-mobile-shell[data-vista-mobile="shop"] > #shop,
+        .lalinea-mobile-shell[data-vista-mobile="gift-card"] > #shop,
+        .lalinea-mobile-shell[data-vista-mobile="carrello"] > #shop {
+          max-width: none !important;
+          margin: 0 !important;
+          padding: 0.9rem 0.9rem calc(10rem + env(safe-area-inset-bottom)) !important;
+        }
+
+        .lalinea-mobile-shell #shop > .ll-shop-intro,
+        .lalinea-mobile-shell #shop > .ll-category-nav {
+          display: none !important;
+        }
+
+        .lalinea-mobile-shell[data-vista-mobile="gift-card"] #shop > :not(#gift-card),
+        .lalinea-mobile-shell[data-vista-mobile="carrello"] #shop > :not(#ll-carrello):not(#ll-checkout) {
+          display: none !important;
+        }
+
+        .lalinea-mobile-shell[data-vista-mobile="gift-card"] #gift-card {
+          margin-top: 0 !important;
+        }
+
+        .lalinea-mobile-shell[data-vista-mobile="carrello"] #ll-carrello {
+          margin-top: 0 !important;
+        }
+
+        .ll-music-player {
+          left: 0.5rem !important;
+          bottom: calc(0.5rem + env(safe-area-inset-bottom)) !important;
+          width: calc(50% - 0.75rem) !important;
+          max-height: 7.4rem;
+          overflow: hidden !important;
+          border-radius: 1rem !important;
+          box-shadow: 0 0 22px rgba(250, 204, 21, 0.2) !important;
+        }
+
+        .ll-music-title {
+          min-height: 2.15rem !important;
+          padding: 0.35rem 1.8rem 0.35rem 0.5rem !important;
+          font-size: 0.55rem !important;
+          line-height: 1.05 !important;
+          letter-spacing: 0.06em !important;
+        }
+
+        .ll-music-title br {
+          display: none;
+        }
+
+        .ll-music-body {
+          padding: 0.35rem !important;
+        }
+
+        .ll-music-body [data-titolo-canzone] {
+          margin-bottom: 0.2rem !important;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          font-size: 0.58rem !important;
+        }
+
+        .ll-music-body > button {
+          margin-top: 0.2rem !important;
+          padding-top: 0.32rem !important;
+          padding-bottom: 0.32rem !important;
+          font-size: 0.54rem !important;
+        }
+
+        .ll-music-body > div {
+          margin-top: 0.25rem !important;
+          gap: 0.25rem !important;
+        }
+
+        .ll-music-body > div button {
+          padding: 0.35rem 0.2rem !important;
+          font-size: 0.52rem !important;
+        }
+
+        .ll-featured-product {
+          left: 0.5rem !important;
+          bottom: calc(8.15rem + env(safe-area-inset-bottom)) !important;
+          width: calc(50% - 0.75rem) !important;
+          padding: 0.35rem 0.5rem !important;
+          border-radius: 0.8rem !important;
+        }
+
+        .ll-featured-product p:first-child {
+          font-size: 0.48rem !important;
+        }
+
+        .ll-featured-product p:last-child {
+          margin-top: 0.1rem !important;
+          font-size: 0.55rem !important;
+        }
+
+        .ll-best-sellers {
+          right: 0.5rem !important;
+          bottom: calc(0.5rem + env(safe-area-inset-bottom)) !important;
+          width: calc(50% - 0.75rem) !important;
+          max-height: 7.4rem;
+          border-radius: 1rem !important;
+        }
+
+        .ll-best-sellers-title {
+          padding: 0.55rem 1.8rem 0.55rem 0.45rem !important;
+          font-size: 0.52rem !important;
+          line-height: 1.1 !important;
+          letter-spacing: 0.05em !important;
+        }
+
+        .ll-best-sellers-grid {
+          gap: 0.2rem !important;
+          padding: 0.35rem !important;
+        }
+
+        .ll-best-sellers-grid button {
+          border-radius: 0.7rem !important;
+        }
+
+        .ll-best-sellers-ticker-wrap {
+          display: none !important;
+        }
+
+        .ll-best-sellers > button[aria-label="Chiudi prodotti più venduti"],
+        .ll-music-player > button[aria-label="Chiudi player musicale"] {
+          right: 0.28rem !important;
+          top: 0.28rem !important;
+          height: 1.45rem !important;
+          width: 1.45rem !important;
+          font-size: 0.65rem !important;
+        }
+      }
     `}</style>
   );
 }
@@ -428,6 +709,8 @@ useEffect(() => {
   const apriAnteprima = (event: MouseEvent) => {
     const target = event.target as HTMLElement;
 
+    if (target.closest("button, a, header, [data-no-preview='true']")) return;
+
     const media = target.closest("img, video") as
       | HTMLImageElement
       | HTMLVideoElement
@@ -588,6 +871,116 @@ const [accessoInCorso, setAccessoInCorso] = useState(false);
 const [errorePassword, setErrorePassword] = useState(false);
 const [codiceScontoCheckout, setCodiceScontoCheckout] = useState("");
 const [erroreSconto, setErroreSconto] = useState("");
+const [vistaMobile, setVistaMobile] = useState("home");
+
+const navigazioneMobileAttiva = () =>
+  typeof window !== "undefined" &&
+  window.matchMedia("(max-width: 767px)").matches;
+
+const apriCategoriaCatalogo = (categoria: string) => {
+  const gift = document.querySelector<HTMLDetailsElement>("#gift-card");
+
+  if (categoria === "Gift Card") {
+    setCategoriaAttiva("");
+
+    if (navigazioneMobileAttiva()) {
+      setVistaMobile("gift-card");
+      window.setTimeout(() => {
+        const dettaglio = document.querySelector<HTMLDetailsElement>("#gift-card");
+        if (dettaglio) dettaglio.open = true;
+        document.getElementById("shop")?.scrollTo({ top: 0, behavior: "auto" });
+      }, 60);
+      return;
+    }
+
+    if (gift) gift.open = true;
+    document.getElementById("gift-card")?.scrollIntoView({
+      behavior: "auto",
+      block: "start",
+    });
+    return;
+  }
+
+  setCategoriaAttiva(categoria);
+  if (gift) gift.open = false;
+
+  if (navigazioneMobileAttiva()) {
+    setVistaMobile("shop");
+    window.setTimeout(() => {
+      document.getElementById("shop")?.scrollTo({ top: 0, behavior: "auto" });
+    }, 60);
+    return;
+  }
+
+  window.setTimeout(() => {
+    document.getElementById("shop")?.scrollIntoView({
+      behavior: "auto",
+      block: "start",
+    });
+  }, 50);
+};
+
+const apriServizioCatalogo = (id: string) => {
+  if (id === "dicono-di-noi") setRecensioniAperte(true);
+
+  if (navigazioneMobileAttiva()) {
+    setVistaMobile(id);
+    window.setTimeout(() => {
+      const sezione = document.getElementById(id);
+      if (sezione) sezione.scrollTop = 0;
+    }, 60);
+    return;
+  }
+
+  requestAnimationFrame(() => {
+    const sezione = document.getElementById(id);
+    if (sezione) {
+      sezione.style.scrollMarginTop = `${document.querySelector("header")?.clientHeight || 0}px`;
+      sezione.scrollIntoView({ behavior: "auto", block: "start" });
+    }
+  });
+};
+
+const apriCarrelloCatalogo = () => {
+  if (navigazioneMobileAttiva()) {
+    setVistaMobile("carrello");
+    window.setTimeout(() => {
+      document.getElementById("shop")?.scrollTo({ top: 0, behavior: "auto" });
+    }, 60);
+    return;
+  }
+
+  document.getElementById("ll-carrello")?.scrollIntoView({
+    behavior: "auto",
+    block: "start",
+  });
+};
+
+const apriProdottoCatalogo = (
+  categoria: string,
+  targetId: string,
+  vista: "shop" | "promo" = "shop"
+) => {
+  if (categoria) setCategoriaAttiva(categoria);
+
+  if (navigazioneMobileAttiva()) {
+    setVistaMobile(vista);
+    window.setTimeout(() => {
+      document.getElementById(targetId)?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }, 90);
+    return;
+  }
+
+  window.setTimeout(() => {
+    document.getElementById(targetId)?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  }, 50);
+};
 const aggiungiAlCarrello = () => {
     setCarrello((prev) => {
       const esistente = prev.find((item) => item.id === 1);
@@ -1352,7 +1745,12 @@ if (caricamentoIniziale) {
 }
 
 return (
-    <main onClick={avviaMusica} className="lalinea-neon min-h-screen text-white">
+    <main
+      id="lalinea-pagina"
+      data-vista-mobile={vistaMobile}
+      onClick={avviaMusica}
+      className="lalinea-neon lalinea-mobile-shell min-h-screen text-white"
+    >
       <NeonGlobalStyle />
       {popupConsegne && (
         <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/80 px-4">
@@ -1403,7 +1801,7 @@ return (
  
 
 {playerVisibile && (
-  <div className="fixed bottom-[17.5rem] left-3 z-[9998] w-[calc(46%-12px)] rounded-2xl border border-yellow-300 bg-black/95 px-3 py-2 text-center shadow-[0_0_18px_rgba(250,204,21,0.22)] md:bottom-4 md:left-4 md:w-[240px]">
+  <div className="ll-featured-product fixed bottom-[17.5rem] left-3 z-[9998] w-[calc(46%-12px)] rounded-2xl border border-yellow-300 bg-black/95 px-3 py-2 text-center shadow-[0_0_18px_rgba(250,204,21,0.22)] md:bottom-4 md:left-4 md:w-[240px]">
     <p className="text-[9px] font-black uppercase tracking-[0.16em] text-yellow-400 md:text-[10px]">
       Prodotto in evidenza
     </p>
@@ -1415,7 +1813,7 @@ return (
 
 <div
   style={{ display: playerVisibile ? undefined : "none" }}
- className="fixed bottom-3 left-3 z-[9999] w-[calc(46%-12px)] min-w-0 overflow-visible rounded-xl border border-yellow-400 bg-black/95 text-white shadow-2xl md:bottom-4 md:left-1/2 md:w-[calc(100%-2rem)] md:max-w-md md:-translate-x-1/2"
+ className="ll-music-player fixed bottom-3 left-3 z-[9999] w-[calc(46%-12px)] min-w-0 overflow-visible rounded-xl border border-yellow-400 bg-black/95 text-white shadow-2xl md:bottom-4 md:left-1/2 md:w-[calc(100%-2rem)] md:max-w-md md:-translate-x-1/2"
 >
  <button
   type="button"
@@ -1425,7 +1823,7 @@ return (
 >
   ×
   </button>
-<div className="flex min-h-[104px] items-center justify-center rounded-t-xl border-b border-yellow-400 bg-yellow-400 py-4 pl-3 pr-11 text-center text-xs font-black uppercase leading-[1.35] tracking-wide text-black sm:min-h-[96px] sm:text-sm md:min-h-[78px] md:px-12 md:py-4 md:text-sm">
+<div className="ll-music-title flex min-h-[104px] items-center justify-center rounded-t-xl border-b border-yellow-400 bg-yellow-400 py-4 pl-3 pr-11 text-center text-xs font-black uppercase leading-[1.35] tracking-wide text-black sm:min-h-[96px] sm:text-sm md:min-h-[78px] md:px-12 md:py-4 md:text-sm">
   <span className="block">
     LA SELEZIONE
     <br />
@@ -1435,7 +1833,7 @@ return (
   </span>
 </div>
 
-<div className="rounded-b-xl p-2 md:p-4">
+<div className="ll-music-body rounded-b-xl p-2 md:p-4">
 
   <p data-titolo-canzone className="mb-3 text-center text-sm font-bold">
     LOVE YOU — NONO LA GRINTA
@@ -1605,7 +2003,7 @@ return (
   </div>
 )}
 {/* VIDEO BANNER */}
-<section className="relative w-full overflow-hidden">
+<section className="ll-hero-banner relative w-full overflow-hidden">
   <video
   autoPlay
   muted
@@ -1625,6 +2023,7 @@ return (
     <img
       src="/Threema_2025-12-01_22-11-08 2.PNG"
       alt="LaLinea"
+      data-no-preview="true"
       className="h-14 w-auto object-contain md:h-40"
     />
 
@@ -1641,21 +2040,7 @@ return (
   type="button"
   onClick={() => {
     setMenuAperto(false);
-
-    const carrello = Array.from(document.querySelectorAll("div")).find(
-      (elemento) =>
-        elemento.className.includes("mt-12") &&
-        elemento.className.includes("border-yellow-400") &&
-        elemento.className.includes("bg-black") &&
-        elemento.className.includes("p-6")
-    );
-
-    if (carrello) {
-      carrello.scrollIntoView({
-        behavior: "auto",
-        block: "start",
-      });
-    }
+    apriCarrelloCatalogo();
   }}
   aria-label="Apri carrello"
   className="flex h-11 items-center gap-2 rounded-xl border-2 border-green-300 bg-green-500 px-4 font-black text-black shadow-lg shadow-green-500/30 md:hidden"
@@ -1702,6 +2087,108 @@ return (
   </div>
 </header>
 
+<div className="ll-mobile-home md:hidden" aria-label="Catalogo mobile LaLinea">
+  <div className="mb-3 flex items-end justify-between gap-3">
+    <div>
+      <p className="text-[10px] font-black uppercase tracking-[0.32em] text-yellow-400">
+        LALINEA / CATALOGO
+      </p>
+      <h1 className="mt-1 text-[1.55rem] font-black uppercase leading-none tracking-[-0.03em] text-white">
+        Scegli la categoria
+      </h1>
+    </div>
+    <span className="rounded-full border border-yellow-300/60 bg-yellow-400/10 px-3 py-1 text-[9px] font-black uppercase tracking-[0.16em] text-yellow-300">
+      Milano
+    </span>
+  </div>
+
+  <div className="ll-mobile-category-grid">
+    {[
+      { nome: "Premium Filtred", immagine: "/products/premium-filtred/voltus1.jpg" },
+      { nome: "Frozen e Static", immagine: "/products/frozen-static/arancia1.jpeg" },
+      { nome: "Rosin & Pen", immagine: "/products/rosin/etere1.jpg" },
+      { nome: "Flowers", immagine: "/products/flowers/lmg2.jpg" },
+      { nome: "Dry Work", immagine: "/products/Dry work/cj2.jpg" },
+      { nome: "White", immagine: "/products/other/soda2.jpg" },
+      { nome: "Tabacchi biologici", immagine: "/products/other/tab2.jpg", fallback: "/products/other/tab3.jpg" },
+      { nome: "Gadget", immagine: "/cover1.jpg" },
+      { nome: "Abbigliamento", immagine: "/products/abbigliamento/calza1.jpg" },
+    ].map(({ nome, immagine, fallback }) => (
+      <button
+        key={`mobile-home-${nome}`}
+        type="button"
+        onClick={() => apriCategoriaCatalogo(nome)}
+        className="ll-mobile-category-card group text-left"
+        aria-label={`Apri categoria ${nome}`}
+      >
+        <img
+          src={immagine}
+          alt=""
+          draggable={false}
+          data-no-preview="true"
+          onError={(evento) => {
+            if (!fallback) return;
+            const immagineErrore = evento.currentTarget;
+            if (immagineErrore.dataset.fallbackUsato === "true") return;
+            immagineErrore.dataset.fallbackUsato = "true";
+            immagineErrore.src = fallback;
+          }}
+          className="absolute inset-0 h-full w-full object-cover opacity-80 transition duration-300 group-active:scale-105"
+        />
+        <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent" />
+        <span className="pointer-events-none absolute inset-x-0 bottom-0 p-2.5">
+          <span className="block text-[10px] font-black uppercase leading-[1.05] tracking-[0.02em] text-white sm:text-xs">
+            {nome}
+          </span>
+          <span className="mt-1 block text-[8px] font-black uppercase tracking-[0.16em] text-yellow-300">
+            Apri →
+          </span>
+        </span>
+      </button>
+    ))}
+  </div>
+
+  <p className="mt-2 text-center text-[9px] font-bold uppercase tracking-[0.16em] text-zinc-500">
+    Tocca una categoria · servizi dal menu
+  </p>
+</div>
+
+<div className="ll-mobile-toolbar md:hidden">
+  <button
+    type="button"
+    onClick={() => {
+      setVistaMobile("home");
+      setCategoriaAttiva("");
+    }}
+    className="flex h-10 shrink-0 items-center rounded-xl border border-yellow-300/60 bg-black px-3 text-[10px] font-black uppercase tracking-wide text-yellow-300"
+  >
+    ← Home
+  </button>
+
+  <p className="min-w-0 flex-1 truncate text-center text-[11px] font-black uppercase tracking-[0.08em] text-white">
+    {vistaMobile === "shop"
+      ? categoriaAttiva
+      : ({
+          "gift-card": "Gift Card",
+          carrello: "Carrello",
+          promo: "Le promo",
+          tracking: "Tracking",
+          "dicono-di-noi": "Dicono di noi",
+          point: "I nostri point",
+          delivery: "Delivery",
+          contatti: "Contatti",
+        } as Record<string, string>)[vistaMobile] || "LaLinea"}
+  </p>
+
+  <button
+    type="button"
+    onClick={apriCarrelloCatalogo}
+    className="flex h-10 shrink-0 items-center gap-1 rounded-xl bg-green-400 px-3 text-[10px] font-black uppercase text-black shadow-[0_0_16px_rgba(74,222,128,.28)]"
+  >
+    🛒 {carrello.reduce((totale, item) => totale + item.quantita, 0)}
+  </button>
+</div>
+
 {menuAperto && (
   <dialog
     ref={(elemento) => {
@@ -1733,29 +2220,10 @@ return (
           key={categoria}
           type="button"
           onClick={(evento) => {
-  setCategoriaAttiva(categoria === "Gift Card" ? "" : categoria);
-
-  evento.currentTarget.closest("dialog")?.close();
-  setMenuAperto(false);
-
-  setTimeout(() => {
-    const gift = document.querySelector<HTMLDetailsElement>("#gift-card");
-
-    if (categoria === "Gift Card") {
-      if (gift) gift.open = true;
-      document.getElementById("gift-card")?.scrollIntoView({
-        behavior: "auto",
-        block: "start",
-      });
-    } else {
-      if (gift) gift.open = false;
-      document.getElementById("shop")?.scrollIntoView({
-        behavior: "auto",
-        block: "start",
-      });
-    }
-  }, 50);
-}}
+            evento.currentTarget.closest("dialog")?.close();
+            setMenuAperto(false);
+            apriCategoriaCatalogo(categoria);
+          }}
           className="min-h-12 min-w-0 rounded-lg border border-zinc-700 bg-black px-3 py-3 text-left text-xs font-black uppercase [overflow-wrap:anywhere] hover:border-yellow-400 sm:text-sm shadow-[0_0_14px_rgba(250,204,21,0.14)]"
         >
           {categoria}
@@ -1772,16 +2240,9 @@ return (
         ["delivery", "Delivery"], ["contatti", "Contatti"],
       ].map(([id, titolo]) => (
         <button key={id} type="button" onClick={(evento) => {
-          if (id === "dicono-di-noi") setRecensioniAperte(true);
           evento.currentTarget.closest("dialog")?.close();
           setMenuAperto(false);
-          requestAnimationFrame(() => {
-            const sezione = document.getElementById(id);
-            if (sezione) {
-              sezione.style.scrollMarginTop = `${document.querySelector("header")?.offsetHeight || 0}px`;
-             sezione.scrollIntoView({ behavior: "auto", block: "start" });
-            }
-          });
+          apriServizioCatalogo(id);
         }} className="min-h-11 rounded-lg border border-zinc-700 bg-black px-3 py-3 text-left text-sm font-bold hover:border-yellow-400 shadow-[0_0_14px_rgba(250,204,21,0.14)]">
           {titolo}
         </button>
@@ -2100,7 +2561,7 @@ return (
      
 {/* SHOP */}
       <section id="shop" className="mx-auto max-w-7xl px-6 py-24">
-        <div className="mb-14">
+        <div className="ll-shop-intro mb-14">
           <p className="font-bold uppercase tracking-[0.3em] text-yellow-400">
             BENVENUTO NELLO SHOP LALINEA OFFICIAL
           </p>
@@ -2120,7 +2581,7 @@ return (
           </p>
         </div>
 {/* CATEGORIE SHOP */}
-<div className="mb-12">
+<div className="ll-category-nav mb-12">
   {/* MOBILE: navigazione categorie in stile catalogo */}
   <div className="md:hidden">
     <div className="rounded-[28px] border border-yellow-300/40 bg-zinc-950/90 p-5 shadow-[0_0_24px_rgba(250,204,21,0.10)]">
@@ -2141,7 +2602,7 @@ return (
           <button
             key={`pill-${categoria}`}
             type="button"
-            onClick={() => setCategoriaAttiva(categoria)}
+            onClick={() => apriCategoriaCatalogo(categoria)}
             className={`shrink-0 rounded-2xl border px-5 py-4 text-sm font-black uppercase tracking-wide transition ${
               categoriaAttiva === categoria
                 ? "border-yellow-300 bg-yellow-400 text-black shadow-[0_0_18px_rgba(250,204,21,0.45)]"
@@ -2180,7 +2641,7 @@ return (
           <button
             key={`card-${nome}`}
             type="button"
-            onClick={() => setCategoriaAttiva(nome)}
+            onClick={() => apriCategoriaCatalogo(nome)}
             aria-pressed={categoriaAttiva === nome}
             className={`group overflow-hidden rounded-[26px] border bg-black text-left transition active:scale-[0.98] ${
               categoriaAttiva === nome
@@ -2193,7 +2654,16 @@ return (
                 src={immagine}
                 alt={nome}
                 loading="lazy"
-                className="h-full w-full object-cover transition duration-300 group-active:scale-105"
+                draggable={false}
+                data-no-preview="true"
+                onError={(evento) => {
+                  if (nome !== "Tabacchi biologici") return;
+                  const immagineErrore = evento.currentTarget;
+                  if (immagineErrore.dataset.fallbackUsato === "true") return;
+                  immagineErrore.dataset.fallbackUsato = "true";
+                  immagineErrore.src = "/products/other/tab3.jpg";
+                }}
+                className="pointer-events-none h-full w-full object-cover transition duration-300 group-active:scale-105"
               />
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent" />
 
@@ -2235,7 +2705,7 @@ return (
       <button
         key={categoria}
         type="button"
-        onClick={() => setCategoriaAttiva(categoria)}
+        onClick={() => apriCategoriaCatalogo(categoria)}
         className={`rounded-2xl border px-4 py-4 text-sm font-black uppercase tracking-wider transition ${
           categoriaAttiva === categoria
             ? "border-yellow-300 bg-yellow-400 text-black shadow-[0_0_18px_rgba(250,204,21,0.45)]"
@@ -5018,7 +5488,7 @@ return (
       </details>
 
         {/* CARRELLO */}
-        <div className="mt-12 border border-yellow-400 bg-black p-6 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
+        <div id="ll-carrello" className="mt-12 border border-yellow-400 bg-black p-6 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
           <div className="flex items-center justify-between">
             <h3 className="text-3xl font-black uppercase">
               Carrello
@@ -5134,7 +5604,7 @@ return (
 
         {/* CHECKOUT */}
 {checkoutAperto && carrello.length > 0 && (
-  <div className="mt-8 border border-zinc-700 bg-zinc-950 p-6 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
+  <div id="ll-checkout" className="mt-8 border border-zinc-700 bg-zinc-950 p-6 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
     <div className="flex items-center justify-between">
       <h3 className="text-3xl font-black uppercase">
         Checkout
@@ -5786,7 +6256,7 @@ rel="noopener noreferrer"
   </div>
 </section>
 
-<div className="py-12 text-center">
+<div className="ll-gioca py-12 text-center">
   <button
     type="button"
     onClick={() => setSnakeAperto(true)}
@@ -5799,7 +6269,7 @@ rel="noopener noreferrer"
 {/* I PIÙ VENDUTI DELLA SETTIMANA */}
 {piuVendutiVisibili && (
 <div
-  className="fixed bottom-3 right-3 z-[9998] w-[calc(54%-12px)] overflow-hidden rounded-xl border border-yellow-400 bg-black/95 shadow-2xl md:bottom-4 md:right-4 md:w-[320px]"
+  className="ll-best-sellers fixed bottom-3 right-3 z-[9998] w-[calc(54%-12px)] overflow-hidden rounded-xl border border-yellow-400 bg-black/95 shadow-2xl md:bottom-4 md:right-4 md:w-[320px]"
 >
   <button
     type="button"
@@ -5810,23 +6280,15 @@ rel="noopener noreferrer"
     ×
   </button>
 
-  <div className="border-b border-yellow-400 bg-yellow-400 px-4 py-3 text-center text-sm font-black uppercase tracking-widest text-black">
+  <div className="ll-best-sellers-title border-b border-yellow-400 bg-yellow-400 px-4 py-3 text-center text-sm font-black uppercase tracking-widest text-black">
     I PIÙ VENDUTI DELLA SETTIMANA
   </div>
 
-  <div className="grid grid-cols-3 gap-1 bg-black p-2">
+  <div className="ll-best-sellers-grid grid grid-cols-3 gap-1 bg-black p-2">
     {/* 1 - COOKIES X RUNTZ */}
     <button
       type="button"
-      onClick={() => {
-        setCategoriaAttiva("Frozen e Static");
-        setTimeout(() => {
-          document.getElementById("cookies-x-runtz")?.scrollIntoView({
-            behavior: "smooth",
-            block: "center",
-          });
-        }, 50);
-      }}
+      onClick={() => apriProdottoCatalogo("Frozen e Static", "cookies-x-runtz")}
       className="overflow-hidden rounded-xl border border-yellow-400/60 shadow-[0_0_16px_rgba(250,204,21,0.18)]"
       aria-label="Apri Cookies X Runtz"
     >
@@ -5843,20 +6305,13 @@ rel="noopener noreferrer"
     {/* 2 - LEMON GUMP */}
     <button
       type="button"
-      onClick={() => {
-        setCategoriaAttiva("Flowers");
-        setTimeout(() => {
-          document.getElementById("lemon-gump")?.scrollIntoView({
-            behavior: "smooth",
-            block: "center",
-          });
-        }, 50);
-      }}
+      onClick={() => apriProdottoCatalogo("Flowers", "lemon-gump")}
       className="overflow-hidden rounded-xl border border-yellow-400/60 shadow-[0_0_16px_rgba(250,204,21,0.18)]"
       aria-label="Apri Lemon Gump"
     >
       <video
         src="/products/flowers/lmg1.mp4"
+        data-no-preview="true"
         autoPlay
         muted
         loop
@@ -5868,19 +6323,13 @@ rel="noopener noreferrer"
     {/* 3 - GOLD PACK */}
     <button
       type="button"
-      onClick={() => {
-        setTimeout(() => {
-          document.getElementById("gold-pack-card")?.scrollIntoView({
-            behavior: "smooth",
-            block: "center",
-          });
-        }, 50);
-      }}
+      onClick={() => apriProdottoCatalogo("", "gold-pack-card", "promo")}
       className="overflow-hidden rounded-xl border border-yellow-400/60 shadow-[0_0_16px_rgba(250,204,21,0.18)]"
       aria-label="Apri Gold Pack"
     >
       <video
         src="/products/promo/gold.mp4"
+        data-no-preview="true"
         autoPlay
         muted
         loop
@@ -5890,16 +6339,13 @@ rel="noopener noreferrer"
     </button>
   </div>
 
-  <div className="overflow-hidden whitespace-nowrap border-t border-yellow-400/30 py-4">
+  <div className="ll-best-sellers-ticker-wrap overflow-hidden whitespace-nowrap border-t border-yellow-400/30 py-4">
     <div className="best-sellers-ticker inline-flex items-center">
       {[0, 1].map((ripetizione) => (
         <div key={ripetizione} className="inline-flex items-center">
           <button
             type="button"
-            onClick={() => {
-              setCategoriaAttiva("Frozen e Static");
-              setTimeout(() => document.getElementById("cookies-x-runtz")?.scrollIntoView({ behavior: "smooth", block: "center" }), 50);
-            }}
+            onClick={() => apriProdottoCatalogo("Frozen e Static", "cookies-x-runtz")}
             className="mx-6 font-black text-yellow-400"
           >
             🥇 1° COOKIES X RUNTZ 17.5G
@@ -5907,10 +6353,7 @@ rel="noopener noreferrer"
 
           <button
             type="button"
-            onClick={() => {
-              setCategoriaAttiva("Flowers");
-              setTimeout(() => document.getElementById("lemon-gump")?.scrollIntoView({ behavior: "smooth", block: "center" }), 50);
-            }}
+            onClick={() => apriProdottoCatalogo("Flowers", "lemon-gump")}
             className="mx-6 font-black text-white"
           >
             🥈 2° LEMON GUMP 25G
@@ -5918,9 +6361,7 @@ rel="noopener noreferrer"
 
           <button
             type="button"
-            onClick={() => {
-              setTimeout(() => document.getElementById("gold-pack-card")?.scrollIntoView({ behavior: "smooth", block: "center" }), 50);
-            }}
+            onClick={() => apriProdottoCatalogo("", "gold-pack-card", "promo")}
             className="mx-6 font-black text-yellow-400"
           >
             🥉 3° PACK GOLD
