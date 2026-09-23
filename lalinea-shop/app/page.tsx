@@ -149,6 +149,44 @@ function NeonGlobalStyle() {
             linear-gradient(180deg, #090909 0%, #000 65%);
         }
 
+        .ll-catalog-kicker {
+          -webkit-text-stroke: 0.35px rgba(0, 0, 0, 0.95);
+          text-shadow:
+            1px 0 0 rgba(0,0,0,.95),
+            -1px 0 0 rgba(0,0,0,.95),
+            0 1px 0 rgba(0,0,0,.95),
+            0 -1px 0 rgba(0,0,0,.95),
+            0 0 5px rgba(250, 204, 21, 0.95),
+            0 0 12px rgba(250, 204, 21, 0.55);
+        }
+
+        .ll-simple-live {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.35rem;
+          border: 1px solid rgba(74, 222, 128, 0.7);
+          border-radius: 9999px;
+          background: rgba(0, 0, 0, 0.86);
+          padding: 0.3rem 0.55rem;
+          color: rgb(187 247 208);
+          box-shadow: 0 0 14px rgba(34, 197, 94, 0.22);
+          white-space: nowrap;
+        }
+
+        .ll-simple-live-dot {
+          width: 0.42rem;
+          height: 0.42rem;
+          border-radius: 9999px;
+          background: rgb(74 222 128);
+          box-shadow: 0 0 8px rgba(74, 222, 128, 0.95);
+          animation: llLivePulse 1.8s ease-in-out infinite;
+        }
+
+        @keyframes llLivePulse {
+          0%, 100% { opacity: 0.55; transform: scale(0.9); }
+          50% { opacity: 1; transform: scale(1.15); }
+        }
+
         .ll-mobile-category-grid {
           display: grid;
           grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -268,12 +306,21 @@ function NeonGlobalStyle() {
         }
 
         .ll-music-title {
-          min-height: 1.9rem !important;
-          padding: 0.3rem 1.8rem 0.3rem 0.45rem !important;
-          font-size: 0.46rem !important;
-          font-weight: 700 !important;
-          line-height: 1.18 !important;
-          letter-spacing: 0.025em !important;
+          min-height: 4.9rem !important;
+          padding: 0.65rem 1.9rem 0.65rem 0.65rem !important;
+          font-size: 0.62rem !important;
+          font-weight: 600 !important;
+          line-height: 1.55 !important;
+          letter-spacing: 0.14em !important;
+          color: #ffffff !important;
+          background: rgba(0, 0, 0, 0.97) !important;
+          border-color: #facc15 !important;
+          text-shadow:
+            -1px -1px 0 #facc15,
+             1px -1px 0 #facc15,
+            -1px  1px 0 #facc15,
+             1px  1px 0 #facc15,
+             0 0 7px rgba(250, 204, 21, 0.65) !important;
         }
 
         .ll-music-body {
@@ -1868,8 +1915,14 @@ return (
 >
   ×
   </button>
-<div className="ll-music-title flex min-h-[72px] items-center justify-center rounded-t-xl border-b border-yellow-400 bg-yellow-400 py-3 pl-3 pr-11 text-center text-[11px] font-bold uppercase leading-snug tracking-normal text-black md:min-h-[64px] md:px-12 md:py-3 md:text-xs">
-  <span className="block">LA SELEZIONE MUSICALE DELLA SETTIMANA</span>
+<div className="ll-music-title flex min-h-[92px] items-center justify-center rounded-t-xl border-b border-yellow-400 bg-black py-4 pl-4 pr-11 text-center text-[11px] font-semibold uppercase leading-relaxed tracking-[0.14em] text-white md:min-h-[78px] md:px-12 md:py-4 md:text-xs">
+  <span className="block">
+    LA SELEZIONE
+    <br />
+    MUSICALE DELLA
+    <br />
+    SETTIMANA
+  </span>
 </div>
 
 <div className="ll-music-body rounded-b-xl p-2 md:p-4">
@@ -2129,16 +2182,22 @@ return (
 <div className="ll-mobile-home md:hidden" aria-label="Catalogo mobile LaLinea">
   <div className="mb-3 flex items-end justify-between gap-3">
     <div>
-      <p className="text-[10px] font-black uppercase tracking-[0.32em] text-yellow-400">
+      <p className="ll-catalog-kicker text-[10px] font-black uppercase tracking-[0.32em] text-yellow-400">
         LALINEA / CATALOGO
       </p>
       <h1 className="mt-1 text-[1.55rem] font-black uppercase leading-none tracking-[-0.03em] text-white">
         Scegli la categoria
       </h1>
     </div>
-    <span className="rounded-full border border-yellow-300/60 bg-yellow-400/10 px-3 py-1 text-[9px] font-black uppercase tracking-[0.16em] text-yellow-300">
-      Milano
-    </span>
+    <div className="flex flex-col items-end gap-1">
+      <span className="ll-simple-live text-[8px] font-black uppercase tracking-[0.12em]">
+        <span className="ll-simple-live-dot" aria-hidden="true" />
+        ONLINE · LALINEA
+      </span>
+      <span className="rounded-full border border-yellow-300/60 bg-yellow-400/10 px-3 py-1 text-[9px] font-black uppercase tracking-[0.16em] text-yellow-300">
+        Milano
+      </span>
+    </div>
   </div>
 
   <div className="ll-mobile-category-grid">
