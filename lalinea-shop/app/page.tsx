@@ -268,15 +268,12 @@ function NeonGlobalStyle() {
         }
 
         .ll-music-title {
-          min-height: 2.15rem !important;
-          padding: 0.35rem 1.8rem 0.35rem 0.5rem !important;
-          font-size: 0.55rem !important;
-          line-height: 1.05 !important;
-          letter-spacing: 0.06em !important;
-        }
-
-        .ll-music-title br {
-          display: none;
+          min-height: 1.9rem !important;
+          padding: 0.3rem 1.8rem 0.3rem 0.45rem !important;
+          font-size: 0.46rem !important;
+          font-weight: 700 !important;
+          line-height: 1.18 !important;
+          letter-spacing: 0.025em !important;
         }
 
         .ll-music-body {
@@ -347,6 +344,19 @@ function NeonGlobalStyle() {
 
         .ll-best-sellers-grid button {
           border-radius: 0.7rem !important;
+        }
+
+        .ll-best-seller-label {
+          min-height: 1.55rem;
+          display: flex !important;
+          align-items: center;
+          justify-content: center;
+          padding: 0.22rem 0.12rem !important;
+          font-size: 0.43rem !important;
+          font-weight: 700 !important;
+          line-height: 1.08 !important;
+          white-space: normal !important;
+          text-align: center;
         }
 
         .ll-best-sellers-ticker-wrap {
@@ -981,6 +991,33 @@ const apriProdottoCatalogo = (
     });
   }, 50);
 };
+const apriProdottoInEvidenza = () => {
+  const destinazioni: Record<
+    string,
+    { categoria: string; targetId: string; vista?: "shop" | "promo" }
+  > = {
+    "COOKIES X RUNTZ 2.0": { categoria: "Frozen e Static", targetId: "cookies-x-runtz" },
+    "LEMON GUMP": { categoria: "Flowers", targetId: "lemon-gump" },
+    "GOLD PACK": { categoria: "", targetId: "gold-pack-card", vista: "promo" },
+    "LEMON CHERRY GELATO": { categoria: "Flowers", targetId: "lemon-cherry-gelato" },
+    "ORANGE PUNCH": { categoria: "Frozen e Static", targetId: "orange-punch-frozen" },
+    "TROPICANA COOKIES": { categoria: "Flowers", targetId: "tropicana-cookies" },
+    "TOBACCO BIO SHELDIA X JOINT": { categoria: "Tabacchi biologici", targetId: "tobacco-bio-sheldia" },
+    "GROVE STREET OG": { categoria: "Dry Work", targetId: "grove-street-og" },
+    "LAUGHING BUDDHA": { categoria: "Flowers", targetId: "laughing-buddha" },
+    "LEMON STATIC": { categoria: "Frozen e Static", targetId: "lemon-static-premium" },
+  };
+
+  const destinazione = destinazioni[prodottoInEvidenza];
+  if (!destinazione) return;
+
+  apriProdottoCatalogo(
+    destinazione.categoria,
+    destinazione.targetId,
+    destinazione.vista ?? "shop"
+  );
+};
+
 const aggiungiAlCarrello = () => {
     setCarrello((prev) => {
       const esistente = prev.find((item) => item.id === 1);
@@ -1801,14 +1838,22 @@ return (
  
 
 {playerVisibile && (
-  <div className="ll-featured-product fixed bottom-[17.5rem] left-3 z-[9998] w-[calc(46%-12px)] rounded-2xl border border-yellow-300 bg-black/95 px-3 py-2 text-center shadow-[0_0_18px_rgba(250,204,21,0.22)] md:bottom-4 md:left-4 md:w-[240px]">
-    <p className="text-[9px] font-black uppercase tracking-[0.16em] text-yellow-400 md:text-[10px]">
-      Prodotto in evidenza
+  <button
+    type="button"
+    onClick={(evento) => {
+      evento.stopPropagation();
+      apriProdottoInEvidenza();
+    }}
+    className="ll-featured-product fixed bottom-[17.5rem] left-3 z-[9998] w-[calc(46%-12px)] rounded-2xl border border-yellow-300 bg-black/95 px-3 py-2 text-center shadow-[0_0_18px_rgba(250,204,21,0.22)] transition active:scale-[0.98] md:bottom-4 md:left-4 md:w-[240px]"
+    aria-label={`Apri ${prodottoInEvidenza}`}
+  >
+    <p className="text-[9px] font-bold uppercase tracking-[0.12em] text-yellow-400 md:text-[10px]">
+      Novità della settimana
     </p>
     <p className="mt-1 truncate text-[11px] font-black uppercase text-white md:text-xs">
       {prodottoInEvidenza}
     </p>
-  </div>
+  </button>
 )}
 
 <div
@@ -1823,14 +1868,8 @@ return (
 >
   ×
   </button>
-<div className="ll-music-title flex min-h-[104px] items-center justify-center rounded-t-xl border-b border-yellow-400 bg-yellow-400 py-4 pl-3 pr-11 text-center text-xs font-black uppercase leading-[1.35] tracking-wide text-black sm:min-h-[96px] sm:text-sm md:min-h-[78px] md:px-12 md:py-4 md:text-sm">
-  <span className="block">
-    LA SELEZIONE
-    <br />
-    MUSICALE DELLA
-    <br />
-    SETTIMANA
-  </span>
+<div className="ll-music-title flex min-h-[72px] items-center justify-center rounded-t-xl border-b border-yellow-400 bg-yellow-400 py-3 pl-3 pr-11 text-center text-[11px] font-bold uppercase leading-snug tracking-normal text-black md:min-h-[64px] md:px-12 md:py-3 md:text-xs">
+  <span className="block">LA SELEZIONE MUSICALE DELLA SETTIMANA</span>
 </div>
 
 <div className="ll-music-body rounded-b-xl p-2 md:p-4">
@@ -3652,7 +3691,7 @@ return (
 )}
 {/* PRODOTTO FROZEN E STATIC */}
 {categoriaAttiva === "Frozen e Static" && (
-  <div className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
+  <div id="orange-punch-frozen" className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
       Frozen e Static
     </p>
@@ -3821,7 +3860,7 @@ return (
 )}
 {/* LEMON STATIC PREMIUM */}
 {categoriaAttiva === "Frozen e Static" && (
-  <div className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
+  <div id="lemon-static-premium" className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
       Frozen e Static
     </p>
@@ -4099,7 +4138,7 @@ return (
 
 {/* FLOWERS - LEMON CHERRY GELATO 2.0 */}
 {categoriaAttiva === "Flowers" && (
-  <div className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
+  <div id="lemon-cherry-gelato" className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
 
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
       Flowers
@@ -6300,6 +6339,9 @@ rel="noopener noreferrer"
         playsInline
         className="aspect-square w-full object-cover"
       />
+      <span className="ll-best-seller-label block border-t border-yellow-400/30 bg-black px-1 py-1 text-[9px] font-bold uppercase leading-tight text-yellow-300 md:hidden">
+        1° COOKIES X RUNTZ 17.5G
+      </span>
     </button>
 
     {/* 2 - LEMON GUMP */}
@@ -6318,6 +6360,9 @@ rel="noopener noreferrer"
         playsInline
         className="aspect-square w-full object-cover"
       />
+      <span className="ll-best-seller-label block border-t border-yellow-400/30 bg-black px-1 py-1 text-[9px] font-bold uppercase leading-tight text-white md:hidden">
+        2° LEMON GUMP 25G
+      </span>
     </button>
 
     {/* 3 - GOLD PACK */}
@@ -6336,6 +6381,9 @@ rel="noopener noreferrer"
         playsInline
         className="aspect-square w-full object-cover"
       />
+      <span className="ll-best-seller-label block border-t border-yellow-400/30 bg-black px-1 py-1 text-[9px] font-bold uppercase leading-tight text-yellow-300 md:hidden">
+        3° PACK GOLD
+      </span>
     </button>
   </div>
 
