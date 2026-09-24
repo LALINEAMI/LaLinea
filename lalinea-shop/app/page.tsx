@@ -2298,8 +2298,7 @@ return (
       if (evento.target === evento.currentTarget) evento.currentTarget.close();
     }}
     aria-label="Menu LaLinea"
-    className="m-auto w-[calc(100%-2rem)] max-w-lg overflow-hidden rounded-2xl border border-yellow-400 bg-zinc-950 p-4 text-white backdrop:bg-black/80 shadow-[0_0_14px_rgba(250,204,21,0.14)]"
-    style={{ maxHeight: "none)" }}
+    className="m-auto w-[calc(100%-2rem)] max-w-lg max-h-[82dvh] overflow-x-hidden overflow-y-auto overscroll-contain rounded-2xl border border-yellow-400 bg-zinc-950 p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] text-white backdrop:bg-black/80 shadow-[0_0_14px_rgba(250,204,21,0.14)] sm:max-h-[90dvh]"
   >
     <div className="mb-4 flex items-center justify-between gap-3">
       <h2 className="text-xl font-black text-yellow-400">MENU LALINEA</h2>
@@ -2345,12 +2344,15 @@ return (
           {titolo}
         </button>
       ))}
+    </div>
+
+    <div className="sticky bottom-0 z-20 mt-2 grid grid-cols-2 gap-2 border-t border-yellow-400/20 bg-zinc-950 pt-2 pb-[env(safe-area-inset-bottom)]">
       <button type="button" onClick={(evento) => {
         evento.currentTarget.closest("dialog")?.close();
         setMenuAperto(false);
         setSnakeAperto(true);
-      }} className="min-h-11 rounded-lg border border-zinc-700 bg-black px-3 py-3 text-left text-sm font-bold shadow-[0_0_14px_rgba(250,204,21,0.14)]">Gioca</button>
-      <a href="/vip" className="min-h-11 rounded-lg bg-yellow-400 px-3 py-3 text-sm font-black text-black">Area VIP</a>
+      }} className="min-h-11 rounded-lg border border-yellow-400/70 bg-black px-3 py-3 text-left text-sm font-bold text-yellow-300 shadow-[0_0_14px_rgba(250,204,21,0.14)]">Gioca</button>
+      <a href="/vip" className="flex min-h-11 items-center rounded-lg bg-yellow-400 px-3 py-3 text-sm font-black text-black shadow-[0_0_14px_rgba(250,204,21,0.18)]">Area VIP</a>
     </div>
   </dialog>
 )}
@@ -2377,6 +2379,95 @@ return (
     </p>
 
     <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-3">
+
+      {/* PROMO FASHION WEEK */}
+      <div
+        id="promo-fashion-week"
+        className="flex flex-col border border-yellow-400 bg-zinc-950 p-6 rounded-2xl shadow-[0_0_22px_rgba(250,204,21,0.22)]"
+      >
+        <p className="text-sm font-black uppercase tracking-[0.3em] text-yellow-400">
+          Promo speciale
+        </p>
+
+        <h3 className="mt-3 text-3xl font-black uppercase text-white">
+          PROMO FASHION WEEK
+        </h3>
+
+        <div className="mt-6 flex-1 space-y-3">
+          <button
+            type="button"
+            onClick={() => apriProdottoCatalogo("", "silver-pack-card", "promo")}
+            className="block w-full rounded-xl border border-yellow-400/30 bg-black/50 px-4 py-3 text-left font-black uppercase text-white transition hover:border-yellow-400 hover:text-yellow-300"
+          >
+            1 SILVER PACK
+          </button>
+
+          <button
+            type="button"
+            onClick={() => apriProdottoCatalogo("Frozen e Static", "alien-og-plasma-x1")}
+            className="block w-full rounded-xl border border-yellow-400/30 bg-black/50 px-4 py-3 text-left font-black uppercase text-white transition hover:border-yellow-400 hover:text-yellow-300"
+          >
+            + 1G ALIEN
+          </button>
+
+          <button
+            type="button"
+            onClick={() => apriProdottoCatalogo("Flowers", "laughing-buddha")}
+            className="block w-full rounded-xl border border-yellow-400/30 bg-black/50 px-4 py-3 text-left font-black uppercase text-white transition hover:border-yellow-400 hover:text-yellow-300"
+          >
+            + 1G LAUGHING BUDDHA
+          </button>
+
+          <div className="rounded-xl border border-green-400/50 bg-green-400/10 px-4 py-3 text-left shadow-[0_0_14px_rgba(74,222,128,0.12)]">
+            <p className="text-[11px] font-black uppercase tracking-[0.16em] text-green-300">
+              In regalo
+            </p>
+            <p className="mt-1 font-black uppercase text-white">
+              + 3 PRE-ROLLED JOINT X I VOSTRI EVENTI DELLA FW
+            </p>
+          </div>
+        </div>
+
+        <p className="mt-5 text-sm font-black uppercase tracking-wide text-yellow-300">
+          Valida fino a domenica a mezzanotte
+        </p>
+
+        <p className="mt-4 text-4xl font-black lalinea-price-neon">
+          50 €
+        </p>
+
+        <button
+          type="button"
+          onClick={() => {
+            const id = "promo-fashion-week";
+
+            setCarrello((prev) => {
+              const esistente = prev.find((item) => String(item.id) === id);
+
+              if (esistente) {
+                return prev.map((item) =>
+                  String(item.id) === id
+                    ? { ...item, quantita: item.quantita + 1 }
+                    : item
+                );
+              }
+
+              return [
+                ...prev,
+                {
+                  id: id as any,
+                  nome: "PROMO FASHION WEEK - SILVER PACK + 1G ALIEN + 1G LAUGHING BUDDHA + 3 PRE-ROLLED JOINT OMAGGIO",
+                  prezzo: 50,
+                  quantita: 1,
+                },
+              ];
+            });
+          }}
+          className="mt-6 w-full rounded-2xl border border-yellow-400 bg-yellow-400 px-5 py-4 font-black uppercase text-black shadow-[0_0_18px_rgba(250,204,21,0.22)] transition hover:scale-[1.01] active:scale-[0.99]"
+        >
+          Aggiungi al carrello
+        </button>
+      </div>
 
       {/* SILVER PACK */}
       <div id="silver-pack-card"className="flex flex-col border border-zinc-700 bg-zinc-950 p-6 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
@@ -3594,6 +3685,110 @@ return (
     </div>
   </div>
 )}
+{/* ALIEN OG PLASMA X1 - ALIEN PLASMA STATIC */}
+{(categoriaAttiva === "Frozen e Static" || categoriaAttiva === "White") && (
+  <div
+    id="alien-og-plasma-x1"
+    className="mt-8 rounded-3xl border border-yellow-300/80 bg-black/85 p-4 shadow-[0_0_30px_rgba(250,204,21,0.20)] sm:p-5"
+  >
+    <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+      {categoriaAttiva === "White" ? "White" : "Frozen e Static"}
+    </p>
+
+    <h3 className="mt-2 text-3xl font-black uppercase text-white">
+      ALIEN OG PLASMA X1
+    </h3>
+
+    <p className="mt-1 text-xl font-black uppercase text-yellow-400">
+      ALIEN PLASMA STATIC
+    </p>
+
+    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
+      <video
+        src="/products/frozen-static/alien1.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
+      />
+
+      <div className="flex-1 grid grid-cols-2 gap-3 md:grid-cols-3">
+        {[2, 3, 4, 5, 6, 7].map((numero) => (
+          <img
+            key={numero}
+            src={`/products/frozen-static/alien${numero}.jpg`}
+            alt={`Alien OG Plasma X1 foto ${numero}`}
+            className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
+          />
+        ))}
+      </div>
+    </div>
+
+    <div className="mt-6">
+      <p className="mb-3 font-bold uppercase text-white">
+        Seleziona quantità
+      </p>
+
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        {[
+          { grammi: "5G", prezzo: 50 },
+          { grammi: "10G", prezzo: 90 },
+          { grammi: "25G", prezzo: 220 },
+          { grammi: "50G", prezzo: 350 },
+          { grammi: "100G", prezzo: 600 },
+          { grammi: "500G", prezzo: 2500 },
+          { grammi: "1K", prezzo: 4000 },
+          { grammi: "5K", prezzo: 18500 },
+        ].map((opzione) => (
+          <button
+            key={opzione.grammi}
+            type="button"
+            onClick={() => {
+              const id = `alien-og-plasma-x1-${opzione.grammi}`;
+
+              setCarrello((prev) => {
+                const esistente = prev.find(
+                  (item) => String(item.id) === id
+                );
+
+                if (esistente) {
+                  return prev.map((item) =>
+                    String(item.id) === id
+                      ? { ...item, quantita: item.quantita + 1 }
+                      : item
+                  );
+                }
+
+                return [
+                  ...prev,
+                  {
+                    id: id as any,
+                    nome: `ALIEN OG PLASMA X1 ${opzione.grammi}`,
+                    prezzo: opzione.prezzo,
+                    quantita: 1,
+                  },
+                ];
+              });
+            }}
+            className="rounded-2xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center shadow-[0_0_16px_rgba(250,204,21,0.18)] hover:bg-yellow-400"
+          >
+            <p className="text-xl font-black text-white">
+              {opzione.grammi}
+            </p>
+            <p className="mt-3 text-xl font-black lalinea-price-neon">
+              {opzione.prezzo.toLocaleString("it-IT")} €
+            </p>
+            <p className="mt-2 text-xs font-black uppercase text-white">
+              Aggiungi al carrello
+            </p>
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+)}
+
 {/* COOKIES X RUNTZ 2.0 - PREMIUM STATIC 120ü */}
 {categoriaAttiva === "Frozen e Static" && (
   <div id="cookies-x-runtz" className="mt-8 rounded-3xl border border-yellow-300/80 bg-black/85 p-4 shadow-[0_0_30px_rgba(250,204,21,0.20)] sm:p-5">
