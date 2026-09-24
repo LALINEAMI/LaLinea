@@ -299,57 +299,101 @@ function NeonGlobalStyle() {
           left: 0.5rem !important;
           bottom: calc(0.5rem + env(safe-area-inset-bottom)) !important;
           width: calc(50% - 0.75rem) !important;
+          height: 7.4rem;
           max-height: 7.4rem;
           overflow: hidden !important;
           border-radius: 1rem !important;
-          box-shadow: 0 0 22px rgba(250, 204, 21, 0.2) !important;
+          background: rgba(0, 0, 0, 0.97) !important;
+          box-shadow:
+            0 0 0 1px rgba(250, 204, 21, 0.12),
+            0 0 24px rgba(250, 204, 21, 0.24) !important;
         }
 
         .ll-music-title {
-          min-height: 4.9rem !important;
-          padding: 0.65rem 1.9rem 0.65rem 0.65rem !important;
-          font-size: 0.62rem !important;
-          font-weight: 600 !important;
-          line-height: 1.55 !important;
-          letter-spacing: 0.14em !important;
+          min-height: 2.25rem !important;
+          padding: 0.42rem 1.75rem 0.38rem 0.55rem !important;
+          font-size: 0.48rem !important;
+          font-weight: 700 !important;
+          line-height: 1.25 !important;
+          letter-spacing: 0.11em !important;
           color: #ffffff !important;
-          background: rgba(0, 0, 0, 0.97) !important;
-          border-color: #facc15 !important;
+          background:
+            linear-gradient(180deg, rgba(250, 204, 21, 0.10), rgba(0, 0, 0, 0.98)) !important;
+          border-color: rgba(250, 204, 21, 0.8) !important;
           text-shadow:
-            -1px -1px 0 #facc15,
-             1px -1px 0 #facc15,
-            -1px  1px 0 #facc15,
-             1px  1px 0 #facc15,
-             0 0 7px rgba(250, 204, 21, 0.65) !important;
+            -0.7px -0.7px 0 #facc15,
+             0.7px -0.7px 0 #facc15,
+            -0.7px  0.7px 0 #facc15,
+             0.7px  0.7px 0 #facc15,
+             0 0 6px rgba(250, 204, 21, 0.55) !important;
+        }
+
+        .ll-music-shuffle {
+          font-size: 0.38rem !important;
+          letter-spacing: 0.08em !important;
+          padding: 0.18rem 0.3rem !important;
         }
 
         .ll-music-body {
-          padding: 0.35rem !important;
+          height: calc(7.4rem - 2.25rem);
+          padding: 0.32rem 0.4rem 0.38rem !important;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
         }
 
-        .ll-music-body [data-titolo-canzone] {
-          margin-bottom: 0.2rem !important;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          font-size: 0.58rem !important;
+        .ll-music-track {
+          font-size: 0.56rem !important;
+          line-height: 1.1 !important;
         }
 
-        .ll-music-body > button {
-          margin-top: 0.2rem !important;
-          padding-top: 0.32rem !important;
-          padding-bottom: 0.32rem !important;
-          font-size: 0.54rem !important;
+        .ll-music-artist {
+          margin-top: 0.08rem !important;
+          font-size: 0.42rem !important;
+          line-height: 1 !important;
         }
 
-        .ll-music-body > div {
-          margin-top: 0.25rem !important;
+        .ll-music-counter {
+          font-size: 0.4rem !important;
+        }
+
+        .ll-music-progress {
           gap: 0.25rem !important;
         }
 
-        .ll-music-body > div button {
-          padding: 0.35rem 0.2rem !important;
-          font-size: 0.52rem !important;
+        .ll-music-progress span {
+          font-size: 0.38rem !important;
+        }
+
+        .ll-music-progress input {
+          height: 0.8rem;
+        }
+
+        .ll-music-controls {
+          gap: 0.35rem !important;
+        }
+
+        .ll-music-controls button {
+          width: 1.8rem !important;
+          height: 1.8rem !important;
+          min-width: 1.8rem !important;
+          padding: 0 !important;
+          font-size: 0.7rem !important;
+        }
+
+        .ll-music-controls .ll-music-play {
+          width: 2.25rem !important;
+          height: 2.25rem !important;
+          min-width: 2.25rem !important;
+          font-size: 0.85rem !important;
+        }
+
+        .ll-music-reopen {
+          left: 0.5rem !important;
+          right: auto !important;
+          bottom: calc(0.5rem + env(safe-area-inset-bottom)) !important;
+          padding: 0.48rem 0.7rem !important;
+          font-size: 0.56rem !important;
         }
 
         .ll-featured-product {
@@ -428,6 +472,16 @@ const prodotti = [
   { id: 2, nome: "Coming Soon", categoria: "LaLinea", prezzo: "—" },
   { id: 3, nome: "Coming Soon", categoria: "LaLinea", prezzo: "—" },
 ];
+
+const PLAYLIST_MUSICALE = [
+  { titolo: "LOVE YOU", artista: "NONO LA GRINTA", file: "/canzone.mp3" },
+  { titolo: "ESTAMOS GUCCI", artista: "SKYNNY FLEX", file: "/canzone2.mp3" },
+  { titolo: "SAY WHEN", artista: "FETTY WAP", file: "/canzone3.mp3" },
+  { titolo: "UZI", artista: "JUL", file: "/canzone4.mp3" },
+  { titolo: "WAGWAN", artista: "CENTRAL CEE", file: "/canzone5.mp3" },
+  { titolo: "DUBAI", artista: "SKINNY FLEX", file: "/canzone6.mp3" },
+];
+
 function PlayerMusicale() {
   const canzoni = [
     { titolo: "LOVE YOU", artista: "NONO LA GRINTA", file: "/canzone.mp3" },
@@ -632,6 +686,72 @@ export default function Home() {
   const [tipoAnteprima, setTipoAnteprima] = useState<"img" | "video">("img");
 const audioRef = useRef<HTMLAudioElement | null>(null);
 const [musicaAvviata, setMusicaAvviata] = useState(false);
+const [indiceCanzone, setIndiceCanzone] = useState(0);
+const [tempoMusica, setTempoMusica] = useState(0);
+const [durataMusica, setDurataMusica] = useState(0);
+const riproduciDopoCambio = useRef(false);
+
+useEffect(() => {
+  setIndiceCanzone(Math.floor(Math.random() * PLAYLIST_MUSICALE.length));
+}, []);
+
+useEffect(() => {
+  const audio = audioRef.current;
+  if (!audio) return;
+
+  audio.load();
+  setTempoMusica(0);
+  setDurataMusica(0);
+
+  if (riproduciDopoCambio.current) {
+    audio
+      .play()
+      .then(() => setMusicaAvviata(true))
+      .catch(() => setMusicaAvviata(false));
+    riproduciDopoCambio.current = false;
+  }
+}, [indiceCanzone]);
+
+const cambiaCanzonePlayer = (direzione: number) => {
+  riproduciDopoCambio.current = true;
+  setIndiceCanzone(
+    (indiceAttuale) =>
+      (indiceAttuale + direzione + PLAYLIST_MUSICALE.length) %
+      PLAYLIST_MUSICALE.length
+  );
+};
+
+const canzoneCasualeSuccessiva = () => {
+  riproduciDopoCambio.current = true;
+  setIndiceCanzone((indiceAttuale) => {
+    if (PLAYLIST_MUSICALE.length <= 1) return indiceAttuale;
+    const salto = 1 + Math.floor(Math.random() * (PLAYLIST_MUSICALE.length - 1));
+    return (indiceAttuale + salto) % PLAYLIST_MUSICALE.length;
+  });
+};
+
+const togglePlayerMusicale = () => {
+  const audio = audioRef.current;
+  if (!audio) return;
+
+  if (audio.paused) {
+    audio
+      .play()
+      .then(() => setMusicaAvviata(true))
+      .catch(() => setMusicaAvviata(false));
+  } else {
+    audio.pause();
+    setMusicaAvviata(false);
+  }
+};
+
+const formattaTempoMusica = (secondi: number) => {
+  if (!Number.isFinite(secondi) || secondi < 0) return "0:00";
+  const minuti = Math.floor(secondi / 60);
+  const resto = Math.floor(secondi % 60);
+  return `${minuti}:${String(resto).padStart(2, "0")}`;
+};
+
 useEffect(() => {
   const fermaOgniAudio = () => {
     audioRef.current?.pause();
@@ -1903,161 +2023,135 @@ return (
   </button>
 )}
 
+{!playerVisibile && (
+  <button
+    type="button"
+    onClick={(evento) => {
+      evento.stopPropagation();
+      setPlayerVisibile(true);
+    }}
+    className="ll-music-reopen fixed bottom-3 left-3 z-[9999] rounded-full border border-yellow-400 bg-black/95 px-4 py-3 text-xs font-black uppercase tracking-widest text-yellow-300 shadow-[0_0_18px_rgba(250,204,21,0.22)] md:bottom-4 md:left-4"
+    aria-label="Apri player musicale"
+  >
+    ♫ MUSICA
+  </button>
+)}
+
 <div
   style={{ display: playerVisibile ? undefined : "none" }}
- className="ll-music-player fixed bottom-3 left-3 z-[9999] w-[calc(46%-12px)] min-w-0 overflow-visible rounded-xl border border-yellow-400 bg-black/95 text-white shadow-2xl md:bottom-4 md:left-1/2 md:w-[calc(100%-2rem)] md:max-w-md md:-translate-x-1/2"
+  onClick={(evento) => evento.stopPropagation()}
+  className="ll-music-player fixed bottom-3 left-3 z-[9999] w-[calc(46%-12px)] min-w-0 overflow-hidden rounded-2xl border border-yellow-400 bg-black/95 text-white shadow-2xl md:bottom-4 md:left-1/2 md:w-[calc(100%-2rem)] md:max-w-md md:-translate-x-1/2"
 >
- <button
-  type="button"
-  onClick={() => setPlayerVisibile(false)}
-  className="absolute right-2 top-2 z-20 flex h-7 w-7 items-center justify-center rounded-full border-2 border-yellow-400 bg-black text-sm font-black leading-none text-yellow-400 shadow-lg"
-  aria-label="Chiudi player musicale"
->
-  ×
-  </button>
-<div className="ll-music-title flex min-h-[92px] items-center justify-center rounded-t-xl border-b border-yellow-400 bg-black py-4 pl-4 pr-11 text-center text-[11px] font-semibold uppercase leading-relaxed tracking-[0.14em] text-white md:min-h-[78px] md:px-12 md:py-4 md:text-xs">
-  <span className="block">
-    LA SELEZIONE
-    <br />
-    MUSICALE DELLA
-    <br />
-    SETTIMANA
-  </span>
-</div>
-
-<div className="ll-music-body rounded-b-xl p-2 md:p-4">
-
-  <p data-titolo-canzone className="mb-3 text-center text-sm font-bold">
-    LOVE YOU — NONO LA GRINTA
-  </p>
-
-  <audio
-    data-indice="0"
-    src="/canzone.mp3"
-    controls
-    preload="metadata"
-    className="hidden w-full md:block"
-    onEnded={(evento) => {
-      const canzoni = [
-        { titolo: "LOVE YOU — NONO LA GRINTA", file: "/canzone.mp3" },
-        { titolo: "ESTAMOS GUCCI — SKYNNY FLEX", file: "/canzone2.mp3" },
-        { titolo: "SAY WHEN — FETTY WAP", file: "/canzone3.mp3" },
-        { titolo: "UZI — JUL", file: "/canzone4.mp3" },
-        { titolo: "WAGWAN — CENTRAL CEE", file: "/canzone5.mp3" },
-        { titolo: "DUBAI — SKINNY FLEX", file: "/canzone6.mp3" },
-      ];
-
-      const player = evento.currentTarget;
-      const indice =
-        (Number(player.dataset.indice || "0") + 1) % canzoni.length;
-
-      player.dataset.indice = String(indice);
-      player.src = canzoni[indice].file;
-
-      const titolo = player.parentElement?.querySelector(
-        "[data-titolo-canzone]"
-      );
-
-      if (titolo) {
-        titolo.textContent = canzoni[indice].titolo;
-      }
-
-      player.play().catch(() => {});
+  <button
+    type="button"
+    onClick={() => {
+      audioRef.current?.pause();
+      setMusicaAvviata(false);
+      setPlayerVisibile(false);
     }}
-  />
+    className="absolute right-2 top-2 z-20 flex h-7 w-7 items-center justify-center rounded-full border border-yellow-400 bg-black text-sm font-black leading-none text-yellow-300 shadow-[0_0_12px_rgba(250,204,21,0.30)]"
+    aria-label="Chiudi player musicale"
+  >
+    ×
+  </button>
 
-<button
-  type="button"
-  className="mx-auto mt-2 block w-full rounded-lg bg-yellow-400 px-2 py-1.5 text-[10px] font-black uppercase text-black md:hidden"
-  onClick={(evento) => {
-    const contenitore = evento.currentTarget.parentElement;
-    const player = contenitore?.querySelector("audio");
-
-    if (!player) return;
-
-    if (player.paused) {
-      player.play().catch(() => {});
-    } else {
-      player.pause();
-    }
-  }}
->
-  ▶ / Ⅱ MUSICA
-</button>
-  <div className="mt-3 flex justify-center gap-3">
-    <button
-      type="button"
-      className="w-full rounded-md bg-yellow-400 px-2 py-2 text-[10px] font-black uppercase text-black md:text-sm"
-      onClick={(evento) => {
-        const canzoni = [
-          { titolo: "LOVE YOU — NONO LA GRINTA", file: "/canzone.mp3" },
-          { titolo: "ESTAMOS GUCCI — SKYNNY FLEX", file: "/canzone2.mp3" },
-          { titolo: "SAY WHEN — FETTY WAP", file: "/canzone3.mp3" },
-          { titolo: "UZI — JUL", file: "/canzone4.mp3" },
-          { titolo: "WAGWAN — CENTRAL CEE", file: "/canzone5.mp3" },
-          { titolo: "DUBAI — SKINNY FLEX", file: "/canzone6.mp3" },
-        ];
-
-        const contenitore = evento.currentTarget.parentElement?.parentElement;
-        const player = contenitore?.querySelector("audio");
-
-        if (!player) return;
-
-        const indice =
-          (Number(player.dataset.indice || "0") - 1 + canzoni.length) %
-          canzoni.length;
-
-        player.dataset.indice = String(indice);
-        player.src = canzoni[indice].file;
-
-        const titolo = contenitore?.querySelector("[data-titolo-canzone]");
-
-        if (titolo) {
-          titolo.textContent = canzoni[indice].titolo;
-        }
-
-        player.play().catch(() => {});
-      }}
-    >
-      ← Indietro
-    </button>
-
-    <button
-      type="button"
-      className="w-full rounded-md bg-yellow-400 px-2 py-2 text-[10px] font-black uppercase text-black md:text-sm"      onClick={(evento) => {
-        const canzoni = [
-          { titolo: "LOVE YOU — NONO LA GRINTA", file: "/canzone.mp3" },
-          { titolo: "ESTAMOS GUCCI — SKYNNY FLEX", file: "/canzone2.mp3" },
-          { titolo: "SAY WHEN — FETTY WAP", file: "/canzone3.mp3" },
-          { titolo: "UZI — JUL", file: "/canzone4.mp3" },
-          { titolo: "WAGWAN — CENTRAL CEE", file: "/canzone5.mp3" },
-          { titolo: "DUBAI — SKINNY FLEX", file: "/canzone6.mp3" },
-        ];
-
-        const contenitore = evento.currentTarget.parentElement?.parentElement;
-        const player = contenitore?.querySelector("audio");
-
-        if (!player) return;
-
-        const indice =
-          (Number(player.dataset.indice || "0") + 1) % canzoni.length;
-
-        player.dataset.indice = String(indice);
-        player.src = canzoni[indice].file;
-
-        const titolo = contenitore?.querySelector("[data-titolo-canzone]");
-
-        if (titolo) {
-          titolo.textContent = canzoni[indice].titolo;
-        }
-
-        player.play().catch(() => {});
-      }}
-    >
-      Avanti →
-    </button>
+  <div className="ll-music-title flex min-h-[72px] items-center justify-between gap-2 rounded-t-2xl border-b border-yellow-400/80 bg-black px-4 py-3 pr-11 text-[11px] font-bold uppercase leading-relaxed tracking-[0.12em] text-white md:min-h-[64px] md:px-5 md:pr-12 md:text-xs">
+    <span className="block min-w-0">
+      LA SELEZIONE MUSICALE
+      <br />
+      DELLA SETTIMANA
+    </span>
+    <span className="ll-music-shuffle shrink-0 rounded-full border border-yellow-400/60 bg-yellow-400/10 px-2 py-1 text-[8px] font-black tracking-wider text-yellow-300">
+      ⤨ RANDOM
+    </span>
   </div>
-</div>
+
+  <div className="ll-music-body rounded-b-2xl p-3 md:p-4">
+    <div className="flex min-w-0 items-start justify-between gap-2">
+      <div className="min-w-0">
+        <p
+          data-titolo-canzone
+          className="ll-music-track truncate text-sm font-black uppercase text-white"
+        >
+          {PLAYLIST_MUSICALE[indiceCanzone].titolo}
+        </p>
+        <p className="ll-music-artist truncate text-[10px] font-bold uppercase tracking-wide text-yellow-300">
+          {PLAYLIST_MUSICALE[indiceCanzone].artista}
+        </p>
+      </div>
+      <span className="ll-music-counter shrink-0 rounded-full border border-zinc-700 px-2 py-1 text-[9px] font-black text-zinc-300">
+        {indiceCanzone + 1}/{PLAYLIST_MUSICALE.length}
+      </span>
+    </div>
+
+    <audio
+      ref={audioRef}
+      src={PLAYLIST_MUSICALE[indiceCanzone].file}
+      preload="metadata"
+      className="hidden"
+      onPlay={() => setMusicaAvviata(true)}
+      onPause={() => setMusicaAvviata(false)}
+      onLoadedMetadata={(evento) =>
+        setDurataMusica(evento.currentTarget.duration || 0)
+      }
+      onTimeUpdate={(evento) =>
+        setTempoMusica(evento.currentTarget.currentTime || 0)
+      }
+      onEnded={canzoneCasualeSuccessiva}
+    />
+
+    <div className="ll-music-progress mt-2 flex items-center gap-2">
+      <span className="w-8 text-right text-[9px] font-bold tabular-nums text-zinc-400">
+        {formattaTempoMusica(tempoMusica)}
+      </span>
+      <input
+        type="range"
+        min="0"
+        max={durataMusica || 0}
+        step="0.1"
+        value={Math.min(tempoMusica, durataMusica || 0)}
+        onChange={(evento) => {
+          const nuovoTempo = Number(evento.target.value);
+          if (audioRef.current) audioRef.current.currentTime = nuovoTempo;
+          setTempoMusica(nuovoTempo);
+        }}
+        className="min-w-0 flex-1 accent-yellow-400"
+        aria-label="Posizione brano"
+      />
+      <span className="w-8 text-[9px] font-bold tabular-nums text-zinc-400">
+        {formattaTempoMusica(durataMusica)}
+      </span>
+    </div>
+
+    <div className="ll-music-controls mt-2 flex items-center justify-center gap-3">
+      <button
+        type="button"
+        onClick={() => cambiaCanzonePlayer(-1)}
+        className="flex h-10 w-10 items-center justify-center rounded-full border border-yellow-400/70 bg-black text-base font-black text-yellow-300 shadow-[0_0_10px_rgba(250,204,21,0.18)] transition active:scale-90"
+        aria-label="Brano precedente"
+      >
+        ◀
+      </button>
+
+      <button
+        type="button"
+        onClick={togglePlayerMusicale}
+        className="ll-music-play flex h-12 w-12 items-center justify-center rounded-full bg-yellow-400 text-lg font-black text-black shadow-[0_0_20px_rgba(250,204,21,0.36)] transition active:scale-90"
+        aria-label={musicaAvviata ? "Metti in pausa" : "Riproduci"}
+      >
+        {musicaAvviata ? "Ⅱ" : "▶"}
+      </button>
+
+      <button
+        type="button"
+        onClick={() => cambiaCanzonePlayer(1)}
+        className="flex h-10 w-10 items-center justify-center rounded-full border border-yellow-400/70 bg-black text-base font-black text-yellow-300 shadow-[0_0_10px_rgba(250,204,21,0.18)] transition active:scale-90"
+        aria-label="Brano successivo"
+      >
+        ▶
+      </button>
+    </div>
+  </div>
 </div>
 
       {fotoAnteprima && (
