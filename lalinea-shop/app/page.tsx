@@ -1853,9 +1853,16 @@ if (caricamentoIniziale) {
   className="mx-auto mb-4 w-full max-w-[280px] bg-trnsparent object-contain"
 />
 
-        <p className="mt-3 text-white uppercase font-black tracking-wide">
-  AREA RISERVATA
-</p>
+        <p
+          className="mt-3 text-white uppercase font-black tracking-[0.16em]"
+          style={{
+            WebkitTextStroke: "0.55px rgba(0,0,0,0.98)",
+            textShadow:
+              "1px 0 0 #000, -1px 0 0 #000, 0 1px 0 #000, 0 -1px 0 #000, 0 0 8px rgba(250,204,21,0.95), 0 0 18px rgba(250,204,21,0.55)",
+          }}
+        >
+          AREA RISERVATA
+        </p>
 
         <form
           className="mt-8"
@@ -2207,7 +2214,7 @@ return (
 <header className="sticky top-0 z-50 border-b border-yellow-400/30 bg-black/95 backdrop-blur">
   <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 md:h-auto md:px-6 md:py-4">
     <img
-      src="/Threema_2025-12-01_22-11-08 2.PNG"
+      src="/logo-lalinea.png"
       alt="LaLinea"
       data-no-preview="true"
       className="h-14 w-auto object-contain md:h-40"
@@ -3779,14 +3786,129 @@ return (
     </div>
   </div>
 )}
+{/* TUNA OG STATIC */}
+{categoriaAttiva === "Frozen e Static" && (
+  <div
+    id="tuna-og-static"
+    className="mt-8 rounded-3xl border border-yellow-300/80 bg-black/85 p-4 shadow-[0_0_30px_rgba(250,204,21,0.20)] sm:p-5"
+  >
+    <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+      Frozen e Static
+    </p>
+
+    <h3 className="mt-2 text-3xl font-black uppercase text-white">
+      TUNA OG STATIC
+    </h3>
+
+    <p className="mt-1 text-xl font-black uppercase text-yellow-400">
+      TUNA OG · TUNA KUSH
+    </p>
+
+    <div className="mt-6 space-y-3">
+      <InfoRiga etichetta="TIPOLOGIA">
+        Ibrido a predominanza indica
+      </InfoRiga>
+      <InfoRiga etichetta="BILANCIAMENTO">
+        Indica 70% — Sativa 30%
+      </InfoRiga>
+      <InfoRiga etichetta="GENETICA">
+        Si ritiene sia un fenotipo particolarmente potente di Hindu Kush oppure un incrocio tra OG Kush e Black Tuna
+      </InfoRiga>
+      <InfoRiga etichetta="EFFETTO">
+        Potente, marcatamente sedativo e a predominanza fisica
+      </InfoRiga>
+      <InfoRiga etichetta="GUSTO">
+        Molto intenso e pungente: insoliti sentori di pesce o alghe, note terrose e Skunk, con un marcato retrogusto Kush
+      </InfoRiga>
+    </div>
+
+    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
+      <video
+        src="/products/frozen-static/tonno1.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
+      />
+
+      <div className="flex-1 grid grid-cols-2 gap-3 md:grid-cols-3">
+        {[2, 3, 4, 5, 6, 7].map((numero) => (
+          <img
+            key={numero}
+            src={`/products/frozen-static/tonno${numero}.jpg`}
+            alt={`Tuna OG Static foto ${numero}`}
+            className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
+          />
+        ))}
+      </div>
+    </div>
+
+    <div className="mt-6">
+      <p className="mb-3 font-bold uppercase text-white">
+        Seleziona quantità
+      </p>
+
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        {lemonStaticOpzioni.map((opzione) => (
+          <button
+            key={opzione.grammi}
+            type="button"
+            onClick={() => {
+              const id = `tuna-og-static-${opzione.grammi}`;
+
+              setCarrello((prev) => {
+                const esistente = prev.find(
+                  (item) => String(item.id) === id
+                );
+
+                if (esistente) {
+                  return prev.map((item) =>
+                    String(item.id) === id
+                      ? { ...item, quantita: item.quantita + 1 }
+                      : item
+                  );
+                }
+
+                return [
+                  ...prev,
+                  {
+                    id: id as any,
+                    nome: `TUNA OG STATIC ${opzione.grammi}`,
+                    prezzo: opzione.prezzo,
+                    quantita: 1,
+                  },
+                ];
+              });
+            }}
+            className="rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center shadow-[0_0_14px_rgba(250,204,21,0.16)] hover:bg-yellow-400 hover:text-black transition"
+          >
+            <p className="font-black text-white">
+              {opzione.grammi}
+            </p>
+
+            <p className="mt-1 font-bold lalinea-price-neon">
+              {opzione.prezzo} €
+            </p>
+
+            <p className="mt-2 text-xs font-black uppercase">
+              Aggiungi al carrello
+            </p>
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+)}
+
 {/* ALIEN OG PLASMA X1 - ALIEN PLASMA STATIC */}
-{(categoriaAttiva === "Frozen e Static" || categoriaAttiva === "White") && (
+{categoriaAttiva === "Frozen e Static" && (
   <div
     id="alien-og-plasma-x1"
     className="mt-8 rounded-3xl border border-yellow-300/80 bg-black/85 p-4 shadow-[0_0_30px_rgba(250,204,21,0.20)] sm:p-5"
   >
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
-      {categoriaAttiva === "White" ? "White" : "Frozen e Static"}
+      Frozen e Static
     </p>
 
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
