@@ -1037,6 +1037,7 @@ const orarioPrenotabile = (orario: string) => {
 const [codiceSconto, setCodiceSconto] = useState("");
 const [scontoPercentuale, setScontoPercentuale] = useState(0);
 const [messaggioSconto, setMessaggioSconto] = useState("");
+const [codiceTetrisValidato, setCodiceTetrisValidato] = useState("");
 const [categoriaAttiva, setCategoriaAttiva] = useState("");  
 const [menuAperto, setMenuAperto] = useState(false);
 const [playerVisibile, setPlayerVisibile] = useState(true);
@@ -1560,6 +1561,8 @@ const applicaCodiceSconto = async () => {
     return;
   }
 
+  setCodiceTetrisValidato("");
+
   // CODICI VECCHI GIÀ ESISTENTI
   if (codice === "CESOLOLALINEA26") {
     setScontoPercentuale(10);
@@ -1579,27 +1582,51 @@ const applicaCodiceSconto = async () => {
     return;
   }
 
-  if (codice === "LALINEA5") {
-    setScontoPercentuale(-5);
-    setMessaggioSconto("Premio Snake applicato: -5 €");
-    return;
-  }
+  if (/^LLT(?:5|10)-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(codice)) {
+    try {
+      const rispostaPremio = await fetch("/api/tetris-reward", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "validate", code: codice }),
+      });
 
-  if (codice === "LALINEA10") {
-    setScontoPercentuale(-10);
-    setMessaggioSconto("Premio Snake applicato: -10 €");
-    return;
+      const premio = await rispostaPremio.json();
+
+      if (!rispostaPremio.ok || !premio?.valido) {
+        setScontoPercentuale(0);
+        setMessaggioSconto(premio?.error || "Premio Tetris non valido o già utilizzato");
+        return;
+      }
+
+      const valorePremio = Number(premio.valore);
+      if (valorePremio !== 5 && valorePremio !== 10) {
+        setScontoPercentuale(0);
+        setMessaggioSconto("Valore premio Tetris non valido");
+        return;
+      }
+
+      setCodiceTetrisValidato(codice);
+      setScontoPercentuale(-valorePremio);
+      setMessaggioSconto(
+        `Premio personale LaLinea Tetris verificato: -${valorePremio} € · verrà utilizzato solo alla conferma dell'ordine`
+      );
+      return;
+    } catch {
+      setScontoPercentuale(0);
+      setMessaggioSconto("Errore durante la verifica del premio Tetris");
+      return;
+    }
   }
 
   if (codice === "LALINEA15") {
     setScontoPercentuale(-15);
-    setMessaggioSconto("Premio Snake applicato: -15 €");
+    setMessaggioSconto("Premio LaLinea applicato: -15 €");
     return;
   }
 
   if (codice === "LALINEA20") {
     setScontoPercentuale(-20);
-    setMessaggioSconto("Premio Snake applicato: -20 €");
+    setMessaggioSconto("Premio LaLinea applicato: -20 €");
     return;
   }
 
@@ -1745,6 +1772,35 @@ const liberaSlotPrenotato = async () => {
 
   prenotazioneSlotId = null;
 };
+if (codiceTetrisValidato) {
+  try {
+    const verificaPremio = await fetch("/api/tetris-reward", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        action: "validate",
+        code: codiceTetrisValidato,
+      }),
+    });
+
+    const risultatoPremio = await verificaPremio.json();
+    if (!verificaPremio.ok || !risultatoPremio?.valido) {
+      window.alert(
+        risultatoPremio?.error ||
+          "Il premio Tetris non è più valido. Inserisci un altro codice."
+      );
+      setScontoPercentuale(0);
+      setCodiceTetrisValidato("");
+      await liberaSlotPrenotato();
+      return;
+    }
+  } catch {
+    window.alert("Errore durante la verifica finale del premio Tetris");
+    await liberaSlotPrenotato();
+    return;
+  }
+}
+
 const premiConPunti = carrello.filter((item) =>
       [
         10001,
@@ -1810,6 +1866,35 @@ const premiConPunti = carrello.filter((item) =>
         return;
       }
     }
+  if (codiceTetrisValidato) {
+    try {
+      const consumaPremio = await fetch("/api/tetris-reward", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "consume",
+          code: codiceTetrisValidato,
+        }),
+      });
+
+      const risultatoConsumo = await consumaPremio.json();
+      if (!consumaPremio.ok || !risultatoConsumo?.valido) {
+        window.alert(
+          risultatoConsumo?.error ||
+            "Non è stato possibile utilizzare il premio Tetris."
+        );
+        await liberaSlotPrenotato();
+        return;
+      }
+
+      setCodiceTetrisValidato("");
+    } catch {
+      window.alert("Errore durante l'utilizzo del premio Tetris");
+      await liberaSlotPrenotato();
+      return;
+    }
+  }
+
   const testo = encodeURIComponent(messaggio);
 await fetch("/api/vip/order", {
   method: "POST",
@@ -6174,9 +6259,12 @@ onChange={(e) => setDatiCliente((prev) => ({ ...prev, email: e.target.value }))}
       type="text"
       placeholder="Inserisci codice sconto"
       value={codiceSconto}
-onChange={(e) =>
-  setCodiceSconto(e.target.value.toUpperCase())
-}
+onChange={(e) => {
+  setCodiceSconto(e.target.value.toUpperCase());
+  setCodiceTetrisValidato("");
+  setScontoPercentuale(0);
+  setMessaggioSconto("");
+}}
       className="min-w-0 flex-1 rounded-xl border border-zinc-700 bg-black p-4 text-white outline-none shadow-[0_0_14px_rgba(250,204,21,0.14)]"
     />
 

@@ -30,6 +30,12 @@ type DisplayCell =
     }
   | null;
 
+type TetrisReward = {
+  level: number;
+  amount: 5 | 10;
+  code: string;
+};
+
 const SHAPES: Record<PieceName, number[][]> = {
   I: [[1, 1, 1, 1]],
   O: [
@@ -154,10 +160,29 @@ const clearCompletedLines = (board: Board) => {
 const formatNumber = (value: number) =>
   new Intl.NumberFormat("it-IT").format(value);
 
+const PLAYER_ID_KEY = "lalinea-tetris-player-id";
+
+const getOrCreatePlayerId = () => {
+  try {
+    const existing = window.localStorage.getItem(PLAYER_ID_KEY);
+    if (existing && /^[A-Za-z0-9_-]{8,96}$/.test(existing)) return existing;
+
+    const created =
+      typeof window.crypto?.randomUUID === "function"
+        ? window.crypto.randomUUID()
+        : `ll-${Date.now()}-${Math.random().toString(36).slice(2, 14)}`;
+
+    window.localStorage.setItem(PLAYER_ID_KEY, created);
+    return created;
+  } catch {
+    return `ll-${Date.now()}-${Math.random().toString(36).slice(2, 14)}`;
+  }
+};
+
 function PiecePreview({ name }: { name: PieceName | null }) {
   if (!name) {
     return (
-      <div className="flex min-h-[58px] items-center justify-center text-[9px] font-black uppercase tracking-[0.12em] text-zinc-700">
+      <div className="flex min-h-[62px] items-center justify-center text-[11px] font-black uppercase tracking-[0.08em] text-zinc-400">
         Vuoto
       </div>
     );
@@ -196,6 +221,8 @@ export default function TetrisGame() {
   const bagRef = useRef<PieceName[]>([]);
   const gestureStart = useRef<{ x: number; y: number } | null>(null);
   const flashTimer = useRef<number | null>(null);
+  const rewardTimer = useRef<number | null>(null);
+  const rewardIssuingLevel = useRef<number | null>(null);
 
   const [board, setBoard] = useState<Board>(() => emptyBoard());
   const [active, setActive] = useState<Piece>(() => makePiece("T"));
@@ -209,9 +236,24 @@ export default function TetrisGame() {
   const [running, setRunning] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [lineFlash, setLineFlash] = useState(0);
+  const [rewardPopup, setRewardPopup] = useState<TetrisReward | null>(null);
+  const [rewardLoading, setRewardLoading] = useState(false);
+  const [rewardError, setRewardError] = useState("");
+  const [unlockedRewardLevels, setUnlockedRewardLevels] = useState<number[]>([]);
 
   const level = Math.floor(lines / 10) + 1;
   const speed = Math.max(90, 730 - (level - 1) * 58);
+  const milestoneCorrenteGiaSbloccata =
+    level % 15 === 0 && unlockedRewardLevels.includes(level);
+  const previousRewardLevel = milestoneCorrenteGiaSbloccata
+    ? level
+    : Math.floor((Math.max(level, 1) - 1) / 15) * 15;
+  const nextRewardLevel = previousRewardLevel + 15;
+  const nextRewardAmount = nextRewardLevel % 30 === 0 ? 10 : 5;
+  const rewardProgress = Math.min(
+    100,
+    Math.max(0, ((level - previousRewardLevel) / 15) * 100)
+  );
 
   const takeName = useCallback((): PieceName => {
     if (bagRef.current.length === 0) {
@@ -224,6 +266,15 @@ export default function TetrisGame() {
     try {
       const saved = Number(window.localStorage.getItem("lalinea-tetris-highscore") || 0);
       if (Number.isFinite(saved)) setHighScore(saved);
+
+      const savedRewards = JSON.parse(
+        window.localStorage.getItem("lalinea-tetris-reward-levels") || "[]"
+      );
+      if (Array.isArray(savedRewards)) {
+        setUnlockedRewardLevels(
+          savedRewards.filter((value): value is number => Number.isFinite(value))
+        );
+      }
     } catch {}
   }, []);
 
@@ -238,6 +289,7 @@ export default function TetrisGame() {
   useEffect(() => {
     return () => {
       if (flashTimer.current) window.clearTimeout(flashTimer.current);
+      if (rewardTimer.current) window.clearTimeout(rewardTimer.current);
     };
   }, []);
 
@@ -246,6 +298,82 @@ export default function TetrisGame() {
       navigator.vibrate?.(pattern);
     } catch {}
   }, []);
+
+  const closeRewardPopup = useCallback(() => {
+    if (rewardLoading) return;
+    setRewardPopup(null);
+    setRewardError("");
+    if (!gameOver) setRunning(true);
+  }, [gameOver, rewardLoading]);
+
+  const richiediPremio = useCallback(
+    async (rewardLevel: number) => {
+      if (rewardIssuingLevel.current === rewardLevel) return;
+
+      const amount: 5 | 10 = rewardLevel % 30 === 0 ? 10 : 5;
+      rewardIssuingLevel.current = rewardLevel;
+      setRewardLoading(true);
+      setRewardError("");
+      setRunning(false);
+      setRewardPopup({ level: rewardLevel, amount, code: "" });
+
+      try {
+        const risposta = await fetch("/api/tetris-reward", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "issue",
+            playerId: getOrCreatePlayerId(),
+            level: rewardLevel,
+          }),
+        });
+
+        const risultato = await risposta.json();
+        if (!risposta.ok || !risultato?.code) {
+          throw new Error(risultato?.error || "Premio momentaneamente non disponibile");
+        }
+
+        const finalAmount: 5 | 10 = Number(risultato.amount) === 10 ? 10 : 5;
+        setRewardPopup({
+          level: rewardLevel,
+          amount: finalAmount,
+          code: String(risultato.code).toUpperCase(),
+        });
+
+        setUnlockedRewardLevels((current) => {
+          const updated = current.includes(rewardLevel)
+            ? current
+            : [...current, rewardLevel].sort((a, b) => a - b);
+          try {
+            window.localStorage.setItem(
+              "lalinea-tetris-reward-levels",
+              JSON.stringify(updated)
+            );
+          } catch {}
+          return updated;
+        });
+
+        buzz([45, 30, 45, 30, 110]);
+      } catch (error) {
+        setRewardError(
+          error instanceof Error
+            ? error.message
+            : "Impossibile generare il premio. Riprova."
+        );
+      } finally {
+        rewardIssuingLevel.current = null;
+        setRewardLoading(false);
+      }
+    },
+    [buzz]
+  );
+
+  useEffect(() => {
+    if (level < 15 || level % 15 !== 0) return;
+    if (unlockedRewardLevels.includes(level)) return;
+    if (rewardPopup?.level === level || rewardLoading) return;
+    void richiediPremio(level);
+  }, [level, rewardLoading, rewardPopup, richiediPremio, unlockedRewardLevels]);
 
   const refillQueue = useCallback(
     (queue: PieceName[]) => {
@@ -493,7 +621,7 @@ export default function TetrisGame() {
         : "PRONTO";
 
   return (
-    <div className="relative mx-auto w-full max-w-[430px] select-none overflow-hidden rounded-[28px] border-2 border-yellow-300 bg-black p-3 text-white shadow-[0_0_42px_rgba(250,204,21,.25)] sm:p-4">
+    <div className="relative mx-auto w-full max-w-[480px] select-none overflow-hidden rounded-[28px] border-2 border-yellow-300 bg-black p-4 text-white shadow-[0_0_24px_rgba(250,204,21,.16)] sm:p-5">
       <style>{`
         @keyframes llTetrisGlow {
           0%, 100% { opacity: .38; transform: scale(.96); }
@@ -509,12 +637,39 @@ export default function TetrisGame() {
           28% { opacity: 1; transform: scale(1.08); }
           100% { opacity: 0; transform: scale(1); }
         }
+        @keyframes llRewardPulse {
+          0%, 100% { transform: scale(1); filter: brightness(1); }
+          50% { transform: scale(1.05); filter: brightness(1.28); }
+        }
+        @keyframes llRewardRay {
+          0% { transform: rotate(0deg) scale(.92); opacity: .25; }
+          50% { opacity: .55; }
+          100% { transform: rotate(360deg) scale(1.08); opacity: .25; }
+        }
+        @keyframes llRewardPop {
+          0% { opacity: 0; transform: translateY(16px) scale(.88); }
+          65% { opacity: 1; transform: translateY(-2px) scale(1.035); }
+          100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
         .ll-tetris-neon-title {
-          background: linear-gradient(90deg,#facc15 0%,#4ade80 28%,#22d3ee 50%,#e879f9 72%,#facc15 100%);
-          -webkit-background-clip: text;
-          background-clip: text;
-          color: transparent;
-          filter: drop-shadow(0 0 8px rgba(250,204,21,.34));
+          color: #ffffff;
+          -webkit-text-stroke: .55px rgba(0,0,0,.95);
+          text-shadow:
+            1px 1px 0 #000,
+            -1px -1px 0 #000,
+            0 0 7px rgba(34,211,238,.34),
+            0 0 12px rgba(250,204,21,.24),
+            0 0 18px rgba(232,121,249,.16);
+        }
+        .ll-tetris-readable {
+          text-shadow: 0 1px 1px rgba(0,0,0,1);
+        }
+        .ll-tetris-copy {
+          color: #f4f4f5;
+          text-shadow: 0 1px 1px rgba(0,0,0,1);
+        }
+        .ll-tetris-panel {
+          background: linear-gradient(180deg, rgba(24,24,27,.98), rgba(9,9,11,.98));
         }
       `}</style>
 
@@ -522,23 +677,23 @@ export default function TetrisGame() {
       <div className="pointer-events-none absolute -right-24 top-1/3 h-56 w-56 rounded-full bg-cyan-400/10 blur-3xl" />
       <div className="pointer-events-none absolute bottom-0 left-1/3 h-40 w-40 rounded-full bg-fuchsia-500/10 blur-3xl" />
 
-      <div className="relative mb-3 overflow-hidden rounded-2xl border border-yellow-400/45 bg-zinc-950/95 px-3 py-3 text-center">
+      <div className="ll-tetris-panel relative mb-4 overflow-hidden rounded-2xl border border-yellow-300/70 px-4 py-4 text-center">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-yellow-300 to-transparent opacity-70" />
-        <p className="text-[9px] font-black uppercase tracking-[0.34em] text-yellow-400">
+        <p className="ll-tetris-readable text-[12px] font-black uppercase tracking-[0.16em] text-yellow-200 sm:text-[13px]">
           LALINEA // MILANO EDITION
         </p>
-        <h2 className="ll-tetris-neon-title mt-1 text-[1.55rem] font-black uppercase leading-none tracking-[-0.04em] sm:text-3xl">
+        <h2 className="ll-tetris-neon-title mt-2 text-[2rem] font-black uppercase leading-[1.02] tracking-[-0.02em] sm:text-[2.25rem]">
           TETRIS: CHIUDI LA LINEA
         </h2>
-        <div className="mt-2 flex items-center justify-center gap-2 text-[8px] font-black uppercase tracking-[0.14em] text-zinc-400">
-          <span className="rounded-full border border-green-400/40 bg-green-400/10 px-2 py-1 text-green-300">
+        <div className="mt-3 flex flex-wrap items-center justify-center gap-2 text-[11px] font-black uppercase tracking-[0.05em] text-zinc-100 sm:text-[12px]">
+          <span className="rounded-full border border-green-300/70 bg-green-400/10 px-2.5 py-1 text-green-200">
             {statusText}
           </span>
           <span>Blocca · Incastra · Fai Linea</span>
         </div>
       </div>
 
-      <div className="relative mb-3 grid grid-cols-4 gap-1.5 text-center sm:gap-2">
+      <div className="relative mb-4 grid grid-cols-4 gap-2 text-center">
         {[
           ["PUNTI", formatNumber(score), "text-cyan-300"],
           ["RECORD", formatNumber(highScore), "text-green-300"],
@@ -547,20 +702,50 @@ export default function TetrisGame() {
         ].map(([label, value, color]) => (
           <div
             key={label}
-            className="rounded-xl border border-zinc-700 bg-zinc-950/95 px-1.5 py-2 shadow-[0_0_12px_rgba(250,204,21,0.06)]"
+            className="ll-tetris-panel rounded-xl border border-zinc-600 px-2 py-2.5"
           >
-            <p className="text-[7px] font-black uppercase tracking-[0.10em] text-zinc-500 sm:text-[8px]">
+            <p className="text-[10px] font-black uppercase tracking-[0.06em] text-zinc-200 sm:text-[11px]">
               {label}
             </p>
-            <p className={`mt-0.5 truncate text-[13px] font-black sm:text-base ${color}`}>
+            <p className={`mt-1 text-[18px] font-black leading-none sm:text-xl ${color}`}>
               {value}
             </p>
           </div>
         ))}
       </div>
 
-      <div className="relative grid grid-cols-[minmax(0,1fr)_74px] items-start gap-2.5 sm:grid-cols-[minmax(0,1fr)_92px] sm:gap-3">
-        <div className="relative mx-auto w-full max-w-[270px] sm:max-w-[300px]">
+      <div className="relative mb-4 overflow-hidden rounded-2xl border-2 border-cyan-300/45 bg-gradient-to-r from-cyan-400/[0.09] via-zinc-950 to-yellow-400/[0.10] px-4 py-4">
+        <div className="flex items-center justify-between gap-3">
+          <div className="min-w-0">
+            <p className="ll-tetris-readable text-[11px] font-black uppercase tracking-[0.10em] text-cyan-100 sm:text-[12px]">
+              LaLinea Reward Track
+            </p>
+            <p className="mt-1.5 text-[15px] font-black uppercase leading-tight text-white sm:text-base">
+              Prossimo premio: €{nextRewardAmount} al livello {nextRewardLevel}
+            </p>
+          </div>
+          <div className="shrink-0 rounded-xl border border-yellow-300/50 bg-yellow-400/10 px-2.5 py-1.5 text-center shadow-[0_0_16px_rgba(250,204,21,.16)]">
+            <p className="text-[10px] font-black uppercase tracking-[0.06em] text-yellow-100 sm:text-[11px]">Mancano</p>
+            <p className="text-lg font-black text-white sm:text-xl">{Math.max(0, nextRewardLevel - level)} LV</p>
+          </div>
+        </div>
+
+        <div className="mt-3 h-3 overflow-hidden rounded-full border border-zinc-600 bg-black">
+          <div
+            className="h-full rounded-full bg-gradient-to-r from-cyan-300 via-fuchsia-400 to-yellow-300 transition-[width] duration-500"
+            style={{ width: `${rewardProgress}%` }}
+          />
+        </div>
+
+        <div className="mt-3 grid grid-cols-3 items-center gap-2 text-center text-[10px] font-black uppercase tracking-[0.03em] text-zinc-200 sm:text-[11px]">
+          <span className="text-cyan-300">LV 15 · €5</span>
+          <span>Ogni 15 livelli</span>
+          <span className="text-yellow-300">LV 30 · €10</span>
+        </div>
+      </div>
+
+      <div className="relative grid grid-cols-[minmax(0,1fr)_86px] items-start gap-3 sm:grid-cols-[minmax(0,1fr)_104px]">
+        <div className="relative mx-auto w-full max-w-[300px] sm:max-w-[320px]">
           <div
             className={`relative grid aspect-[1/2] w-full touch-none overflow-hidden rounded-2xl border-2 bg-zinc-950 transition ${
               lineFlash
@@ -630,10 +815,10 @@ export default function TetrisGame() {
               >
                 ▶
               </span>
-              <span className="mt-4 text-sm font-black uppercase tracking-[0.18em] text-yellow-300">
+              <span className="mt-4 text-base font-black uppercase tracking-[0.10em] text-yellow-200">
                 Tocca e fai Linea
               </span>
-              <span className="mt-1 max-w-[190px] text-[9px] font-bold uppercase leading-relaxed text-zinc-400">
+              <span className="mt-1 max-w-[190px] text-[11px] font-bold uppercase leading-relaxed text-zinc-200">
                 La città sale blocco dopo blocco. Non lasciare spazi.
               </span>
             </button>
@@ -646,10 +831,10 @@ export default function TetrisGame() {
               className="absolute inset-0 z-20 flex flex-col items-center justify-center rounded-2xl bg-black/82 text-center backdrop-blur-[2px]"
             >
               <span className="text-4xl text-yellow-300">Ⅱ</span>
-              <span className="mt-2 text-sm font-black uppercase tracking-[0.16em] text-yellow-300">
+              <span className="mt-2 text-base font-black uppercase tracking-[0.10em] text-yellow-200">
                 LaLinea in pausa
               </span>
-              <span className="mt-1 text-[9px] font-bold uppercase text-zinc-400">
+              <span className="mt-1 text-[11px] font-bold uppercase text-zinc-200">
                 Tocca per tornare in strada
               </span>
             </button>
@@ -677,7 +862,7 @@ export default function TetrisGame() {
 
         <div className="min-w-0 space-y-2">
           <div className="rounded-xl border border-zinc-700 bg-zinc-950/95 p-2 text-center">
-            <p className="text-[8px] font-black uppercase tracking-[0.15em] text-zinc-500">Prossimo</p>
+            <p className="text-[11px] font-black uppercase tracking-[0.06em] text-zinc-100">Prossimo</p>
             <PiecePreview name={nextNames[0] ?? null} />
           </div>
 
@@ -687,7 +872,7 @@ export default function TetrisGame() {
             disabled={!canHold || !running || gameOver}
             className="w-full rounded-xl border border-cyan-400/45 bg-cyan-400/5 p-2 text-center transition disabled:opacity-35"
           >
-            <p className="text-[8px] font-black uppercase tracking-[0.14em] text-cyan-300">Hold</p>
+            <p className="text-[11px] font-black uppercase tracking-[0.06em] text-cyan-100">Hold</p>
             <PiecePreview name={holdName} />
           </button>
 
@@ -697,7 +882,7 @@ export default function TetrisGame() {
               if (gameOver || (score === 0 && !running)) resetGame();
               else setRunning((value) => !value);
             }}
-            className="min-h-10 w-full rounded-xl border border-yellow-300 bg-yellow-400 px-1 py-2 text-[9px] font-black uppercase text-black shadow-[0_0_14px_rgba(250,204,21,.22)]"
+            className="min-h-11 w-full rounded-xl border border-yellow-300 bg-yellow-400 px-1.5 py-2.5 text-[10px] font-black uppercase text-black shadow-[0_0_10px_rgba(250,204,21,.16)]"
           >
             {gameOver ? "Rigioca" : running ? "Pausa" : score === 0 ? "Start" : "Riprendi"}
           </button>
@@ -705,16 +890,16 @@ export default function TetrisGame() {
           <button
             type="button"
             onClick={resetGame}
-            className="min-h-9 w-full rounded-xl border border-zinc-700 bg-black px-1 py-2 text-[8px] font-black uppercase text-zinc-400"
+            className="min-h-10 w-full rounded-xl border border-zinc-600 bg-black px-1.5 py-2 text-[9px] font-black uppercase text-zinc-200"
           >
             Reset
           </button>
 
           <div className="rounded-xl border border-green-400/25 bg-green-400/5 px-1.5 py-2 text-center">
-            <p className="text-[7px] font-black uppercase tracking-[0.12em] text-green-300">
+            <p className="text-[9px] font-black uppercase tracking-[0.08em] text-green-200">
               Combo
             </p>
-            <p className="mt-0.5 text-base font-black text-white">×{combo}</p>
+            <p className="mt-0.5 text-lg font-black text-white sm:text-xl">×{combo}</p>
           </div>
         </div>
       </div>
@@ -771,11 +956,91 @@ export default function TetrisGame() {
         </button>
       </div>
 
+      {rewardPopup && (
+        <div className="absolute inset-0 z-[80] flex items-center justify-center rounded-[26px] bg-black/88 p-4 backdrop-blur-md">
+          <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[26px]">
+            <div
+              className="absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[conic-gradient(from_0deg,rgba(34,211,238,.18),rgba(232,121,249,.2),rgba(250,204,21,.24),rgba(74,222,128,.16),rgba(34,211,238,.18))] blur-sm"
+              style={{ animation: "llRewardRay 5s linear infinite" }}
+            />
+          </div>
+
+          <div
+            className="relative w-full max-w-[330px] overflow-hidden rounded-3xl border-2 border-yellow-300 bg-zinc-950 p-5 text-center shadow-[0_0_55px_rgba(250,204,21,.36)]"
+            style={{ animation: "llRewardPop .42s cubic-bezier(.2,.8,.2,1) both" }}
+          >
+            <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-cyan-300 via-fuchsia-400 to-yellow-300" />
+            <p className="ll-tetris-readable text-[11px] font-black uppercase tracking-[0.20em] text-cyan-200">
+              LALINEA TETRIS REWARD
+            </p>
+            <div
+              className="mx-auto mt-4 flex h-20 w-20 items-center justify-center rounded-2xl border-2 border-yellow-300 bg-yellow-400/10 text-3xl font-black text-yellow-100 shadow-[0_0_22px_rgba(250,204,21,.24)]"
+              style={{ animation: "llRewardPulse 1.5s ease-in-out infinite" }}
+            >
+              €{rewardPopup.amount}
+            </div>
+            <p className="mt-4 text-2xl font-black uppercase leading-none text-white">
+              Premio sbloccato
+            </p>
+            <p className="mt-3 text-[12px] font-bold uppercase leading-relaxed tracking-[0.04em] text-zinc-200">
+              Livello {rewardPopup.level} raggiunto. Il tuo premio LaLinea viene generato in modo univoco.
+            </p>
+
+            <div className="mt-4 rounded-2xl border border-green-300/55 bg-green-400/[0.08] px-4 py-4">
+              <p className="text-[10px] font-black uppercase tracking-[0.10em] text-green-200">
+                Codice sconto personale
+              </p>
+
+              {rewardLoading ? (
+                <p className="mt-3 text-sm font-black uppercase tracking-[0.08em] text-white">
+                  Generazione premio…
+                </p>
+              ) : rewardError ? (
+                <>
+                  <p className="mt-3 text-[12px] font-bold leading-relaxed text-red-200">
+                    {rewardError}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => void richiediPremio(rewardPopup.level)}
+                    className="mt-3 min-h-11 w-full rounded-xl border border-red-300/70 bg-red-400/10 px-3 py-2.5 text-[11px] font-black uppercase text-red-100"
+                  >
+                    Riprova generazione
+                  </button>
+                </>
+              ) : (
+                <>
+                  <p className="mt-2 break-all text-2xl font-black tracking-[0.08em] text-white">
+                    {rewardPopup.code}
+                  </p>
+                  <p className="mt-2 text-[10px] font-bold uppercase text-zinc-300">
+                    Valore premio: -€{rewardPopup.amount} · utilizzabile una sola volta
+                  </p>
+                </>
+              )}
+            </div>
+
+            {!rewardLoading && !rewardError && rewardPopup.code && (
+              <button
+                type="button"
+                onClick={closeRewardPopup}
+                className="mt-4 min-h-12 w-full rounded-2xl border border-yellow-300 bg-yellow-400 px-4 py-3 text-sm font-black uppercase tracking-[0.08em] text-black shadow-[0_0_16px_rgba(250,204,21,.18)]"
+              >
+                Salva il codice e continua
+              </button>
+            )}
+            <p className="mt-3 text-[10px] font-black uppercase tracking-[0.03em] text-zinc-200">
+              15 · 45 · 75 = €5 // 30 · 60 · 90 = €10
+            </p>
+          </div>
+        </div>
+      )}
+
       <div className="relative mt-3 rounded-xl border border-yellow-400/20 bg-yellow-400/[0.04] px-3 py-2 text-center">
-        <p className="text-[8px] font-black uppercase leading-relaxed tracking-[0.10em] text-zinc-500 sm:text-[9px]">
+        <p className="text-[11px] font-black uppercase leading-relaxed tracking-[0.02em] text-zinc-100 sm:text-[12px]">
           Mobile: tap = ruota · swipe = muovi · swipe lungo ↓ = drop · Hold conserva il pezzo
         </p>
-        <p className="mt-1 hidden text-[8px] font-black uppercase text-zinc-600 sm:block">
+        <p className="mt-1.5 hidden text-[11px] font-black uppercase text-zinc-200 sm:block">
           Desktop: ← → muovi · ↑ ruota · ↓ scendi · spazio drop · C/Shift hold · P pausa
         </p>
       </div>
