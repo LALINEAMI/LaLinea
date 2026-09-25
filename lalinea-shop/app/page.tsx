@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import SnakeGame from "./components/SnakeGame";
+import TetrisGame from "./components/TetrisGame";
 function InfoRiga({
   etichetta,
   children,
@@ -834,7 +834,7 @@ useEffect(() => {
 
   setOrdineRecensioni(casuali);
 }, [recensioniAperte]);
-const [snakeAperto, setSnakeAperto] = useState(false);
+const [tetrisAperto, setTetrisAperto] = useState(false);
 const avviaMusica = () => {
   if (!musicaAvviata && audioRef.current) {
     audioRef.current.play().catch(() => {});
@@ -2016,16 +2016,25 @@ return (
     type="button"
     onClick={(evento) => {
       evento.stopPropagation();
-      apriProdottoInEvidenza();
+      setTetrisAperto(true);
     }}
-    className="ll-featured-product fixed bottom-[17.5rem] left-3 z-[9998] w-[calc(46%-12px)] rounded-2xl border border-yellow-300 bg-black/95 px-3 py-2 text-center shadow-[0_0_18px_rgba(250,204,21,0.22)] transition active:scale-[0.98] md:bottom-4 md:left-4 md:w-[240px]"
-    aria-label={`Apri ${prodottoInEvidenza}`}
+    className="ll-featured-product group fixed bottom-[17.5rem] left-3 z-[9998] w-[calc(46%-12px)] overflow-hidden rounded-2xl border border-yellow-300 bg-black/95 px-3 py-2 text-center shadow-[0_0_20px_rgba(250,204,21,0.28)] transition active:scale-[0.98] md:bottom-4 md:left-4 md:w-[240px]"
+    aria-label="Apri LaLinea Tetris"
   >
-    <p className="text-[9px] font-bold uppercase tracking-[0.12em] text-yellow-400 md:text-[10px]">
-      Novità della settimana
+    <span className="pointer-events-none absolute inset-x-0 top-0 flex h-[3px]">
+      <span className="flex-1 bg-cyan-400" />
+      <span className="flex-1 bg-fuchsia-400" />
+      <span className="flex-1 bg-yellow-300" />
+      <span className="flex-1 bg-green-400" />
+    </span>
+    <p className="text-[8px] font-black uppercase tracking-[0.12em] text-yellow-300 md:text-[10px]">
+      GIOCA AL NUOVO GIOCO
     </p>
-    <p className="mt-1 truncate text-[11px] font-black uppercase text-white md:text-xs">
-      {prodottoInEvidenza}
+    <p className="mt-1 truncate text-[11px] font-black uppercase tracking-[0.05em] text-white md:text-xs">
+      LALINEA TETRIS · MILANO EDITION
+    </p>
+    <p className="mt-1 text-[7px] font-black uppercase tracking-[0.10em] text-green-300 md:text-[9px]">
+      TOCCA E CHIUDI LA LINEA
     </p>
   </button>
 )}
@@ -2451,8 +2460,8 @@ return (
       <button type="button" onClick={(evento) => {
         evento.currentTarget.closest("dialog")?.close();
         setMenuAperto(false);
-        setSnakeAperto(true);
-      }} className="min-h-11 rounded-lg border border-yellow-400/70 bg-black px-3 py-3 text-left text-sm font-bold text-yellow-300 shadow-[0_0_14px_rgba(250,204,21,0.14)]">Gioca</button>
+        setTetrisAperto(true);
+      }} className="min-h-11 rounded-lg border border-yellow-400/70 bg-black px-3 py-3 text-left text-sm font-bold text-yellow-300 shadow-[0_0_14px_rgba(250,204,21,0.14)]">Gioca a Tetris</button>
       <a href="/vip" className="flex min-h-11 items-center rounded-lg bg-yellow-400 px-3 py-3 text-sm font-black text-black shadow-[0_0_14px_rgba(250,204,21,0.18)]">Area VIP</a>
     </div>
   </dialog>
@@ -6768,10 +6777,10 @@ rel="noopener noreferrer"
 <div className="ll-gioca py-12 text-center">
   <button
     type="button"
-    onClick={() => setSnakeAperto(true)}
+    onClick={() => setTetrisAperto(true)}
     className="border-2 border-yellow-400 bg-black px-8 py-4 font-black uppercase text-yellow-400 hover:bg-yellow-400 hover:text-black rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
   >
-    GIOCA A SNAKE
+    GIOCA A TETRIS · LALINEA EDITION
   </button>
 </div>
 
@@ -6916,22 +6925,25 @@ rel="noopener noreferrer"
   `}</style>
 </div>
 )}
-{snakeAperto && (
-  <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 p-4">
-    <div className="relative max-h-[95vh] w-full max-w-lg overflow-y-auto border-2 border-yellow-400 bg-black p-6 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
+{tetrisAperto && (
+  <div
+    className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/95 p-2 backdrop-blur-sm sm:p-4"
+    onClick={() => setTetrisAperto(false)}
+  >
+    <div
+      className="relative max-h-[98dvh] w-full max-w-[480px] overflow-y-auto rounded-[30px] border border-yellow-300/60 bg-black p-2 shadow-[0_0_55px_rgba(250,204,21,0.24)] sm:p-3"
+      onClick={(evento) => evento.stopPropagation()}
+    >
       <button
         type="button"
-        onClick={() => setSnakeAperto(false)}
-        className="absolute right-4 top-3 text-2xl font-black text-yellow-400"
+        onClick={() => setTetrisAperto(false)}
+        className="absolute right-4 top-4 z-[100] flex h-9 w-9 items-center justify-center rounded-full border border-yellow-300 bg-black/95 text-lg font-black text-yellow-300 shadow-[0_0_18px_rgba(250,204,21,0.28)]"
+        aria-label="Chiudi LaLinea Tetris"
       >
         ✕
       </button>
 
-      <h2 className="mb-6 text-center text-2xl font-black uppercase text-yellow-400">
-        LALINEA SNAKE
-      </h2>
-
-      <SnakeGame />
+      <TetrisGame />
     </div>
   </div>
 )}
