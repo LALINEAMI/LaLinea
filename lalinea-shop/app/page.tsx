@@ -1362,6 +1362,32 @@ const aggiungiOrangeAlCarrello = (grammi: string, prezzo: number) => {
     ];
   });
 };
+const aggiungiWholeMeltDualAlCarrello = (quantita: string, prezzo: number) => {
+  const id = `whole-melt-dual-key-lime-cake-zazaya-${quantita.toLowerCase().replace(/\s+/g, "-")}`;
+
+  setCarrello((prev) => {
+    const esistente = prev.find((item) => String(item.id) === id);
+
+    if (esistente) {
+      return prev.map((item) =>
+        String(item.id) === id
+          ? { ...item, quantita: item.quantita + 1 }
+          : item
+      );
+    }
+
+    return [
+      ...prev,
+      {
+        id: id as any,
+        nome: `WHOLE MELT DUAL CHAMBER - KEY LIME CAKE x ZAZAYA - ${quantita}`,
+        prezzo,
+        quantita: 1,
+      },
+    ];
+  });
+};
+
 const aggiungiRosinAlCarrello = (grammi: string, prezzo: number) => {
   const id = `rosin-${grammi}`;
 
@@ -1915,13 +1941,40 @@ if (caricamentoIniziale) {
   return (
     <main className="lalinea-neon min-h-screen bg-black text-white flex flex-col items-center justify-center">
       <NeonGlobalStyle />
-      <h1 className="text-5xl font-black uppercase tracking-[0.2em] text-yellow-400">
-        LALINEA
-      </h1>
+      <div className="px-5 text-center">
+        <p
+          className="text-[11px] font-black uppercase tracking-[0.42em] text-white md:text-xs"
+          style={{ textShadow: "0 2px 4px #000, 0 0 8px rgba(255,255,255,0.25)" }}
+        >
+          MILANO · OFFICIAL
+        </p>
 
-      <div className="mt-8 text-6xl animate-pulse">⌛</div>
+        <h1
+          className="mt-2 text-[clamp(3.4rem,16vw,6.2rem)] font-black italic uppercase leading-[0.88] tracking-[0.045em]"
+          style={{
+            fontFamily: 'Impact, "Arial Black", sans-serif',
+            color: "#facc15",
+            WebkitTextStroke: "2px rgba(0,0,0,0.98)",
+            textShadow:
+              "0 5px 0 #000, 0 8px 16px rgba(0,0,0,0.9), -3px 0 0 rgba(132,204,22,0.75), 3px 0 0 rgba(255,255,255,0.22), 0 0 18px rgba(250,204,21,0.65)",
+            transform: "skewX(-7deg)",
+          }}
+        >
+          LALINEA
+        </h1>
 
-      <p className="mt-8 text-zinc-400 uppercase font-bold tracking-[0.2em]">
+        <div className="mx-auto mt-4 h-[3px] w-40 rounded-full bg-gradient-to-r from-transparent via-yellow-300 to-transparent shadow-[0_0_12px_rgba(250,204,21,0.85)]" />
+      </div>
+
+      <div className="mt-7 text-5xl animate-pulse">⌛</div>
+
+      <p
+        className="mt-7 rounded-full border border-white/20 bg-black/55 px-5 py-3 text-center text-[11px] font-black uppercase tracking-[0.18em] text-white backdrop-blur-sm md:text-sm"
+        style={{
+          textShadow: "0 2px 3px #000, 0 0 8px rgba(250,204,21,0.28)",
+          boxShadow: "inset 0 0 0 1px rgba(250,204,21,0.12), 0 0 18px rgba(0,0,0,0.45)",
+        }}
+      >
         Sta caricando la tua sessione
       </p>
     </main>
@@ -2011,7 +2064,7 @@ if (caricamentoIniziale) {
           <button
             type="submit"
             disabled={accessoInCorso}
-            className="mt-5 w-full rounded-2xl border-2 border-yellow-200 bg-yellow-400 px-6 py-4 font-black uppercase text-black shadow-[0_0_24px_rgba(250,204,21,0.55)] transition active:scale-[0.98] disabled:cursor-wait disabled:opacity-80"
+            className="mt-5 w-full rounded-2xl border-2 border-yellow-200 bg-yellow-400 px-6 py-4 font-black uppercase text-emerald-800 shadow-[0_0_24px_rgba(250,204,21,0.55)] transition active:scale-[0.98] disabled:cursor-wait disabled:opacity-80"
           >
             {accessoInCorso ? "Accesso in corso..." : "Entra"}
           </button>
@@ -4515,6 +4568,102 @@ return (
             </p>
 
             <p className="mt-2 text-xs font-black uppercase">
+              Aggiungi al carrello
+            </p>
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+)}
+
+{/* WHOLE MELT DUAL CHAMBER - KEY LIME CAKE x ZAZAYA */}
+{categoriaAttiva === "Rosin & Pen" && (
+  <div className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
+    <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+      Rosin & Pen
+    </p>
+
+    <h3 className="mt-2 text-3xl font-black uppercase text-white">
+      WHOLE MELT DUAL CHAMBER
+    </h3>
+
+    <p className="mt-2 text-lg font-black uppercase tracking-wide text-yellow-300">
+      KEY LIME CAKE x ZAZAYA
+    </p>
+
+    <div className="mt-6 grid gap-3 sm:grid-cols-2">
+      <InfoRiga etichetta="PROVENIENZA">USA</InfoRiga>
+      <InfoRiga etichetta="CAPACITÀ">2G DIAMOND + LIVE</InfoRiga>
+      <InfoRiga etichetta="GENETICA 1">SATIVA</InfoRiga>
+      <InfoRiga etichetta="GENETICA 2">INDICA</InfoRiga>
+    </div>
+
+    <div className="mt-5 rounded-2xl border border-yellow-300/40 bg-yellow-400/[0.06] p-4">
+      <p className="text-sm font-bold leading-relaxed text-zinc-200 sm:text-base">
+        Le nuove Dual Chamber di Whole Melt, pioniere dell&apos;estrazione, ti permettono di
+        switchare la genetica con un solo clic oppure di mischiarle assieme. Un&apos;esperienza
+        sensazionale: questa volta si sono davvero superati.
+      </p>
+      <p className="mt-3 text-lg font-black uppercase tracking-[0.18em] text-yellow-300">
+        DA PROVARE
+      </p>
+    </div>
+
+    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
+      <video
+        src="/products/rosin/key1.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
+      />
+
+      <div className="flex-1 grid grid-cols-2 gap-3 md:grid-cols-3">
+        {[2, 3, 4, 5, 6, 7].map((numero) => (
+          <img
+            key={numero}
+            src={`/products/rosin/key${numero}.jpg`}
+            alt={`WHOLE MELT DUAL CHAMBER KEY LIME CAKE x ZAZAYA foto ${numero}`}
+            className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
+          />
+        ))}
+      </div>
+    </div>
+
+    <div className="mt-6">
+      <p className="mb-3 font-bold uppercase text-white">
+        Seleziona quantità
+      </p>
+
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        {[
+          { quantita: "1 PEN DUAL", prezzo: 110 },
+          { quantita: "2 PEN DUAL", prezzo: 190 },
+          { quantita: "3 PEN DUAL", prezzo: 270 },
+          { quantita: "5 PEN DUAL", prezzo: 400 },
+        ].map((opzione) => (
+          <button
+            key={opzione.quantita}
+            type="button"
+            onClick={() =>
+              aggiungiWholeMeltDualAlCarrello(
+                opzione.quantita,
+                opzione.prezzo
+              )
+            }
+            className="rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center shadow-[0_0_14px_rgba(250,204,21,0.16)]"
+          >
+            <p className="text-lg font-black text-white sm:text-xl">
+              {opzione.quantita}
+            </p>
+
+            <p className="mt-3 text-xl font-black lalinea-price-neon">
+              {opzione.prezzo} €
+            </p>
+
+            <p className="mt-5 text-sm font-black uppercase text-white">
               Aggiungi al carrello
             </p>
           </button>
