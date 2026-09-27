@@ -463,15 +463,172 @@ function NeonGlobalStyle() {
           font-size: 0.65rem !important;
         }
       }
+
+
+      /* LaLinea 2.0 — micro-interazioni, accessibilità e superfici più pulite */
+      .lalinea-neon {
+        --ll-yellow: 250 204 21;
+        --ll-green: 74 222 128;
+        --ll-panel: 9 9 11;
+        background-color: #000;
+      }
+
+      .lalinea-neon button,
+      .lalinea-neon a,
+      .lalinea-neon input,
+      .lalinea-neon select,
+      .lalinea-neon textarea {
+        transition:
+          border-color 180ms ease,
+          background-color 180ms ease,
+          color 180ms ease,
+          box-shadow 180ms ease,
+          transform 120ms ease,
+          opacity 180ms ease;
+      }
+
+      .lalinea-neon button:focus-visible,
+      .lalinea-neon a:focus-visible,
+      .lalinea-neon input:focus-visible,
+      .lalinea-neon select:focus-visible,
+      .lalinea-neon textarea:focus-visible {
+        outline: 2px solid rgb(var(--ll-yellow));
+        outline-offset: 3px;
+      }
+
+      .lalinea-neon button:active {
+        transform: scale(0.985);
+      }
+
+      .ll-loading-shell {
+        position: relative;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 50% 24%, rgba(250, 204, 21, 0.13), transparent 28%),
+          radial-gradient(circle at 18% 72%, rgba(74, 222, 128, 0.07), transparent 26%),
+          linear-gradient(180deg, #050505 0%, #000 72%);
+      }
+
+      .ll-loading-shell::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+        background-size: 28px 28px;
+        mask-image: linear-gradient(to bottom, black, transparent 78%);
+      }
+
+      .ll-loading-card {
+        position: relative;
+        width: min(92vw, 520px);
+        border: 1px solid rgba(250, 204, 21, 0.32);
+        border-radius: 2rem;
+        background: linear-gradient(180deg, rgba(18,18,18,.78), rgba(0,0,0,.72));
+        padding: 2rem 1.4rem 1.5rem;
+        box-shadow:
+          inset 0 1px 0 rgba(255,255,255,.04),
+          0 28px 80px rgba(0,0,0,.58),
+          0 0 40px rgba(250,204,21,.08);
+        backdrop-filter: blur(14px);
+      }
+
+      .ll-loading-brand {
+        color: #facc15;
+        -webkit-text-stroke: 1.4px rgba(0,0,0,.98);
+        text-shadow:
+          0 4px 0 #000,
+          0 10px 30px rgba(0,0,0,.9),
+          0 0 18px rgba(250,204,21,.42);
+      }
+
+      .ll-loading-progress {
+        position: relative;
+        height: 4px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: rgba(255,255,255,.08);
+      }
+
+      .ll-loading-progress::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        width: 42%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, #facc15, #fde68a, #4ade80);
+        box-shadow: 0 0 14px rgba(250,204,21,.72);
+        animation: llLoadingSweep 1.15s ease-in-out infinite alternate;
+      }
+
+      @keyframes llLoadingSweep {
+        from { transform: translateX(-10%); }
+        to { transform: translateX(150%); }
+      }
+
+      .ll-cart-toast {
+        animation: llToastIn 220ms ease-out both;
+      }
+
+      @keyframes llToastIn {
+        from { opacity: 0; transform: translate(-50%, -8px) scale(.98); }
+        to { opacity: 1; transform: translate(-50%, 0) scale(1); }
+      }
+
+      .ll-shop-intro {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(250, 204, 21, 0.28);
+        border-radius: 2rem;
+        background:
+          radial-gradient(circle at 92% 0%, rgba(250,204,21,.10), transparent 28%),
+          linear-gradient(145deg, rgba(24,24,27,.84), rgba(0,0,0,.92));
+        padding: clamp(1.4rem, 3vw, 2.25rem);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.035), 0 20px 55px rgba(0,0,0,.28);
+      }
+
+      .ll-shop-intro::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 8%;
+        right: 8%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(250,204,21,.9), transparent);
+      }
+
+      .ll-category-nav button,
+      #shop button {
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      @media (hover: hover) and (pointer: fine) {
+        .ll-mobile-category-card:hover {
+          border-color: rgba(253,224,71,.95);
+          box-shadow: 0 16px 38px rgba(0,0,0,.38), 0 0 24px rgba(250,204,21,.18);
+          transform: translateY(-2px);
+        }
+
+        #shop button:hover {
+          box-shadow: 0 0 24px rgba(250,204,21,.16);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .lalinea-neon *,
+        .lalinea-neon *::before,
+        .lalinea-neon *::after {
+          animation-duration: 0.001ms !important;
+          animation-iteration-count: 1 !important;
+          scroll-behavior: auto !important;
+          transition-duration: 0.001ms !important;
+        }
+      }
     `}</style>
   );
 }
-
-const prodotti = [
-  { id: 1, nome: "Coming Soon", categoria: "LaLinea", prezzo: "—" },
-  { id: 2, nome: "Coming Soon", categoria: "LaLinea", prezzo: "—" },
-  { id: 3, nome: "Coming Soon", categoria: "LaLinea", prezzo: "—" },
-];
 
 const PLAYLIST_MUSICALE = [
   { titolo: "LOVE YOU", artista: "NONO LA GRINTA", file: "/canzone.mp3" },
@@ -482,180 +639,6 @@ const PLAYLIST_MUSICALE = [
   { titolo: "DUBAI", artista: "SKINNY FLEX", file: "/canzone6.mp3" },
 ];
 
-function PlayerMusicale() {
-  const canzoni = [
-    { titolo: "LOVE YOU", artista: "NONO LA GRINTA", file: "/canzone.mp3" },
-    { titolo: "ESTAMOS GUCCI", artista: "SKYNNY FLEX", file: "/canzone2.mp3" },
-    { titolo: "SAY WHEN", artista: "FETTY WAP", file: "/canzone3.mp3" },
-    { titolo: "UZI", artista: "JUL", file: "/canzone4.mp3" },
-    { titolo: "WAGWAN", artista: "CENTRAL CEE", file: "/canzone5.mp3" },
-    { titolo: "DUBAI", artista: "SKINNY FLEX", file: "/canzone6.mp3" },
-  ];
-
-  const [indice, setIndice] = useState(0);
-  const [playerVisibile, setPlayerVisibile] = useState(true);
-
-  const playerRef = useRef<HTMLAudioElement>(null);
-  useEffect(() => {
-  const fermaTuttiGliAudio = () => {
-    document.querySelectorAll("audio").forEach((audio) => {
-      audio.pause();
-    });
-  };
-
-  const controllaVisibilita = () => {
-    if (document.hidden) {
-      fermaTuttiGliAudio();
-    }
-  };
-
-  document.addEventListener("visibilitychange", controllaVisibilita);
-  window.addEventListener("blur", fermaTuttiGliAudio);
-  window.addEventListener("pagehide", fermaTuttiGliAudio);
-  window.addEventListener("beforeunload", fermaTuttiGliAudio);
-
-  return () => {
-    fermaTuttiGliAudio();
-    document.removeEventListener("visibilitychange", controllaVisibilita);
-    window.removeEventListener("blur", fermaTuttiGliAudio);
-    window.removeEventListener("pagehide", fermaTuttiGliAudio);
-    window.removeEventListener("beforeunload", fermaTuttiGliAudio);
-  };
-}, []);
-  const riproduciDopoCambio = useRef(false);
-
-  useEffect(() => {
-    const fermaAudio = () => {
-      playerRef.current?.pause();
-    };
-
-    const controllaVisibilita = () => {
-      if (document.hidden) {
-        fermaAudio();
-      }
-    };
-
-    document.addEventListener(
-      "visibilitychange",
-      controllaVisibilita
-    );
-
-    window.addEventListener("blur", fermaAudio);
-    window.addEventListener("pagehide", fermaAudio);
-
-    return () => {
-      document.removeEventListener(
-        "visibilitychange",
-        controllaVisibilita
-      );
-
-      window.removeEventListener("blur", fermaAudio);
-      window.removeEventListener("pagehide", fermaAudio);
-
-      fermaAudio();
-    };
-  }, []);
-
-  useEffect(() => {
-    const audio = playerRef.current;
-
-    if (!audio) {
-      return;
-    }
-
-    audio.load();
-
-    if (riproduciDopoCambio.current) {
-      riproduciDopoCambio.current = false;
-      audio.play().catch(() => {});
-    }
-  }, [indice]);
-
-  const cambiaCanzone = (
-    direzione: number,
-    riproduciSempre = false
-  ) => {
-    const audio = playerRef.current;
-
-    riproduciDopoCambio.current =
-      riproduciSempre ||
-      Boolean(audio && !audio.paused && !audio.ended);
-
-    audio?.pause();
-
-    setIndice(
-      (indiceAttuale) =>
-        (indiceAttuale + direzione + canzoni.length) %
-        canzoni.length
-    );
-  };
-
-  const chiudiPlayer = () => {
-    playerRef.current?.pause();
-    setPlayerVisibile(false);
-  };
-
-  if (!playerVisibile) {
-    return (
-      <button
-        type="button"
-        onClick={() => setPlayerVisibile(true)}
-        className="fixed bottom-4 right-4 z-[99999] border-2 border-yellow-400 bg-black px-5 py-3 font-black uppercase text-yellow-400 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
-      >
-        Apri musica
-      </button>
-    );
-  }
-
-  return (
-    <div className="fixed bottom-3 left-3 z-[9999] w-[calc(46%-12px)] min-w-0 overflow-hidden rounded-xl border border-yellow-400 bg-black/95 text-white shadow-2xl md:bottom-4 md:left-1/2 md:w-[calc(100%-2rem)] md:max-w-md md:-translate-x-1/2">
-      <button
-        type="button"
-        onClick={chiudiPlayer}
-        aria-label="Chiudi player musicale"
-        className="mb-3 block w-full border-2 border-yellow-400 bg-yellow-400 px-4 py-3 text-center text-base font-black uppercase text-black rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
-      >
-        Chiudi player X
-      </button>
-
-      <p className="mx-2 rounded-xl border border-yellow-400/70 px-3 py-3 text-center text-sm font-black uppercase leading-snug tracking-normal text-yellow-400 md:px-4 md:py-4 md:text-base md:tracking-wide">
-        La selezione musicale della settimana
-      </p>
-
-      <p className="my-3 text-center font-bold text-white">
-        {canzoni[indice].titolo} – {canzoni[indice].artista}
-      </p>
-
-      <audio
-        key={canzoni[indice].file}
-        ref={playerRef}
-        src={canzoni[indice].file}
-        controls
-        preload="metadata"
-        onEnded={() => cambiaCanzone(1, true)}
-        className="w-full"
-      />
-
-      <div className="mt-2 grid grid-cols-2 gap-2">
-        <button
-          type="button"
-          onClick={() => cambiaCanzone(-1)}
-          className="flex-1 bg-yellow-400 px-3 py-3 font-black text-black"
-        >
-          ← Indietro
-        </button>
-
-        <button
-          type="button"
-          onClick={() => cambiaCanzone(1)}
-          className="flex-1 bg-yellow-400 px-3 py-3 font-black text-black"
-        >
-          Avanti →
-        </button>
-      </div>
-    </div>
-  );
-}
 export default function Home() {
   const [popupConsegne, setPopupConsegne] = useState<string | null>(null);
 
@@ -682,6 +665,7 @@ export default function Home() {
     { id: number; nome: string; prezzo: number; quantita: number }[]
   >([]);
   const totalePrecedente = useRef(0);
+  const [toastCarrello, setToastCarrello] = useState("");
   const [fotoAnteprima, setFotoAnteprima] = useState<string | null>(null);
   const [tipoAnteprima, setTipoAnteprima] = useState<"img" | "video">("img");
 const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -876,11 +860,14 @@ useEffect(() => {
     0
   );
 
-  if (totaleAttuale > totalePrecedente.current) {
-    alert("Prodotto aggiunto al carrello ✓");
-  }
-
+  const aggiunto = totaleAttuale > totalePrecedente.current;
   totalePrecedente.current = totaleAttuale;
+
+  if (!aggiunto) return;
+
+  setToastCarrello("AGGIUNTO AL CARRELLO");
+  const timer = window.setTimeout(() => setToastCarrello(""), 1800);
+  return () => window.clearTimeout(timer);
 }, [carrello]);
 useEffect(() => {
   const apriAnteprima = (event: MouseEvent) => {
@@ -1050,6 +1037,35 @@ const [errorePassword, setErrorePassword] = useState(false);
 const [codiceScontoCheckout, setCodiceScontoCheckout] = useState("");
 const [erroreSconto, setErroreSconto] = useState("");
 const [vistaMobile, setVistaMobile] = useState("home");
+
+useEffect(() => {
+  if (!accessoConsentito) return;
+
+  const videoAutoplay = Array.from(
+    document.querySelectorAll<HTMLVideoElement>("video[autoplay]")
+  );
+
+  if (videoAutoplay.length === 0) return;
+
+  const osservatore = new IntersectionObserver(
+    (voci) => {
+      voci.forEach((voce) => {
+        const video = voce.target as HTMLVideoElement;
+
+        if (voce.isIntersecting && voce.intersectionRatio >= 0.2) {
+          if (video.muted) video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      });
+    },
+    { threshold: [0, 0.2, 0.6] }
+  );
+
+  videoAutoplay.forEach((video) => osservatore.observe(video));
+
+  return () => osservatore.disconnect();
+}, [accessoConsentito, categoriaAttiva, vistaMobile]);
 
 const navigazioneMobileAttiva = () =>
   typeof window !== "undefined" &&
@@ -1939,44 +1955,37 @@ await fetch("/api/vip/order", {
 };
 if (caricamentoIniziale) {
   return (
-    <main className="lalinea-neon min-h-screen bg-black text-white flex flex-col items-center justify-center">
+    <main className="lalinea-neon ll-loading-shell min-h-screen bg-black text-white flex items-center justify-center px-5">
       <NeonGlobalStyle />
-      <div className="px-5 text-center">
-        <p
-          className="text-[11px] font-black uppercase tracking-[0.42em] text-white md:text-xs"
-          style={{ textShadow: "0 2px 4px #000, 0 0 8px rgba(255,255,255,0.25)" }}
-        >
-          MILANO · OFFICIAL
+
+      <section className="ll-loading-card text-center" aria-live="polite">
+        <div className="mx-auto mb-5 flex w-fit items-center gap-2 rounded-full border border-green-400/35 bg-green-400/[0.06] px-3 py-1.5 text-[9px] font-black uppercase tracking-[0.22em] text-green-300">
+          <span className="h-1.5 w-1.5 rounded-full bg-green-400 shadow-[0_0_10px_rgba(74,222,128,.9)]" />
+          Sessione protetta
+        </div>
+
+        <p className="text-[10px] font-black uppercase tracking-[0.42em] text-zinc-300 md:text-xs">
+          Milano · Official
         </p>
 
         <h1
-          className="mt-2 text-[clamp(3.4rem,16vw,6.2rem)] font-black italic uppercase leading-[0.88] tracking-[0.045em]"
-          style={{
-            fontFamily: 'Impact, "Arial Black", sans-serif',
-            color: "#facc15",
-            WebkitTextStroke: "2px rgba(0,0,0,0.98)",
-            textShadow:
-              "0 5px 0 #000, 0 8px 16px rgba(0,0,0,0.9), -3px 0 0 rgba(132,204,22,0.75), 3px 0 0 rgba(255,255,255,0.22), 0 0 18px rgba(250,204,21,0.65)",
-            transform: "skewX(-7deg)",
-          }}
+          className="ll-loading-brand mt-3 text-[clamp(3.7rem,17vw,6.6rem)] font-black italic uppercase leading-[0.86] tracking-[0.025em]"
+          style={{ fontFamily: 'Impact, "Arial Black", sans-serif' }}
         >
           LALINEA
         </h1>
 
-        <div className="mx-auto mt-4 h-[3px] w-40 rounded-full bg-gradient-to-r from-transparent via-yellow-300 to-transparent shadow-[0_0_12px_rgba(250,204,21,0.85)]" />
-      </div>
+        <p className="mt-4 text-[10px] font-black uppercase tracking-[0.28em] text-yellow-200/90">
+          Catalogo privato · Milano
+        </p>
 
-      <div className="mt-7 text-5xl animate-pulse">⌛</div>
+        <div className="ll-loading-progress mx-auto mt-7 w-full max-w-[310px]" aria-hidden="true" />
 
-      <p
-        className="mt-7 rounded-full border border-white/20 bg-black/55 px-5 py-3 text-center text-[11px] font-black uppercase tracking-[0.18em] text-white backdrop-blur-sm md:text-sm"
-        style={{
-          textShadow: "0 2px 3px #000, 0 0 8px rgba(250,204,21,0.28)",
-          boxShadow: "inset 0 0 0 1px rgba(250,204,21,0.12), 0 0 18px rgba(0,0,0,0.45)",
-        }}
-      >
-        Sta caricando la tua sessione
-      </p>
+        <div className="mt-5 flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-[0.18em] text-zinc-300 md:text-xs">
+          <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-yellow-300 shadow-[0_0_8px_rgba(250,204,21,.9)]" />
+          Sta caricando la tua sessione
+        </div>
+      </section>
     </main>
   );
 }
@@ -2101,6 +2110,15 @@ return (
       className="lalinea-neon lalinea-mobile-shell min-h-screen text-white"
     >
       <NeonGlobalStyle />
+      {toastCarrello && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="ll-cart-toast fixed left-1/2 top-[5.6rem] z-[12000] -translate-x-1/2 rounded-full border border-green-300/70 bg-black/95 px-4 py-2 text-[10px] font-black uppercase tracking-[0.16em] text-green-300 shadow-[0_0_22px_rgba(74,222,128,.28)] backdrop-blur-md md:top-5 md:text-xs"
+        >
+          ✓ {toastCarrello}
+        </div>
+      )}
       {popupConsegne && (
         <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/80 px-4">
           <div
@@ -2331,7 +2349,7 @@ return (
           controls
           autoPlay
           className="max-h-[90vh] max-w-[95vw] object-contain"
-        />
+         preload="metadata"/>
       ) : (
         <img
           src={fotoAnteprima}
@@ -2470,6 +2488,7 @@ return (
         <img
           src={immagine}
           alt=""
+          decoding="async"
           draggable={false}
           data-no-preview="true"
           onError={(evento) => {
@@ -2727,7 +2746,7 @@ return (
   loop
   playsInline
   className="mb-6 aspect-square w-full border border-zinc-800 object-cover rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
-/>
+ preload="metadata"/>
         <p className="text-sm font-black uppercase tracking-[0.3em] text-zinc-400">
           Promo Pack
         </p>
@@ -2792,7 +2811,7 @@ return (
   loop
   playsInline
   className="mb-6 aspect-square w-full border border-zinc-800 object-cover rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
-/>
+ preload="metadata"/>
         <p className="text-sm font-black uppercase tracking-[0.3em] text-yellow-400">
           Promo Pack
         </p>
@@ -2858,7 +2877,7 @@ return (
   loop
   playsInline
   className="mb-6 aspect-square w-full border border-zinc-800 object-cover rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
-/>
+ preload="metadata"/>
         <p className="text-sm font-black uppercase tracking-[0.3em] text-yellow-400">
           Top Promo
         </p>
@@ -2999,23 +3018,37 @@ return (
 {/* SHOP */}
       <section id="shop" className="mx-auto max-w-7xl px-6 py-24">
         <div className="ll-shop-intro mb-14">
-          <p className="font-bold uppercase tracking-[0.3em] text-yellow-400">
-            BENVENUTO NELLO SHOP LALINEA OFFICIAL
-          </p>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <p className="font-black uppercase tracking-[0.28em] text-yellow-300">
+              LALINEA OFFICIAL · MILANO
+            </p>
+            <span className="rounded-full border border-green-400/30 bg-green-400/[0.06] px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-green-300">
+              Selezione attuale
+            </span>
+          </div>
 
-          <h2 className="mt-3 text-5xl font-black uppercase tracking-tight">
-            I NOSTRI PRODOTTI SELEZIONATI 
-            < br/>
-            10 anni di attivitità su telegram
-            < br/>
-             + di 1000FEEDBACK positivi
+          <h2 className="mt-5 max-w-4xl text-4xl font-black uppercase leading-[0.95] tracking-[-0.03em] text-white md:text-6xl">
+            Prodotti selezionati.
+            <span className="block text-yellow-300">Identità LaLinea.</span>
           </h2>
 
-          <p className="mt-4 text-zinc-500">
-            Da 10 anni selezioniamo i migliori prodotti da tutto il mondo per i nostri clienti
-            < br/>
-            ecco a voi la selezione attuale:
+          <p className="mt-5 max-w-3xl text-base font-medium leading-relaxed text-zinc-300 md:text-lg">
+            Da 10 anni selezioniamo prodotti da tutto il mondo per la community LaLinea.
+            Qui trovi la selezione disponibile in questo momento.
           </p>
+
+          <div className="mt-7 grid gap-3 sm:grid-cols-3">
+            {[
+              ["10 ANNI", "di attività"],
+              ["1.000+", "feedback positivi"],
+              ["MILANO", "selezione LaLinea"],
+            ].map(([valore, etichetta]) => (
+              <div key={valore} className="rounded-2xl border border-white/10 bg-black/35 px-4 py-4">
+                <p className="text-xl font-black uppercase text-yellow-300">{valore}</p>
+                <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-zinc-400">{etichetta}</p>
+              </div>
+            ))}
+          </div>
         </div>
 {/* CATEGORIE SHOP */}
 <div className="ll-category-nav mb-12">
@@ -3187,7 +3220,7 @@ return (
     loop
     playsInline
     className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
-  />
+   preload="metadata"/>
 
   {/* FOTO A DESTRA */}
   <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -3279,44 +3312,44 @@ return (
         loop
         playsInline
         className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
-      />
+       preload="metadata"/>
 
       <div className="flex-1 grid grid-cols-2 gap-3 md:grid-cols-3">
         <img
           src="/products/premium-filtred/voltus1.jpg"
           alt="Voltus Z 1"
           className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-        />
+         loading="lazy" decoding="async"/>
 
         <img
           src="/products/premium-filtred/voltus2.jpg"
           alt="Voltus Z 2"
           className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-        />
+         loading="lazy" decoding="async"/>
 
         <img
           src="/products/premium-filtred/voltus3.jpg"
           alt="Voltus Z 3"
           className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-        />
+         loading="lazy" decoding="async"/>
 
         <img
           src="/products/premium-filtred/voltus4.jpg"
           alt="Voltus Z 4"
           className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-        />
+         loading="lazy" decoding="async"/>
 
         <img
           src="/products/premium-filtred/voltus5.jpg"
           alt="Voltus Z 5"
           className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-        />
+         loading="lazy" decoding="async"/>
 
         <img
           src="/products/premium-filtred/voltus6.jpg"
           alt="Voltus Z 6"
           className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-        />
+         loading="lazy" decoding="async"/>
       </div>
     </div>
 
@@ -3438,7 +3471,7 @@ return (
     loop
     playsInline
     className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
-  />
+   preload="metadata"/>
 
   {/* FOTO A DESTRA */}
   <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -3446,31 +3479,31 @@ return (
       src="/products/premium-filtred/lm1.jpg"
       alt="Lemon Cherry Gelato 1"
       className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-    />
+     loading="lazy" decoding="async"/>
 
     <img
       src="/products/premium-filtred/lm2.jpg"
       alt="Lemon Cherry Gelato 2"
       className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-    />
+     loading="lazy" decoding="async"/>
 
     <img
       src="/products/premium-filtred/lm3.jpg"
       alt="Lemon Cherry Gelato 3"
       className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-    />
+     loading="lazy" decoding="async"/>
 
     <img
       src="/products/premium-filtred/lm4.jpg"
       alt="Lemon Cherry Gelato 4"
       className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-    />
+     loading="lazy" decoding="async"/>
 
     <img
       src="/products/premium-filtred/lm5.jpg"
       alt="Lemon Cherry Gelato 5"
       className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-    />
+     loading="lazy" decoding="async"/>
   </div>
 </div>
 
@@ -3580,7 +3613,7 @@ return (
         loop
         playsInline
         className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
-      />
+       preload="metadata"/>
 
       {/* FOTO A DESTRA */}
       <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -3589,25 +3622,25 @@ return (
           src="/products/premium-filtred/blu2.jpg"
           alt="BlueBerry Premium 73ü 1"
           className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-        />
+         loading="lazy" decoding="async"/>
 
         <img
           src="/products/premium-filtred/blu3.jpg"
           alt="BlueBerry Premium 73ü 2"
           className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-        />
+         loading="lazy" decoding="async"/>
 
         <img
           src="/products/premium-filtred/blu4.jpg"
           alt="BlueBerry Premium 73ü 3"
           className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-        />
+         loading="lazy" decoding="async"/>
 
         <img
           src="/products/premium-filtred/blu5.jpg"
           alt="BlueBerry Premium 73ü 4"
           className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-        />
+         loading="lazy" decoding="async"/>
 
       </div>
     </div>
@@ -3718,7 +3751,7 @@ return (
       loop
       playsInline
       className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
-    />
+     preload="metadata"/>
 
     {/* FOTO A DESTRA */}
     <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -3726,25 +3759,25 @@ return (
         src="/products/premium-filtred/head1.jpg"
         alt="SNOWHEADS 90u 1"
         className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-      />
+       loading="lazy" decoding="async"/>
 
       <img
         src="/products/premium-filtred/head3.jpg"
         alt="SNOWHEADS 90u 2"
         className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-      />
+       loading="lazy" decoding="async"/>
 
       <img
         src="/products/premium-filtred/head4.jpg"
         alt="SNOWHEADS 90u 3"
         className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-      />
+       loading="lazy" decoding="async"/>
 
       <img
         src="/products/premium-filtred/head5.jpg"
         alt="SNOWHEADS 90u 4"
         className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-      />
+       loading="lazy" decoding="async"/>
     </div>
   </div>
 
@@ -3854,7 +3887,7 @@ return (
         loop
         playsInline
         className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
-      />
+       preload="metadata"/>
 
       <div className="flex-1 grid grid-cols-2 gap-3 md:grid-cols-4">
         {[2, 3, 4, 6].map((numero) => (
@@ -3977,7 +4010,7 @@ return (
         loop
         playsInline
         className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
-      />
+       preload="metadata"/>
 
       <div className="flex-1 grid grid-cols-2 gap-3 md:grid-cols-3">
         {[2, 3, 4, 5, 6, 7].map((numero) => (
@@ -4074,7 +4107,7 @@ return (
         loop
         playsInline
         className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
-      />
+       preload="metadata"/>
 
       <div className="flex-1 grid grid-cols-2 gap-3 md:grid-cols-3">
         {[2, 3, 4, 5, 6, 7].map((numero) => (
@@ -4191,7 +4224,7 @@ return (
         loop
         playsInline
         className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
-      />
+       preload="metadata"/>
 
       <div className="flex-1 grid grid-cols-2 gap-3 md:grid-cols-3">
         {[2, 3, 4, 5, 6, 7].map((numero) => (
@@ -4333,7 +4366,7 @@ return (
         loop
         playsInline
         className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
-      />
+       preload="metadata"/>
 
       <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
         {[1, 3, 4, 5].map((numero) => (
@@ -4411,32 +4444,32 @@ return (
         loop
         playsInline
         className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
-      />
+       preload="metadata"/>
 
       <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
         <img
           src="/products/frozen-static/sdff1.jpg"
           alt="Sour Diesel X Forbidden Fruit foto 1"
           className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-        />
+         loading="lazy" decoding="async"/>
 
         <img
           src="/products/frozen-static/sdff3.jpg"
           alt="Sour Diesel X Forbidden Fruit foto 2"
           className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-        />
+         loading="lazy" decoding="async"/>
 
         <img
           src="/products/frozen-static/sdff4.jpg"
           alt="Sour Diesel X Forbidden Fruit foto 3"
           className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-        />
+         loading="lazy" decoding="async"/>
 
         <img
           src="/products/frozen-static/sdff5.jpg"
           alt="Sour Diesel X Forbidden Fruit foto 4"
           className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-        />
+         loading="lazy" decoding="async"/>
       </div>
     </div>
 
@@ -4500,44 +4533,44 @@ return (
         loop
         playsInline
         className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
-      />
+       preload="metadata"/>
 
       <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-4">
         <img
           src="/products/frozen-static/lemon2.jpg"
           alt="Lemon Static Premium foto 1"
           className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-        />
+         loading="lazy" decoding="async"/>
 
         <img
           src="/products/frozen-static/lemon3.jpg"
           alt="Lemon Static Premium foto 2"
           className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-        />
+         loading="lazy" decoding="async"/>
 
         <img
           src="/products/frozen-static/lemon4.jpg"
           alt="Lemon Static Premium foto 3"
           className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-        />
+         loading="lazy" decoding="async"/>
 
         <img
           src="/products/frozen-static/lemon5.jpg"
           alt="Lemon Static Premium foto 4"
           className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-        />
+         loading="lazy" decoding="async"/>
 
         <img
           src="/products/frozen-static/lemon6.jpg"
           alt="Lemon Static Premium foto 5"
           className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-        />
+         loading="lazy" decoding="async"/>
 
         <img
           src="/products/frozen-static/lemon7.jpg"
           alt="Lemon Static Premium foto 6"
           className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-        />
+         loading="lazy" decoding="async"/>
       </div>
     </div>
 
@@ -4618,7 +4651,7 @@ return (
         loop
         playsInline
         className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
-      />
+       preload="metadata"/>
 
       <div className="flex-1 grid grid-cols-2 gap-3 md:grid-cols-3">
         {[2, 3, 4, 5, 6, 7].map((numero) => (
@@ -4697,7 +4730,7 @@ return (
         loop
         playsInline
         className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
-      />
+       preload="metadata"/>
 
       <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
         {[1, 2, 3, 5].map((numero) => (
@@ -4773,7 +4806,7 @@ return (
         src="/products/rosin/etere1.jpg"
         alt="LIVE ROS ETH TROPICANA COOKIES 45u foto 1"
         className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
-      />
+       loading="lazy" decoding="async"/>
 
       <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
         {[2, 3, 4, 5].map((numero) => (
@@ -4876,39 +4909,39 @@ return (
     loop
     playsInline
     className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
-  />
+   preload="metadata"/>
 
   <div className="flex-1 grid grid-cols-2 md:grid-cols-3 gap-3">
     <img
       src="/products/flowers/lmg2.jpg"
       alt="Lemon Cherry Gelato 2.0 foto 2"
       className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-    />
+     loading="lazy" decoding="async"/>
     <img
       src="/products/flowers/lmg3.jpg"
       alt="Lemon Cherry Gelato 2.0 foto 3"
       className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-    />
+     loading="lazy" decoding="async"/>
     <img
       src="/products/flowers/lmg4.jpg"
       alt="Lemon Cherry Gelato 2.0 foto 4"
       className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-    />
+     loading="lazy" decoding="async"/>
     <img
       src="/products/flowers/lmg5.jpg"
       alt="Lemon Cherry Gelato 2.0 foto 5"
       className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-    />
+     loading="lazy" decoding="async"/>
     <img
       src="/products/flowers/lmg6.jpg"
       alt="Lemon Cherry Gelato 2.0 foto 6"
       className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-    />
+     loading="lazy" decoding="async"/>
     <img
       src="/products/flowers/lmg7.jpg"
       alt="Lemon Cherry Gelato 2.0 foto 7"
       className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-    />
+     loading="lazy" decoding="async"/>
   </div>
 
 </div>
@@ -5007,7 +5040,7 @@ return (
         loop
         playsInline
         className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
-      />
+       preload="metadata"/>
 
       {/* FOTO A DESTRA */}
       <div className="flex-1 grid grid-cols-2 md:grid-cols-5 gap-3">
@@ -5090,7 +5123,7 @@ return (
         loop
         playsInline
         className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
-      />
+       preload="metadata"/>
 
       {/* FOTO A DESTRA */}
       <div className="flex-1 grid grid-cols-2 md:grid-cols-5 gap-3">
@@ -5200,7 +5233,7 @@ return (
       loop
       playsInline
       className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
-    />
+     preload="metadata"/>
 
     {/* FOTO A DESTRA */}
     <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -5315,7 +5348,7 @@ return (
         loop
         playsInline
         className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
-      />
+       preload="metadata"/>
 
       <div className="flex-1 grid grid-cols-2 gap-3 md:grid-cols-4">
         {[2, 3, 4, 5, 6, 7, 9].map((numero) => (
@@ -5422,7 +5455,7 @@ return (
         loop
         playsInline
         className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
-      />
+       preload="metadata"/>
 
       <div className="flex-1 grid grid-cols-2 gap-3 md:grid-cols-3">
         {[2, 3, 4, 5, 6, 7].map((numero) => (
@@ -5525,7 +5558,7 @@ return (
         loop
         playsInline
         className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
-      />
+       preload="metadata"/>
 
       <div className="flex-1 grid grid-cols-2 gap-3 md:grid-cols-3">
         {[2, 3, 4, 5, 6, 7].map((numero) => (
@@ -5615,7 +5648,7 @@ return (
         loop
         playsInline
         className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
-      />
+       preload="metadata"/>
 
       {/* FOTO A DESTRA */}
       <div className="flex-1 grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -5725,7 +5758,7 @@ return (
         loop
         playsInline
         className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
-      />
+       preload="metadata"/>
 
       {/* FOTO A DESTRA */}
       <div className="flex-1 grid grid-cols-2 md:grid-cols-5 gap-3">
@@ -5844,7 +5877,7 @@ return (
         loop
         playsInline
         className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
-      />
+       preload="metadata"/>
 
       {/* FOTO A DESTRA */}
       <div className="flex-1 grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -6030,7 +6063,7 @@ return (
           muted
           playsInline
           className="h-[600px] w-full bg-black object-contain"
-        />
+         preload="metadata"/>
 
         <div className="mt-4 grid grid-cols-3 gap-3">
           <img
@@ -6095,19 +6128,19 @@ return (
         src="/products/abbigliamento/calza1.jpg"
         alt="Calze LaLinea foto 1"
         className="aspect-square w-full border border-zinc-800 object-cover rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
-      />
+       loading="lazy" decoding="async"/>
 
       <img
         src="/products/abbigliamento/calza2.jpg"
         alt="Calze LaLinea foto 2"
         className="aspect-square w-full border border-zinc-800 object-cover rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
-      />
+       loading="lazy" decoding="async"/>
 
       <img
         src="/products/abbigliamento/calza3.jpg"
         alt="Calze LaLinea foto 3"
         className="aspect-square w-full border border-zinc-800 object-cover rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
-      />
+       loading="lazy" decoding="async"/>
     </div>
 
     <div className="border-t border-zinc-800 p-5 md:p-7">
@@ -7054,7 +7087,7 @@ rel="noopener noreferrer"
         loop
         playsInline
         className="aspect-square w-full object-cover"
-      />
+       preload="metadata"/>
       <span className="ll-best-seller-label block border-t border-yellow-400/30 bg-black px-1 py-1 text-[9px] font-bold uppercase leading-tight text-yellow-300 md:hidden">
         1° COOKIES X RUNTZ 17.5G
       </span>
@@ -7075,7 +7108,7 @@ rel="noopener noreferrer"
         loop
         playsInline
         className="aspect-square w-full object-cover"
-      />
+       preload="metadata"/>
       <span className="ll-best-seller-label block border-t border-yellow-400/30 bg-black px-1 py-1 text-[9px] font-bold uppercase leading-tight text-white md:hidden">
         2° LEMON GUMP 25G
       </span>
@@ -7096,7 +7129,7 @@ rel="noopener noreferrer"
         loop
         playsInline
         className="aspect-square w-full object-cover"
-      />
+       preload="metadata"/>
       <span className="ll-best-seller-label block border-t border-yellow-400/30 bg-black px-1 py-1 text-[9px] font-bold uppercase leading-tight text-yellow-300 md:hidden">
         3° PACK GOLD
       </span>
