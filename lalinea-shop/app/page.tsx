@@ -254,7 +254,7 @@ function NeonGlobalStyle() {
           overscroll-behavior: contain;
           -webkit-overflow-scrolling: touch;
           scrollbar-width: none;
-          padding-bottom: calc(10rem + env(safe-area-inset-bottom)) !important;
+          padding-bottom: calc(11.25rem + env(safe-area-inset-bottom)) !important;
         }
 
         .lalinea-mobile-shell[data-vista-mobile="shop"] > #shop::-webkit-scrollbar,
@@ -274,7 +274,7 @@ function NeonGlobalStyle() {
         .lalinea-mobile-shell[data-vista-mobile="carrello"] > #shop {
           max-width: none !important;
           margin: 0 !important;
-          padding: 0.9rem 0.9rem calc(10rem + env(safe-area-inset-bottom)) !important;
+          padding: 0.9rem 0.9rem calc(11.25rem + env(safe-area-inset-bottom)) !important;
         }
 
         .lalinea-mobile-shell #shop > .ll-shop-intro,
@@ -295,97 +295,75 @@ function NeonGlobalStyle() {
           margin-top: 0 !important;
         }
 
+        /* Mobile bottom stack 2.0: player slim + feedback + Tetris */
         .ll-music-player {
           left: 0.5rem !important;
           bottom: calc(0.5rem + env(safe-area-inset-bottom)) !important;
           width: calc(50% - 0.75rem) !important;
-          height: 7.4rem;
-          max-height: 7.4rem;
+          height: 3.35rem !important;
+          max-height: 3.35rem !important;
           overflow: hidden !important;
-          border-radius: 1rem !important;
+          border-radius: 0.9rem !important;
           background: rgba(0, 0, 0, 0.97) !important;
           box-shadow:
-            0 0 0 1px rgba(250, 204, 21, 0.12),
-            0 0 24px rgba(250, 204, 21, 0.24) !important;
+            0 0 0 1px rgba(250, 204, 21, 0.14),
+            0 0 18px rgba(250, 204, 21, 0.20) !important;
         }
 
-        .ll-music-title {
-          min-height: 2.25rem !important;
-          padding: 0.42rem 1.75rem 0.38rem 0.55rem !important;
-          font-size: 0.48rem !important;
-          font-weight: 700 !important;
-          line-height: 1.25 !important;
-          letter-spacing: 0.11em !important;
-          color: #ffffff !important;
-          background:
-            linear-gradient(180deg, rgba(250, 204, 21, 0.10), rgba(0, 0, 0, 0.98)) !important;
-          border-color: rgba(250, 204, 21, 0.8) !important;
-          text-shadow:
-            -0.7px -0.7px 0 #facc15,
-             0.7px -0.7px 0 #facc15,
-            -0.7px  0.7px 0 #facc15,
-             0.7px  0.7px 0 #facc15,
-             0 0 6px rgba(250, 204, 21, 0.55) !important;
-        }
-
-        .ll-music-shuffle {
-          font-size: 0.38rem !important;
-          letter-spacing: 0.08em !important;
-          padding: 0.18rem 0.3rem !important;
+        .ll-music-title,
+        .ll-music-progress,
+        .ll-music-counter {
+          display: none !important;
         }
 
         .ll-music-body {
-          height: calc(7.4rem - 2.25rem);
-          padding: 0.32rem 0.4rem 0.38rem !important;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
+          height: 3.35rem !important;
+          padding: 0.28rem 0.28rem 0.28rem 0.34rem !important;
+          display: grid !important;
+          grid-template-columns: minmax(0, 1fr) auto;
+          align-items: center;
+          gap: 0.28rem;
+        }
+
+        .ll-music-body > div:first-child {
+          min-width: 0;
+          padding-left: 1.18rem;
         }
 
         .ll-music-track {
-          font-size: 0.56rem !important;
-          line-height: 1.1 !important;
+          font-size: 0.50rem !important;
+          line-height: 1.05 !important;
+          letter-spacing: 0.03em !important;
         }
 
         .ll-music-artist {
-          margin-top: 0.08rem !important;
-          font-size: 0.42rem !important;
+          margin-top: 0.12rem !important;
+          font-size: 0.37rem !important;
           line-height: 1 !important;
-        }
-
-        .ll-music-counter {
-          font-size: 0.4rem !important;
-        }
-
-        .ll-music-progress {
-          gap: 0.25rem !important;
-        }
-
-        .ll-music-progress span {
-          font-size: 0.38rem !important;
-        }
-
-        .ll-music-progress input {
-          height: 0.8rem;
+          color: #facc15 !important;
         }
 
         .ll-music-controls {
-          gap: 0.35rem !important;
+          margin-top: 0 !important;
+          gap: 0.16rem !important;
+          justify-content: flex-end !important;
         }
 
         .ll-music-controls button {
-          width: 1.8rem !important;
-          height: 1.8rem !important;
-          min-width: 1.8rem !important;
+          width: 1.42rem !important;
+          height: 1.42rem !important;
+          min-width: 1.42rem !important;
           padding: 0 !important;
-          font-size: 0.7rem !important;
+          font-size: 0.55rem !important;
+          box-shadow: none !important;
         }
 
         .ll-music-controls .ll-music-play {
-          width: 2.25rem !important;
-          height: 2.25rem !important;
-          min-width: 2.25rem !important;
-          font-size: 0.85rem !important;
+          width: 1.72rem !important;
+          height: 1.72rem !important;
+          min-width: 1.72rem !important;
+          font-size: 0.64rem !important;
+          box-shadow: 0 0 12px rgba(250, 204, 21, 0.28) !important;
         }
 
         .ll-music-reopen {
@@ -396,21 +374,67 @@ function NeonGlobalStyle() {
           font-size: 0.56rem !important;
         }
 
-        .ll-featured-product {
+        .ll-feedback-card {
           left: 0.5rem !important;
-          bottom: calc(8.15rem + env(safe-area-inset-bottom)) !important;
+          bottom: calc(4.15rem + env(safe-area-inset-bottom)) !important;
           width: calc(50% - 0.75rem) !important;
-          padding: 0.35rem 0.5rem !important;
-          border-radius: 0.8rem !important;
+          height: 3.25rem !important;
+          padding: 0.28rem !important;
+          border-radius: 0.85rem !important;
         }
 
-        .ll-featured-product p:first-child {
-          font-size: 0.48rem !important;
+        .ll-feedback-mobile {
+          display: flex !important;
+          height: 100%;
+          min-width: 0;
+          align-items: center;
+          gap: 0.4rem;
+          padding-right: 1.15rem;
+          text-align: left;
         }
 
-        .ll-featured-product p:last-child {
-          margin-top: 0.1rem !important;
-          font-size: 0.55rem !important;
+        .ll-feedback-mobile img {
+          width: 2.5rem;
+          height: 2.5rem;
+          flex: 0 0 2.5rem;
+          border-radius: 0.55rem;
+          object-fit: cover;
+          object-position: top;
+          border: 1px solid rgba(250, 204, 21, 0.45);
+        }
+
+        .ll-feedback-desktop {
+          display: none !important;
+        }
+
+        .ll-tetris-mobile {
+          display: flex !important;
+          left: 0.5rem !important;
+          bottom: calc(7.72rem + env(safe-area-inset-bottom)) !important;
+          width: calc(50% - 0.75rem) !important;
+          height: 2.35rem;
+          align-items: center;
+          justify-content: space-between;
+          gap: 0.35rem;
+          overflow: hidden;
+          border-radius: 0.85rem;
+          padding: 0.35rem 0.55rem !important;
+        }
+
+        .ll-tetris-mobile[data-feedback="chiuso"] {
+          bottom: calc(4.15rem + env(safe-area-inset-bottom)) !important;
+        }
+
+        .lalinea-mobile-shell[data-player="chiuso"] .ll-feedback-card {
+          bottom: calc(3.55rem + env(safe-area-inset-bottom)) !important;
+        }
+
+        .lalinea-mobile-shell[data-player="chiuso"] .ll-tetris-mobile {
+          bottom: calc(7.12rem + env(safe-area-inset-bottom)) !important;
+        }
+
+        .lalinea-mobile-shell[data-player="chiuso"] .ll-tetris-mobile[data-feedback="chiuso"] {
+          bottom: calc(3.55rem + env(safe-area-inset-bottom)) !important;
         }
 
         .ll-best-sellers {
@@ -773,9 +797,14 @@ useEffect(() => {
 }, [])
 const [caricamentoIniziale, setCaricamentoIniziale] = useState(true);
 const [recensioniAperte, setRecensioniAperte] = useState(false);
-const [ordineRecensioni, setOrdineRecensioni] = useState<number[]>(
-  Array.from({ length: 33 }, (_, indice) => indice + 1)
-);
+const tutteLeRecensioni = [
+  ...Array.from({ length: 39 }, (_, indice) => indice + 1),
+  ...Array.from({ length: 11 }, (_, indice) => indice + 41),
+];
+const feedbackRecenti = [34, 35, 36, 37, 38, 39, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51];
+const [ordineRecensioni, setOrdineRecensioni] = useState<number[]>(tutteLeRecensioni);
+const [feedbackPopupVisibile, setFeedbackPopupVisibile] = useState(true);
+const [feedbackInEvidenza, setFeedbackInEvidenza] = useState(feedbackRecenti[0]);
 
 const prodottiInEvidenza = [
   "COOKIES X RUNTZ 2.0",
@@ -808,9 +837,15 @@ useEffect(() => {
 }, []);
 
 useEffect(() => {
+  setFeedbackInEvidenza(
+    feedbackRecenti[Math.floor(Math.random() * feedbackRecenti.length)]
+  );
+}, []);
+
+useEffect(() => {
   if (!recensioniAperte) return;
 
-  const casuali = Array.from({ length: 33 }, (_, indice) => indice + 1);
+  const casuali = [...tutteLeRecensioni];
   for (let i = casuali.length - 1; i > 0; i -= 1) {
     const j = Math.floor(Math.random() * (i + 1));
     [casuali[i], casuali[j]] = [casuali[j], casuali[i]];
@@ -2167,33 +2202,124 @@ return (
 </a>
  
 
-{playerVisibile && (
-  <button
-    type="button"
-    onClick={(evento) => {
-      evento.stopPropagation();
-      setTetrisAperto(true);
-    }}
-    className="ll-featured-product group fixed bottom-[17.5rem] left-3 z-[9998] w-[calc(46%-12px)] overflow-hidden rounded-2xl border border-yellow-300 bg-black/95 px-3 py-2 text-center shadow-[0_0_20px_rgba(250,204,21,0.28)] transition active:scale-[0.98] md:bottom-4 md:left-4 md:w-[240px]"
-    aria-label="Apri LaLinea Tetris"
+{feedbackPopupVisibile && (
+  <div
+    data-player={playerVisibile ? "aperto" : "chiuso"}
+    className="ll-feedback-card ll-featured-product fixed bottom-[17.5rem] left-3 z-[9998] w-[calc(46%-12px)] overflow-hidden rounded-2xl border border-yellow-300 bg-black/95 p-2 text-left shadow-[0_0_20px_rgba(250,204,21,0.28)] md:bottom-4 md:left-4 md:h-auto md:w-[240px]"
+    aria-label="Ultimi feedback LaLinea"
   >
     <span className="pointer-events-none absolute inset-x-0 top-0 flex h-[3px]">
-      <span className="flex-1 bg-cyan-400" />
-      <span className="flex-1 bg-fuchsia-400" />
       <span className="flex-1 bg-yellow-300" />
       <span className="flex-1 bg-green-400" />
+      <span className="flex-1 bg-yellow-300" />
     </span>
-    <p className="text-[8px] font-black uppercase tracking-[0.12em] text-yellow-300 md:text-[10px]">
-      GIOCA AL NUOVO GIOCO
-    </p>
-    <p className="mt-1 truncate text-[11px] font-black uppercase tracking-[0.05em] text-white md:text-xs">
-      LALINEA TETRIS · MILANO EDITION
-    </p>
-    <p className="mt-1 text-[7px] font-black uppercase tracking-[0.10em] text-green-300 md:text-[9px]">
-      TOCCA E CHIUDI LA LINEA
-    </p>
-  </button>
+
+    <button
+      type="button"
+      onClick={(evento) => {
+        evento.stopPropagation();
+        setFeedbackPopupVisibile(false);
+      }}
+      className="absolute right-1 top-1 z-20 flex h-5 w-5 items-center justify-center rounded-full border border-yellow-400 bg-black text-[9px] font-black text-yellow-300 md:right-1.5 md:top-1.5 md:h-6 md:w-6 md:text-xs"
+      aria-label="Chiudi ultimi feedback"
+    >
+      ×
+    </button>
+
+    <button
+      type="button"
+      onClick={(evento) => {
+        evento.stopPropagation();
+        setRecensioniAperte(true);
+      }}
+      className="ll-feedback-mobile w-full md:hidden"
+      aria-label={`Apri feedback ${feedbackInEvidenza}`}
+    >
+      <img
+        src={`/reviews/review${feedbackInEvidenza}.jpg`}
+        alt={`Ultimo feedback ${feedbackInEvidenza}`}
+        loading="lazy"
+        decoding="async"
+      />
+      <span className="min-w-0 flex-1">
+        <span className="flex items-center gap-1">
+          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-green-400 shadow-[0_0_7px_rgba(74,222,128,0.9)]" />
+          <span className="block truncate text-[7px] font-black uppercase tracking-[0.10em] text-yellow-300">
+            ULTIMI FEEDBACK
+          </span>
+        </span>
+        <span className="mt-1 block truncate text-[8px] font-black uppercase text-white">
+          Feedback #{feedbackInEvidenza}
+        </span>
+        <span className="mt-0.5 block truncate text-[6px] font-bold uppercase tracking-[0.08em] text-green-300">
+          Tocca per vedere le recensioni
+        </span>
+      </span>
+    </button>
+
+    <div className="ll-feedback-desktop md:block">
+      <div className="pr-7">
+        <div className="flex items-center gap-1.5">
+          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-green-400 shadow-[0_0_8px_rgba(74,222,128,0.9)]" />
+          <p className="text-[10px] font-black uppercase tracking-[0.14em] text-yellow-300">
+            ULTIMI FEEDBACK
+          </p>
+        </div>
+        <p className="mt-0.5 text-[9px] font-bold uppercase tracking-[0.08em] text-zinc-400">
+          Una recensione scelta a caso ad ogni visita
+        </p>
+      </div>
+
+      <div className="mt-2 overflow-hidden rounded-xl border border-zinc-700 bg-zinc-950">
+        <img
+          src={`/reviews/review${feedbackInEvidenza}.jpg`}
+          alt={`Ultimo feedback ${feedbackInEvidenza}`}
+          loading="lazy"
+          decoding="async"
+          className="h-[130px] w-full object-cover object-top"
+        />
+      </div>
+
+      <div className="mt-1.5 flex items-center justify-between gap-2">
+        <span className="text-[9px] font-black uppercase tracking-[0.10em] text-white">
+          Feedback #{feedbackInEvidenza}
+        </span>
+        <span className="text-[9px] font-black uppercase tracking-[0.10em] text-green-300">
+          NUOVO
+        </span>
+      </div>
+    </div>
+  </div>
 )}
+
+<button
+  type="button"
+  data-feedback={feedbackPopupVisibile ? "aperto" : "chiuso"}
+  onClick={(evento) => {
+    evento.stopPropagation();
+    setTetrisAperto(true);
+  }}
+  className="ll-tetris-mobile fixed z-[9998] hidden border border-yellow-300 bg-black/95 text-left shadow-[0_0_16px_rgba(250,204,21,0.22)] md:hidden"
+  aria-label="Apri LaLinea Tetris"
+>
+  <span className="absolute inset-x-0 top-0 flex h-[2px]">
+    <span className="flex-1 bg-cyan-400" />
+    <span className="flex-1 bg-fuchsia-400" />
+    <span className="flex-1 bg-yellow-300" />
+    <span className="flex-1 bg-green-400" />
+  </span>
+  <span className="min-w-0 flex-1">
+    <span className="block truncate text-[7px] font-black uppercase tracking-[0.10em] text-yellow-300">
+      GIOCA AL NUOVO GIOCO
+    </span>
+    <span className="mt-0.5 block truncate text-[9px] font-black uppercase text-white">
+      LALINEA TETRIS · MILANO
+    </span>
+  </span>
+  <span className="shrink-0 rounded-full border border-green-400/70 px-1.5 py-1 text-[6px] font-black uppercase text-green-300">
+    GIOCA
+  </span>
+</button>
 
 {!playerVisibile && (
   <button
@@ -2221,7 +2347,7 @@ return (
       setMusicaAvviata(false);
       setPlayerVisibile(false);
     }}
-    className="absolute right-2 top-2 z-20 flex h-7 w-7 items-center justify-center rounded-full border border-yellow-400 bg-black text-sm font-black leading-none text-yellow-300 shadow-[0_0_12px_rgba(250,204,21,0.30)]"
+    className="absolute left-1 top-1/2 z-20 flex h-4 w-4 -translate-y-1/2 items-center justify-center rounded-full border border-yellow-400/70 bg-black text-[8px] font-black leading-none text-yellow-300 md:left-auto md:right-2 md:top-2 md:h-7 md:w-7 md:translate-y-0 md:text-sm md:shadow-[0_0_12px_rgba(250,204,21,0.30)]"
     aria-label="Chiudi player musicale"
   >
     ×
