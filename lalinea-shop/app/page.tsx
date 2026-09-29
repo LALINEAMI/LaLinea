@@ -2,6 +2,15 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import TetrisGame from "./components/TetrisGame";
+
+function mescolaNumeri(valori: number[]) {
+  const copia = [...valori];
+  for (let i = copia.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copia[i], copia[j]] = [copia[j], copia[i]];
+  }
+  return copia;
+}
 function InfoRiga({
   etichetta,
   children,
@@ -350,20 +359,41 @@ function NeonGlobalStyle() {
         }
 
         .ll-music-controls button {
-          width: 1.42rem !important;
-          height: 1.42rem !important;
-          min-width: 1.42rem !important;
+          width: 1.6rem !important;
+          height: 1.6rem !important;
+          min-width: 1.6rem !important;
           padding: 0 !important;
-          font-size: 0.55rem !important;
-          box-shadow: none !important;
+          border: 1px solid rgba(74, 222, 128, 0.72) !important;
+          background: rgba(34, 197, 94, 0.10) !important;
+          color: #86efac !important;
+          box-shadow:
+            inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+            0 0 10px rgba(34, 197, 94, 0.18) !important;
+          backdrop-filter: blur(8px);
+        }
+
+        .ll-music-controls button svg {
+          width: 0.72rem !important;
+          height: 0.72rem !important;
+          filter: drop-shadow(0 0 4px rgba(74, 222, 128, 0.34));
         }
 
         .ll-music-controls .ll-music-play {
-          width: 1.72rem !important;
-          height: 1.72rem !important;
-          min-width: 1.72rem !important;
-          font-size: 0.64rem !important;
-          box-shadow: 0 0 12px rgba(250, 204, 21, 0.28) !important;
+          width: 2rem !important;
+          height: 2rem !important;
+          min-width: 2rem !important;
+          border: 1px solid rgba(253, 224, 71, 0.95) !important;
+          background: linear-gradient(145deg, #4ade80 0%, #16a34a 100%) !important;
+          color: #050505 !important;
+          box-shadow:
+            0 0 0 2px rgba(250, 204, 21, 0.10),
+            0 0 16px rgba(74, 222, 128, 0.34) !important;
+        }
+
+        .ll-music-controls .ll-music-play svg {
+          width: 0.82rem !important;
+          height: 0.82rem !important;
+          filter: none !important;
         }
 
         .ll-music-reopen {
@@ -401,6 +431,12 @@ function NeonGlobalStyle() {
           object-fit: cover;
           object-position: top;
           border: 1px solid rgba(250, 204, 21, 0.45);
+          animation: llFeedbackSwap 0.32s ease-out;
+        }
+
+        @keyframes llFeedbackSwap {
+          from { opacity: 0.35; transform: scale(0.96); }
+          to { opacity: 1; transform: scale(1); }
         }
 
         .ll-feedback-desktop {
@@ -802,9 +838,16 @@ const tutteLeRecensioni = [
   ...Array.from({ length: 11 }, (_, indice) => indice + 41),
 ];
 const feedbackRecenti = [34, 35, 36, 37, 38, 39, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51];
-const [ordineRecensioni, setOrdineRecensioni] = useState<number[]>(tutteLeRecensioni);
+const [ordineRecensioni, setOrdineRecensioni] = useState<number[]>(() =>
+  mescolaNumeri(tutteLeRecensioni)
+);
+const [recensioniVisibili, setRecensioniVisibili] = useState(8);
 const [feedbackPopupVisibile, setFeedbackPopupVisibile] = useState(true);
-const [feedbackInEvidenza, setFeedbackInEvidenza] = useState(feedbackRecenti[0]);
+const [ordineFeedback, setOrdineFeedback] = useState<number[]>(() =>
+  mescolaNumeri(feedbackRecenti)
+);
+const [feedbackIndice, setFeedbackIndice] = useState(0);
+const feedbackInEvidenza = ordineFeedback[feedbackIndice] ?? feedbackRecenti[0];
 
 const prodottiInEvidenza = [
   "COOKIES X RUNTZ 2.0",
@@ -837,22 +880,53 @@ useEffect(() => {
 }, []);
 
 useEffect(() => {
-  setFeedbackInEvidenza(
-    feedbackRecenti[Math.floor(Math.random() * feedbackRecenti.length)]
-  );
-}, []);
+  if (!feedbackPopupVisibile || ordineFeedback.length === 0) return;
+
+  const timer = window.setInterval(() => {
+    setFeedbackIndice((indiceCorrente) => {
+      const prossimo = indiceCorrente + 1;
+      if (prossimo < ordineFeedback.length) return prossimo;
+
+      setOrdineFeedback((ordineCorrente) => {
+        const ultimo = ordineCorrente[ordineCorrente.length - 1];
+        let nuovoOrdine = mescolaNumeri(feedbackRecenti);
+
+        if (nuovoOrdine.length > 1 && nuovoOrdine[0] === ultimo) {
+          [nuovoOrdine[0], nuovoOrdine[1]] = [nuovoOrdine[1], nuovoOrdine[0]];
+        }
+
+        return nuovoOrdine;
+      });
+
+      return 0;
+    });
+  }, 6500);
+
+  return () => window.clearInterval(timer);
+}, [feedbackPopupVisibile, ordineFeedback.length]);
 
 useEffect(() => {
   if (!recensioniAperte) return;
+  setOrdineRecensioni(mescolaNumeri(tutteLeRecensioni));
+  setRecensioniVisibili(8);
+}, [recensioniAperte]);
 
-  const casuali = [...tutteLeRecensioni];
-  for (let i = casuali.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [casuali[i], casuali[j]] = [casuali[j], casuali[i]];
+const apriRecensioniComplete = () => {
+  setRecensioniAperte(true);
+  setOrdineRecensioni(mescolaNumeri(tutteLeRecensioni));
+  setRecensioniVisibili(8);
+
+  if (window.matchMedia("(max-width: 767px)").matches) {
+    setVistaMobile("dicono-di-noi");
   }
 
-  setOrdineRecensioni(casuali);
-}, [recensioniAperte]);
+  window.requestAnimationFrame(() => {
+    document.getElementById("dicono-di-noi")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  });
+};
 const [tetrisAperto, setTetrisAperto] = useState(false);
 const avviaMusica = () => {
   if (!musicaAvviata && audioRef.current) {
@@ -2230,16 +2304,20 @@ return (
       type="button"
       onClick={(evento) => {
         evento.stopPropagation();
-        setRecensioniAperte(true);
+        apriRecensioniComplete();
       }}
       className="ll-feedback-mobile w-full md:hidden"
       aria-label={`Apri feedback ${feedbackInEvidenza}`}
     >
       <img
+        key={feedbackInEvidenza}
         src={`/reviews/review${feedbackInEvidenza}.jpg`}
         alt={`Ultimo feedback ${feedbackInEvidenza}`}
-        loading="lazy"
+        loading="eager"
         decoding="async"
+        onError={(evento) => {
+          evento.currentTarget.src = "/reviews/review33.jpg";
+        }}
       />
       <span className="min-w-0 flex-1">
         <span className="flex items-center gap-1">
@@ -2248,11 +2326,14 @@ return (
             ULTIMI FEEDBACK
           </span>
         </span>
-        <span className="mt-1 block truncate text-[8px] font-black uppercase text-white">
-          Feedback #{feedbackInEvidenza}
+        <span className="mt-1 flex items-center justify-between gap-1 text-[8px] font-black uppercase text-white">
+          <span className="truncate">Feedback #{feedbackInEvidenza}</span>
+          <span className="shrink-0 text-[6px] text-zinc-400">
+            {feedbackIndice + 1}/{ordineFeedback.length}
+          </span>
         </span>
         <span className="mt-0.5 block truncate text-[6px] font-bold uppercase tracking-[0.08em] text-green-300">
-          Tocca per vedere le recensioni
+          Cambia automaticamente · tocca per vederli tutti
         </span>
       </span>
     </button>
@@ -2266,18 +2347,32 @@ return (
           </p>
         </div>
         <p className="mt-0.5 text-[9px] font-bold uppercase tracking-[0.08em] text-zinc-400">
-          Una recensione scelta a caso ad ogni visita
+          Rotazione automatica senza ripetizioni
         </p>
       </div>
 
       <div className="mt-2 overflow-hidden rounded-xl border border-zinc-700 bg-zinc-950">
-        <img
-          src={`/reviews/review${feedbackInEvidenza}.jpg`}
-          alt={`Ultimo feedback ${feedbackInEvidenza}`}
-          loading="lazy"
-          decoding="async"
-          className="h-[130px] w-full object-cover object-top"
-        />
+        <button
+          type="button"
+          onClick={(evento) => {
+            evento.stopPropagation();
+            apriRecensioniComplete();
+          }}
+          className="block w-full"
+          aria-label="Apri tutti i feedback"
+        >
+          <img
+            key={feedbackInEvidenza}
+            src={`/reviews/review${feedbackInEvidenza}.jpg`}
+            alt={`Ultimo feedback ${feedbackInEvidenza}`}
+            loading="eager"
+            decoding="async"
+            onError={(evento) => {
+              evento.currentTarget.src = "/reviews/review33.jpg";
+            }}
+            className="h-[130px] w-full object-cover object-top"
+          />
+        </button>
       </div>
 
       <div className="mt-1.5 flex items-center justify-between gap-2">
@@ -2285,7 +2380,7 @@ return (
           Feedback #{feedbackInEvidenza}
         </span>
         <span className="text-[9px] font-black uppercase tracking-[0.10em] text-green-300">
-          NUOVO
+          {feedbackIndice + 1}/{ordineFeedback.length} · VEDI TUTTI
         </span>
       </div>
     </div>
@@ -2428,7 +2523,9 @@ return (
         className="flex h-10 w-10 items-center justify-center rounded-full border border-yellow-400/70 bg-black text-base font-black text-yellow-300 shadow-[0_0_10px_rgba(250,204,21,0.18)] transition active:scale-90"
         aria-label="Brano precedente"
       >
-        ◀
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M7 5v14M19 6.5 10.5 12 19 17.5V6.5Z" fill="currentColor" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+        </svg>
       </button>
 
       <button
@@ -2437,7 +2534,16 @@ return (
         className="ll-music-play flex h-12 w-12 items-center justify-center rounded-full bg-yellow-400 text-lg font-black text-black shadow-[0_0_20px_rgba(250,204,21,0.36)] transition active:scale-90"
         aria-label={musicaAvviata ? "Metti in pausa" : "Riproduci"}
       >
-        {musicaAvviata ? "Ⅱ" : "▶"}
+        {musicaAvviata ? (
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <rect x="6" y="5" width="4" height="14" rx="1" />
+            <rect x="14" y="5" width="4" height="14" rx="1" />
+          </svg>
+        ) : (
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M8 5.5v13L18.5 12 8 5.5Z" />
+          </svg>
+        )}
       </button>
 
       <button
@@ -2446,7 +2552,9 @@ return (
         className="flex h-10 w-10 items-center justify-center rounded-full border border-yellow-400/70 bg-black text-base font-black text-yellow-300 shadow-[0_0_10px_rgba(250,204,21,0.18)] transition active:scale-90"
         aria-label="Brano successivo"
       >
-        ▶
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M17 5v14M5 6.5 13.5 12 5 17.5V6.5Z" fill="currentColor" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+        </svg>
       </button>
     </div>
   </div>
@@ -6817,25 +6925,81 @@ onClick={(e) => {
     <h2 className="mt-4 text-5xl font-black uppercase">
       Dicono di noi
     </h2>
-    <button
-  type="button"
-  onClick={() => setRecensioniAperte(!recensioniAperte)}
-  className="mt-6 border border-yellow-400 bg-black px-6 py-3 font-black uppercase text-white hover:text-yellow-400 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
->
-  {recensioniAperte ? "Chiudi recensioni" : "Mostra recensioni"}
-</button>
-{recensioniAperte && (
-    <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {ordineRecensioni.map((numero) => (
-        <img
-          key={numero}
-          src={`/reviews/review${numero}.jpg`}
-          alt={`Recensione ${numero}`}
-          className="w-full rounded-lg bg-yellow-400 px-2 py-1.5 text-[10px] font-black uppercase text-black md:text-sm"
-        />
-      ))}
+    <div className="mt-6 flex flex-wrap items-center gap-3">
+      <button
+        type="button"
+        onClick={() => {
+          if (recensioniAperte) {
+            setRecensioniAperte(false);
+          } else {
+            setRecensioniAperte(true);
+            setOrdineRecensioni(mescolaNumeri(tutteLeRecensioni));
+            setRecensioniVisibili(8);
+          }
+        }}
+        className="border border-yellow-400 bg-black px-6 py-3 font-black uppercase text-white hover:text-yellow-400 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
+      >
+        {recensioniAperte ? "Chiudi recensioni" : "Esplora i feedback"}
+      </button>
+
+      {recensioniAperte && (
+        <button
+          type="button"
+          onClick={() => {
+            setOrdineRecensioni(mescolaNumeri(tutteLeRecensioni));
+            setRecensioniVisibili(8);
+          }}
+          className="rounded-2xl border border-green-400/60 bg-green-400/10 px-5 py-3 text-xs font-black uppercase tracking-wider text-green-300"
+        >
+          ↻ Mescola feedback
+        </button>
+      )}
     </div>
-)}
+
+    {recensioniAperte && (
+      <>
+        <div className="mt-5 flex items-center justify-between gap-3 text-xs font-bold uppercase tracking-wider text-zinc-400">
+          <span>Ordine casuale · nessuna ripetizione</span>
+          <span>{Math.min(recensioniVisibili, ordineRecensioni.length)} / {ordineRecensioni.length}</span>
+        </div>
+
+        <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {ordineRecensioni.slice(0, recensioniVisibili).map((numero) => (
+            <img
+              key={numero}
+              src={`/reviews/review${numero}.jpg`}
+              alt={`Recensione ${numero}`}
+              loading="lazy"
+              decoding="async"
+              onError={(evento) => {
+                evento.currentTarget.style.display = "none";
+              }}
+              className="w-full rounded-2xl border border-yellow-400/30 bg-black object-cover shadow-[0_0_14px_rgba(250,204,21,0.10)]"
+            />
+          ))}
+        </div>
+
+        {recensioniVisibili < ordineRecensioni.length ? (
+          <div className="mt-8 text-center">
+            <button
+              type="button"
+              onClick={() =>
+                setRecensioniVisibili((correnti) =>
+                  Math.min(correnti + 8, ordineRecensioni.length)
+                )
+              }
+              className="rounded-2xl bg-yellow-400 px-7 py-4 font-black uppercase tracking-wider text-black shadow-[0_0_18px_rgba(250,204,21,0.22)]"
+            >
+              Mostra altri 8 feedback
+            </button>
+          </div>
+        ) : (
+          <p className="mt-8 text-center text-sm font-black uppercase tracking-wider text-green-300">
+            Hai visto tutti i {ordineRecensioni.length} feedback disponibili
+          </p>
+        )}
+      </>
+    )}
   </div>
 </section>
 {/* I NOSTRI POINT */}
