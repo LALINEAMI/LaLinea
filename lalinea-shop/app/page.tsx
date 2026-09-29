@@ -196,6 +196,124 @@ function NeonGlobalStyle() {
           50% { opacity: 1; transform: scale(1.15); }
         }
 
+        .ll-vpn-security {
+          display: grid;
+          grid-template-columns: 2.15rem minmax(0, 1fr);
+          align-items: center;
+          gap: 0.45rem;
+          min-width: 9.8rem;
+          max-width: 46vw;
+          border: 1px solid rgba(74, 222, 128, 0.7);
+          border-radius: 1rem;
+          background:
+            radial-gradient(circle at 16% 50%, rgba(34, 197, 94, 0.18), transparent 42%),
+            rgba(0, 0, 0, 0.88);
+          padding: 0.42rem 0.55rem;
+          color: rgb(220 252 231);
+          box-shadow:
+            inset 0 0 0 1px rgba(255, 255, 255, 0.025),
+            0 0 16px rgba(34, 197, 94, 0.2);
+          backdrop-filter: blur(10px);
+        }
+
+        .ll-vpn-orb {
+          position: relative;
+          display: grid;
+          width: 2rem;
+          height: 2rem;
+          place-items: center;
+          border: 1px solid rgba(74, 222, 128, 0.75);
+          border-radius: 9999px;
+          background: rgba(20, 83, 45, 0.28);
+          color: rgb(74 222 128);
+          box-shadow: 0 0 12px rgba(34, 197, 94, 0.35);
+        }
+
+        .ll-vpn-orb::after {
+          content: "";
+          position: absolute;
+          inset: -0.22rem;
+          border: 1px dashed rgba(250, 204, 21, 0.5);
+          border-radius: 9999px;
+          animation: llVpnOrbit 8s linear infinite;
+        }
+
+        .ll-vpn-lock {
+          position: absolute;
+          right: -0.2rem;
+          bottom: -0.15rem;
+          display: grid;
+          width: 0.9rem;
+          height: 0.9rem;
+          place-items: center;
+          border-radius: 9999px;
+          background: rgb(250 204 21);
+          color: #050505;
+          box-shadow: 0 0 8px rgba(250, 204, 21, 0.55);
+        }
+
+        .ll-vpn-copy {
+          min-width: 0;
+          line-height: 1.05;
+        }
+
+        .ll-vpn-label {
+          display: block;
+          overflow: hidden;
+          color: rgb(134 239 172);
+          font-size: 0.44rem;
+          font-weight: 900;
+          letter-spacing: 0.16em;
+          text-overflow: ellipsis;
+          text-transform: uppercase;
+          white-space: nowrap;
+        }
+
+        .ll-vpn-city {
+          display: block;
+          margin-top: 0.12rem;
+          overflow: hidden;
+          color: white;
+          font-size: 0.58rem;
+          font-weight: 950;
+          letter-spacing: 0.08em;
+          text-overflow: ellipsis;
+          text-transform: uppercase;
+          white-space: nowrap;
+        }
+
+        .ll-vpn-high {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.22rem;
+          margin-top: 0.14rem;
+          color: rgb(253 224 71);
+          font-size: 0.39rem;
+          font-weight: 950;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          white-space: nowrap;
+        }
+
+        .ll-vpn-high-dot {
+          width: 0.3rem;
+          height: 0.3rem;
+          border-radius: 9999px;
+          background: rgb(74 222 128);
+          box-shadow: 0 0 6px rgba(74, 222, 128, 0.95);
+        }
+
+        .ll-vpn-demo {
+          margin-left: 0.22rem;
+          color: rgb(161 161 170);
+          font-size: 0.34rem;
+          letter-spacing: 0.06em;
+        }
+
+        @keyframes llVpnOrbit {
+          to { transform: rotate(360deg); }
+        }
+
         .ll-mobile-category-grid {
           display: grid;
           grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -699,8 +817,38 @@ const PLAYLIST_MUSICALE = [
   { titolo: "DUBAI", artista: "SKINNY FLEX", file: "/canzone6.mp3" },
 ];
 
+const VPN_SECURITY_ROUTES = [
+  "Bangkok",
+  "Singapore",
+  "Tokyo",
+  "Zurich",
+  "Reykjavik",
+  "Toronto",
+  "Stockholm",
+  "Amsterdam",
+  "Seoul",
+  "Helsinki",
+] as const;
+
 export default function Home() {
   const [popupConsegne, setPopupConsegne] = useState<string | null>(null);
+  const [vpnRouteIndex, setVpnRouteIndex] = useState(0);
+
+  useEffect(() => {
+    const cambiaRoute = () => {
+      setVpnRouteIndex((indiceAttuale) => {
+        if (VPN_SECURITY_ROUTES.length <= 1) return 0;
+        const salto = 1 + Math.floor(Math.random() * (VPN_SECURITY_ROUTES.length - 1));
+        return (indiceAttuale + salto) % VPN_SECURITY_ROUTES.length;
+      });
+    };
+
+    cambiaRoute();
+    const timer = window.setInterval(cambiaRoute, 7000);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  const vpnRoute = VPN_SECURITY_ROUTES[vpnRouteIndex];
 
   useEffect(() => {
     const oraItaliana = Number(
@@ -1487,6 +1635,32 @@ const aggiungiOrangeAlCarrello = (grammi: string, prezzo: number) => {
     ];
   });
 };
+const aggiungiHoneyBananaAcaiMintAlCarrello = (quantita: string, prezzo: number) => {
+  const id = `honey-banana-acai-mint-dual-${quantita.toLowerCase().replace(/\s+/g, "-")}`;
+
+  setCarrello((prev) => {
+    const esistente = prev.find((item) => String(item.id) === id);
+
+    if (esistente) {
+      return prev.map((item) =>
+        String(item.id) === id
+          ? { ...item, quantita: item.quantita + 1 }
+          : item
+      );
+    }
+
+    return [
+      ...prev,
+      {
+        id: id as any,
+        nome: `HONEY BANANA x ACAI MINT 2G DIAMOND + LIVE - ${quantita}`,
+        prezzo,
+        quantita: 1,
+      },
+    ];
+  });
+};
+
 const aggiungiWholeMeltDualAlCarrello = (quantita: string, prezzo: number) => {
   const id = `whole-melt-dual-key-lime-cake-zazaya-${quantita.toLowerCase().replace(/\s+/g, "-")}`;
 
@@ -2690,13 +2864,33 @@ return (
       </h1>
     </div>
     <div className="flex flex-col items-end gap-1">
-      <span className="ll-simple-live text-[8px] font-black uppercase tracking-[0.12em]">
-        <span className="ll-simple-live-dot" aria-hidden="true" />
-        ONLINE · LALINEA
-      </span>
-      <span className="rounded-full border border-yellow-300/60 bg-yellow-400/10 px-3 py-1 text-[9px] font-black uppercase tracking-[0.16em] text-yellow-300">
-        Milano
-      </span>
+      <div
+        className="ll-vpn-security"
+        aria-label={`Indicatore grafico VPN simulato: ${vpnRoute}, sicurezza alta`}
+        title="Indicatore grafico: percorso VPN simulato"
+      >
+        <span className="ll-vpn-orb" aria-hidden="true">
+          <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8">
+            <circle cx="12" cy="12" r="9" />
+            <path d="M3.5 9h17M3.5 15h17M12 3c2.2 2.4 3.3 5.4 3.3 9S14.2 18.6 12 21M12 3C9.8 5.4 8.7 8.4 8.7 12S9.8 18.6 12 21" />
+          </svg>
+          <span className="ll-vpn-lock">
+            <svg viewBox="0 0 24 24" className="h-2.5 w-2.5" fill="none" stroke="currentColor" strokeWidth="2.4">
+              <rect x="5" y="10" width="14" height="10" rx="2" />
+              <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+            </svg>
+          </span>
+        </span>
+        <span className="ll-vpn-copy">
+          <span className="ll-vpn-label">VPN ROUTE</span>
+          <span className="ll-vpn-city">{vpnRoute}</span>
+          <span className="ll-vpn-high">
+            <span className="ll-vpn-high-dot" aria-hidden="true" />
+            SECURITY: HIGH
+            <span className="ll-vpn-demo">VISUAL</span>
+          </span>
+        </span>
+      </div>
     </div>
   </div>
 
@@ -2880,95 +3074,6 @@ return (
     </p>
 
     <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-3">
-
-      {/* PROMO FASHION WEEK */}
-      <div
-        id="promo-fashion-week"
-        className="flex flex-col border border-yellow-400 bg-zinc-950 p-6 rounded-2xl shadow-[0_0_22px_rgba(250,204,21,0.22)]"
-      >
-        <p className="text-sm font-black uppercase tracking-[0.3em] text-yellow-400">
-          Promo speciale
-        </p>
-
-        <h3 className="mt-3 text-3xl font-black uppercase text-white">
-          PROMO FASHION WEEK
-        </h3>
-
-        <div className="mt-6 flex-1 space-y-3">
-          <button
-            type="button"
-            onClick={() => apriProdottoCatalogo("", "silver-pack-card", "promo")}
-            className="block w-full rounded-xl border border-yellow-400/30 bg-black/50 px-4 py-3 text-left font-black uppercase text-white transition hover:border-yellow-400 hover:text-yellow-300"
-          >
-            1 SILVER PACK
-          </button>
-
-          <button
-            type="button"
-            onClick={() => apriProdottoCatalogo("Frozen e Static", "alien-og-plasma-x1")}
-            className="block w-full rounded-xl border border-yellow-400/30 bg-black/50 px-4 py-3 text-left font-black uppercase text-white transition hover:border-yellow-400 hover:text-yellow-300"
-          >
-            + 1G ALIEN
-          </button>
-
-          <button
-            type="button"
-            onClick={() => apriProdottoCatalogo("Flowers", "laughing-buddha")}
-            className="block w-full rounded-xl border border-yellow-400/30 bg-black/50 px-4 py-3 text-left font-black uppercase text-white transition hover:border-yellow-400 hover:text-yellow-300"
-          >
-            + 1G LAUGHING BUDDHA
-          </button>
-
-          <div className="rounded-xl border border-green-400/50 bg-green-400/10 px-4 py-3 text-left shadow-[0_0_14px_rgba(74,222,128,0.12)]">
-            <p className="text-[11px] font-black uppercase tracking-[0.16em] text-green-300">
-              In regalo
-            </p>
-            <p className="mt-1 font-black uppercase text-white">
-              + 3 PRE-ROLLED JOINT X I VOSTRI EVENTI DELLA FW
-            </p>
-          </div>
-        </div>
-
-        <p className="mt-5 text-sm font-black uppercase tracking-wide text-yellow-300">
-          Valida fino a domenica a mezzanotte
-        </p>
-
-        <p className="mt-4 text-4xl font-black lalinea-price-neon">
-          50 €
-        </p>
-
-        <button
-          type="button"
-          onClick={() => {
-            const id = "promo-fashion-week";
-
-            setCarrello((prev) => {
-              const esistente = prev.find((item) => String(item.id) === id);
-
-              if (esistente) {
-                return prev.map((item) =>
-                  String(item.id) === id
-                    ? { ...item, quantita: item.quantita + 1 }
-                    : item
-                );
-              }
-
-              return [
-                ...prev,
-                {
-                  id: id as any,
-                  nome: "PROMO FASHION WEEK - SILVER PACK + 1G ALIEN + 1G LAUGHING BUDDHA + 3 PRE-ROLLED JOINT OMAGGIO",
-                  prezzo: 50,
-                  quantita: 1,
-                },
-              ];
-            });
-          }}
-          className="mt-6 w-full rounded-2xl border border-yellow-400 bg-yellow-400 px-5 py-4 font-black uppercase text-black shadow-[0_0_18px_rgba(250,204,21,0.22)] transition hover:scale-[1.01] active:scale-[0.99]"
-        >
-          Aggiungi al carrello
-        </button>
-      </div>
 
       {/* SILVER PACK */}
       <div id="silver-pack-card"className="flex flex-col border border-zinc-700 bg-zinc-950 p-6 rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]">
@@ -4835,6 +4940,99 @@ return (
             </p>
 
             <p className="mt-2 text-xs font-black uppercase">
+              Aggiungi al carrello
+            </p>
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+)}
+
+{/* HONEY BANANA x ACAI MINT 2G DIAMOND + LIVE */}
+{categoriaAttiva === "Rosin & Pen" && (
+  <div className="mt-8 rounded-3xl border border-green-300/70 bg-black/90 p-4 shadow-[0_0_30px_rgba(74,222,128,0.16)] sm:p-5">
+    <div className="flex flex-wrap items-center justify-between gap-3">
+      <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+        Rosin & Pen
+      </p>
+      <span className="rounded-full border border-green-400/60 bg-green-400/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-green-300">
+        Nuovo drop
+      </span>
+    </div>
+
+    <h3 className="mt-3 text-3xl font-black uppercase text-white sm:text-4xl">
+      HONEY BANANA x ACAI MINT
+    </h3>
+
+    <p className="mt-2 text-lg font-black uppercase tracking-wide text-green-300">
+      2G DIAMOND + LIVE
+    </p>
+
+    <div className="mt-6 grid gap-3 sm:grid-cols-2">
+      <InfoRiga etichetta="PROVENIENZA">🇺🇸 USA</InfoRiga>
+      <InfoRiga etichetta="CAPACITÀ">2G DIAMOND + LIVE</InfoRiga>
+      <InfoRiga etichetta="GENETICA LATO 1">INDICA</InfoRiga>
+      <InfoRiga etichetta="GENETICA LATO 2">HYBRID</InfoRiga>
+    </div>
+
+    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
+      <video
+        src="/products/rosin/keytwo1.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-green-300/50 object-cover shadow-[0_0_18px_rgba(74,222,128,0.16)] sm:aspect-square sm:w-1/4"
+      />
+
+      <div className="flex-1 grid grid-cols-2 gap-3 md:grid-cols-3">
+        {[2, 3, 4, 5, 6].map((numero) => (
+          <img
+            key={numero}
+            src={`/products/rosin/keytwo${numero}.jpg`}
+            alt={`HONEY BANANA x ACAI MINT foto ${numero}`}
+            loading="lazy"
+            decoding="async"
+            className="aspect-square w-full rounded-xl border border-green-300/35 object-cover shadow-[0_0_12px_rgba(74,222,128,0.10)]"
+          />
+        ))}
+      </div>
+    </div>
+
+    <div className="mt-6">
+      <p className="mb-3 font-bold uppercase text-white">
+        Seleziona quantità
+      </p>
+
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        {[
+          { quantita: "1 PEN DUAL", prezzo: 110 },
+          { quantita: "2 PEN DUAL", prezzo: 190 },
+          { quantita: "3 PEN DUAL", prezzo: 270 },
+          { quantita: "5 PEN DUAL", prezzo: 400 },
+        ].map((opzione) => (
+          <button
+            key={opzione.quantita}
+            type="button"
+            onClick={() =>
+              aggiungiHoneyBananaAcaiMintAlCarrello(
+                opzione.quantita,
+                opzione.prezzo
+              )
+            }
+            className="rounded-xl border border-green-300 bg-zinc-950 px-4 py-4 text-center shadow-[0_0_14px_rgba(74,222,128,0.16)] transition hover:bg-green-400 hover:text-black"
+          >
+            <p className="text-lg font-black text-white sm:text-xl">
+              {opzione.quantita}
+            </p>
+
+            <p className="mt-3 text-xl font-black lalinea-price-neon">
+              {opzione.prezzo} €
+            </p>
+
+            <p className="mt-5 text-sm font-black uppercase text-white">
               Aggiungi al carrello
             </p>
           </button>
