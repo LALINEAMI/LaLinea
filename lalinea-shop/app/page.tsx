@@ -16,6 +16,7 @@ function InfoRiga({
   children,
 }: {
   etichetta: string;
+  
   children: ReactNode;
 }) {
   return (
@@ -97,7 +98,7 @@ function NeonGlobalStyle() {
       }
 
       @media (max-width: 767px) {
-        .lalinea-mobile-shell {
+        .lalinea-mobile-shell 
           height: 100dvh;
           min-height: 0 !important;
           overflow: hidden;
@@ -6051,6 +6052,114 @@ return (
             Aggiungi al carrello
           </p>
         </button>
+      </div>
+    </div>
+  </div>
+)}
+
+{/* OTHER - EGG HUANUCO */}
+{categoriaAttiva === "Other" && (
+  <div className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
+    <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+      Other
+    </p>
+
+    <h3 className="mt-2 text-3xl font-black uppercase text-white">
+      EGG HUANUCO
+    </h3>
+
+    {/* BADGE */}
+    <div className="mt-3 inline-flex items-center gap-2 rounded-full border border-yellow-300 bg-yellow-400/10 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-yellow-300 shadow-[0_0_18px_rgba(250,204,21,0.28)]">
+      ★ PRODOTTO ESCLUSIVO
+    </div>
+
+    {/* MEDIA */}
+    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
+      <video
+        src="/products/other/HUANUCO1.MP4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
+      />
+
+      <div className="grid flex-1 grid-cols-2 gap-3">
+        {[2, 3, 4, 5].map((numero) => (
+          <img
+            key={numero}
+            src={`/products/other/HUANUCO${numero}.JPG`}
+            alt={`Egg Huanuco foto ${numero}`}
+            loading="lazy"
+            decoding="async"
+            className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
+          />
+        ))}
+      </div>
+    </div>
+
+    {/* FORMATI E CARRELLO */}
+    <div className="mt-6">
+      <p className="mb-3 font-bold uppercase text-white">
+        Seleziona formato
+      </p>
+
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        {[
+          { formato: "1g", prezzo: 100 },
+          { formato: "2.5g", prezzo: 220 },
+          { formato: "5g", prezzo: 350 },
+          { formato: "10g", prezzo: 550 },
+        ].map((opzione) => (
+          <button
+            key={opzione.formato}
+            type="button"
+            onClick={() => {
+              const id = `egg-huanuco-${opzione.formato}`;
+
+              setCarrello((prev) => {
+                const esistente = prev.find(
+                  (item) => String(item.id) === id
+                );
+
+                if (esistente) {
+                  return prev.map((item) =>
+                    String(item.id) === id
+                      ? {
+                          ...item,
+                          quantita: item.quantita + 1,
+                        }
+                      : item
+                  );
+                }
+
+                return [
+                  ...prev,
+                  {
+                    id: id as any,
+                    nome: `EGG HUANUCO ${opzione.formato}`,
+                    prezzo: opzione.prezzo,
+                    quantita: 1,
+                  },
+                ];
+              });
+            }}
+            className="group rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center shadow-[0_0_14px_rgba(250,204,21,0.16)] transition hover:bg-yellow-400"
+          >
+            <p className="text-xl font-black text-white group-hover:text-black">
+              {opzione.formato}
+            </p>
+
+            <p className="mt-3 text-xl font-black lalinea-price-neon group-hover:text-black">
+              {opzione.prezzo} €
+            </p>
+
+            <p className="mt-2 text-xs font-black uppercase text-yellow-300 group-hover:text-black">
+              Aggiungi al carrello
+            </p>
+          </button>
+        ))}
       </div>
     </div>
   </div>
