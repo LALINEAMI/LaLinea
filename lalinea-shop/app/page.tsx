@@ -6057,11 +6057,11 @@ return (
   </div>
 )}
 
-{/* OTHER - EGG HUANUCO */}
-{categoriaAttiva === "Other" && (
+{/* WHITE - EGG HUANUCO */}
+{categoriaAttiva === "White" && (
   <div className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
-      Other
+      White
     </p>
 
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
