@@ -4306,6 +4306,127 @@ return (
     </div>
   </div>
 )}
+{/* G.M.O */}
+{categoriaAttiva === "Frozen e Static" && (
+  <div
+    id="gmo"
+    className="mt-8 rounded-3xl border border-yellow-300/80 bg-black/80 p-4 sm:p-6"
+  >
+    <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-300">
+      Frozen e Static
+    </p>
+
+    <h3 className="mt-2 text-3xl font-black uppercase text-white">
+      G.M.O
+    </h3>
+
+    <p className="mt-2 font-bold text-white">
+      Brand: no farm
+    </p>
+
+    <p className="mt-1 font-bold text-white">
+      Bilanciamento: 50% indica / 50% sativa
+    </p>
+
+    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
+      <video
+        src="/products/frozen-static/gmo1.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover sm:w-1/2"
+      />
+
+      <div className="grid flex-1 grid-cols-2 gap-3">
+        {[2, 3, 4, 5].map((numero) => (
+          <img
+            key={numero}
+            src={`/products/frozen-static/gmo${numero}.jpg`}
+            alt={`G.M.O foto ${numero}`}
+            loading="lazy"
+            decoding="async"
+            className="aspect-square w-full rounded-xl border border-yellow-300/50 object-cover"
+          />
+        ))}
+      </div>
+    </div>
+
+    <div className="mt-6">
+      <p className="mb-3 font-bold uppercase text-white">
+        Seleziona quantità
+      </p>
+
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        {[
+          { grammi: "15", prezzo: 100, promo: true },
+          { grammi: "5", prezzo: 40, promo: false },
+          { grammi: "10", prezzo: 80, promo: false },
+          { grammi: "25", prezzo: 200, promo: false },
+          { grammi: "50", prezzo: 275, promo: false },
+          { grammi: "100", prezzo: 550, promo: false },
+          { grammi: "500", prezzo: 2000, promo: false },
+        ].map((opzione) => (
+          <button
+            key={opzione.grammi}
+            type="button"
+            onClick={() => {
+              const id = `gmo-${opzione.grammi}`;
+
+              setCarrello((prev) => {
+                const esistente = prev.find(
+                  (item) => String(item.id) === id
+                );
+
+                if (esistente) {
+                  return prev.map((item) =>
+                    String(item.id) === id
+                      ? { ...item, quantita: item.quantita + 1 }
+                      : item
+                  );
+                }
+
+                return [
+                  ...prev,
+                  {
+                    id: id as any,
+                    nome: `G.M.O ${opzione.grammi}`,
+                    prezzo: opzione.prezzo,
+                    quantita: 1,
+                  },
+                ];
+              });
+            }}
+            className={`rounded-2xl border p-4 transition-colors ${
+              opzione.promo
+                ? "border-yellow-300 bg-yellow-300/10 hover:bg-yellow-300/20"
+                : "border-yellow-300 bg-zinc-950 hover:bg-zinc-900"
+            }`}
+          >
+            {opzione.promo && (
+              <p className="mb-2 text-xs font-black uppercase text-yellow-300">
+                Promo lancio
+              </p>
+            )}
+
+            <p className="text-xl font-black text-white">
+              {opzione.grammi}
+            </p>
+
+            <p className="mt-3 text-xl font-black lalinea-price-neon">
+              {opzione.prezzo.toLocaleString("it-IT")} €
+            </p>
+
+            <p className="mt-2 text-xs font-black uppercase text-white">
+              Aggiungi al carrello
+            </p>
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+)}
 {/* TUNA OG STATIC */}
 {categoriaAttiva === "Frozen e Static" && (
   <div
@@ -6180,30 +6301,8 @@ return (
       <InfoRiga etichetta="LAVORAZIONE">Doppio lavaggio, foro di areazione, in guaina originale</InfoRiga>
     </div>
 
-    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
-      {/* VIDEO A SINISTRA */}
-      <video
-        src="/products/other/soda1.mp4"
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
-       preload="metadata"/>
-
-      {/* FOTO A DESTRA */}
-      <div className="flex-1 grid grid-cols-2 md:grid-cols-3 gap-3">
-        {[2, 3, 4, 5, 6, 7].map((numero) => (
-          <img
-            key={numero}
-            src={`/products/other/soda${numero}.jpg`}
-            alt={`Logo Soda foto ${numero}`}
-            className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-          />
-        ))}
-      </div>
-    </div>
-
+    
+  
     {/* QUANTITÀ */}
     <div className="mt-6">
       <p className="mb-3 font-bold uppercase text-white">
