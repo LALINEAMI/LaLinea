@@ -8277,6 +8277,60 @@ rel="noopener noreferrer"
       }
     }
   `}</style>
+  <style>{`
+  @media (max-width: 767px) {
+    .ll-best-sellers {
+      height: 9.57rem !important;
+      max-height: none !important;
+      display: flex !important;
+      flex-direction: column !important;
+    }
+
+    .lalinea-mobile-shell:has(.ll-tetris-mobile[data-feedback="chiuso"]) .ll-best-sellers {
+      height: 6rem !important;
+    }
+
+    .lalinea-mobile-shell[data-player="chiuso"] .ll-best-sellers {
+      height: 8.97rem !important;
+    }
+
+    .lalinea-mobile-shell[data-player="chiuso"]:has(.ll-tetris-mobile[data-feedback="chiuso"]) .ll-best-sellers {
+      height: 5.4rem !important;
+    }
+
+    .ll-best-sellers-title {
+      flex: 0 0 auto !important;
+    }
+
+    .ll-best-sellers-grid {
+      flex: 1 1 0% !important;
+      min-height: 0 !important;
+      grid-template-rows: minmax(0, 1fr) !important;
+    }
+
+    .ll-best-sellers-grid > button {
+      display: flex !important;
+      flex-direction: column !important;
+      min-width: 0 !important;
+      min-height: 0 !important;
+    }
+
+    .ll-best-sellers-grid video {
+      display: block !important;
+      flex: 1 1 0% !important;
+      width: 100% !important;
+      height: 0 !important;
+      min-height: 0 !important;
+      aspect-ratio: auto !important;
+      object-fit: cover !important;
+    }
+
+    .ll-best-seller-label {
+      flex: 0 0 auto !important;
+      min-height: 2rem !important;
+    }
+  }
+`}</style>
 </div>
 )}
 {tetrisAperto && (
