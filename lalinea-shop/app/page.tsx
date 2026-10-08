@@ -810,12 +810,12 @@ function NeonGlobalStyle() {
 }
 
 const PLAYLIST_MUSICALE = [
-  { titolo: "LOVE YOU", artista: "NONO LA GRINTA", file: "/canzone.mp3" },
-  { titolo: "ESTAMOS GUCCI", artista: "SKYNNY FLEX", file: "/canzone2.mp3" },
-  { titolo: "SAY WHEN", artista: "FETTY WAP", file: "/canzone3.mp3" },
-  { titolo: "UZI", artista: "JUL", file: "/canzone4.mp3" },
-  { titolo: "WAGWAN", artista: "CENTRAL CEE", file: "/canzone5.mp3" },
-  { titolo: "DUBAI", artista: "SKINNY FLEX", file: "/canzone6.mp3" },
+  { titolo: "Dictature", artista: "Dj Quick x La Hasba22", file: "/canzone.mp3" },
+  { titolo: "The Team", artista: "Central Cee", file: "/canzone2.mp3" },
+  { titolo: "Ecart - Fumee", artista: "La Hasba", file: "/canzone3.mp3" },
+  { titolo: "Bracialet", artista: "Ninho x La Rvfluenze", file: "/canzone4.mp3" },
+  { titolo: "Serrure XXX", artista: "La Rvfluenze", file: "/canzone5.mp3" },
+  { titolo: "Manualidades", artista: "Skinny Flex", file: "/canzone6.mp3" },
 ];
 
 const VPN_SECURITY_ROUTES = [
