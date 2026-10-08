@@ -5553,9 +5553,12 @@ return (
       Rosin & Pen
     </p>
 
-    <h3 className="mt-2 text-3xl font-black uppercase text-white">
-      WHOLE MELT DUAL CHAMBER
-    </h3>
+    <h3
+  id="zazaya-key-lime-pie-cake"
+  className="mt-2 text-3xl font-black uppercase text-white"
+>
+  WHOLE MELT DUAL CHAMBER
+</h3>
 
     <p className="mt-2 text-lg font-black uppercase tracking-wide text-yellow-300">
       KEY LIME CAKE x ZAZAYA
@@ -8151,46 +8154,49 @@ rel="noopener noreferrer"
   </div>
 
   <div className="ll-best-sellers-grid grid grid-cols-3 gap-1 bg-black p-2">
-    {/* 1 - COOKIES X RUNTZ */}
-    <button
-      type="button"
-      onClick={() => apriProdottoCatalogo("Frozen e Static", "cookies-x-runtz")}
-      className="overflow-hidden rounded-xl border border-yellow-400/60 shadow-[0_0_16px_rgba(250,204,21,0.18)]"
-      aria-label="Apri Cookies X Runtz"
-    >
-      <video
-        src="/products/frozen-static/cokru1.mp4"
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="aspect-square w-full object-cover"
-       preload="metadata"/>
-      <span className="ll-best-seller-label block border-t border-yellow-400/30 bg-black px-1 py-1 text-[9px] font-bold uppercase leading-tight text-yellow-300 md:hidden">
-        1° COOKIES X RUNTZ 17.5G
-      </span>
-    </button>
+    {/* 1 - TUNA OG STATIC */}
+<button
+  type="button"
+  onClick={() => apriProdottoCatalogo("Frozen e Static", "tuna-og-static")}
+  className="overflow-hidden rounded-xl border border-yellow-400/60 shadow-lg"
+  aria-label="Apri TUNA OG STATIC"
+>
+  <video
+    src="/products/frozen-static/tonno1.mp4"
+    data-no-preview="true"
+    autoPlay
+    muted
+    loop
+    playsInline
+    className="aspect-square w-full object-cover"
+    preload="metadata"
+  />
+  <span className="ll-best-seller-label block border-t border-yellow-400/30 bg-black px-1 py-2 text-center font-black text-white">
+    1° TUNA OG STATIC
+  </span>
+</button>
 
-    {/* 2 - LEMON GUMP */}
-    <button
-      type="button"
-      onClick={() => apriProdottoCatalogo("Flowers", "lemon-gump")}
-      className="overflow-hidden rounded-xl border border-yellow-400/60 shadow-[0_0_16px_rgba(250,204,21,0.18)]"
-      aria-label="Apri Lemon Gump"
-    >
-      <video
-        src="/products/flowers/lmg1.mp4"
-        data-no-preview="true"
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="aspect-square w-full object-cover"
-       preload="metadata"/>
-      <span className="ll-best-seller-label block border-t border-yellow-400/30 bg-black px-1 py-1 text-[9px] font-bold uppercase leading-tight text-white md:hidden">
-        2° LEMON GUMP 25G
-      </span>
-    </button>
+{/* 2 - ZAZAYA x KEY LIME PIE CAKE */}
+<button
+  type="button"
+  onClick={() => apriProdottoCatalogo("Rosin & Pen", "zazaya-key-lime-pie-cake")}
+  className="overflow-hidden rounded-xl border border-yellow-400/60 shadow-lg"
+  aria-label="Apri ZAZAYA x KEY LIME PIE CAKE"
+>
+  <video
+    src="/products/rosin/key1.mp4"
+    data-no-preview="true"
+    autoPlay
+    muted
+    loop
+    playsInline
+    className="aspect-square w-full object-cover"
+    preload="metadata"
+  />
+  <span className="ll-best-seller-label block border-t border-yellow-400/30 bg-black px-1 py-2 text-center font-black text-white">
+    2° ZAZAYA x KEY LIME PIE CAKE
+  </span>
+</button>
 
     {/* 3 - GOLD PACK */}
     <button
@@ -8219,20 +8225,20 @@ rel="noopener noreferrer"
       {[0, 1].map((ripetizione) => (
         <div key={ripetizione} className="inline-flex items-center">
           <button
-            type="button"
-            onClick={() => apriProdottoCatalogo("Frozen e Static", "cookies-x-runtz")}
-            className="mx-6 font-black text-yellow-400"
-          >
-            🥇 1° COOKIES X RUNTZ 17.5G
-          </button>
+  type="button"
+  onClick={() => apriProdottoCatalogo("Frozen e Static", "tuna-og-static")}
+  className="mx-6 font-black text-yellow-400"
+>
+  🥇 1° TUNA OG STATIC
+</button>
 
-          <button
-            type="button"
-            onClick={() => apriProdottoCatalogo("Flowers", "lemon-gump")}
-            className="mx-6 font-black text-white"
-          >
-            🥈 2° LEMON GUMP 25G
-          </button>
+<button
+  type="button"
+  onClick={() => apriProdottoCatalogo("Rosin & Pen", "zazaya-key-lime-pie-cake")}
+  className="mx-6 font-black text-white"
+>
+  🥈 2° ZAZAYA x KEY LIME PIE CAKE
+</button>
 
           <button
             type="button"
