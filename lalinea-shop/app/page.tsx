@@ -4306,6 +4306,166 @@ return (
     </div>
   </div>
 )}
+{/* BRUCE BANNER F.F IN DISCHI PREMIUM */}
+{categoriaAttiva === "Frozen e Static" && (
+  <div
+    id="bruce-banner-ff-premium"
+    className="mt-8 rounded-3xl border border-yellow-300/80 bg-black/85 p-4 shadow-lg sm:p-6"
+  >
+    <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+      Frozen e Static
+    </p>
+
+    <h3 className="mt-2 text-3xl font-black uppercase text-white">
+      Bruce Banner F.F in dischi Premium
+    </h3>
+
+    <div className="mt-6 space-y-3">
+      <InfoRiga etichetta="GENETICA">
+        OG Kush X Strawberry OG
+      </InfoRiga>
+
+      <InfoRiga etichetta="PROPRIETARIO DEL SEME">
+        Dark Horse Genetics
+      </InfoRiga>
+
+      <InfoRiga etichetta="BILANCIAMENTO">
+        Sativa 70% — Indica 30%
+      </InfoRiga>
+
+      <InfoRiga etichetta="GUSTO">
+        Diesel, Fragola, Terraceo
+      </InfoRiga>
+
+      <InfoRiga etichetta="STATO DI CONSERVAZIONE">
+        Glassy 100%
+      </InfoRiga>
+    </div>
+
+    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
+      <video
+        src="/products/frozen-static/milka1.mp4"
+        poster="/products/frozen-static/milka2.jpg"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover sm:w-1/2"
+      />
+
+      <div className="grid flex-1 grid-cols-2 gap-3 md:grid-cols-3">
+        {[2, 4, 5, 6, 7].map((numero) => (
+          <img
+            key={numero}
+            src={`/products/frozen-static/milka${numero}.jpg`}
+            alt={`Bruce Banner F.F in dischi Premium foto ${numero}`}
+            loading="lazy"
+            decoding="async"
+            className="aspect-square w-full rounded-xl border border-yellow-300/50 object-cover"
+          />
+        ))}
+      </div>
+    </div>
+
+    <div className="mt-6">
+      <p className="mb-3 font-bold uppercase text-white">
+        Seleziona quantità
+      </p>
+
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        {[
+          { grammi: "7G", prezzo: 50, promo: true },
+          { grammi: "5G", prezzo: 50, promo: false },
+          { grammi: "10G", prezzo: 90, promo: false },
+          { grammi: "25G", prezzo: 200, promo: false },
+          { grammi: "50G", prezzo: 380, promo: false },
+          { grammi: "100G", prezzo: 600, promo: false },
+          { grammi: "500G", prezzo: 2500, promo: false },
+          { grammi: "1K", prezzo: 3500, promo: false },
+          { grammi: "5K", prezzo: 15000, promo: false },
+        ]
+          .filter(
+            (opzione) =>
+              !opzione.promo ||
+              Date.now() < Date.parse("2026-10-10T00:00:00+02:00")
+          )
+          .map((opzione) => (
+            <button
+              key={opzione.grammi}
+              type="button"
+              onClick={() => {
+                if (
+                  opzione.promo &&
+                  Date.now() >= Date.parse("2026-10-10T00:00:00+02:00")
+                ) {
+                  return;
+                }
+
+                const id = `bruce-banner-ff-premium-${opzione.grammi}`;
+
+                setCarrello((prev) => {
+                  const esistente = prev.find(
+                    (item) => String(item.id) === id
+                  );
+
+                  if (esistente) {
+                    return prev.map((item) =>
+                      String(item.id) === id
+                        ? { ...item, quantita: item.quantita + 1 }
+                        : item
+                    );
+                  }
+
+                  return [
+                    ...prev,
+                    {
+                      id: id as any,
+                      nome: `BRUCE BANNER F.F IN DISCHI PREMIUM ${
+                        opzione.grammi
+                      }${opzione.promo ? " - PROMO LANCIO" : ""}`,
+                      prezzo: opzione.prezzo,
+                      quantita: 1,
+                    },
+                  ];
+                });
+              }}
+              className={`flex flex-col items-start rounded-xl border px-4 py-4 text-left transition-colors ${
+                opzione.promo
+                  ? "border-green-400 bg-green-400/10 hover:bg-green-400/20"
+                  : "border-yellow-300 bg-zinc-950 hover:bg-zinc-900"
+              }`}
+            >
+              {opzione.promo && (
+                <>
+                  <p className="mb-1 text-xs font-black uppercase text-green-400">
+                    Promo lancio
+                  </p>
+
+                  <p className="mb-3 text-xs text-white">
+                    Valida fino al 09/10/2026
+                  </p>
+                </>
+              )}
+
+              <p className="text-xl font-black text-white">
+                {opzione.grammi}
+              </p>
+
+              <p className="mt-1 text-xl font-bold lalinea-price-neon">
+                {opzione.prezzo.toLocaleString("it-IT")} €
+              </p>
+
+              <p className="mt-2 text-xs font-black uppercase text-white">
+                Aggiungi al carrello
+              </p>
+            </button>
+          ))}
+      </div>
+    </div>
+  </div>
+)}
+
 {/* G.M.O */}
 {categoriaAttiva === "Frozen e Static" && (
   <div
