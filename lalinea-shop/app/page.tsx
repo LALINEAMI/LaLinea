@@ -1077,6 +1077,7 @@ const apriRecensioniComplete = () => {
   });
 };
 const [tetrisAperto, setTetrisAperto] = useState(false);
+const [tetrisSchedaVisibile, setTetrisSchedaVisibile] = useState(true);
 const avviaMusica = () => {
   if (!musicaAvviata && audioRef.current) {
     audioRef.current.play().catch(() => {});
@@ -8333,6 +8334,381 @@ rel="noopener noreferrer"
 `}</style>
 </div>
 )}
+{/* INIZIO TETRIS / FEEDBACK / MUSICA VERTICALI */}
+<div
+  className="ll-vertical-tools"
+  aria-label="Tetris, feedback e musica LaLinea"
+  hidden={!tetrisSchedaVisibile && !feedbackPopupVisibile && !playerVisibile}
+  onClick={(evento) => evento.stopPropagation()}
+>
+  {tetrisSchedaVisibile && (
+  <section className="ll-tool-card">
+    <button
+      type="button"
+      className="ll-tool-close"
+      onClick={() => setTetrisSchedaVisibile(false)}
+      aria-label="Chiudi scheda Tetris"
+    >
+      ×
+    </button>
+    <h3 className="ll-tool-heading">TETRIS</h3>
+    <div className="ll-tool-content">
+      <div className="ll-tool-tetris-mark" aria-hidden="true">
+        <span /><span /><span /><span />
+      </div>
+      <p className="ll-tool-name">LALINEA TETRIS</p>
+      <p className="ll-tool-caption ll-tool-yellow">GUADAGNA BUONI GIOCANDO</p>
+      <button
+        type="button"
+        className="ll-tool-action ll-tool-bottom"
+        onClick={(evento) => {
+          evento.stopPropagation();
+          setTetrisAperto(true);
+        }}
+        aria-label="Apri il gioco completo LaLinea Tetris"
+      >
+        GIOCA
+      </button>
+    </div>
+  </section>
+  )}
+
+  {feedbackPopupVisibile && (
+    <section className="ll-tool-card">
+      <button
+        type="button"
+        className="ll-tool-close"
+        onClick={() => setFeedbackPopupVisibile(false)}
+        aria-label="Chiudi feedback"
+      >
+        ×
+      </button>
+      <h3 className="ll-tool-heading">FEEDBACK</h3>
+      <div className="ll-tool-content">
+        <button
+          type="button"
+          className="ll-tool-feedback-photo"
+          onClick={(evento) => {
+            evento.stopPropagation();
+            setTipoAnteprima("img");
+            setFotoAnteprima(`/reviews/review${feedbackInEvidenza}.jpg`);
+          }}
+          aria-label={`Ingrandisci il feedback ${feedbackInEvidenza}`}
+        >
+          <img
+            key={feedbackInEvidenza}
+            src={`/reviews/review${feedbackInEvidenza}.jpg`}
+            alt={`Feedback ${feedbackInEvidenza}`}
+            loading="eager"
+            decoding="async"
+            onError={(evento) => {
+              if (!evento.currentTarget.src.endsWith("/reviews/review33.jpg")) {
+                evento.currentTarget.src = "/reviews/review33.jpg";
+              }
+            }}
+          />
+        </button>
+        <p className="ll-tool-name">#{feedbackInEvidenza}</p>
+        <p className="ll-tool-caption ll-tool-green">CAMBIA IN AUTOMATICO</p>
+        <button
+          type="button"
+          className="ll-tool-action"
+          onClick={(evento) => {
+            evento.stopPropagation();
+            apriRecensioniComplete();
+          }}
+        >
+          VEDI TUTTI
+        </button>
+      </div>
+    </section>
+  )}
+
+  {playerVisibile && (
+    <section className="ll-tool-card">
+      <button
+        type="button"
+        className="ll-tool-close"
+        onClick={() => {
+          audioRef.current?.pause();
+          setMusicaAvviata(false);
+          setPlayerVisibile(false);
+        }}
+        aria-label="Chiudi player musicale"
+      >
+        ×
+      </button>
+      <h3 className="ll-tool-heading">MUSICA</h3>
+      <div className="ll-tool-content">
+        <img
+          className="ll-tool-sound-logo"
+          src="/lalinea-sound.jpg"
+          alt="LaLinea Sound"
+          data-no-preview="true"
+          width="76"
+          height="76"
+          decoding="async"
+        />
+        <div className="ll-tool-song" aria-live="polite">
+          <p className="ll-tool-name">{PLAYLIST_MUSICALE[indiceCanzone].titolo}</p>
+          <p className="ll-tool-caption ll-tool-yellow">
+            {PLAYLIST_MUSICALE[indiceCanzone].artista}
+          </p>
+        </div>
+        <div className="ll-tool-player-controls ll-tool-bottom">
+          <button
+            type="button"
+            className="ll-tool-round ll-tool-play"
+            onClick={togglePlayerMusicale}
+            aria-label={musicaAvviata ? "Metti in pausa" : "Riproduci"}
+            aria-pressed={musicaAvviata}
+          >
+            {musicaAvviata ? (
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <rect x="6" y="5" width="4" height="14" rx="1" />
+                <rect x="14" y="5" width="4" height="14" rx="1" />
+              </svg>
+            ) : (
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M8 5.5v13L18.5 12 8 5.5Z" />
+              </svg>
+            )}
+          </button>
+          <div className="ll-tool-skip-row">
+            <button
+              type="button"
+              className="ll-tool-round"
+              onClick={() => cambiaCanzonePlayer(-1)}
+              aria-label="Brano precedente"
+            >
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M7 5v14M19 6.5 10.5 12 19 17.5V6.5Z" fill="currentColor" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              className="ll-tool-round"
+              onClick={() => cambiaCanzonePlayer(1)}
+              aria-label="Brano successivo"
+            >
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M17 5v14M5 6.5 13.5 12 5 17.5V6.5Z" fill="currentColor" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+</div>
+
+<style>{`
+  .lalinea-mobile-shell:has(.ll-vertical-tools) {
+    --ll-tools-height: 16rem;
+  }
+  .lalinea-mobile-shell:has(.ll-vertical-tools)
+  :is(.ll-tetris-mobile, .ll-feedback-card, .ll-music-player) {
+    display: none !important;
+  }
+  .ll-vertical-tools {
+    position: fixed;
+    z-index: 9998;
+    left: 0.5rem;
+    bottom: calc(0.5rem + env(safe-area-inset-bottom));
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    gap: 4px;
+    width: calc(50% - 0.75rem);
+    height: var(--ll-tools-height);
+    padding: 4px;
+    border: 2px solid #ffdb35;
+    border-radius: 16px;
+    background: #050505;
+    color: #fff;
+  }
+  .ll-vertical-tools[hidden] { display: none !important; }
+  .ll-vertical-tools, .ll-vertical-tools * { box-sizing: border-box; }
+  .ll-tool-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    border: 1px solid #ffdb3580;
+    border-radius: 11px;
+    background: #080a09;
+  }
+  .ll-tool-close {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 1px solid #ffdb35;
+    border-radius: 50%;
+    background: #050505;
+    color: #ffdb35;
+    font-size: 21px;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .ll-tool-heading {
+    flex: 0 0 auto;
+    margin: 0;
+    padding: 8px 34px 8px 4px;
+    background: #ffdb35;
+    color: #050505;
+    font-size: 13px;
+    font-weight: 900;
+    line-height: 1.2;
+    text-align: center;
+  }
+  .ll-tool-content {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    min-width: 0;
+    min-height: 0;
+    padding: 6px 3px;
+  }
+  .ll-tool-name, .ll-tool-caption {
+    width: 100%;
+    margin: 0;
+    font-weight: 900;
+    line-height: 1.15;
+    text-align: center;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+  }
+  .ll-tool-name { font-size: 13px; }
+  .ll-tool-caption { font-size: 10px; }
+  .ll-tool-yellow { color: #ffdb35; }
+  .ll-tool-green { color: #43df80; }
+  .ll-tool-bottom { margin-top: auto; }
+  .ll-tool-action {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 34px;
+    padding: 4px 1px;
+    border: 1px solid #43df80;
+    border-radius: 999px;
+    background: #07140c;
+    color: #43df80;
+    font-size: 11px;
+    font-weight: 900;
+    line-height: 1.15;
+    cursor: pointer;
+  }
+  .ll-tool-tetris-mark {
+    display: grid;
+    flex: 0 0 auto;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+    width: min(100%, 48px);
+    margin: 7px 0;
+  }
+  .ll-tool-tetris-mark span { aspect-ratio: 1; border-radius: 3px; background: #ffdb35; }
+  .ll-tool-tetris-mark span:last-child { grid-column: 2; background: #43df80; }
+  .ll-tool-feedback-photo {
+    display: block;
+    flex: 1 1 0;
+    width: 100%;
+    min-height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid #ffdb3580;
+    border-radius: 8px;
+    background: #121413;
+    cursor: pointer;
+  }
+  .ll-tool-feedback-photo img { display: block; width: 100%; height: 100%; object-fit: contain; }
+  .ll-tool-sound-logo {
+    display: block;
+    flex: 0 0 auto;
+    width: min(100%, 60px);
+    height: auto;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    object-fit: contain;
+  }
+  .ll-tool-song { display: grid; gap: 3px; width: 100%; }
+  .ll-tool-song .ll-tool-name,
+  .ll-tool-song .ll-tool-caption {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+  .ll-tool-player-controls { display: flex; flex: 0 0 auto; flex-direction: column; align-items: center; gap: 3px; width: 100%; }
+  .ll-tool-skip-row { display: flex; justify-content: center; gap: 3px; width: 100%; }
+  .ll-tool-round {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 1 28px;
+    width: 28px;
+    height: 28px;
+    min-width: 0;
+    padding: 0;
+    border: 1px solid #43df8080;
+    border-radius: 50%;
+    background: #07140c;
+    color: #43df80;
+    cursor: pointer;
+  }
+  .ll-tool-round svg { width: 18px; height: 18px; }
+  .ll-tool-play { flex: 0 0 auto; width: 36px; height: 36px; border: 2px solid #ffdb35; background: #35d66d; color: #052312; }
+  .ll-vertical-tools button:focus-visible { outline: 2px solid #fff; outline-offset: -3px; }
+
+  .lalinea-mobile-shell:has(.ll-vertical-tools):has(.ll-tetris-mobile[data-feedback]) .ll-best-sellers {
+    left: auto !important;
+    right: 0.5rem !important;
+    bottom: calc(0.5rem + env(safe-area-inset-bottom)) !important;
+    width: calc(50% - 0.75rem) !important;
+    height: var(--ll-tools-height) !important;
+    max-height: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .ll-best-sellers-title { flex: 0 0 auto !important; }
+  .ll-best-sellers-grid { flex: 1 1 0% !important; min-height: 0 !important; grid-template-rows: minmax(0, 1fr) !important; }
+  .ll-best-sellers-grid > button { display: flex !important; flex-direction: column !important; min-height: 0 !important; min-width: 0 !important; }
+  .ll-best-sellers-grid video { display: block !important; flex: 1 1 0% !important; width: 100% !important; height: 0 !important; min-height: 0 !important; aspect-ratio: auto !important; object-fit: cover !important; }
+  .ll-best-seller-label { flex: 0 0 auto !important; min-height: 2rem !important; }
+
+  @media (max-width: 767px) {
+    .lalinea-mobile-shell:has(.ll-vertical-tools) { --ll-tools-height: 13.75rem; }
+    .ll-tool-heading { padding: 25px 1px 4px; font-size: 9px; }
+    .ll-tool-close { width: 23px; height: 23px; font-size: 18px; }
+    .ll-tool-content { gap: 3px; padding: 4px 2px; }
+    .ll-tool-name { font-size: 10px; }
+    .ll-tool-caption { font-size: 8px; }
+    .ll-tool-action { min-height: 28px; font-size: 9px; }
+    .ll-tool-tetris-mark { width: min(100%, 36px); margin: 4px 0; }
+    .ll-tool-sound-logo { width: min(100%, 40px); }
+    .ll-tool-round { flex-basis: 24px; width: 24px; height: 24px; }
+    .ll-tool-round svg { width: 15px; height: 15px; }
+    .ll-tool-play { flex-basis: auto; width: 32px; height: 32px; }
+    .ll-best-sellers-title { padding: 7px 25px 7px 4px !important; font-size: 9px !important; line-height: 1.15 !important; }
+    .lalinea-mobile-shell[data-vista-mobile] > :is(#shop, #promo, #tracking, #dicono-di-noi, #point, #delivery, #contatti),
+    .lalinea-mobile-shell[data-vista-mobile="home"] > .ll-mobile-home {
+      padding-bottom: calc(14.75rem + env(safe-area-inset-bottom)) !important;
+    }
+  }
+`}</style>
+{/* FINE TETRIS / FEEDBACK / MUSICA VERTICALI */}
 {tetrisAperto && (
   <div
     className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/95 p-2 backdrop-blur-sm sm:p-4"
