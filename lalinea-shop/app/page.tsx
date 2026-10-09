@@ -6365,6 +6365,151 @@ return (
   </div>
 )}
 
+{/* DRY WORK - FRANCO FULLGAS */}
+{categoriaAttiva === "Dry Work" && (
+  <div
+    id="franco-fullgas"
+    className="mt-8 rounded-3xl border border-yellow-300/80 bg-black/85 p-4 shadow-lg"
+  >
+    <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+      Dry Work
+    </p>
+
+    <h3 className="mt-2 text-3xl font-black uppercase text-white">
+      FRANCO FULLGAS
+    </h3>
+
+    <div className="mt-6 space-y-3">
+      <InfoRiga etichetta="GENETICA">
+        Sunset Sherbert x Diagonal Og
+      </InfoRiga>
+      <InfoRiga etichetta="PROPRIETARI DELLO STRAIN">
+        Cannarado Genetics
+      </InfoRiga>
+      <InfoRiga etichetta="GUSTO">
+        Se avete in mente Exodus Cheese, bene: preparatevi a un flashback.
+        Per gli altri mi serve un po’ di scuola.
+      </InfoRiga>
+      <InfoRiga etichetta="BILANCIAMENTO">
+        Sativa 60% - Indica 40%
+      </InfoRiga>
+      <InfoRiga etichetta="FORMATO">
+        50 congelati
+      </InfoRiga>
+    </div>
+
+    <div className="mt-6 rounded-2xl border border-green-400/70 bg-green-950/40 p-4">
+      <p className="text-sm font-black uppercase tracking-wide text-green-400">
+        PROMO LANCIO
+      </p>
+      <p className="mt-2 text-2xl font-black text-white">
+        100G a 330€
+      </p>
+      <p className="mt-1 text-sm text-zinc-300">
+        Prezzo ordinario: <span className="line-through">350€</span>
+      </p>
+    </div>
+
+    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
+      <video
+        src="/products/Dry work/TAVOLALAVORO1.MP4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/35 object-cover sm:w-1/2"
+        preload="metadata"
+      />
+
+      <div className="grid flex-1 grid-cols-2 gap-3 md:grid-cols-3">
+        {[2, 3, 4, 5, 6, 8].map((numero) => (
+          <img
+            key={numero}
+            src={`/products/Dry work/TAVOLALAVORO${numero}.JPG`}
+            alt={`FRANCO FULLGAS foto ${numero}`}
+            className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        ))}
+      </div>
+    </div>
+
+    <div className="mt-6">
+      <p className="mb-3 font-bold uppercase text-white">
+        Seleziona quantità
+      </p>
+
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        {[
+          { grammi: "10G", prezzo: 40, ordinario: 40 },
+          { grammi: "25G", prezzo: 90, ordinario: 90 },
+          { grammi: "50G", prezzo: 180, ordinario: 180 },
+          { grammi: "100G", prezzo: 330, ordinario: 350 },
+          { grammi: "500G", prezzo: 1500, ordinario: 1500 },
+        ].map((opzione) => (
+          <button
+            key={opzione.grammi}
+            type="button"
+            onClick={() => {
+              const id = `franco-fullgas-${opzione.grammi}`;
+
+              setCarrello((prev) => {
+                const esistente = prev.find(
+                  (item) => String(item.id) === id
+                );
+
+                if (esistente) {
+                  return prev.map((item) =>
+                    String(item.id) === id
+                      ? { ...item, quantita: item.quantita + 1 }
+                      : item
+                  );
+                }
+
+                return [
+                  ...prev,
+                  {
+                    id: id as any,
+                    nome: `FRANCO FULLGAS ${opzione.grammi}`,
+                    prezzo: opzione.prezzo,
+                    quantita: 1,
+                  },
+                ];
+              });
+            }}
+            className="rounded-2xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-left transition hover:border-green-400"
+          >
+            <p className="text-xl font-black text-white">
+              {opzione.grammi}
+            </p>
+
+            {opzione.ordinario > opzione.prezzo && (
+              <p className="mt-2 text-xs font-black uppercase text-green-400">
+                Promo lancio
+              </p>
+            )}
+
+            <p className="mt-3 text-xl font-black lalinea-price-neon">
+              {opzione.prezzo} €
+            </p>
+
+            {opzione.ordinario > opzione.prezzo && (
+              <p className="mt-1 text-sm text-zinc-400 line-through">
+                {opzione.ordinario} €
+              </p>
+            )}
+
+            <p className="mt-2 text-xs font-black uppercase text-white">
+              Aggiungi al carrello
+            </p>
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+)}
+
 {/* DRY WORK - GROVE STREET OG */}
 {categoriaAttiva === "Dry Work" && (
   <div id="grove-street-og" className="mt-8 rounded-3xl border border-yellow-300/80 bg-black/85 p-4 shadow-[0_0_30px_rgba(250,204,21,0.20)] sm:p-5">
