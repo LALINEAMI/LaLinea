@@ -5821,6 +5821,131 @@ return (
     </div>
   </div>
 )}
+{/* FLOWERS - CALISPAIN TOP SHELF PINEAPPLE DONUT */}
+{categoriaAttiva === "Flowers" && (
+  <div
+    id="pineapple-donut"
+    className="mt-8 rounded-3xl border border-yellow-300/80 bg-black/85 p-4 shadow-lg"
+  >
+    <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+      Flowers
+    </p>
+
+    <div className="mt-3 space-y-2 text-center">
+      <p className="text-2xl font-black uppercase text-yellow-400">
+        🇺🇸CALISPAIN🇪🇸
+      </p>
+      <p className="text-xl font-black uppercase text-yellow-300">
+        🏆TOP SHELF🏆
+      </p>
+      <h3 className="text-2xl font-black uppercase text-white sm:text-3xl">
+        🍍🍩PINEAPPLE DONUT 🍩🍍
+      </h3>
+    </div>
+
+    <div className="mt-6 space-y-3">
+      <InfoRiga etichetta="BILANCIAMENTO">
+        Sativa 70% - Indica 30%
+      </InfoRiga>
+      <InfoRiga etichetta="GENETICA">
+        Franken Cakes x Gorilla Diesel #3
+      </InfoRiga>
+      <InfoRiga etichetta="GUSTO">
+        Ananas🍍, Dolce🍰, Pino🌲
+      </InfoRiga>
+    </div>
+
+    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
+      <video
+        src="/products/flowers/ananas1.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/35 object-cover sm:w-1/2"
+        preload="metadata"
+      />
+
+      <div className="grid flex-1 grid-cols-2 gap-3 md:grid-cols-4">
+        {[2, 3, 4, 5, 6, 7, 8].map((numero) => (
+          <img
+            key={numero}
+            src={`/products/flowers/ananas${numero}.jpg`}
+            alt={`CALISPAIN TOP SHELF PINEAPPLE DONUT foto ${numero}`}
+            className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        ))}
+      </div>
+    </div>
+
+    <div className="mt-6">
+      <p className="mb-3 font-bold uppercase text-white">
+        Seleziona quantità
+      </p>
+
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        {[
+          { grammi: "3.5G", prezzo: 35 },
+          { grammi: "5G", prezzo: 45 },
+          { grammi: "10G", prezzo: 85 },
+          { grammi: "25G", prezzo: 200 },
+          { grammi: "50G", prezzo: 375 },
+          { grammi: "100G", prezzo: 550 },
+          { grammi: "250G", prezzo: 1250 },
+          { grammi: "500G", prezzo: 2200 },
+          { grammi: "1KG", prezzo: 3800 },
+        ].map((opzione) => (
+          <button
+            key={opzione.grammi}
+            type="button"
+            onClick={() => {
+              const id = `pineapple-donut-${opzione.grammi}`;
+
+              setCarrello((prev) => {
+                const esistente = prev.find(
+                  (item) => String(item.id) === id
+                );
+
+                if (esistente) {
+                  return prev.map((item) =>
+                    String(item.id) === id
+                      ? { ...item, quantita: item.quantita + 1 }
+                      : item
+                  );
+                }
+
+                return [
+                  ...prev,
+                  {
+                    id: id as any,
+                    nome: `CALISPAIN TOP SHELF - PINEAPPLE DONUT ${opzione.grammi}`,
+                    prezzo: opzione.prezzo,
+                    quantita: 1,
+                  },
+                ];
+              });
+            }}
+            className="rounded-2xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-left transition hover:border-green-400"
+          >
+            <p className="text-xl font-black text-white">
+              {opzione.grammi}
+            </p>
+
+            <p className="mt-3 text-xl font-black lalinea-price-neon">
+              {opzione.prezzo} €
+            </p>
+
+            <p className="mt-2 text-xs font-black uppercase text-white">
+              Aggiungi al carrello
+            </p>
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+)}
 
 {/* FLOWERS - LEMON CHERRY GELATO 2.0 */}
 {categoriaAttiva === "Flowers" && (
@@ -5953,131 +6078,6 @@ return (
   </div>
 )}
 
-{/* FLOWERS - CALISPAIN TOP SHELF PINEAPPLE DONUT */}
-{categoriaAttiva === "Flowers" && (
-  <div
-    id="pineapple-donut"
-    className="mt-8 rounded-3xl border border-yellow-300/80 bg-black/85 p-4 shadow-lg"
-  >
-    <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
-      Flowers
-    </p>
-
-    <div className="mt-3 space-y-2 text-center">
-      <p className="text-2xl font-black uppercase text-yellow-400">
-        🇺🇸CALISPAIN🇪🇸
-      </p>
-      <p className="text-xl font-black uppercase text-yellow-300">
-        🏆TOP SHELF🏆
-      </p>
-      <h3 className="text-2xl font-black uppercase text-white sm:text-3xl">
-        🍍🍩PINEAPPLE DONUT 🍩🍍
-      </h3>
-    </div>
-
-    <div className="mt-6 space-y-3">
-      <InfoRiga etichetta="BILANCIAMENTO">
-        Sativa 70% - Indica 30%
-      </InfoRiga>
-      <InfoRiga etichetta="GENETICA">
-        Franken Cakes x Gorilla Diesel #3
-      </InfoRiga>
-      <InfoRiga etichetta="GUSTO">
-        Ananas🍍, Dolce🍰, Pino🌲
-      </InfoRiga>
-    </div>
-
-    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
-      <video
-        src="/products/flowers/ananas1.mp4"
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/35 object-cover sm:w-1/2"
-        preload="metadata"
-      />
-
-      <div className="grid flex-1 grid-cols-2 gap-3 md:grid-cols-4">
-        {[2, 3, 4, 5, 6, 7, 8].map((numero) => (
-          <img
-            key={numero}
-            src={`/products/flowers/ananas${numero}.jpg`}
-            alt={`CALISPAIN TOP SHELF PINEAPPLE DONUT foto ${numero}`}
-            className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover"
-            loading="lazy"
-            decoding="async"
-          />
-        ))}
-      </div>
-    </div>
-
-    <div className="mt-6">
-      <p className="mb-3 font-bold uppercase text-white">
-        Seleziona quantità
-      </p>
-
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-        {[
-          { grammi: "3.5G", prezzo: 35 },
-          { grammi: "5G", prezzo: 45 },
-          { grammi: "10G", prezzo: 85 },
-          { grammi: "25G", prezzo: 200 },
-          { grammi: "50G", prezzo: 375 },
-          { grammi: "100G", prezzo: 550 },
-          { grammi: "250G", prezzo: 1250 },
-          { grammi: "500G", prezzo: 2200 },
-          { grammi: "1KG", prezzo: 3800 },
-        ].map((opzione) => (
-          <button
-            key={opzione.grammi}
-            type="button"
-            onClick={() => {
-              const id = `pineapple-donut-${opzione.grammi}`;
-
-              setCarrello((prev) => {
-                const esistente = prev.find(
-                  (item) => String(item.id) === id
-                );
-
-                if (esistente) {
-                  return prev.map((item) =>
-                    String(item.id) === id
-                      ? { ...item, quantita: item.quantita + 1 }
-                      : item
-                  );
-                }
-
-                return [
-                  ...prev,
-                  {
-                    id: id as any,
-                    nome: `CALISPAIN TOP SHELF - PINEAPPLE DONUT ${opzione.grammi}`,
-                    prezzo: opzione.prezzo,
-                    quantita: 1,
-                  },
-                ];
-              });
-            }}
-            className="rounded-2xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-left transition hover:border-green-400"
-          >
-            <p className="text-xl font-black text-white">
-              {opzione.grammi}
-            </p>
-
-            <p className="mt-3 text-xl font-black lalinea-price-neon">
-              {opzione.prezzo} €
-            </p>
-
-            <p className="mt-2 text-xs font-black uppercase text-white">
-              Aggiungi al carrello
-            </p>
-          </button>
-        ))}
-      </div>
-    </div>
-  </div>
-)}
 
 {/* FLOWERS - GORILLA GLUE 2 CALISPAIN */}
 {categoriaAttiva === "Flowers" && (
