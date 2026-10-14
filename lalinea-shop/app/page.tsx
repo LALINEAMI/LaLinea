@@ -1,4 +1,6 @@
 "use client";
+import LaLineaGameButton from "./components/LaLineaGameButton";
+
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import TetrisGame from "./components/TetrisGame";
@@ -8982,6 +8984,9 @@ rel="noopener noreferrer"
   }
 `}</style>
 {/* FINE TETRIS / FEEDBACK / MUSICA VERTICALI */}
+{/* LALINEA_GAME_INSTALLED */}
+<LaLineaGameButton />
+
 {tetrisAperto && (
   <div
     className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/95 p-2 backdrop-blur-sm sm:p-4"
