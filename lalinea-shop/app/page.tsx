@@ -1,9 +1,9 @@
 "use client";
-import LaLineaGameButton from "./components/LaLineaGameButton";
+
 
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import TetrisGame from "./components/TetrisGame";
+import { createPortal as laLineaGamePortal } from "react-dom";
 
 function mescolaNumeri(valori: number[]) {
   const copia = [...valori];
@@ -1079,6 +1079,22 @@ const apriRecensioniComplete = () => {
   });
 };
 const [tetrisAperto, setTetrisAperto] = useState(false);
+useEffect(() => {
+  if (!tetrisAperto) return;
+  const overflow = document.body.style.overflow;
+  const focus = document.activeElement as HTMLElement | null;
+  document.body.style.overflow = "hidden";
+  const onKey = (event: KeyboardEvent) => { if (event.key === "Escape") setTetrisAperto(false); };
+  window.addEventListener("keydown", onKey);
+  const frame = requestAnimationFrame(() => document.getElementById("lalinea-game-close")?.focus());
+  return () => {
+    cancelAnimationFrame(frame);
+    window.removeEventListener("keydown", onKey);
+    document.body.style.overflow = overflow;
+    focus?.focus();
+  };
+}, [tetrisAperto]);
+
 const [tetrisSchedaVisibile, setTetrisSchedaVisibile] = useState(true);
 const avviaMusica = () => {
   if (!musicaAvviata && audioRef.current) {
@@ -2573,7 +2589,7 @@ return (
     setTetrisAperto(true);
   }}
   className="ll-tetris-mobile fixed z-[9998] hidden border border-yellow-300 bg-black/95 text-left shadow-[0_0_16px_rgba(250,204,21,0.22)] md:hidden"
-  aria-label="Apri LaLinea Tetris"
+  aria-label="Apri LaLinea Game"
 >
   <span className="absolute inset-x-0 top-0 flex h-[2px]">
     <span className="flex-1 bg-cyan-400" />
@@ -2586,7 +2602,7 @@ return (
       GIOCA AL NUOVO GIOCO
     </span>
     <span className="mt-0.5 block truncate text-[9px] font-black uppercase text-white">
-      LALINEA TETRIS · MILANO
+      LALINEA GAME · MILANO
     </span>
   </span>
   <span className="shrink-0 rounded-full border border-green-400/70 px-1.5 py-1 text-[6px] font-black uppercase text-green-300">
@@ -3050,7 +3066,7 @@ return (
         evento.currentTarget.closest("dialog")?.close();
         setMenuAperto(false);
         setTetrisAperto(true);
-      }} className="min-h-11 rounded-lg border border-yellow-400/70 bg-black px-3 py-3 text-left text-sm font-bold text-yellow-300 shadow-[0_0_14px_rgba(250,204,21,0.14)]">Gioca a Tetris</button>
+      }} className="min-h-11 rounded-lg border border-yellow-400/70 bg-black px-3 py-3 text-left text-sm font-bold text-yellow-300 shadow-[0_0_14px_rgba(250,204,21,0.14)]">Gioca a LaLinea Game</button>
       <a href="/vip" className="flex min-h-11 items-center rounded-lg bg-yellow-400 px-3 py-3 text-sm font-black text-black shadow-[0_0_14px_rgba(250,204,21,0.18)]">Area VIP</a>
     </div>
   </dialog>
@@ -8407,7 +8423,7 @@ rel="noopener noreferrer"
     onClick={() => setTetrisAperto(true)}
     className="border-2 border-yellow-400 bg-black px-8 py-4 font-black uppercase text-yellow-400 hover:bg-yellow-400 hover:text-black rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
   >
-    GIOCA A TETRIS · LALINEA EDITION
+    GIOCA A LALINEA GAME · LALINEA EDITION
   </button>
 </div>
 
@@ -8612,7 +8628,7 @@ rel="noopener noreferrer"
 {/* INIZIO TETRIS / FEEDBACK / MUSICA VERTICALI */}
 <div
   className="ll-vertical-tools"
-  aria-label="Tetris, feedback e musica LaLinea"
+  aria-label="LaLinea Game, feedback e musica LaLinea"
   hidden={!tetrisSchedaVisibile && !feedbackPopupVisibile && !playerVisibile}
   onClick={(evento) => evento.stopPropagation()}
 >
@@ -8622,16 +8638,16 @@ rel="noopener noreferrer"
       type="button"
       className="ll-tool-close"
       onClick={() => setTetrisSchedaVisibile(false)}
-      aria-label="Chiudi scheda Tetris"
+      aria-label="Chiudi scheda LaLinea Game"
     >
       ×
     </button>
-    <h3 className="ll-tool-heading">TETRIS</h3>
+    <h3 className="ll-tool-heading">LALINEA GAME</h3>
     <div className="ll-tool-content">
       <div className="ll-tool-tetris-mark" aria-hidden="true">
         <span /><span /><span /><span />
       </div>
-      <p className="ll-tool-name">LALINEA TETRIS</p>
+      <p className="ll-tool-name">LALINEA GAME</p>
       <p className="ll-tool-caption ll-tool-yellow">GUADAGNA BUONI GIOCANDO</p>
       <button
         type="button"
@@ -8640,7 +8656,7 @@ rel="noopener noreferrer"
           evento.stopPropagation();
           setTetrisAperto(true);
         }}
-        aria-label="Apri il gioco completo LaLinea Tetris"
+        aria-label="Apri il gioco completo LaLinea Game"
       >
         GIOCA
       </button>
@@ -8985,30 +9001,21 @@ rel="noopener noreferrer"
 `}</style>
 {/* FINE TETRIS / FEEDBACK / MUSICA VERTICALI */}
 {/* LALINEA_GAME_INSTALLED */}
-<LaLineaGameButton />
 
-{tetrisAperto && (
-  <div
-    className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/95 p-2 backdrop-blur-sm sm:p-4"
-    onClick={() => setTetrisAperto(false)}
-  >
-    <div
-      className="relative max-h-[98dvh] w-full max-w-[480px] overflow-y-auto rounded-[30px] border border-yellow-300/60 bg-black p-2 shadow-[0_0_55px_rgba(250,204,21,0.24)] sm:p-3"
-      onClick={(evento) => evento.stopPropagation()}
-    >
-      <button
-        type="button"
-        onClick={() => setTetrisAperto(false)}
-        className="absolute right-4 top-4 z-[100] flex h-9 w-9 items-center justify-center rounded-full border border-yellow-300 bg-black/95 text-lg font-black text-yellow-300 shadow-[0_0_18px_rgba(250,204,21,0.28)]"
-        aria-label="Chiudi LaLinea Tetris"
-      >
-        ✕
-      </button>
 
-      <TetrisGame />
-    </div>
-  </div>
-)}
+{/* LALINEA_GAME_REPLACES_TETRIS_INLINE */}
+{tetrisAperto && typeof document !== "undefined" && laLineaGamePortal(
+  <div role="dialog" aria-modal="true" aria-label="LaLinea Game"
+    onClick={(event) => event.stopPropagation()}
+    style={{ position: "fixed", inset: 0, zIndex: 10002, display: "flex", flexDirection: "column", background: "#050505" }}>
+    <button id="lalinea-game-close" type="button" onClick={() => setTetrisAperto(false)}
+      style={{ flexShrink: 0, minHeight: 44, padding: "max(10px, env(safe-area-inset-top)) 12px 10px", textAlign: "left", background: "#050505", color: "#ffdb35", border: 0, borderBottom: "1px solid #ffdb3540", font: "700 13px system-ui, sans-serif", cursor: "pointer" }}>
+      ← CHIUDI E TORNA AL SITO LALINEA
+    </button>
+    <iframe src="/lalinea-game/index.html" title="LaLinea Game" allow="autoplay; fullscreen" allowFullScreen
+      style={{ flex: 1, minHeight: 0, width: "100%", border: 0, background: "#050505" }} />
+  </div>, document.body
+)} 
 
 
 </main>
