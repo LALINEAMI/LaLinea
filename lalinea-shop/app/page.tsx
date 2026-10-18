@@ -4,6 +4,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { createPortal as laLineaGamePortal } from "react-dom";
+import FruityCheese from "./components/FruityCheese";
 
 function mescolaNumeri(valori: number[]) {
   const copia = [...valori];
@@ -3785,6 +3786,40 @@ return (
     </p>
   </div>
 </div>
+{/* PREMIUM FILTRED - FRUITY CHEESE */}
+{categoriaAttiva === "Premium Filtred" && (
+  <FruityCheese
+    InfoRiga={InfoRiga}
+    onAggiungi={(grammi, prezzo) => {
+      const id = "fruity-cheese-" + grammi + "-" + prezzo;
+
+      setCarrello((prev) => {
+        const esistente = prev.find(
+          (item) => String(item.id) === id
+        );
+
+        if (esistente) {
+          return prev.map((item) =>
+            String(item.id) === id
+              ? { ...item, quantita: item.quantita + 1 }
+              : item
+          );
+        }
+
+        return [
+          ...prev,
+          {
+            id: id as any,
+            nome: "🧀FRUITY CHEESE🧀 " + grammi,
+            prezzo,
+            quantita: 1,
+          },
+        ];
+      });
+    }}
+  />
+)}
+
   {/* LEMON CHERRY GELATO - MAGIC MOUNTAIN FARMERS */}
 <div className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
   <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
@@ -4231,7 +4266,7 @@ return (
       <InfoRiga etichetta="BILANCIAMENTO">Indica 80% — Sativa 20%</InfoRiga>
       <InfoRiga etichetta="GENETICA">Purple Kush × Lemon Skunk × Anonymous St.</InfoRiga>
     </div>
-
+00
     <p className="mt-4 rounded-2xl border border-yellow-200 bg-yellow-400 px-3 py-2 font-black uppercase text-black shadow-[0_0_18px_rgba(250,204,21,0.35)]">
       Prodotto in promozione — lancio domenica
       <br />
