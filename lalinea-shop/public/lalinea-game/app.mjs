@@ -1,7 +1,7 @@
-import {ENGINE_VERSION,Game,ZONES,money,reward,newProgress,normalizeProgress,recordCompletion} from './core.mjs';
-import {Renderer} from './render.mjs';
-import {AudioEngine} from './audio.mjs';
-import {Rewards} from './rewards.mjs';
+import {ENGINE_VERSION,Game,ZONES,money,reward,newProgress,normalizeProgress,recordCompletion} from './core.mjs?v=20261019-mobile1';
+import {Renderer} from './render.mjs?v=20261019-mobile1';
+import {AudioEngine} from './audio.mjs?v=20261019-mobile1';
+import {Rewards} from './rewards.mjs?v=20261019-mobile1';
 const $=id=>document.getElementById(id), STORE='lalinea-milano-run-v1';
 function readStore(key){try{return localStorage.getItem(key);}catch{return null;}}
 function writeStore(key,value){try{localStorage.setItem(key,value);return true;}catch{return false;}}
@@ -44,13 +44,13 @@ function hud(){
   $('track-fill').style.width=Math.min(100,game.player.x/level.goal*100)+'%';$('pause').disabled=!['playing','paused'].includes(game.mode);
 }
 function overlay(kind='ready',reason=''){
-  clearInput();const level=game.level;$('overlay').hidden=false;$('overlay-secondary').hidden=kind==='ready';$('control-hint').hidden=kind!=='ready';$('intro-logo').hidden=kind!=='ready';
+  clearInput();$('vip-entry').hidden=kind!=='ready'||rewards.authenticated;const level=game.level;$('overlay').hidden=false;$('overlay-secondary').hidden=kind==='ready';$('control-hint').hidden=kind!=='ready';$('intro-logo').hidden=kind!=='ready';
   $('overlay-reward').innerHTML=`<span>BONUS LIVELLO ${level.number}</span><strong>${money(level.reward).replace(',00','')}</strong>`;
   if(kind==='ready'){
     $('overlay-overline').textContent=`LIVELLO ${String(level.number).padStart(2,'0')} · ${level.zone.name.toUpperCase()}`;
     $('overlay-title').textContent='LALINEA GAME';
     $('overlay-copy').innerHTML=`Raccogli <b>${level.required} oggetti LaLinea</b>.<br>Salta i poliziotti e raggiungi l’arrivo.`;
-    $('play').innerHTML='GIOCA <span>▶</span>';playAction=()=>startLevel();
+    $('play').innerHTML=rewards.authenticated?'GIOCA <span>▶</span>':'PROVA SENZA BUONI';playAction=()=>startLevel();
   }else if(kind==='paused'){
     $('overlay-overline').textContent='PAUSA';$('overlay-title').textContent='RIPRENDI LA CORSA';
     $('overlay-copy').innerHTML='La moto ti aspetta.<br>Riparti da dove ti sei fermato.';$('play').innerHTML='RIPRENDI <span>▶</span>';playAction=()=>resume();
@@ -89,7 +89,7 @@ function showMap(){buildMap();openDialog('map-dialog');}
 $('map').addEventListener('click',showMap);$('overlay-secondary').addEventListener('click',showMap);$('play').addEventListener('click',()=>playAction());
 $('pause').addEventListener('click',()=>game.mode==='paused'?resume():pause());
 async function showBonus(){bonusUI();openDialog('bonus-dialog');try{await rewards.refresh();rewardError='';bonusUI();}catch(error){rewardError=error.message;bonusUI();}}
-$('bonus-btn').addEventListener('click',showBonus);$('vip-access').addEventListener('click',showBonus);
+$('intro-vip').addEventListener('click',showBonus);$('bonus-btn').addEventListener('click',showBonus);$('vip-access').addEventListener('click',showBonus);
 $('vip-form').addEventListener('submit',async event=>{
   event.preventDefault();$('vip-login').disabled=true;rewardError='';$('voucher-status').textContent='Accesso in corso…';
   try{await rewards.login($('vip-phone').value,$('vip-pin').value);$('vip-pin').value='';modalWasPlaying=false;game.load(progress.unlocked);overlay('ready');$('voucher-status').textContent='Accesso riuscito. I premi saranno salvati sul VIP.';bonusUI();}
@@ -142,7 +142,7 @@ $('volume').addEventListener('input',event=>{audio.setVolume(Number(event.target
 $('audio-file').addEventListener('change',async event=>{const file=event.target.files?.[0];if(!file)return;if(file.size>50*1024*1024){toast('Scegli un brano sotto i 50 MB.');event.target.value='';return;}if(!file.type.startsWith('audio/')&&!/\.(mp3|m4a|ogg|wav|aac|flac)$/i.test(file.name)){toast('Scegli un file audio.');return;}$('track-name').textContent=audio.useFile(file);audio.music.addEventListener('error',()=>toast('Formato audio non riproducibile. Prova un MP3.'),{once:true});await audio.toggle(true);writeStore('lalinea-audio','on');audioUI();});
 const controls={left:'left',right:'right',jump:'jump'};
 for(const[id,key]of Object.entries(controls)){
-  const button=$(id);button.addEventListener('pointerdown',event=>{event.preventDefault();if(game.mode!=='playing')return;button.setPointerCapture(event.pointerId);input[key]=true;button.classList.add('is-down');});
+  const button=$(id);button.addEventListener('pointerdown',event=>{event.preventDefault();if(game.mode!=='playing')return;try{button.setPointerCapture(event.pointerId);}catch{}input[key]=true;button.classList.add('is-down');});
   const release=event=>{event.preventDefault();input[key]=false;button.classList.remove('is-down');};button.addEventListener('pointerup',release);button.addEventListener('pointercancel',release);button.addEventListener('lostpointercapture',release);
 }
 const keyActions={ArrowLeft:'left',KeyA:'left',ArrowRight:'right',KeyD:'right',ArrowUp:'jump',KeyW:'jump',Space:'jump'};
@@ -150,7 +150,14 @@ window.addEventListener('keydown',event=>{if(document.querySelector('dialog[open
 window.addEventListener('keyup',event=>{const key=keyActions[event.code];if(key){input[key]=false;if(game.mode==='playing')event.preventDefault();}});
 window.addEventListener('blur',()=>{clearInput();pause();});document.addEventListener('visibilitychange',()=>{if(document.hidden){clearInput();pause();}});
 function resize(){const r=$('screen').getBoundingClientRect();if(r.width>0&&r.height>0)renderer.resize(r.width,r.height,window.devicePixelRatio||1);}
-new ResizeObserver(resize).observe($('screen'));window.addEventListener('orientationchange',resize);
+new ResizeObserver(resize).observe($('screen'));window.addEventListener('orientationchange',()=>{clearInput();requestAnimationFrame(updateViewport);});
+function updateViewport(){document.documentElement.style.setProperty('--ll-vh',`${window.visualViewport?.height||window.innerHeight}px`);resize();}
+window.addEventListener('resize',updateViewport);window.visualViewport?.addEventListener('resize',updateViewport);updateViewport();
+for(const area of document.querySelectorAll('.arcade,.topbar')){
+ for(const type of ['contextmenu','selectstart','dragstart'])area.addEventListener(type,event=>event.preventDefault());
+ area.addEventListener('touchstart',event=>{if(event.target.closest('.mobile-controls button'))event.preventDefault();},{passive:false});
+}
+
 function processEvents(){for(const event of game.drainEvents()){
   audio.effect(event.type);
   if(event.type==='collect')renderer.pickup(game.player);
