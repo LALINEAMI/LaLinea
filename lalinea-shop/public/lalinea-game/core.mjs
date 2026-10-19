@@ -1,3 +1,4 @@
+export const ENGINE_VERSION='lalinea-rewards-2.0.0';
 export const WIDTH=960, HEIGHT=540, FLOOR=430;
 export const ZONES=[
   {name:'Duomo',label:'Sotto la Madonnina',sky:'#87d4f4',light:'#e6f9fc',accent:'#ffab40',color:'#f9eac9',scene:'duomo'},
@@ -15,8 +16,8 @@ export const money=cents=>new Intl.NumberFormat('it-IT',{style:'currency',curren
 export function reward(level){if(level===1)return 200;if(level===2)return 500;if(level===3)return 1000;return (10+Math.round((level-3)*190/47))*100;}
 export function random(seed){return()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
 export const overlap=(a,b)=>a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;
-export function makeLevel(n){
-  n=Math.min(50,Math.max(1,Math.floor(n))); const rand=random(n*85127), difficulty=(n-1)/49;
+export function makeLevel(n,seed=0){
+  n=Math.min(50,Math.max(1,Math.floor(n))); const rand=random(n*85127+seed), difficulty=(n-1)/49;
   const terrain=[], platforms=[], items=[], enemies=[], checkpoints=[];
   const sections=5+Math.floor(n/5);let x=0;
   function item(ix,iy,type){items.push({id:items.length,x:ix,y:iy,w:22,h:26,type,collected:false});}
@@ -56,9 +57,9 @@ export function recordCompletion(progress,level,coins,hearts){
   progress.allCoins=Object.values(progress.completed).reduce((sum,v)=>sum+v.coins,0);return progress;
 }
 export class Game{
-  constructor(level=1){this.load(level);}
-  load(level){
-    this.level=makeLevel(level);this.player={x:56,y:FLOOR-64,w:72,h:64,vx:0,vy:0,grounded:true,facing:1,coyote:.12,invincible:0};
+  constructor(level=1,seed=0){this.load(level,seed);}
+  load(level,seed=0){
+    this.level=makeLevel(level,seed);this.player={x:56,y:FLOOR-64,w:72,h:64,vx:0,vy:0,grounded:true,facing:1,coyote:.12,invincible:0};
     this.spawn={x:56,y:FLOOR-64};this.elapsed=0;this.remaining=this.level.time;this.hearts=3;this.coins=0;this.camera=0;this.mode='ready';this.jumpBuffer=0;this.jumpHeld=false;this.particles=[];this.events=[];this.goalHint=0;
   }
   start(){if(this.mode==='ready')this.mode='playing';}

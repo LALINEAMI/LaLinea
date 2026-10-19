@@ -1303,6 +1303,11 @@ const [codiceSconto, setCodiceSconto] = useState("");
 const [scontoPercentuale, setScontoPercentuale] = useState(0);
 const [messaggioSconto, setMessaggioSconto] = useState("");
 const [codiceTetrisValidato, setCodiceTetrisValidato] = useState("");
+// LALINEA_REAL_REWARDS_V1
+const [codiceLaLineaGameValidato, setCodiceLaLineaGameValidato] = useState("");
+const gameCheckoutBusy = useRef(false);
+const gameCheckoutRef = useRef<{code: string; key: string; signature: string} | null>(null);
+
 const [categoriaAttiva, setCategoriaAttiva] = useState("");  
 const [menuAperto, setMenuAperto] = useState(false);
 const [playerVisibile, setPlayerVisibile] = useState(true);
@@ -1888,7 +1893,7 @@ const costoConsegna = 10;
 
 const importoSconto =
   scontoPercentuale < 0
-    ? Math.abs(scontoPercentuale)
+    ? (codiceLaLineaGameValidato ? Math.min(totaleCarrello, Math.abs(scontoPercentuale)) : Math.abs(scontoPercentuale))
     : totaleCarrello * (scontoPercentuale / 100);
 
 const totaleCarrelloScontato = Math.max(
@@ -1898,8 +1903,8 @@ const totaleCarrelloScontato = Math.max(
 
 const totaleOrdine = totaleCarrelloScontato + costoConsegna;
 
-const applicaCodiceSconto = async () => {
-  const codice = codiceSconto.trim().toUpperCase();
+const applicaCodiceSconto = async (codiceRicevuto?: unknown) => {
+  const codice = (typeof codiceRicevuto === "string" ? codiceRicevuto : codiceSconto).trim().toUpperCase();
 
   if (!codice) {
     setScontoPercentuale(0);
@@ -1908,6 +1913,23 @@ const applicaCodiceSconto = async () => {
   }
 
   setCodiceTetrisValidato("");
+  setCodiceLaLineaGameValidato("");
+  if (/^LLG-[A-F0-9]{24}$/.test(codice)) {
+    try {
+      let requestKey: string | undefined;
+      try { const saved = JSON.parse(localStorage.getItem("lalinea-game-checkout-v1") || "null"); if (saved?.code === codice) requestKey = saved.key; } catch {}
+      const response = await fetch("/api/lalinea-game", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "validate", code: codice, requestKey }) });
+      const result = await response.json();
+      const value = Number(result.valore);
+      if (!response.ok || !result.valido || !Number.isFinite(value) || value <= 0 || value > 200) throw new Error(result.error || "Buono LaLinea Game non valido");
+      setCodiceLaLineaGameValidato(codice); setScontoPercentuale(-value);
+      setMessaggioSconto(`Buono personale LaLinea Game: ${value.toFixed(2)} € disponibili. Verrà utilizzato alla conferma; il credito rimanente resta sul VIP.`);
+      return;
+    } catch (error) {
+      setScontoPercentuale(0); setMessaggioSconto(error instanceof Error ? error.message : "Verifica del buono non disponibile"); return;
+    }
+  }
+
 
   // CODICI VECCHI GIÀ ESISTENTI
   if (codice === "CESOLOLALINEA26") {
@@ -2011,8 +2033,39 @@ const applicaCodiceSconto = async () => {
     setMessaggioSconto("Errore durante la verifica del codice");
   }
 };
+useEffect(() => {
+  const acceptCode = (code: string) => {
+    setCodiceSconto(code); setTetrisAperto(false); apriCarrelloCatalogo();
+    void applicaCodiceSconto(code);
+  };
+  const receive = (event: MessageEvent) => {
+    const frame = document.querySelector<HTMLIFrameElement>('iframe[src="/lalinea-game/index.html"]');
+    if (event.origin !== window.location.origin || event.source !== frame?.contentWindow || event.data?.type !== "LALINEA_GAME_VOUCHER" || typeof event.data.code !== "string" || !/^LLG-[A-F0-9]{24}$/.test(event.data.code)) return;
+    acceptCode(event.data.code);
+  };
+  window.addEventListener("message", receive);
+  const url = new URL(window.location.href), code = url.searchParams.get("lalineaVoucher");
+  if (code && /^LLG-[A-F0-9]{24}$/.test(code)) {
+    url.searchParams.delete("lalineaVoucher"); window.history.replaceState(null, "", url.toString()); acceptCode(code);
+  }
+  return () => window.removeEventListener("message", receive);
+}, [tetrisAperto]);
+
 
  const inviaOrdineTelegram = async () => {
+if (gameCheckoutBusy.current) return;
+gameCheckoutBusy.current = true;
+try {
+  if (codiceLaLineaGameValidato) {
+    const signature = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(JSON.stringify({ code: codiceLaLineaGameValidato, carrello, datiCliente, dataConsegna, orarioConsegna }))))).map(byte => byte.toString(16).padStart(2, "0")).join("");
+    if (gameCheckoutRef.current?.signature !== signature) {
+      let saved: {code: string; key: string; signature: string} | null = null;
+      try { saved = JSON.parse(localStorage.getItem("lalinea-game-checkout-v1") || "null"); } catch {}
+      gameCheckoutRef.current = saved?.signature === signature ? saved : { code: codiceLaLineaGameValidato, key: crypto.randomUUID(), signature };
+      try { localStorage.setItem("lalinea-game-checkout-v1", JSON.stringify(gameCheckoutRef.current)); } catch {}
+    }
+  }
+
   const prodottiOrdine = carrello
     .map(
       (item) =>
@@ -2022,7 +2075,7 @@ const applicaCodiceSconto = async () => {
     )
     .join("\n");
 
-  const messaggio = `
+  let messaggio = `
 NUOVO ORDINE LALINEA
 
 Nome: ${datiCliente.nome}
@@ -2118,6 +2171,14 @@ const liberaSlotPrenotato = async () => {
 
   prenotazioneSlotId = null;
 };
+
+if (codiceLaLineaGameValidato) {
+  try {
+    const response = await fetch("/api/lalinea-game", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "validate", code: codiceLaLineaGameValidato, requestKey: gameCheckoutRef.current?.key }) });
+    const result = await response.json();
+    if (!response.ok || !result.valido || Math.abs(Number(result.valore) - Math.abs(scontoPercentuale)) > 0.001) throw new Error(result.error || "Il buono è cambiato: applicalo di nuovo.");
+  } catch (error) { window.alert(error instanceof Error ? error.message : "Verifica del buono non disponibile"); await liberaSlotPrenotato(); return; }
+}
 if (codiceTetrisValidato) {
   try {
     const verificaPremio = await fetch("/api/tetris-reward", {
@@ -2159,7 +2220,7 @@ const premiConPunti = carrello.filter((item) =>
       ].includes(Number(item.id))
     );
 
-    if (premiConPunti.length > 0) {
+    if (premiConPunti.length > 0 && !codiceLaLineaGameValidato) {
       const pinVip = window.prompt(
         "Inserisci il PIN VIP per riscattare i premi"
       );
@@ -2241,8 +2302,27 @@ const premiConPunti = carrello.filter((item) =>
     }
   }
 
-  const testo = encodeURIComponent(messaggio);
-await fetch("/api/vip/order", {
+  
+if (codiceLaLineaGameValidato) {
+  try {
+    const response = await fetch("/api/lalinea-game", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "consume", code: codiceLaLineaGameValidato, requestKey: gameCheckoutRef.current?.key,
+        telefono: datiCliente.telefono, subtotalCents: Math.round(totaleCarrello * 100), deliveryCents: Math.round(costoConsegna * 100),
+        premi: premiConPunti.map(item => ({ id: Number(item.id), quantita: item.quantita })) })
+    });
+    const result = await response.json();
+    if (!response.ok || !result.valido) throw new Error(result.error || "Impossibile utilizzare il buono");
+    messaggio += `
+Buono LaLinea Game: ${codiceLaLineaGameValidato}
+Riferimento ordine: ${result.orderId}
+Credito utilizzato: ${(result.appliedCents / 100).toFixed(2)} €`;
+    if (result.pointsDebited > 0) window.alert(`Premi riscattati: ${result.pointsDebited} punti utilizzati. Punti rimasti: ${result.pointsRemaining}`);
+  } catch (error) { window.alert(error instanceof Error ? error.message : "Collegamento ai buoni non disponibile"); await liberaSlotPrenotato(); return; }
+}
+
+const testo = encodeURIComponent(messaggio);
+if (!codiceLaLineaGameValidato) await fetch("/api/vip/order", {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
@@ -2256,6 +2336,8 @@ await fetch("/api/vip/order", {
   window.location.assign(
     `https://t.me/LaLineaMiOrdini?text=${testo}`
   );
+
+} finally { gameCheckoutBusy.current = false; }
 };
 if (caricamentoIniziale) {
   return (
@@ -7796,6 +7878,8 @@ onChange={(e) => setDatiCliente((prev) => ({ ...prev, email: e.target.value }))}
 onChange={(e) => {
   setCodiceSconto(e.target.value.toUpperCase());
   setCodiceTetrisValidato("");
+  setCodiceLaLineaGameValidato("");
+  gameCheckoutRef.current = null;
   setScontoPercentuale(0);
   setMessaggioSconto("");
 }}
