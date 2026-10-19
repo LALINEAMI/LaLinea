@@ -1,4 +1,4 @@
-import {HEIGHT,FLOOR,WIDTH} from './core.mjs';
+import {HEIGHT,FLOOR,WIDTH} from './core.mjs?v=20261019-hard3';
 const P={black:'#08090c',gray:'#505967',white:'#f6f4dc',yellow:'#ffdb35',green:'#43df80'};
 const snap=n=>Math.round(n);
 function box(c,x,y,w,h,color){c.fillStyle=color;c.fillRect(snap(x),snap(y),snap(w),snap(h));}

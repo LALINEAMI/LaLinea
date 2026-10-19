@@ -18,7 +18,7 @@ export default function LaLineaGamePage() {
         ← TORNA AL SITO LALINEA
       </a>
       <iframe
-        src="/lalinea-game/index.html"
+        src="/lalinea-game/index.html?v=20261019-hard3"
         title="LaLinea Game"
         allow="autoplay; fullscreen"
         allowFullScreen

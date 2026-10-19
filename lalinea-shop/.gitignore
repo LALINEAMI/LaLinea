@@ -47,3 +47,7 @@ next-env.d.ts
 # LaLinea Game: installer e copie di sicurezza
 /attiva-buoni-lalinea.mjs
 /lalinea-punti.zip
+.lalinea-game-backup/
+/aggiorna-lalinea-mobile.mjs
+/LaLinea-Game-Mobile-VIP.zip
+/aggiorna-lalinea-sfida.mjs

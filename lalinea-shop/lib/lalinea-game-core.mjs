@@ -1,4 +1,4 @@
-export const ENGINE_VERSION='lalinea-rewards-2.0.0';
+export const ENGINE_VERSION='lalinea-rewards-3.0.0-hard';
 export const WIDTH=960, HEIGHT=540, FLOOR=430;
 export const ZONES=[
   {name:'Duomo',label:'Sotto la Madonnina',sky:'#87d4f4',light:'#e6f9fc',accent:'#ffab40',color:'#f9eac9',scene:'duomo'},
@@ -19,7 +19,7 @@ export const overlap=(a,b)=>a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;
 export function makeLevel(n,seed=0){
   n=Math.min(50,Math.max(1,Math.floor(n))); const rand=random(n*85127+seed), difficulty=(n-1)/49;
   const terrain=[], platforms=[], items=[], enemies=[], checkpoints=[];
-  const sections=5+Math.floor(n/5);let x=0;
+  const sections=7+Math.min(n-1,2)+Math.floor(n/5);let x=0;
   function item(ix,iy,type){items.push({id:items.length,x:ix,y:iy,w:22,h:26,type,collected:false});}
   for(let s=0;s<sections;s++){
     const length=600+Math.floor(rand()*80), ground={x,y:FLOOR,w:length,h:HEIGHT-FLOOR+120,kind:'ground'};terrain.push(ground);
@@ -28,18 +28,19 @@ export function makeLevel(n,seed=0){
     for(let i=0;i<7;i++)item(x+62+i*77,FLOOR-34, i%4===0?'seed':i%4===2?'gadget':'coin');
     for(let i=0;i<3;i++)item(top.x+19+i*49,top.y-35,i===1?'gadget':'coin');
     if(s%2===1)for(let i=0;i<2;i++)item(x+354+i*52,214,'seed');
-    if(s>0){
-      enemies.push({x:x+390,y:FLOOR-58,w:36,h:58,base:x+390,range:52+60*difficulty,speed:65+n*2.6,phase:rand()*6.28,kind:'police',disabled:false});
-      if(n>=12&&s%2===0)enemies.push({x:x+240,y:FLOOR-58,w:36,h:58,base:x+240,range:38,speed:75+n*2.8,phase:rand()*6.28,kind:'police',disabled:false});
+    if(s>=0){
+      enemies.push({x:x+390,y:FLOOR-58,w:36,h:58,base:x+390,range:66+36*difficulty,speed:110+n*2.8,phase:rand()*6.28,kind:'police',disabled:false});
+      if(n>=3||(n===2&&s%2===0))enemies.push({x:x+240,y:FLOOR-58,w:36,h:58,base:x+240,range:44,speed:120+n*3,phase:rand()*6.28,kind:'police',disabled:false});
     }
-    if(s>0&&s%3===0)checkpoints.push({x:x+56,y:FLOOR,active:false});
+    if(n>=16&&s%2===1)enemies.push({x:top.x+60,y:top.y-58,w:36,h:58,base:top.x+60,range:38,speed:105+n*2.1,phase:rand()*6.28,kind:'police',disabled:false});
+    if(n<=10&&s>0&&s%5===0)checkpoints.push({x:x+56,y:FLOOR,active:false});
     if(s<sections-1){
-      const gap=82+Math.floor(difficulty*58+rand()*12);
+      const gap=105+Math.floor(difficulty*40+rand()*12);
       for(let i=0;i<3;i++)item(x+length-13+i*(gap+26)/2,FLOOR-103-Math.sin(i*Math.PI/2)*20,'coin');
       x+=length+gap;
     }else x+=length;
   }
-  return {number:n,zone:ZONES[Math.floor((n-1)/5)],width:x,terrain,platforms,items,enemies,checkpoints,goal:x-110,required:Math.min(12+Math.floor(n/3),30),time:210-Math.floor(difficulty*90),reward:reward(n)};
+  return {number:n,zone:ZONES[Math.floor((n-1)/5)],width:x,terrain,platforms,items,enemies,checkpoints,goal:x-110,required:Math.ceil(items.length*(.80+.02*Math.min(n-1,2)+.06*difficulty)),time:Math.ceil(x/310*2.2+24),reward:reward(n)};
 }
 export function newProgress(){return{version:1,unlocked:1,completed:{},highestBonus:0,recordedBonus:0,allCoins:0};}
 export function normalizeProgress(data){
@@ -60,7 +61,7 @@ export class Game{
   constructor(level=1,seed=0){this.load(level,seed);}
   load(level,seed=0){
     this.level=makeLevel(level,seed);this.player={x:56,y:FLOOR-64,w:72,h:64,vx:0,vy:0,grounded:true,facing:1,coyote:.12,invincible:0};
-    this.spawn={x:56,y:FLOOR-64};this.elapsed=0;this.remaining=this.level.time;this.hearts=3;this.coins=0;this.camera=0;this.mode='ready';this.jumpBuffer=0;this.jumpHeld=false;this.particles=[];this.events=[];this.goalHint=0;
+    this.spawn={x:56,y:FLOOR-64};this.elapsed=0;this.remaining=this.level.time;this.hearts=2;this.coins=0;this.camera=0;this.mode='ready';this.jumpBuffer=0;this.jumpHeld=false;this.particles=[];this.events=[];this.goalHint=0;
   }
   start(){if(this.mode==='ready')this.mode='playing';}
   emit(type,data={}){this.events.push({type,...data});}
@@ -71,7 +72,7 @@ export class Game{
     this.hearts--;this.emit('hit');if(this.hearts===0){this.mode='lost';this.emit('lost',{reason:'hearts'});return;}
     this.respawn();
   }
-  respawn(){Object.assign(this.player,{x:this.spawn.x,y:this.spawn.y,vx:0,vy:0,grounded:true,coyote:.12,invincible:1.6});this.jumpBuffer=0;this.camera=Math.max(0,this.player.x-250);}
+  respawn(){Object.assign(this.player,{x:this.spawn.x,y:this.spawn.y,vx:0,vy:0,grounded:true,coyote:.12,invincible:.9});this.jumpBuffer=0;this.camera=Math.max(0,this.player.x-250);}
   step(dt,input={}){
     dt=Math.min(.025,Math.max(0,dt));
     for(const pt of this.particles){pt.t-=dt;pt.x+=pt.vx*dt;pt.y+=pt.vy*dt;pt.vy+=350*dt;}this.particles=this.particles.filter(pt=>pt.t>0);

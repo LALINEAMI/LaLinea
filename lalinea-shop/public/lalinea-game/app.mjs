@@ -1,7 +1,7 @@
-import {ENGINE_VERSION,Game,ZONES,money,reward,newProgress,normalizeProgress,recordCompletion} from './core.mjs?v=20261019-mobile1';
-import {Renderer} from './render.mjs?v=20261019-mobile1';
-import {AudioEngine} from './audio.mjs?v=20261019-mobile1';
-import {Rewards} from './rewards.mjs?v=20261019-mobile1';
+import {ENGINE_VERSION,Game,ZONES,money,reward,newProgress,normalizeProgress,recordCompletion} from './core.mjs?v=20261019-hard3';
+import {Renderer} from './render.mjs?v=20261019-hard3';
+import {AudioEngine} from './audio.mjs?v=20261019-hard3';
+import {Rewards} from './rewards.mjs?v=20261019-hard3';
 const $=id=>document.getElementById(id), STORE='lalinea-milano-run-v1';
 function readStore(key){try{return localStorage.getItem(key);}catch{return null;}}
 function writeStore(key,value){try{localStorage.setItem(key,value);return true;}catch{return false;}}
@@ -39,7 +39,7 @@ function bonusUI(){
 function hud(){
   const level=game.level;$('level-number').textContent=String(level.number).padStart(2,'0');$('district').textContent=level.zone.name;$('district-label').textContent=level.zone.label.toUpperCase();
   $('coins').textContent=money(game.coins*5);$('collect-progress').textContent=`${game.coins} / ${level.required} oggetti`;
-  $('hearts').textContent='♥ '.repeat(game.hearts)+'♡ '.repeat(3-game.hearts);$('hearts').setAttribute('aria-label',`${game.hearts} vite`);
+  $('hearts').textContent='♥ '.repeat(game.hearts)+'♡ '.repeat(2-game.hearts);$('hearts').setAttribute('aria-label',`${game.hearts} vite`);
   const seconds=Math.ceil(game.remaining);$('timer').textContent=`${Math.floor(seconds/60).toString().padStart(2,'0')}:${(seconds%60).toString().padStart(2,'0')}`;
   $('track-fill').style.width=Math.min(100,game.player.x/level.goal*100)+'%';$('pause').disabled=!['playing','paused'].includes(game.mode);
 }
@@ -62,7 +62,7 @@ function overlay(kind='ready',reason=''){
     playAction=()=>{game.load(level.number===50?50:level.number+1);startLevel();};
   }else{
     $('overlay-overline').textContent=reason==='time'?'TEMPO TERMINATO':'VITE TERMINATE';$('overlay-title').textContent='GAME OVER';
-    $('overlay-copy').innerHTML=reason==='time'?'Questa volta il tempo è scaduto.<br>Riprova e scegli la tua strada.':'Tre vite, una nuova partenza.<br>Ogni corsa ti porta più lontano.';
+    $('overlay-copy').innerHTML=reason==='time'?'Questa volta il tempo è scaduto.<br>Riprova e scegli la tua strada.':'Due vite, una nuova partenza.<br>Ogni corsa ti porta più lontano.';
     $('play').innerHTML='Riprova <span>↻</span>';playAction=()=>{game.load(level.number);startLevel();};
   }
   $('overlay-secondary').textContent='Mappa livelli';hud();
@@ -70,6 +70,7 @@ function overlay(kind='ready',reason=''){
 async function startLevel(){
   if(starting||booting)return;starting=true;$('play').disabled=true;rewardError='';
   try{
+    /* LALINEA_MARIO_AUDIO_V1 */ audio.unlock();
     const level=game.level.number,run=await rewards.begin(level);
     if(run&&run.engine!==ENGINE_VERSION)throw new Error('Aggiorna la pagina per usare la nuova versione del gioco.');
     game.load(level,run?.seed||0);clearInput();game.start();$('overlay').hidden=true;await audio.play();hud();

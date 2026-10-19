@@ -2039,7 +2039,7 @@ useEffect(() => {
     void applicaCodiceSconto(code);
   };
   const receive = (event: MessageEvent) => {
-    const frame = document.querySelector<HTMLIFrameElement>('iframe[src="/lalinea-game/index.html"]');
+    const frame = document.querySelector<HTMLIFrameElement>('iframe[src="/lalinea-game/index.html?v=20261019-hard3"]');
     if (event.origin !== window.location.origin || event.source !== frame?.contentWindow || event.data?.type !== "LALINEA_GAME_VOUCHER" || typeof event.data.code !== "string" || !/^LLG-[A-F0-9]{24}$/.test(event.data.code)) return;
     acceptCode(event.data.code);
   };
@@ -9131,7 +9131,7 @@ rel="noopener noreferrer"
       style={{ flexShrink: 0, minHeight: 44, padding: "max(10px, env(safe-area-inset-top)) 12px 10px", textAlign: "left", background: "#050505", color: "#ffdb35", border: 0, borderBottom: "1px solid #ffdb3540", font: "700 13px system-ui, sans-serif", cursor: "pointer" }}>
       ← CHIUDI E TORNA AL SITO LALINEA
     </button>
-    <iframe src="/lalinea-game/index.html" title="LaLinea Game" allow="autoplay; fullscreen" allowFullScreen
+    <iframe src="/lalinea-game/index.html?v=20261019-hard3" title="LaLinea Game" allow="autoplay; fullscreen" allowFullScreen
       style={{ flex: 1, minHeight: 0, width: "100%", border: 0, background: "#050505" }} />
   </div>, document.body
 )} 
