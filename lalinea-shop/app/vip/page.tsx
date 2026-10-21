@@ -34,6 +34,9 @@ export default function VipPage() {
           <h1 className="mt-3 text-3xl font-black uppercase">
             Ciao, {cliente.nome}
           </h1>
+          {/* LALINEA_VIP_GAME_LINK_V1 */}
+          <a href="/lalinea-game" style={{display:'block',marginTop:20,padding:'16px',border:'2px solid #ffdb35',borderRadius:12,color:'#ffdb35',fontWeight:900,textAlign:'center',textDecoration:'none'}}>🎮 GIOCA E GUADAGNA BUONI →</a>
+          <p style={{fontSize:12,color:'#a9b5ad',marginTop:8}}>Accesso al gioco automatico su questo browser dopo il login VIP. I buoni in euro sono separati dai punti fedeltà.</p>
 
           <div className="my-8 bg-yellow-400 p-6 text-center text-black">
             <p className="font-black uppercase">Punti disponibili</p>
@@ -75,6 +78,7 @@ export default function VipPage() {
           <button
             type="button"
             onClick={() => {
+              void fetch('/api/lalinea-game', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'logout'})}).catch(()=>{});
               setCliente(null);
               setMovimenti([]);
               setPin("");

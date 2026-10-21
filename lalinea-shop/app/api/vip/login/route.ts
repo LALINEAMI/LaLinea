@@ -1,3 +1,4 @@
+import { makeSession, SESSION_COOKIE, SESSION_SECONDS } from "../../../../lib/lalineaGameServer";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { getSupabaseAdmin } from "../../../../lib/supabaseAdmin";
@@ -63,7 +64,8 @@ if (!cliente) {
       throw new Error(erroreMovimenti.message);
     }
 
-    return NextResponse.json({
+    // LALINEA_SHARED_VIP_GAME_SESSION_V1
+    const rispostaVipGioco = NextResponse.json({
       success: true,
       cliente: {
         nome: cliente.nome,
@@ -72,6 +74,9 @@ if (!cliente) {
       },
       movimenti: movimenti || [],
     });
+    rispostaVipGioco.headers.set('Cache-Control', 'no-store, private');
+    rispostaVipGioco.cookies.set(SESSION_COOKIE, makeSession(cliente), { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'strict', path: '/', maxAge: SESSION_SECONDS });
+    return rispostaVipGioco;
   } catch (errore) {
     return NextResponse.json(
       {
