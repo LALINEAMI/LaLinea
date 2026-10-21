@@ -3630,106 +3630,7 @@ return (
   </div>
 </div>
 {/* PRODOTTI PREMIUM FILTRED */}
-{categoriaAttiva === "Premium Filtred" && (
-<>
-  <div className="mt-10">
-  
-    <div className="rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
-
-      <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
-        Premium Filtred
-      </p>
-
-      <h3 className="mt-2 text-3xl font-black uppercase text-white">
-        LAMPONI 120U
-      </h3>
-
-    <div className="mt-6 space-y-3">
-      <InfoRiga etichetta="FARM">Maradona Selection</InfoRiga>
-      <InfoRiga etichetta="BILANCIAMENTO">Indica 50% — Sativa 50%</InfoRiga>
-      <InfoRiga etichetta="GUSTO">Presenta note dolci di agrumi, frutti di bosco, vaniglia e uva</InfoRiga>
-      <InfoRiga etichetta="EFFETTO">Offre un mix di gioia mentale edificante e delicato rilassamento fisico senza una pesante sedazione.</InfoRiga>
-    </div>
-
-
-      <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
-
-  {/* VIDEO A SINISTRA */}
-  <video
-    src="/products/premium-filtred/maradona1.mp4"
-    autoPlay
-    muted
-    loop
-    playsInline
-    className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
-   preload="metadata"/>
-
-  {/* FOTO A DESTRA */}
-  <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
-    {[2, 3, 4, 5, 6, 7, 8].map((numero) => (
-      <img
-        key={numero}
-        src={`/products/premium-filtred/maradona${numero}.jpg`}
-        alt={`LAMPONI 120U - foto ${numero}`}
-        className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
-      />
-    ))}
-  </div>
-
-</div>
-
-      <a
-        href="https://t.me/+UIRWbzgEJ8w4ZWI0"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mt-6 inline-block border border-yellow-400 bg-yellow-400 px-6 py-4 font-black uppercase tracking-widest text-black rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
-      >
-        Informazioni su Telegram
-      </a>
-<div className="mt-6">
-  <p className="mb-3 font-bold uppercase text-white">
-    Quantità disponibili
-  </p>
-
-  <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
-    {[
-      { grammi: "5g", prezzo: 30 },
-      { grammi: "10g", prezzo: 55 },
-      { grammi: "25g", prezzo: 150 },
-      { grammi: "50g", prezzo: 240 },
-      { grammi: "100g", prezzo: 350 },
-   ].map((opzione) => (
-  <button
-    key={opzione.grammi}
-    type="button"
-    onClick={() =>
-      aggiungiMaradonaAlCarrello(opzione.grammi, opzione.prezzo)
-    }
-    className="rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center shadow-[0_0_14px_rgba(250,204,21,0.16)] hover:bg-yellow-400 hover:text-black"
-  >
-    <p className="font-black text-white">
-      {opzione.grammi}
-    </p>
-
-    <p className="mt-1 font-bold lalinea-price-neon">
-      {opzione.prezzo} €
-    </p>
-
-    <p className="mt-2 text-xs font-black uppercase">
-      Aggiungi al carrello
-    </p>
-  </button>
-))}
-</div>
-  <p className="mt-4 text-sm font-bold uppercase text-zinc-400">
-    Per quantità maggiori, contattare in privato. Nella sezione Contatti
-    troverete tutte le info.
-  </p>
-</div>
-    </div>
-  </div>
-  
-  {/* PREMIUM FILTRED - RUNTZ X MASTER ALIEN COOKIES */}
+{/* PREMIUM FILTRED - RUNTZ X MASTER ALIEN COOKIES */}
 {categoriaAttiva === "Premium Filtred" && (
   <div
     id="runtz-master-alien-cookies"
@@ -3853,6 +3754,106 @@ return (
     </div>
   </div>
 )}
+
+{categoriaAttiva === "Premium Filtred" && (
+<>
+  <div className="mt-10">
+  
+    <div className="rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
+
+      <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+        Premium Filtred
+      </p>
+
+      <h3 className="mt-2 text-3xl font-black uppercase text-white">
+        LAMPONI 120U
+      </h3>
+
+    <div className="mt-6 space-y-3">
+      <InfoRiga etichetta="FARM">Maradona Selection</InfoRiga>
+      <InfoRiga etichetta="BILANCIAMENTO">Indica 50% — Sativa 50%</InfoRiga>
+      <InfoRiga etichetta="GUSTO">Presenta note dolci di agrumi, frutti di bosco, vaniglia e uva</InfoRiga>
+      <InfoRiga etichetta="EFFETTO">Offre un mix di gioia mentale edificante e delicato rilassamento fisico senza una pesante sedazione.</InfoRiga>
+    </div>
+
+
+      <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
+
+  {/* VIDEO A SINISTRA */}
+  <video
+    src="/products/premium-filtred/maradona1.mp4"
+    autoPlay
+    muted
+    loop
+    playsInline
+    className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
+   preload="metadata"/>
+
+  {/* FOTO A DESTRA */}
+  <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-3">
+    {[2, 3, 4, 5, 6, 7, 8].map((numero) => (
+      <img
+        key={numero}
+        src={`/products/premium-filtred/maradona${numero}.jpg`}
+        alt={`LAMPONI 120U - foto ${numero}`}
+        className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
+      />
+    ))}
+  </div>
+
+</div>
+
+      <a
+        href="https://t.me/+UIRWbzgEJ8w4ZWI0"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-6 inline-block border border-yellow-400 bg-yellow-400 px-6 py-4 font-black uppercase tracking-widest text-black rounded-2xl shadow-[0_0_14px_rgba(250,204,21,0.14)]"
+      >
+        Informazioni su Telegram
+      </a>
+<div className="mt-6">
+  <p className="mb-3 font-bold uppercase text-white">
+    Quantità disponibili
+  </p>
+
+  <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
+    {[
+      { grammi: "5g", prezzo: 30 },
+      { grammi: "10g", prezzo: 55 },
+      { grammi: "25g", prezzo: 150 },
+      { grammi: "50g", prezzo: 240 },
+      { grammi: "100g", prezzo: 350 },
+   ].map((opzione) => (
+  <button
+    key={opzione.grammi}
+    type="button"
+    onClick={() =>
+      aggiungiMaradonaAlCarrello(opzione.grammi, opzione.prezzo)
+    }
+    className="rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center shadow-[0_0_14px_rgba(250,204,21,0.16)] hover:bg-yellow-400 hover:text-black"
+  >
+    <p className="font-black text-white">
+      {opzione.grammi}
+    </p>
+
+    <p className="mt-1 font-bold lalinea-price-neon">
+      {opzione.prezzo} €
+    </p>
+
+    <p className="mt-2 text-xs font-black uppercase">
+      Aggiungi al carrello
+    </p>
+  </button>
+))}
+</div>
+  <p className="mt-4 text-sm font-bold uppercase text-zinc-400">
+    Per quantità maggiori, contattare in privato. Nella sezione Contatti
+    troverete tutte le info.
+  </p>
+</div>
+    </div>
+  </div>
+  
 
 {/* VOLTUS Z */}
 <div id="voltus-z"className="mt-10">
