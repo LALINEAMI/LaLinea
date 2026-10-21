@@ -3728,6 +3728,132 @@ return (
 </div>
     </div>
   </div>
+  
+  {/* PREMIUM FILTRED - RUNTZ X MASTER ALIEN COOKIES */}
+{categoriaAttiva === "Premium Filtred" && (
+  <div
+    id="runtz-master-alien-cookies"
+    className="mt-10 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_24px_rgba(250,204,21,0.10)] sm:p-6"
+  >
+    <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+      Premium Filtred
+    </p>
+
+    <h3 className="mt-3 break-words text-2xl font-black uppercase leading-tight text-white sm:text-3xl">
+      🍭🍪 RUNTZ X MASTER ALIEN COOKIES 🍪🍭
+    </h3>
+
+    <div className="mt-6 space-y-3">
+      <InfoRiga etichetta="🕸️">220/160/90</InfoRiga>
+      <InfoRiga etichetta="CREATORI DELLA GENETICA">
+        🇺🇸 Vertical Cnb
+      </InfoRiga>
+      <InfoRiga etichetta="BILANCIAMENTO">
+        Indica 75% – Sativa 25%
+      </InfoRiga>
+      <InfoRiga etichetta="GUSTO">
+        Note di zucchero caramellato accompagnano un profumo di pasticceria,
+        con retrogusti di biscotto e un finale gassoso.
+      </InfoRiga>
+      <InfoRiga etichetta="🧊">80%</InfoRiga>
+      <InfoRiga etichetta="💪">39%</InfoRiga>
+    </div>
+
+    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
+      <video
+        src="/products/premium-filtred/runt.mp4"
+        poster="/products/premium-filtred/runt1.jpg"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/35 bg-black object-cover sm:w-2/5"
+      />
+
+      <div className="grid min-w-0 flex-1 grid-cols-2 gap-3 md:grid-cols-3">
+        {[1, 2, 3, 4, 5].map((numero) => (
+          <a
+            key={numero}
+            href={`/products/premium-filtred/runt${numero}.jpg`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Apri foto ${numero} di RUNTZ X MASTER ALIEN COOKIES`}
+            className="block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-400"
+          >
+            <img
+              src={`/products/premium-filtred/runt${numero}.jpg`}
+              alt={`RUNTZ X MASTER ALIEN COOKIES - foto ${numero}`}
+              loading="lazy"
+              decoding="async"
+              className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover"
+            />
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <div className="mt-6">
+      <p className="mb-3 font-bold uppercase text-white">
+        Seleziona quantità
+      </p>
+
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
+        {[
+          { grammi: "5G", prezzo: 30 },
+          { grammi: "10G", prezzo: 50 },
+          { grammi: "25G", prezzo: 110 },
+          { grammi: "50G", prezzo: 170 },
+          { grammi: "100G", prezzo: 270 },
+        ].map((opzione) => (
+          <button
+            key={opzione.grammi}
+            type="button"
+            onClick={() => {
+              const id = `runtz-master-alien-cookies-${opzione.grammi}`;
+
+              setCarrello((prev) => {
+                const esistente = prev.find(
+                  (item) => String(item.id) === id
+                );
+
+                if (esistente) {
+                  return prev.map((item) =>
+                    String(item.id) === id
+                      ? { ...item, quantita: item.quantita + 1 }
+                      : item
+                  );
+                }
+
+                return [
+                  ...prev,
+                  {
+                    id: id as any,
+                    nome: `RUNTZ X MASTER ALIEN COOKIES ${opzione.grammi}`,
+                    prezzo: opzione.prezzo,
+                    quantita: 1,
+                  },
+                ];
+              });
+            }}
+            className="rounded-2xl border border-yellow-300 bg-zinc-950 px-3 py-4 text-center transition-colors hover:border-green-400 hover:bg-green-400/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-400"
+          >
+            <span className="block text-xl font-black text-white">
+              {opzione.grammi}
+            </span>
+            <span className="lalinea-price-neon mt-3 block text-xl font-black">
+              {opzione.prezzo} €
+            </span>
+            <span className="mt-2 block text-xs font-black uppercase text-green-400">
+              Aggiungi al carrello
+            </span>
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+)}
+
 {/* VOLTUS Z */}
 <div id="voltus-z"className="mt-10">
   <div className="rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
