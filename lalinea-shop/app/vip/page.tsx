@@ -43,6 +43,9 @@ export default function VipPage() {
             <p className="mt-2 text-6xl font-black">{cliente.punti}</p>
           </div>
 
+          {/* LALINEA_CLASSIFICA_VIP_LINK_V1 */}
+          <a href="/classifica" style={{display:"flex",justifyContent:"space-between",alignItems:"center",gap:16,margin:"0 0 28px",padding:"18px 20px",border:"1px solid #a5ff2b",borderRadius:16,color:"#a5ff2b",background:"#10170a",fontSize:13,fontWeight:800,textDecoration:"none"}}>🏆 Classifica LaLinea Games <span aria-hidden="true">↗</span></a>
+
           <h2 className="mb-4 text-xl font-black uppercase">
             Storico punti
           </h2>

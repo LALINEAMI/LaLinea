@@ -51,3 +51,5 @@ next-env.d.ts
 /aggiorna-lalinea-mobile.mjs
 /LaLinea-Game-Mobile-VIP.zip
 /aggiorna-lalinea-sfida.mjs
+.lalinea-classifica-backup/
+/installa-classifica-lalinea.mjs
