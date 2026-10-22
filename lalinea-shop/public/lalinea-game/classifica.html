@@ -1,0 +1,54 @@
+<!doctype html>
+<!-- LALINEA_LEADERBOARD_V1 -->
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#080a08">
+  <meta name="description" content="La classifica ufficiale LaLinea Games: i migliori piloti, i livelli completati e i record del gioco a Milano.">
+  <title>Classifica · LaLinea Games</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="leaderboard.css?v=20261022-1">
+</head>
+<body>
+  <a class="skip-link" href="#classifica">Vai alla classifica</a>
+  <div class="site-shell">
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="LaLinea, pagina iniziale"><img src="assets/lalinea-logo.png" alt="LaLinea" width="1774" height="887"><span>GAMES / MILANO</span></a>
+      <a class="nav-link" href="/vip">AREA VIP <span aria-hidden="true">↗</span></a>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="page-title">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="little-line"></span> IL GIOCO DEL CLUB</p>
+          <h1 id="page-title">LA<br>CLASSIFICA<span>.</span></h1>
+          <p class="hero-description">50 livelli sotto la Madonnina.<br>Ogni corsa può portarti più in alto.</p>
+          <div class="hero-actions"><a class="button button-green" href="/lalinea-game/index.html">GIOCA ORA <span aria-hidden="true">↗</span></a><button class="button button-outline" id="share" type="button">CONDIVIDI <span aria-hidden="true">↑</span></button></div>
+        </div>
+        <div class="hero-art" aria-hidden="true"><div class="hero-number">01</div><span class="art-label">LA CITTÀ È IL TUO LIVELLO.</span><div class="road-line"></div><div class="road-line road-line-two"></div><span class="coordinate">45°27′51″N &nbsp; 9°11′25″E</span></div>
+      </section>
+
+      <div class="stats-strip" aria-label="Riepilogo della classifica"><div><span>PILOTI IN GARA</span><strong id="total-players">—</strong></div><div><span>LIVELLO RECORD</span><strong><span id="best-level">—</span><small> / 50</small></strong></div><div class="connection"><span id="live-state" class="live-state"><i></i> COLLEGAMENTO</span><small id="updated">Lettura dei risultati…</small></div></div>
+
+      <section class="personal-card" aria-labelledby="personal-title"><div><p class="eyebrow" id="personal-title">LA TUA CORSA</p><h2 id="personal-heading">Il prossimo posto è tuo.</h2><p id="personal-copy">Entra nel gioco con il tuo profilo VIP e completa il primo livello.</p></div><a href="/lalinea-game/index.html" class="text-link" id="personal-link">ACCEDI E GIOCA <span aria-hidden="true">→</span></a></section>
+
+      <div id="loading" class="loading-state" role="status"><span class="loading-line"></span> CARICAMENTO DELLA CLASSIFICA…</div>
+      <div id="notice" class="notice" role="status" hidden></div>
+      <div id="failure" class="empty-state" hidden><span class="state-symbol" aria-hidden="true">↻</span><h2>La classifica torna tra poco.</h2><p id="failure-copy">Non siamo riusciti a leggere i risultati. Riprova tra qualche istante.</p><button class="button button-green" id="retry" type="button">RIPROVA <span aria-hidden="true">↻</span></button></div>
+      <div id="empty" class="empty-state" hidden><span class="state-symbol" aria-hidden="true">01</span><h2>La prima posizione ti aspetta.</h2><p>Completa il primo livello con il tuo profilo VIP.<br>La tua corsa entrerà qui in classifica.</p><a class="button button-green" href="/lalinea-game/index.html">INIZIA LA CORSA <span aria-hidden="true">↗</span></a></div>
+
+      <section id="podium-section" class="podium-section" aria-labelledby="podium-title" hidden><div class="section-heading"><div><p class="eyebrow">IL PODIO</p><h2 id="podium-title">Davanti a tutti.</h2></div><span class="micro-label">I PRIMI TRE DEL CLUB</span></div><div id="podium" class="podium"></div></section>
+
+      <section id="classifica" class="ranking-section" aria-labelledby="ranking-title" hidden><div class="section-heading ranking-heading"><div><p class="eyebrow">LA GRIGLIA</p><h2 id="ranking-title">Tutti in corsa.</h2></div><button id="refresh" type="button" class="refresh-button" aria-label="Aggiorna la classifica">↻ <span>AGGIORNA</span></button></div><div class="board"><div class="board-toolbar"><p id="board-count">I MIGLIORI 100</p><label class="search"><span class="sr-only">Cerca un codice pilota tra i primi 100</span><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Cerca il tuo codice pilota" autocomplete="off" maxlength="80"></label></div><table><caption class="sr-only">Classifica per livello raggiunto e oggetti raccolti</caption><thead><tr><th scope="col">#</th><th scope="col">PILOTA</th><th scope="col" class="numeric">LIVELLO</th><th scope="col" class="numeric">OGGETTI</th></tr></thead><tbody id="ranking-body"></tbody></table><p class="no-results" id="no-results" role="status" hidden>Nessun risultato tra i primi 100. Controlla il codice pilota.</p><div class="board-bottom"><span id="visible-count"></span><button id="more" class="text-link" type="button" hidden>MOSTRA ALTRI <span aria-hidden="true">↓</span></button></div></div></section>
+
+      <details class="rules"><summary>Come funziona la classifica <span aria-hidden="true">+</span></summary><div><p>Conta prima il livello più alto completato. A parità di livello, conta il totale dei migliori oggetti raccolti in ogni livello. Se anche questo è uguale, precede chi ha completato prima il livello raggiunto.</p><p>Entrano in classifica le partite giocate con l’accesso VIP e confermate dal gioco. Rigiocare un livello può migliorare il record di oggetti; il livello viene contato una sola volta.</p><p>Il tuo codice pilota è personale: lo riconosci nel riquadro «La tua corsa» dopo l’accesso dal gioco. Gli oggetti della classifica sono un risultato di gioco, separato dal saldo punti VIP.</p></div></details>
+    </main>
+
+    <footer class="site-footer"><span>DAL 2016, SOTTO LA MADONNINA.</span><a href="/">LALINEA <span aria-hidden="true">↗</span></a></footer>
+  </div>
+  <div id="toast" class="toast" role="status" hidden></div>
+  <noscript><p class="noscript">Attiva JavaScript per visualizzare i risultati aggiornati della classifica.</p></noscript>
+  <script type="module" src="leaderboard.mjs?v=20261022-1"></script>
+</body>
+</html>
