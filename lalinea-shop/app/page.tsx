@@ -6755,8 +6755,144 @@ return (
   </div>
 )}
 
+{/* DRY WORK & MOUSSE - MOUSSE SUPER BOOF */}
+{categoriaAttiva === "Dry Work & Mousse" && (
+  <div
+    id="mousse-super-boof"
+    className="mt-8 rounded-3xl border border-yellow-300/80 bg-black/85 p-4 shadow-lg"
+  >
+    <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+      Dry Work & Mousse
+    </p>
+
+    <h3 className="mt-2 text-3xl font-black uppercase text-white">
+      MOUSSE SUPER BOOF
+    </h3>
+
+    <div className="mt-6 space-y-3">
+      <InfoRiga etichetta="GENETICA">
+        Black Cherry x Tropicana Cookies
+      </InfoRiga>
+
+      <InfoRiga etichetta="NOTE">
+        2024 Multi award winner
+      </InfoRiga>
+
+      <InfoRiga etichetta="BILANCIAMENTO">
+        50% Indica - 50% Sativa - 9/26
+      </InfoRiga>
+
+      <InfoRiga etichetta="PRODUTTORI">
+        William Wonder Farm - Tillamook, Or 9171 USA
+      </InfoRiga>
+
+      <InfoRiga etichetta="CATEGORIA">
+        Mousse
+      </InfoRiga>
+    </div>
+
+    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
+      <video
+        src="/products/Dry work/mus1.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/35 object-cover sm:w-[52%]"
+        preload="metadata"
+      />
+
+      <div className="grid flex-1 grid-cols-2 gap-3 md:grid-cols-3">
+        {[2, 3, 4, 5, 6, 7, 8].map((numero) => (
+          <img
+            key={numero}
+            src={`/products/Dry work/mus${numero}.jpg`}
+            alt={`MOUSSE SUPER BOOF foto ${numero}`}
+            className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        ))}
+      </div>
+    </div>
+
+    <div className="mt-6">
+      <p className="mb-3 font-bold uppercase text-white">
+        Seleziona quantità
+      </p>
+
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
+        {[
+          { grammi: "33G", prezzo: 120, ordinario: 120 },
+          { grammi: "66G", prezzo: 200, ordinario: 200 },
+          { grammi: "100G", prezzo: 260, ordinario: 260 },
+          { grammi: "500G", prezzo: 900, ordinario: 900 },
+          { grammi: "1KG", prezzo: 1800, ordinario: 1800 },
+        ].map((opzione) => (
+          <button
+            key={opzione.grammi}
+            type="button"
+            onClick={() => {
+              const id = `mousse-super-boof-${opzione.grammi}`;
+
+              setCarrello((prev) => {
+                const esistente = prev.find(
+                  (item) => String(item.id) === id
+                );
+
+                if (esistente) {
+                  return prev.map((item) =>
+                    String(item.id) === id
+                      ? { ...item, quantita: item.quantita + 1 }
+                      : item
+                  );
+                }
+
+                return [
+                  ...prev,
+                  {
+                    id: id as any,
+                    nome: `MOUSSE SUPER BOOF ${opzione.grammi}`,
+                    prezzo: opzione.prezzo,
+                    quantita: 1,
+                  },
+                ];
+              });
+            }}
+            className="rounded-2xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-left transition hover:bg-zinc-900"
+          >
+            <p className="text-xl font-black text-white">
+              {opzione.grammi}
+            </p>
+
+            {opzione.ordinario > opzione.prezzo && (
+              <p className="mt-2 text-xs font-black uppercase text-green-400">
+                Promo lancio
+              </p>
+            )}
+
+            <p className="mt-3 text-xl font-black lalinea-price-neon">
+              {opzione.prezzo} €
+            </p>
+
+            {opzione.ordinario > opzione.prezzo && (
+              <p className="mt-1 text-sm text-zinc-400 line-through">
+                {opzione.ordinario} €
+              </p>
+            )}
+
+            <p className="mt-2 text-xs font-black uppercase text-white">
+              Aggiungi al carrello
+            </p>
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+)}
+
 {/* DRY WORK - FRANCO FULLGAS */}
-{categoriaAttiva === "Dry Work" && (
+{categoriaAttiva === "Dry Work & Mousse" && (
   <div
     id="franco-fullgas"
     className="mt-8 rounded-3xl border border-yellow-300/80 bg-black/85 p-4 shadow-lg"
@@ -6901,7 +7037,7 @@ return (
 )}
 
 {/* DRY WORK - GROVE STREET OG */}
-{categoriaAttiva === "Dry Work" && (
+{categoriaAttiva === "Dry Work & Mousse" && (
   <div id="grove-street-og" className="mt-8 rounded-3xl border border-yellow-300/80 bg-black/85 p-4 shadow-[0_0_30px_rgba(250,204,21,0.20)] sm:p-5">
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
       Dry Work
