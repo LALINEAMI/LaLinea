@@ -3034,7 +3034,7 @@ return (
         <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent" />
         <span className="pointer-events-none absolute inset-x-0 bottom-0 p-2.5">
           <span className="block text-[10px] font-black uppercase leading-[1.05] tracking-[0.02em] text-white sm:text-xs">
-            {nome}
+            {nome === "Dry Work" ? "Dry Work & Mousse" : nome}
           </span>
           <span className="mt-1 block text-[8px] font-black uppercase tracking-[0.16em] text-yellow-300">
             Apri →
@@ -6756,7 +6756,7 @@ return (
 )}
 
 {/* DRY WORK & MOUSSE - MOUSSE SUPER BOOF */}
-{categoriaAttiva === "Dry Work & Mousse" && (
+{categoriaAttiva === "Dry Work" && (
   <div
     id="mousse-super-boof"
     className="mt-8 rounded-3xl border border-yellow-300/80 bg-black/85 p-4 shadow-lg"
@@ -6892,7 +6892,7 @@ return (
 )}
 
 {/* DRY WORK - FRANCO FULLGAS */}
-{categoriaAttiva === "Dry Work & Mousse" && (
+{categoriaAttiva === "Dry Work" && (
   <div
     id="franco-fullgas"
     className="mt-8 rounded-3xl border border-yellow-300/80 bg-black/85 p-4 shadow-lg"
@@ -7037,7 +7037,7 @@ return (
 )}
 
 {/* DRY WORK - GROVE STREET OG */}
-{categoriaAttiva === "Dry Work & Mousse" && (
+{categoriaAttiva === "Dry Work" && (
   <div id="grove-street-og" className="mt-8 rounded-3xl border border-yellow-300/80 bg-black/85 p-4 shadow-[0_0_30px_rgba(250,204,21,0.20)] sm:p-5">
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
       Dry Work
