@@ -7343,6 +7343,133 @@ return (
   </div>
 )}
 
+{/* WHITE - K BLU LABEL */}
+{categoriaAttiva === "White" && (
+  <div
+    id="k-blu-label"
+    className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-lg"
+  >
+    <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+      White
+    </p>
+
+    <h3 className="mt-2 text-3xl font-black uppercase text-white">
+      🇮🇳 K BLU LABEL 🇮🇳
+    </h3>
+
+    <div className="mt-6 space-y-3">
+      <InfoRiga etichetta="TIPOLOGIA">
+        Isomero r
+      </InfoRiga>
+
+      <InfoRiga etichetta="PROVENIENZA">
+        🌏 Tamil Nadu, India
+      </InfoRiga>
+    </div>
+
+    <div className="mt-4 space-y-2 text-white">
+      <p className="font-black">
+        🥇 Qualità unica al mondo
+      </p>
+      <p>
+        Non necessita altre descrizioni: se conoscete, sapete.
+      </p>
+    </div>
+
+    {/* VIDEO E FOTO */}
+    <div className="mt-6 grid min-w-0 gap-4 md:grid-cols-2">
+      <video
+        src="/products/other/k1.mp4"
+        poster="/products/other/k2.jpg"
+        autoPlay
+        muted
+        loop
+        playsInline
+        controls
+        preload="metadata"
+        className="aspect-video w-full rounded-2xl border border-yellow-300/35 bg-black object-cover"
+      />
+
+      <div className="grid min-w-0 grid-cols-2 gap-3 sm:grid-cols-3">
+        {[2, 3, 4, 5, 6, 7].map((numero) => (
+          <img
+            key={numero}
+            src={`/products/other/k${numero}.jpg`}
+            alt={`K BLU LABEL — foto ${numero}`}
+            loading="lazy"
+            decoding="async"
+            className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover"
+          />
+        ))}
+      </div>
+    </div>
+
+    {/* QUANTITÀ */}
+    <div className="mt-6">
+      <p className="mb-3 font-bold uppercase text-white">
+        Seleziona quantità
+      </p>
+
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        {[
+          { grammi: "1G", prezzo: 30 },
+          { grammi: "2G", prezzo: 55 },
+          { grammi: "5G", prezzo: 150 },
+          { grammi: "10G", prezzo: 230 },
+        ].map((opzione) => (
+          <button
+            key={opzione.grammi}
+            type="button"
+            onClick={() => {
+              const id = `k-blu-label-${opzione.grammi}`;
+
+              setCarrello((prev) => {
+                const esistente = prev.find(
+                  (item) => String(item.id) === id
+                );
+
+                if (esistente) {
+                  return prev.map((item) =>
+                    String(item.id) === id
+                      ? {
+                          ...item,
+                          quantita: item.quantita + 1,
+                        }
+                      : item
+                  );
+                }
+
+                return [
+                  ...prev,
+                  {
+                    id: id as any,
+                    nome: `K BLU LABEL ${opzione.grammi}`,
+                    prezzo: opzione.prezzo,
+                    quantita: 1,
+                  },
+                ];
+              });
+            }}
+            className="rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center text-white transition hover:bg-yellow-400/10"
+          >
+            <span className="block text-xl font-black">
+              {opzione.grammi}
+            </span>
+
+            <span className="lalinea-price-neon mt-3 block text-xl font-black">
+              {opzione.prezzo} €
+            </span>
+
+            <span className="mt-2 block text-xs font-black uppercase">
+              Aggiungi al carrello
+            </span>
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+)}
+
   {/* WHITE - LOGO SODA */}
 {categoriaAttiva === "White" && (
   <div className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
