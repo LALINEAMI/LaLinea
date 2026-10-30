@@ -1,3 +1,6 @@
+/* LALINEA_HALLOWEEN_2026_IMPORT_BEGIN */
+import LaLineaHalloween2026 from "./components/LaLineaHalloween2026";
+/* LALINEA_HALLOWEEN_2026_IMPORT_END */
 import type { Metadata } from "next";
 import { Luckiest_Guy } from "next/font/google";
 import "./globals.css";
@@ -26,6 +29,9 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         {children}
         <Analytics />
+      {/* LALINEA_HALLOWEEN_2026_MOUNT_BEGIN */}
+        <LaLineaHalloween2026 />
+        {/* LALINEA_HALLOWEEN_2026_MOUNT_END */}
       </body>
     </html>
   );
