@@ -863,15 +863,25 @@ export default function Home() {
       }).format(new Date())
     );
 
-    if (oraItaliana >= 13 && oraItaliana < 14) {
-      setPopupConsegne("CONSEGNE INIZIATE");
-    } else if (oraItaliana >= 14 && oraItaliana < 19) {
-      setPopupConsegne("LE CONSEGNE RIPRENDONO ALLE ORE 19:00");
-    } else if (oraItaliana >= 19 || oraItaliana < 2) {
-      setPopupConsegne("CONSEGNE IN CORSO");
-    } else {
-      setPopupConsegne("LE CONSEGNE RIPRENDONO ALLE ORE 13:00");
-    }
+    // LALINEA_HALLOWEEN_MESSAGGIO
+const halloween2026Ora = Date.now();
+const halloween2026Attivo =
+  halloween2026Ora >= Date.parse("2026-10-26T00:00:00+01:00") &&
+  halloween2026Ora < Date.parse("2026-11-02T00:00:00+01:00");
+
+if (halloween2026Attivo) {
+  setPopupConsegne(
+    "🎃 BUON HALLOWEEN 🎃\n🎁 UN REGALO TI ASPETTA 🎁"
+  );
+} else if (oraItaliana >= 13 && oraItaliana < 14) {
+  setPopupConsegne("CONSEGNE INIZIATE");
+} else if (oraItaliana >= 14 && oraItaliana < 19) {
+  setPopupConsegne("LE CONSEGNE RIPRENDONO ALLE ORE 19:00");
+} else if (oraItaliana >= 19 || oraItaliana < 2) {
+  setPopupConsegne("CONSEGNE IN CORSO");
+} else {
+  setPopupConsegne("LE CONSEGNE RIPRENDONO ALLE ORE 13:00");
+}
   }, []);
   const [carrello, setCarrello] = useState<
     { id: number; nome: string; prezzo: number; quantita: number }[]
@@ -2529,7 +2539,9 @@ return (
             </p>
 
             <h2 className="mt-5 text-3xl font-black uppercase text-white md:text-4xl">
-              {popupConsegne}
+            <span style={{ whiteSpace: "pre-line" }}>
+  {popupConsegne}
+</span>
             </h2>
 
             <button
