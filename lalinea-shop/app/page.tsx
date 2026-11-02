@@ -1367,8 +1367,16 @@ const indicizzaCatalogo = async () => {
 
       if (!nome || !contenitore?.id) return;
 
-     const immagine =
-  contenitore.querySelector("img")?.getAttribute("src") || "";
+   const img = contenitore.querySelector("img");
+const video = contenitore.querySelector("video");
+const sourceVideo = video?.querySelector("source");
+
+const immagine =
+  img?.getAttribute("src") ||
+  video?.getAttribute("poster") ||
+  video?.getAttribute("src") ||
+  sourceVideo?.getAttribute("src") ||
+  "";
 
 raccolti.push({
   nome,
@@ -3118,16 +3126,42 @@ return (
                 onClick={() => apriProdottoDaRicerca(prodotto)}
                 className="flex w-full items-center justify-between rounded-2xl border border-white/15 bg-zinc-900 px-4 py-3 text-left transition active:scale-[0.98]"
               >
-                <div>
-                  <div className="text-sm font-black uppercase text-white">
-                    {prodotto.nome}
-                  </div>
+                
 
-                  <div className="mt-1 text-[11px] font-bold uppercase tracking-wider text-green-400">
-                    {prodotto.categoria}
-                  </div>
-                </div>
+                  <div className="flex min-w-0 items-center gap-3">
+  {prodotto.immagine ? (
+    /\.(mp4|webm|mov)(\?|$)/i.test(prodotto.immagine) ? (
+      <video
+        src={prodotto.immagine}
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="h-14 w-14 shrink-0 rounded-xl object-cover"
+      />
+    ) : (
+      <img
+        src={prodotto.immagine}
+        alt={prodotto.nome}
+        className="h-14 w-14 shrink-0 rounded-xl object-cover"
+      />
+    )
+  ) : (
+    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-zinc-800 text-xl text-zinc-500">
+      ?
+    </div>
+  )}
 
+  <div className="min-w-0">
+    <div className="truncate text-sm font-black uppercase text-white">
+      {prodotto.nome}
+    </div>
+
+    <div className="mt-1 text-[11px] font-bold uppercase tracking-wider text-green-400">
+      {prodotto.categoria}
+    </div>
+  </div>
+</div>
                 <span className="ml-3 text-3xl font-light text-green-400">
                   ›
                 </span>
