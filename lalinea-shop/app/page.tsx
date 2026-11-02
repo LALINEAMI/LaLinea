@@ -1319,6 +1319,108 @@ const gameCheckoutBusy = useRef(false);
 const gameCheckoutRef = useRef<{code: string; key: string; signature: string} | null>(null);
 
 const [categoriaAttiva, setCategoriaAttiva] = useState("");  
+const [ricercaAperta, setRicercaAperta] = useState(false);
+const [testoRicerca, setTestoRicerca] = useState("");
+const [indiceRicerca, setIndiceRicerca] = useState<
+  { nome: string; categoria: string; id: string }[]
+>([]);
+const [indicizzazione, setIndicizzazione] = useState(false);
+
+const categorieRicerca = [
+  "Premium Filtred",
+  "Frozen e Static",
+  "Rosin & Pen",
+  "Flowers",
+  "Dry Work",
+  "White",
+  "Tabacchi biologici",
+  "Gadget",
+  "Abbigliamento",
+];
+
+const attendiRender = () =>
+  new Promise<void>((resolve) => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => resolve());
+    });
+  });
+
+const indicizzaCatalogo = async () => {
+  setIndicizzazione(true);
+
+  const categoriaPrecedente = categoriaAttiva;
+  const raccolti: { nome: string; categoria: string; id: string }[] = [];
+
+  for (const categoria of categorieRicerca) {
+    setCategoriaAttiva(categoria);
+
+    await attendiRender();
+
+    document.querySelectorAll("div[id] > h3").forEach((titolo) => {
+      const nome = titolo.textContent?.trim();
+      const contenitore = titolo.parentElement as HTMLElement | null;
+
+      if (!nome || !contenitore?.id) return;
+
+      raccolti.push({
+        nome,
+        categoria,
+        id: contenitore.id,
+      });
+    });
+  }
+
+  setCategoriaAttiva(categoriaPrecedente);
+
+  await attendiRender();
+
+  const unici = Array.from(
+    new Map(
+      raccolti.map((prodotto) => [
+        `${prodotto.categoria}-${prodotto.id}`,
+        prodotto,
+      ])
+    ).values()
+  );
+
+  setIndiceRicerca(unici);
+  setIndicizzazione(false);
+};
+
+const apriRicercaCatalogo = async () => {
+  setRicercaAperta(true);
+  setTestoRicerca("");
+
+  await indicizzaCatalogo();
+};
+
+const risultatiRicerca =
+  testoRicerca.trim().length < 2
+    ? []
+    : indiceRicerca.filter((prodotto) => {
+        const ricerca = testoRicerca.toLowerCase();
+
+        return (
+          prodotto.nome.toLowerCase().includes(ricerca) ||
+          prodotto.categoria.toLowerCase().includes(ricerca)
+        );
+      });
+
+const apriProdottoDaRicerca = async (prodotto: {
+  nome: string;
+  categoria: string;
+  id: string;
+}) => {
+  setRicercaAperta(false);
+  setCategoriaAttiva(prodotto.categoria);
+
+  await attendiRender();
+
+  document.getElementById(prodotto.id)?.scrollIntoView({
+    behavior: "smooth",
+    block: "start",
+  });
+};
 const [menuAperto, setMenuAperto] = useState(false);
 const [playerVisibile, setPlayerVisibile] = useState(true);
 const [piuVendutiVisibili, setPiuVendutiVisibili] = useState(true);
@@ -2908,6 +3010,108 @@ return (
       className="h-14 w-auto object-contain md:h-40"
     />
 
+{ricercaAperta && (
+  <div
+    className="fixed inset-0 z-[9999] flex items-start justify-center bg-black/85 px-4 pt-[16vh] backdrop-blur-sm"
+    onClick={() => setRicercaAperta(false)}
+  >
+    <div
+      className="w-full max-w-md rounded-[28px] border-2 border-green-400 bg-black p-5 shadow-[0_0_35px_rgba(74,222,128,0.45)]"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2">
+          <svg
+            viewBox="0 0 24 24"
+            className="h-7 w-7 text-green-400"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+          >
+            <circle cx="11" cy="11" r="7" />
+            <path d="m20 20-4-4" />
+          </svg>
+
+          <h2 className="text-lg font-black uppercase text-green-400">
+            Cerca un prodotto
+          </h2>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => setRicercaAperta(false)}
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-2xl font-bold text-white"
+          aria-label="Chiudi ricerca"
+        >
+          ×
+        </button>
+      </div>
+
+      <div className="mt-5 flex items-center gap-3 rounded-2xl border-2 border-green-400 bg-zinc-950 px-4 py-3 shadow-[0_0_18px_rgba(74,222,128,0.25)]">
+        <svg
+          viewBox="0 0 24 24"
+          className="h-6 w-6 shrink-0 text-white"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+        >
+          <circle cx="11" cy="11" r="7" />
+          <path d="m20 20-4-4" />
+        </svg>
+
+        <input
+          autoFocus
+          type="search"
+          value={testoRicerca}
+          onChange={(e) => setTestoRicerca(e.target.value)}
+          placeholder="Digita il nome del prodotto..."
+          className="w-full bg-transparent text-base font-bold text-white outline-none placeholder:text-zinc-500"
+        />
+      </div>
+
+      <div className="mt-4 max-h-[42vh] overflow-y-auto">
+        {indicizzazione ? (
+          <div className="py-6 text-center text-sm font-black uppercase tracking-wider text-green-400">
+            Caricamento catalogo...
+          </div>
+        ) : testoRicerca.trim().length < 2 ? (
+          <div className="py-6 text-center text-xs font-bold uppercase tracking-wider text-zinc-500">
+            Scrivi almeno 2 lettere
+          </div>
+        ) : risultatiRicerca.length === 0 ? (
+          <div className="py-6 text-center text-sm font-bold uppercase text-zinc-500">
+            Nessun prodotto trovato
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {risultatiRicerca.map((prodotto) => (
+              <button
+                key={`${prodotto.categoria}-${prodotto.id}`}
+                type="button"
+                onClick={() => apriProdottoDaRicerca(prodotto)}
+                className="flex w-full items-center justify-between rounded-2xl border border-white/15 bg-zinc-900 px-4 py-3 text-left transition active:scale-[0.98]"
+              >
+                <div>
+                  <div className="text-sm font-black uppercase text-white">
+                    {prodotto.nome}
+                  </div>
+
+                  <div className="mt-1 text-[11px] font-bold uppercase tracking-wider text-green-400">
+                    {prodotto.categoria}
+                  </div>
+                </div>
+
+                <span className="ml-3 text-3xl font-light text-green-400">
+                  ›
+                </span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+)}
     <button
       type="button"
       onClick={() => setMenuAperto(true)}
@@ -2978,7 +3182,25 @@ return (
         Scegli la categoria
       </h1>
     </div>
-    <div className="flex flex-col items-end gap-1">
+    <button
+  type="button"
+  aria-label="Cerca prodotti"
+onClick={apriRicercaCatalogo}
+  className="mb-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-yellow-400 bg-black/90 text-white shadow-[0_0_18px_rgba(250,204,21,0.55)] transition active:scale-95"
+>
+  <svg
+    viewBox="0 0 24 24"
+    className="h-6 w-6"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    aria-hidden="true"
+  >
+    <circle cx="11" cy="11" r="7" />
+    <path d="m20 20-4-4" />
+  </svg>
+</button>
+    <div className="flex flex-col items-end gap-1 origin-bottom-right scale-[0.82]">
       <div
         className="ll-vpn-security"
         aria-label={`Indicatore grafico VPN simulato: ${vpnRoute}, sicurezza alta`}
