@@ -1322,7 +1322,7 @@ const [categoriaAttiva, setCategoriaAttiva] = useState("");
 const [ricercaAperta, setRicercaAperta] = useState(false);
 const [testoRicerca, setTestoRicerca] = useState("");
 const [indiceRicerca, setIndiceRicerca] = useState<
-  { nome: string; categoria: string; id: string }[]
+  { nome: string; categoria: string; id: string; immagine: string }[]
 >([]);
 const [indicizzazione, setIndicizzazione] = useState(false);
 
@@ -1349,7 +1349,12 @@ const indicizzaCatalogo = async () => {
   setIndicizzazione(true);
 
   const categoriaPrecedente = categoriaAttiva;
-  const raccolti: { nome: string; categoria: string; id: string }[] = [];
+  const raccolti: {
+  nome: string;
+  categoria: string;
+  id: string;
+  immagine: string;
+}[] = [];
 
   for (const categoria of categorieRicerca) {
     setCategoriaAttiva(categoria);
@@ -1362,12 +1367,16 @@ const indicizzaCatalogo = async () => {
 
       if (!nome || !contenitore?.id) return;
 
-      raccolti.push({
-        nome,
-        categoria,
-        id: contenitore.id,
-      });
-    });
+     const immagine =
+  contenitore.querySelector("img")?.getAttribute("src") || "";
+
+raccolti.push({
+  nome,
+  categoria,
+  id: contenitore.id,
+  immagine,
+});
+});
   }
 
   setCategoriaAttiva(categoriaPrecedente);
