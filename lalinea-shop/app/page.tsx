@@ -1415,20 +1415,38 @@ const risultatiRicerca =
         );
       });
 
-const apriProdottoDaRicerca = async (prodotto: {
+const apriProdottoDaRicerca = (prodotto: {
   nome: string;
   categoria: string;
   id: string;
+  immagine: string;
 }) => {
   setRicercaAperta(false);
-  setCategoriaAttiva(prodotto.categoria);
 
-  await attendiRender();
+  // Usa la stessa funzione che usa già il tuo sito
+  apriCategoriaCatalogo(prodotto.categoria);
 
-  document.getElementById(prodotto.id)?.scrollIntoView({
-    behavior: "smooth",
-    block: "start",
-  });
+  let tentativi = 0;
+
+  const vaiAlProdotto = () => {
+    const elemento = document.getElementById(prodotto.id);
+
+    if (elemento) {
+      elemento.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+      return;
+    }
+
+    tentativi += 1;
+
+    if (tentativi < 20) {
+      setTimeout(vaiAlProdotto, 100);
+    }
+  };
+
+  setTimeout(vaiAlProdotto, 150);
 };
 const [menuAperto, setMenuAperto] = useState(false);
 const [playerVisibile, setPlayerVisibile] = useState(true);
