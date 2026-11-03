@@ -7530,6 +7530,100 @@ onClick={apriRicercaCatalogo}
   </div>
 )}
 
+{/* WHITE - EL REY */}
+{categoriaAttiva === "white" && (
+  <div className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-2xl">
+
+    <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+      🇵🇪 PERÙ
+    </p>
+
+    <h3 className="mt-2 text-3xl font-black uppercase text-white">
+      🤴 EL REY 🤴
+    </h3>
+
+    <div className="mt-6 space-y-3">
+      <InfoRiga etichetta="PROVENIENZA">
+        🇵🇪 PERÙ
+      </InfoRiga>
+    </div>
+
+    {/* QUANTITÀ */}
+    <div className="mt-6">
+      <p className="mb-3 font-bold uppercase text-white">
+        Seleziona quantità
+      </p>
+
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">
+        {[
+          ...(new Date() < new Date("2026-11-07T00:00:00+01:00")
+            ? [{ grammi: "1.5G", prezzo: 100 }]
+            : []),
+          { grammi: "1G", prezzo: 90 },
+          { grammi: "2G", prezzo: 170 },
+          { grammi: "3.5G", prezzo: 250 },
+          { grammi: "5G", prezzo: 300 },
+          { grammi: "10G", prezzo: 400 },
+          { grammi: "25G", prezzo: 900 },
+        ].map((opzione) => (
+          <button
+            key={opzione.grammi}
+            type="button"
+            onClick={() => {
+              const id = `el-rey-${opzione.grammi}`;
+
+              setCarrello((prev) => {
+                const esistente = prev.find(
+                  (item) => String(item.id) === id
+                );
+
+                if (esistente) {
+                  return prev.map((item) =>
+                    String(item.id) === id
+                      ? {
+                          ...item,
+                          quantita: item.quantita + 1,
+                        }
+                      : item
+                  );
+                }
+
+                return [
+                  ...prev,
+                  {
+                    id: id as any,
+                    nome: `EL REY ${opzione.grammi}`,
+                    prezzo: opzione.prezzo,
+                    quantita: 1,
+                  },
+                ];
+              });
+            }}
+            className="rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center"
+          >
+            <p className="text-xl font-black text-white">
+              {opzione.grammi}
+            </p>
+
+            <p className="mt-3 text-xl font-black lalinea-price-neon">
+              {opzione.prezzo} €
+            </p>
+
+            <p className="mt-2 text-xs font-black uppercase">
+              Aggiungi al carrello
+            </p>
+          </button>
+        ))}
+      </div>
+
+      {new Date() < new Date("2026-11-07T00:00:00+01:00") && (
+        <p className="mt-4 text-sm font-black uppercase text-yellow-400">
+          PROMO 1.5G A 100€ FINO AL 06/11
+        </p>
+      )}
+    </div>
+  </div>
+)}
 {/* WHITE - EGG HUANUCO */}
 {categoriaAttiva === "White" && (
   <div className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
@@ -9802,6 +9896,7 @@ rel="noopener noreferrer"
       padding-bottom: calc(14.75rem + env(safe-area-inset-bottom)) !important;
     }
   }
+  
 `}</style>
 {/* FINE TETRIS / FEEDBACK / MUSICA VERTICALI */}
 {/* LALINEA_GAME_INSTALLED */}
