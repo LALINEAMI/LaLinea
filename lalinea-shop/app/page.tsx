@@ -7532,10 +7532,12 @@ onClick={apriRicercaCatalogo}
 
 {/* WHITE - EL REY */}
 {categoriaAttiva === "white" && (
-  <div className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-2xl">
-
+  <div
+    id="el-rey"
+    className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-lg"
+  >
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
-      🇵🇪 PERÙ
+      white
     </p>
 
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
@@ -7548,13 +7550,39 @@ onClick={apriRicercaCatalogo}
       </InfoRiga>
     </div>
 
+    {/* FOTO + VIDEO */}
+    <div className="mt-6 grid min-w-0 gap-4 md:grid-cols-2">
+      <video
+        src="/products/other/re2.mp4"
+        poster="/products/other/re1.jpg"
+        autoPlay
+        muted
+        loop
+        playsInline
+        controls
+        preload="metadata"
+        className="aspect-video w-full rounded-2xl border border-yellow-300/35 bg-black object-cover"
+      />
+
+      <div className="grid grid-cols-2 gap-3">
+        {[1, 4, 5, 6, 7].map((numero) => (
+          <img
+            key={numero}
+            src={`/products/other/re${numero}.jpg`}
+            alt={`EL REY — foto ${numero}`}
+            className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover"
+          />
+        ))}
+      </div>
+    </div>
+
     {/* QUANTITÀ */}
     <div className="mt-6">
       <p className="mb-3 font-bold uppercase text-white">
         Seleziona quantità
       </p>
 
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
         {[
           ...(new Date() < new Date("2026-11-07T00:00:00+01:00")
             ? [{ grammi: "1.5G", prezzo: 100 }]
@@ -7592,14 +7620,14 @@ onClick={apriRicercaCatalogo}
                   ...prev,
                   {
                     id: id as any,
-                    nome: `EL REY ${opzione.grammi}`,
+                    nome: `🤴 EL REY 🤴 ${opzione.grammi}`,
                     prezzo: opzione.prezzo,
                     quantita: 1,
                   },
                 ];
               });
             }}
-            className="rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center"
+            className="rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center text-white transition hover:bg-yellow-400/10"
           >
             <p className="text-xl font-black text-white">
               {opzione.grammi}
