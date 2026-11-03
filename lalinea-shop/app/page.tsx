@@ -7531,13 +7531,11 @@ onClick={apriRicercaCatalogo}
 )}
 
 {/* WHITE - EL REY */}
-{categoriaAttiva === "White" && (
-  <div
-    id="el-rey"
-    className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-lg"
-  >
+{categoriaAttiva === "white" && (
+  <div className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-2xl">
+
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
-      white
+      🇵🇪 PERÙ
     </p>
 
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
@@ -7550,39 +7548,13 @@ onClick={apriRicercaCatalogo}
       </InfoRiga>
     </div>
 
-    {/* FOTO + VIDEO */}
-    <div className="mt-6 grid min-w-0 gap-4 md:grid-cols-2">
-      <video
-        src="/products/other/re2.mp4"
-        poster="/products/other/re1.jpg"
-        autoPlay
-        muted
-        loop
-        playsInline
-        controls
-        preload="metadata"
-        className="aspect-video w-full rounded-2xl border border-yellow-300/35 bg-black object-cover"
-      />
-
-      <div className="grid grid-cols-2 gap-3">
-        {[1, 4, 5, 6, 7].map((numero) => (
-          <img
-            key={numero}
-            src={`/products/other/re${numero}.jpg`}
-            alt={`EL REY — foto ${numero}`}
-            className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover"
-          />
-        ))}
-      </div>
-    </div>
-
     {/* QUANTITÀ */}
     <div className="mt-6">
       <p className="mb-3 font-bold uppercase text-white">
         Seleziona quantità
       </p>
 
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">
         {[
           ...(new Date() < new Date("2026-11-07T00:00:00+01:00")
             ? [{ grammi: "1.5G", prezzo: 100 }]
@@ -7620,14 +7592,14 @@ onClick={apriRicercaCatalogo}
                   ...prev,
                   {
                     id: id as any,
-                    nome: `🤴 EL REY 🤴 ${opzione.grammi}`,
+                    nome: `EL REY ${opzione.grammi}`,
                     prezzo: opzione.prezzo,
                     quantita: 1,
                   },
                 ];
               });
             }}
-            className="rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center text-white transition hover:bg-yellow-400/10"
+            className="rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center"
           >
             <p className="text-xl font-black text-white">
               {opzione.grammi}
@@ -9355,201 +9327,174 @@ rel="noopener noreferrer"
 
 {/* I PIÙ VENDUTI DELLA SETTIMANA */}
 {piuVendutiVisibili && (
-<div
-  className="ll-best-sellers fixed bottom-3 right-3 z-[9998] w-[calc(54%-12px)] overflow-hidden rounded-xl border border-yellow-400 bg-black/95 shadow-2xl md:bottom-4 md:right-4 md:w-[320px]"
->
-  <button
-    type="button"
-    onClick={() => setPiuVendutiVisibili(false)}
-    className="absolute right-2 top-2 z-20 flex h-7 w-7 items-center justify-center rounded-full border-2 border-yellow-400 bg-black text-sm font-black text-yellow-400 shadow-[0_0_14px_rgba(250,204,21,0.14)]"
-    aria-label="Chiudi prodotti più venduti"
+  <div
+    className="ll-best-sellers fixed bottom-3 right-3 z-[9998] w-[calc(54%-12px)] overflow-hidden rounded-xl border border-yellow-400 bg-black/95 shadow-2xl md:bottom-4 md:right-4 md:w-[320px]"
   >
-    ×
-  </button>
-
-  <div className="ll-best-sellers-title border-b border-yellow-400 bg-yellow-400 px-4 py-3 text-center text-sm font-black uppercase tracking-widest text-black">
-    I PIÙ VENDUTI DELLA SETTIMANA
-  </div>
-
-  <div className="ll-best-sellers-grid grid grid-cols-3 gap-1 bg-black p-2">
-    {/* 1 - TUNA OG STATIC */}
-<button
-  type="button"
-  onClick={() => apriProdottoCatalogo("Frozen e Static", "tuna-og-static")}
-  className="overflow-hidden rounded-xl border border-yellow-400/60 shadow-lg"
-  aria-label="Apri TUNA OG STATIC"
->
-  <video
-    src="/products/frozen-static/tonno1.mp4"
-    data-no-preview="true"
-    autoPlay
-    muted
-    loop
-    playsInline
-    className="aspect-square w-full object-cover"
-    preload="metadata"
-  />
-  <span className="ll-best-seller-label block border-t border-yellow-400/30 bg-black px-1 py-2 text-center font-black text-white">
-    1° TUNA OG STATIC
-  </span>
-</button>
-
-{/* 2 - ZAZAYA x KEY LIME PIE CAKE */}
-<button
-  type="button"
-  onClick={() => apriProdottoCatalogo("Rosin & Pen", "zazaya-key-lime-pie-cake")}
-  className="overflow-hidden rounded-xl border border-yellow-400/60 shadow-lg"
-  aria-label="Apri ZAZAYA x KEY LIME PIE CAKE"
->
-  <video
-    src="/products/rosin/key1.mp4"
-    data-no-preview="true"
-    autoPlay
-    muted
-    loop
-    playsInline
-    className="aspect-square w-full object-cover"
-    preload="metadata"
-  />
-  <span className="ll-best-seller-label block border-t border-yellow-400/30 bg-black px-1 py-2 text-center font-black text-white">
-    2° ZAZAYA x KEY LIME PIE CAKE
-  </span>
-</button>
-
-    {/* 3 - GOLD PACK */}
     <button
       type="button"
-      onClick={() => apriProdottoCatalogo("", "gold-pack-card", "promo")}
-      className="overflow-hidden rounded-xl border border-yellow-400/60 shadow-[0_0_16px_rgba(250,204,21,0.18)]"
-      aria-label="Apri Gold Pack"
+      onClick={() => setPiuVendutiVisibili(false)}
+      className="absolute right-2 top-2 z-20 flex h-7 w-7 items-center justify-center rounded-full border-2 border-yellow-400 bg-black text-sm font-black text-yellow-400 shadow-[0_0_14px_rgba(250,204,21,0.14)]"
+      aria-label="Chiudi prodotti più venduti"
     >
-      <video
-        src="/products/promo/gold.mp4"
-        data-no-preview="true"
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="aspect-square w-full object-cover"
-       preload="metadata"/>
-      <span className="ll-best-seller-label block border-t border-yellow-400/30 bg-black px-1 py-1 text-[9px] font-bold uppercase leading-tight text-yellow-300 md:hidden">
-        3° PACK GOLD
-      </span>
+      ×
     </button>
-  </div>
 
-  <div className="ll-best-sellers-ticker-wrap overflow-hidden whitespace-nowrap border-t border-yellow-400/30 py-4">
-    <div className="best-sellers-ticker inline-flex items-center">
-      {[0, 1].map((ripetizione) => (
-        <div key={ripetizione} className="inline-flex items-center">
-          <button
-  type="button"
-  onClick={() => apriProdottoCatalogo("Frozen e Static", "tuna-og-static")}
-  className="mx-6 font-black text-yellow-400"
->
-  🥇 1° TUNA OG STATIC
-</button>
-
-<button
-  type="button"
-  onClick={() => apriProdottoCatalogo("Rosin & Pen", "zazaya-key-lime-pie-cake")}
-  className="mx-6 font-black text-white"
->
-  🥈 2° ZAZAYA x KEY LIME PIE CAKE
-</button>
-
-          <button
-            type="button"
-            onClick={() => apriProdottoCatalogo("", "gold-pack-card", "promo")}
-            className="mx-6 font-black text-yellow-400"
-          >
-            🥉 3° PACK GOLD
-          </button>
-        </div>
-      ))}
+    <div className="ll-best-sellers-title border-b border-yellow-400 bg-yellow-400 px-4 py-3 text-center text-sm font-black uppercase tracking-widest text-black">
+      I PIÙ VENDUTI DELLA SETTIMANA
     </div>
-  </div>
 
-  <style>{`
-    .best-sellers-ticker {
-      animation: bestSellersScroll 15s linear infinite;
-    }
+    <div className="ll-best-sellers-grid grid grid-cols-3 gap-1 bg-black p-2">
 
-    .best-sellers-ticker:hover {
-      animation-play-state: paused;
-    }
+      {/* 1 - PINEAPPLE DONUT */}
+      <button
+        type="button"
+        onClick={() =>
+          apriProdottoCatalogo("Flowers", "pineapple-donut")
+        }
+        className="overflow-hidden rounded-xl border border-yellow-400/60 shadow-[0_0_16px_rgba(250,204,21,0.18)]"
+        aria-label="Apri Pineapple Donut"
+      >
+        <video
+          src="/products/flowers/ananas1.mp4"
+          data-no-preview="true"
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="aspect-square w-full object-cover"
+        />
+        <span className="ll-best-seller-label block border-t border-yellow-400/30 bg-black px-1 py-1 text-[9px] font-bold uppercase leading-tight text-yellow-300 md:hidden">
+          1° PINEAPPLE DONUT
+        </span>
+      </button>
 
-    @keyframes bestSellersScroll {
-      from {
-        transform: translateX(0);
-      }
+      {/* 2 - K BLU LABEL */}
+      <button
+        type="button"
+        onClick={() =>
+          apriProdottoCatalogo("White", "k-blu-label")
+        }
+        className="overflow-hidden rounded-xl border border-yellow-400/60 shadow-[0_0_16px_rgba(250,204,21,0.18)]"
+        aria-label="Apri K Blu Label"
+      >
+        <video
+          src="/products/other/k1.mp4"
+          data-no-preview="true"
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="aspect-square w-full object-cover"
+        />
+        <span className="ll-best-seller-label block border-t border-yellow-400/30 bg-black px-1 py-1 text-[9px] font-bold uppercase leading-tight text-white md:hidden">
+          2° K BLU LABEL
+        </span>
+      </button>
 
-      to {
-        transform: translateX(-50%);
-      }
-    }
+      {/* 3 - SUPER BOOF USA */}
+      <button
+        type="button"
+        onClick={() =>
+          apriProdottoCatalogo(
+            "Dry Work & Mousse",
+            "mousse-super-boof"
+          )
+        }
+        className="overflow-hidden rounded-xl border border-yellow-400/60 shadow-[0_0_16px_rgba(250,204,21,0.18)]"
+        aria-label="Apri Super Boof USA"
+      >
+        <video
+          src="/products/Dry work/mus1.mp4"
+          data-no-preview="true"
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="aspect-square w-full object-cover"
+        />
+        <span className="ll-best-seller-label block border-t border-yellow-400/30 bg-black px-1 py-1 text-[9px] font-bold uppercase leading-tight text-yellow-300 md:hidden">
+          3° SUPER BOOF USA
+        </span>
+      </button>
 
-    @media (max-width: 640px) {
+    </div>
+
+    <div className="ll-best-sellers-ticker-wrap overflow-hidden whitespace-nowrap border-t border-yellow-400/30 py-4">
+      <div className="best-sellers-ticker inline-flex items-center">
+        {[0, 1].map((ripetizione) => (
+          <div
+            key={ripetizione}
+            className="inline-flex items-center"
+          >
+            <button
+              type="button"
+              onClick={() =>
+                apriProdottoCatalogo(
+                  "Flowers",
+                  "pineapple-donut"
+                )
+              }
+              className="mx-6 font-black text-yellow-400"
+            >
+              🥇 1° PINEAPPLE DONUT
+            </button>
+
+            <button
+              type="button"
+              onClick={() =>
+                apriProdottoCatalogo(
+                  "White",
+                  "k-blu-label"
+                )
+              }
+              className="mx-6 font-black text-white"
+            >
+              🥈 2° K BLU LABEL
+            </button>
+
+            <button
+              type="button"
+              onClick={() =>
+                apriProdottoCatalogo(
+                  "Dry Work & Mousse",
+                  "mousse-super-boof"
+                )
+              }
+              className="mx-6 font-black text-yellow-400"
+            >
+              🥉 3° SUPER BOOF USA
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <style>{`
       .best-sellers-ticker {
-        animation-duration: 12s;
+        animation: bestSellersScroll 15s linear infinite;
       }
-    }
-  `}</style>
-  <style>{`
-  @media (max-width: 767px) {
-    .ll-best-sellers {
-      height: 9.57rem !important;
-      max-height: none !important;
-      display: flex !important;
-      flex-direction: column !important;
-    }
 
-    .lalinea-mobile-shell:has(.ll-tetris-mobile[data-feedback="chiuso"]) .ll-best-sellers {
-      height: 6rem !important;
-    }
+      .best-sellers-ticker:hover {
+        animation-play-state: paused;
+      }
 
-    .lalinea-mobile-shell[data-player="chiuso"] .ll-best-sellers {
-      height: 8.97rem !important;
-    }
+      @keyframes bestSellersScroll {
+        from {
+          transform: translateX(0);
+        }
 
-    .lalinea-mobile-shell[data-player="chiuso"]:has(.ll-tetris-mobile[data-feedback="chiuso"]) .ll-best-sellers {
-      height: 5.4rem !important;
-    }
+        to {
+          transform: translateX(-50%);
+        }
+      }
 
-    .ll-best-sellers-title {
-      flex: 0 0 auto !important;
-    }
-
-    .ll-best-sellers-grid {
-      flex: 1 1 0% !important;
-      min-height: 0 !important;
-      grid-template-rows: minmax(0, 1fr) !important;
-    }
-
-    .ll-best-sellers-grid > button {
-      display: flex !important;
-      flex-direction: column !important;
-      min-width: 0 !important;
-      min-height: 0 !important;
-    }
-
-    .ll-best-sellers-grid video {
-      display: block !important;
-      flex: 1 1 0% !important;
-      width: 100% !important;
-      height: 0 !important;
-      min-height: 0 !important;
-      aspect-ratio: auto !important;
-      object-fit: cover !important;
-    }
-
-    .ll-best-seller-label {
-      flex: 0 0 auto !important;
-      min-height: 2rem !important;
-    }
-  }
-`}</style>
-</div>
+      @media (max-width: 640px) {
+        .best-sellers-ticker {
+          animation-duration: 12s;
+        }
+      }
+    `}</style>
+  </div>
 )}
 {/* INIZIO TETRIS / FEEDBACK / MUSICA VERTICALI */}
 <div
