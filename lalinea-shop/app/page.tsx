@@ -7531,7 +7531,7 @@ onClick={apriRicercaCatalogo}
 )}
 
 {/* WHITE - EL REY */}
-{categoriaAttiva === "white" && (
+{categoriaAttiva === "White" && (
   <div
     id="el-rey"
     className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-lg"
