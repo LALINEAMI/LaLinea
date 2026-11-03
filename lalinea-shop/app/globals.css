@@ -77,3 +77,20 @@ body > * {
   position: relative;
   z-index: 1;
 }
+
+/* FIX SCROLL SOLO DESKTOP */
+@media (min-width: 768px) {
+  html,
+  body {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    height: auto !important;
+  }
+
+  #lalinea-pagina,
+  .lalinea-mobile-shell {
+    overflow-y: visible !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+}
