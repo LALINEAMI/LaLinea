@@ -3262,33 +3262,13 @@ onClick={apriRicercaCatalogo}
   </svg>
 </button>
     <div className="flex flex-col items-end gap-1 origin-bottom-right scale-[0.82]">
-      <div
-        className="ll-vpn-security"
-        aria-label={`Indicatore grafico VPN simulato: ${vpnRoute}, sicurezza alta`}
-        title="Indicatore grafico: percorso VPN simulato"
-      >
-        <span className="ll-vpn-orb" aria-hidden="true">
-          <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8">
-            <circle cx="12" cy="12" r="9" />
-            <path d="M3.5 9h17M3.5 15h17M12 3c2.2 2.4 3.3 5.4 3.3 9S14.2 18.6 12 21M12 3C9.8 5.4 8.7 8.4 8.7 12S9.8 18.6 12 21" />
-          </svg>
-          <span className="ll-vpn-lock">
-            <svg viewBox="0 0 24 24" className="h-2.5 w-2.5" fill="none" stroke="currentColor" strokeWidth="2.4">
-              <rect x="5" y="10" width="14" height="10" rx="2" />
-              <path d="M8 10V7a4 4 0 0 1 8 0v3" />
-            </svg>
-          </span>
-        </span>
-        <span className="ll-vpn-copy">
-          <span className="ll-vpn-label">VPN ROUTE</span>
-          <span className="ll-vpn-city">{vpnRoute}</span>
-          <span className="ll-vpn-high">
-            <span className="ll-vpn-high-dot" aria-hidden="true" />
-            SECURITY: HIGH
-            <span className="ll-vpn-demo">VISUAL</span>
-          </span>
-        </span>
-      </div>
+     <a
+  href="/lalinea-slot.html"
+  className="inline-flex shrink-0 flex-col items-center gap-1 rounded-xl border border-yellow-400 bg-black px-4 py-2 text-center font-black uppercase text-yellow-300 hover:bg-yellow-400 hover:text-black"
+>
+  <span className="text-xs">Gioca a</span>
+  <span className="text-sm">La Milanese</span>
+</a>
     </div>
   </div>
 
@@ -7118,6 +7098,7 @@ onClick={apriRicercaCatalogo}
 
       <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
         {[
+          { grammi: "15G", prezzo: 60, ordinario: 60 },
           { grammi: "33G", prezzo: 120, ordinario: 120 },
           { grammi: "66G", prezzo: 200, ordinario: 200 },
           { grammi: "100G", prezzo: 260, ordinario: 260 },
