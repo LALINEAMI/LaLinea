@@ -13,7 +13,7 @@ const privateHeaders = {
 function loginRequired() {
   return new Response(null, {
     status: 307,
-    headers: { ...privateHeaders, Location: "/vip" },
+    headers: { ...privateHeaders, Location: "/vip?gioco=milanese" },
   });
 }
 

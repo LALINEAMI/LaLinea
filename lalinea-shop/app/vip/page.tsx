@@ -34,8 +34,15 @@ export default function VipPage() {
           <h1 className="mt-3 text-3xl font-black uppercase">
             Ciao, {cliente.nome}
           </h1>
+
+          <a
+            href="/lalinea-slot.html"
+            className="mt-5 block rounded-xl border-2 border-yellow-400 px-4 py-4 text-center font-black uppercase text-yellow-300"
+          >
+            🎰 GIOCA A LA MILANESE →
+          </a>
           {/* LALINEA_VIP_GAME_LINK_V1 */}
-          <a href="/lalinea-game" style={{display:'block',marginTop:20,padding:'16px',border:'2px solid #ffdb35',borderRadius:12,color:'#ffdb35',fontWeight:900,textAlign:'center',textDecoration:'none'}}>🎮 GIOCA E GUADAGNA BUONI →</a>
+          <a href="/lalinea-game" style={{display:'block',marginTop:20,padding:'16px',border:'2px solid #ffdb35',borderRadius:12,color:'#ffdb35',fontWeight:900,textAlign:'center',textDecoration:'none'}}>🎮 GIOCA A MARIO →</a>
           <p style={{fontSize:12,color:'#a9b5ad',marginTop:8}}>Accesso al gioco automatico su questo browser dopo il login VIP. I buoni in euro sono separati dai punti fedeltà.</p>
 
           <div className="my-8 bg-yellow-400 p-6 text-center text-black">
@@ -120,6 +127,11 @@ export default function VipPage() {
 
             if (!risposta.ok) {
               throw new Error(dati.error || "Accesso non riuscito");
+            }
+
+            if (new URLSearchParams(window.location.search).get("gioco") === "milanese") {
+              window.location.replace("/lalinea-slot.html");
+              return;
             }
 
             setCliente(dati.cliente);
