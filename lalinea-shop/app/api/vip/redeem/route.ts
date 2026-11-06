@@ -5,15 +5,7 @@ import { getSupabaseAdmin } from "../../../../lib/supabaseAdmin";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const costiPremi: Record<string, number> = {
-  "10001": 200,
-  "10003": 300,
-  "300060": 1000,
-  "300120": 2500,
-  "300275": 5500,
-  "300550": 10000,
-  "301200": 20000,
-};
+import { costiPremi } from "../../../../lib/costiPremiVip";
 
 export async function POST(request: Request) {
   try {

@@ -3,6 +3,7 @@
 
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { isBuonoMilanese, usaBuonoMilanese, validaBuonoMilanese } from "../lib/laMilaneseCart";
 import { createPortal as laLineaGamePortal } from "react-dom";
 import FruityCheese from "./components/FruityCheese";
 
@@ -1313,6 +1314,10 @@ const [codiceSconto, setCodiceSconto] = useState("");
 const [scontoPercentuale, setScontoPercentuale] = useState(0);
 const [messaggioSconto, setMessaggioSconto] = useState("");
 const [codiceTetrisValidato, setCodiceTetrisValidato] = useState("");
+ // LALINEA_MILANESE_CHECKOUT_V1
+ const [codiceLaMilaneseValidato, setCodiceLaMilaneseValidato] = useState("");
+ const milaneseCheckoutBusy = useRef(false);
+ const milaneseDiscountVersion = useRef(0);
 // LALINEA_REAL_REWARDS_V1
 const [codiceLaLineaGameValidato, setCodiceLaLineaGameValidato] = useState("");
 const gameCheckoutBusy = useRef(false);
@@ -2038,7 +2043,9 @@ const cambiaQuantita = (id: number, differenza: number) => {
   );
 const costoConsegna = 10;
 
-const importoSconto =
+const importoSconto = codiceLaMilaneseValidato
+  ? Math.min(totaleCarrello, Math.abs(scontoPercentuale))
+  :
   scontoPercentuale < 0
     ? (codiceLaLineaGameValidato ? Math.min(totaleCarrello, Math.abs(scontoPercentuale)) : Math.abs(scontoPercentuale))
     : totaleCarrello * (scontoPercentuale / 100);
@@ -2051,6 +2058,8 @@ const totaleCarrelloScontato = Math.max(
 const totaleOrdine = totaleCarrelloScontato + costoConsegna;
 
 const applicaCodiceSconto = async (codiceRicevuto?: unknown) => {
+  const versioneMilanese = ++milaneseDiscountVersion.current;
+  setCodiceLaMilaneseValidato("");
   const codice = (typeof codiceRicevuto === "string" ? codiceRicevuto : codiceSconto).trim().toUpperCase();
 
   if (!codice) {
@@ -2077,6 +2086,21 @@ const applicaCodiceSconto = async (codiceRicevuto?: unknown) => {
     }
   }
 
+
+  if (isBuonoMilanese(codice)) {
+    setScontoPercentuale(0);
+    try {
+      const valore = await validaBuonoMilanese(codice);
+      if (versioneMilanese !== milaneseDiscountVersion.current) return;
+      setCodiceLaMilaneseValidato(codice);
+      setScontoPercentuale(-valore);
+      setMessaggioSconto("Buono La Milanese da " + valore + " € · monouso sui prodotti.");
+    } catch (errore) {
+      if (versioneMilanese !== milaneseDiscountVersion.current) return;
+      setMessaggioSconto(errore instanceof Error ? errore.message : "Verifica del buono non disponibile.");
+    }
+    return;
+  }
 
   // CODICI VECCHI GIÀ ESISTENTI
   if (codice === "CESOLOLALINEA26") {
@@ -2242,6 +2266,50 @@ Totale prodotti: ${totaleCarrello} €
 Consegna: ${costoConsegna} €
 TOTALE ORDINE: ${totaleOrdine} €
   `.trim();
+  const premiConPunti = carrello.filter((item) =>
+      [
+        10001,
+        10003,
+        300060,
+        300120,
+        300275,
+        300550,
+        301200,
+      ].includes(Number(item.id))
+    );
+
+  if (codiceLaMilaneseValidato) {
+    if (milaneseCheckoutBusy.current) return;
+    milaneseCheckoutBusy.current = true;
+    try {
+      const subtotalCents = Math.round(totaleCarrello * 100);
+      const deliveryCents = Math.round(costoConsegna * 100);
+      const receipt = await usaBuonoMilanese({
+        code: codiceLaMilaneseValidato,
+        telefono: datiCliente.telefono,
+        subtotalCents,
+        deliveryCents,
+        premi: premiConPunti.map(item => ({ id: String(item.id), quantita: item.quantita })),
+        messaggio,
+        modalita: modalitaOrdine || "",
+        date: dataConsegna || "",
+        time: orarioConsegna || "",
+      });
+      const netto = (subtotalCents - receipt.appliedCents + deliveryCents) / 100;
+      const totale = messaggio.replace(/^TOTALE ORDINE: .*$/m, "TOTALE ORDINE: " + netto.toFixed(2) + " €");
+      const testoMilanese = encodeURIComponent(totale
+        + "\nBuono La Milanese: " + codiceLaMilaneseValidato
+        + "\nSconto applicato: " + (receipt.appliedCents / 100).toFixed(2) + " €"
+        + "\nRiferimento ordine VIP: " + receipt.orderId
+        + (receipt.pointsDebited ? "\nPunti VIP riscattati per premi: " + receipt.pointsDebited : ""));
+      window.location.assign("https://t.me/LaLineaMiOrdini?text=" + testoMilanese);
+    } catch (errore) {
+      window.alert(errore instanceof Error ? errore.message : "Conferma ordine non disponibile.");
+    } finally {
+      milaneseCheckoutBusy.current = false;
+    }
+    return;
+  }
   let prenotazioneSlotId: string | null = null;
 
 if (modalitaOrdine === "delivery") {
@@ -2355,17 +2423,7 @@ if (codiceTetrisValidato) {
   }
 }
 
-const premiConPunti = carrello.filter((item) =>
-      [
-        10001,
-        10003,
-        300060,
-        300120,
-        300275,
-        300550,
-        301200,
-      ].includes(Number(item.id))
-    );
+
 
     if (premiConPunti.length > 0 && !codiceLaLineaGameValidato) {
       const pinVip = window.prompt(
@@ -8665,6 +8723,8 @@ onChange={(e) => setDatiCliente((prev) => ({ ...prev, email: e.target.value }))}
       value={codiceSconto}
 onChange={(e) => {
   setCodiceSconto(e.target.value.toUpperCase());
+  milaneseDiscountVersion.current += 1;
+  setCodiceLaMilaneseValidato("");
   setCodiceTetrisValidato("");
   setCodiceLaLineaGameValidato("");
   gameCheckoutRef.current = null;
