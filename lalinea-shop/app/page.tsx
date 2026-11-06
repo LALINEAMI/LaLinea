@@ -888,6 +888,32 @@ if (halloween2026Attivo) {
     { id: number; nome: string; prezzo: number; quantita: number }[]
   >([]);
   const totalePrecedente = useRef(0);
+  const GORILLA_SKITTLEZ_NOME = "Gorilla Skittlez";
+const GORILLA_PROMO_ID = "gorilla-skittlez-15g";
+const GORILLA_PROMO_INIZIO = Date.parse("2026-11-06T08:20:00+01:00");
+const GORILLA_PROMO_FINE = GORILLA_PROMO_INIZIO + 72 * 60 * 60 * 1000;
+const GORILLA_PROMO_FINE_ITALIA = new Intl.DateTimeFormat("it-IT", {
+  dateStyle: "short",
+  timeStyle: "short",
+  timeZone: "Europe/Rome",
+}).format(GORILLA_PROMO_FINE);
+
+const [gorillaPromoAttiva, setGorillaPromoAttiva] = useState(false);
+
+useEffect(() => {
+  const aggiorna = () => {
+    const ora = Date.now();
+    setGorillaPromoAttiva(ora >= GORILLA_PROMO_INIZIO && ora < GORILLA_PROMO_FINE);
+  };
+
+  aggiorna();
+  const ora = Date.now();
+  const timer = [GORILLA_PROMO_INIZIO, GORILLA_PROMO_FINE]
+    .filter((scadenza) => scadenza > ora)
+    .map((scadenza) => window.setTimeout(aggiorna, scadenza - ora));
+
+  return () => timer.forEach((id) => window.clearTimeout(id));
+}, [GORILLA_PROMO_INIZIO, GORILLA_PROMO_FINE]);
   const [toastCarrello, setToastCarrello] = useState("");
   const [fotoAnteprima, setFotoAnteprima] = useState<string | null>(null);
   const [tipoAnteprima, setTipoAnteprima] = useState<"img" | "video">("img");
@@ -2225,6 +2251,14 @@ useEffect(() => {
 
  const inviaOrdineTelegram = async () => {
 if (gameCheckoutBusy.current) return;
+if (
+  Date.now() >= GORILLA_PROMO_FINE &&
+  carrello.some((item) => String(item.id) === GORILLA_PROMO_ID)
+) {
+  setCarrello((prev) => prev.filter((item) => String(item.id) !== GORILLA_PROMO_ID));
+  window.alert("La promo da 15 g è terminata. Controlla il carrello aggiornato.");
+  return;
+}
 gameCheckoutBusy.current = true;
 try {
   if (codiceLaLineaGameValidato) {
@@ -3963,6 +3997,119 @@ onClick={apriRicercaCatalogo}
   </div>
 </div>
 {/* PRODOTTI PREMIUM FILTRED */}
+{/* GORILLA SKITTLEZ */}
+<div className="mt-10 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
+  <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+    Premium Filtred
+  </p>
+  <h3 className="mt-2 text-3xl font-black uppercase text-white">
+    {GORILLA_SKITTLEZ_NOME}
+  </h3>
+
+  <div className="mt-6 space-y-3">
+    <InfoRiga etichetta="GENETICA">Gorilla Glue #4 × Original Z (Zkittlez)</InfoRiga>
+    <InfoRiga etichetta="BILANCIAMENTO">60% Indica / 40% Sativa</InfoRiga>
+    <InfoRiga etichetta="AROMA">
+      Un’esplosione di frutta dolce e tropicale bilanciata da note terrose e speziate.
+    </InfoRiga>
+  </div>
+
+  <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
+    <video
+      src="/products/premium-filtred/gs1.mp4"
+      poster="/products/premium-filtred/gs2.jpg"
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      aria-label="Video Gorilla Skittlez"
+      className="aspect-video w-full shrink-0 rounded-2xl border border-yellow-300/50 object-cover sm:aspect-square sm:w-1/4"
+    />
+    <div className="grid flex-1 grid-cols-2 gap-3 md:grid-cols-3">
+      {[2, 3, 4, 5, 6, 7].map((numero) => (
+        <img
+          key={numero}
+          src={`/products/premium-filtred/gs${numero}.jpg`}
+          alt={`${GORILLA_SKITTLEZ_NOME} — foto ${numero - 1}`}
+          loading="lazy"
+          decoding="async"
+          className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover"
+        />
+      ))}
+    </div>
+  </div>
+
+  <div className="mt-6">
+    <p className="mb-3 font-bold uppercase text-white">Seleziona quantità</p>
+    {gorillaPromoAttiva && (
+      <p className="mb-3 rounded-xl border border-lime-300/70 bg-lime-300/10 px-3 py-2 text-sm font-bold text-lime-200">
+        Promo lancio · 15 g a 100 € fino al {GORILLA_PROMO_FINE_ITALIA}
+      </p>
+    )}
+
+    <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+      {[
+        { grammi: "15g", prezzo: 100, promo: true },
+        { grammi: "5g", prezzo: 35 },
+        { grammi: "10g", prezzo: 70 },
+        { grammi: "25g", prezzo: 165 },
+        { grammi: "50g", prezzo: 280 },
+        { grammi: "100g", prezzo: 530 },
+        { grammi: "500g", prezzo: 1700 },
+        { grammi: "1kg", prezzo: 3000 },
+      ]
+        .filter((opzione) => !opzione.promo || gorillaPromoAttiva)
+        .map((opzione) => (
+          <button
+            key={opzione.grammi}
+            type="button"
+            onClick={() => {
+              const ora = Date.now();
+              if (opzione.promo && (ora < GORILLA_PROMO_INIZIO || ora >= GORILLA_PROMO_FINE)) {
+                setGorillaPromoAttiva(false);
+                return;
+              }
+
+              const id = opzione.promo
+                ? GORILLA_PROMO_ID
+                : `gorilla-skittlez-${opzione.grammi}`;
+
+              setCarrello((prev) => {
+                if (prev.some((item) => String(item.id) === id)) {
+                  return prev.map((item) =>
+                    String(item.id) === id
+                      ? { ...item, quantita: item.quantita + 1 }
+                      : item
+                  );
+                }
+
+                return [
+                  ...prev,
+                  {
+                    id: id as any,
+                    nome: `${GORILLA_SKITTLEZ_NOME} ${opzione.grammi}`,
+                    prezzo: opzione.prezzo,
+                    quantita: 1,
+                  },
+                ];
+              });
+            }}
+            className={`rounded-xl border bg-zinc-950 px-4 py-4 text-center hover:bg-zinc-900 ${
+              opzione.promo ? "border-lime-300" : "border-yellow-300"
+            }`}
+          >
+            {opzione.promo && (
+              <p className="mb-1 text-xs font-black uppercase text-lime-300">Promo lancio</p>
+            )}
+            <p className="text-xl font-black text-white">{opzione.grammi}</p>
+            <p className="mt-3 text-xl font-black lalinea-price-neon">{opzione.prezzo} €</p>
+            <p className="mt-2 text-xs font-black uppercase text-white">Aggiungi al carrello</p>
+          </button>
+        ))}
+    </div>
+  </div>
+</div>
 {/* PREMIUM FILTRED - RUNTZ X MASTER ALIEN COOKIES */}
 {categoriaAttiva === "Premium Filtred" && (
   <div
