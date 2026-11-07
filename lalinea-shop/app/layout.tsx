@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import { Luckiest_Guy } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
-
+import LaLineaTapEffects from "./components/LaLineaTapEffects";
 const luckiestGuy = Luckiest_Guy({
   subsets: ["latin"],
   weight: "400",
@@ -27,6 +27,7 @@ export default function RootLayout({
       className={`${luckiestGuy.className} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <LaLineaTapEffects />
         {children}
         <Analytics />
       {/* LALINEA_HALLOWEEN_2026_MOUNT_BEGIN */}
