@@ -94,3 +94,13 @@ body > * {
     max-height: none !important;
   }
 }
+@media (min-width: 768px) {
+  #lalinea-pagina {
+    height: 100dvh !important;
+    min-height: 0 !important;
+    max-height: 100dvh !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    touch-action: pan-y;
+  }
+}

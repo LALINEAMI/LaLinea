@@ -102,7 +102,7 @@ function NeonGlobalStyle() {
       }
 
       @media (max-width: 767px) {
-        .lalinea-mobile-shell 
+        .lalinea-mobile-shell {
           height: 100dvh;
           min-height: 0 !important;
           overflow: hidden;
@@ -3366,15 +3366,15 @@ onClick={apriRicercaCatalogo}
 
   <div className="ll-mobile-category-grid">
     {[
-      { nome: "Premium Filtred", immagine: "/products/premium-filtred/voltus1.jpg" },
-      { nome: "Frozen e Static", immagine: "/products/frozen-static/arancia1.jpeg" },
-      { nome: "Rosin & Pen", immagine: "/products/rosin/etere1.jpg" },
-      { nome: "Flowers", immagine: "/products/flowers/lmg2.jpg" },
-      { nome: "Dry Work", immagine: "/products/Dry work/cj2.jpg" },
-      { nome: "White", immagine: "/products/other/soda2.jpg" },
-      { nome: "Tabacchi biologici", immagine: "/products/other/tab2.jpg", fallback: "/products/other/tab3.jpg" },
-      { nome: "Gadget", immagine: "/cover1.jpg" },
-      { nome: "Abbigliamento", immagine: "/products/abbigliamento/calza1.jpg" },
+      { nome: "Premium Filtred", immagine: "/categorie/premium-filtred.jpg" },
+{ nome: "Frozen e Static", immagine: "/categorie/frozen-static.jpg" },
+{ nome: "Rosin & Pen", immagine: "/categorie/rosin-pen.jpg" },
+{ nome: "Flowers", immagine: "/categorie/flowers.jpg" },
+{ nome: "Dry Work", immagine: "/categorie/dry-work.jpg" },
+{ nome: "White", immagine: "/categorie/white.jpg" },
+{ nome: "Tabacchi biologici", immagine: "/categorie/tabacchi-biologici.jpg", fallback: "/products/other/tab3.jpg" },
+{ nome: "Gadget", immagine: "/categorie/gadget.jpg" },
+{ nome: "Abbigliamento", immagine: "/categorie/abbigliamento.jpg" },
     ].map(({ nome, immagine, fallback }) => (
       <button
         key={`mobile-home-${nome}`}
@@ -3488,8 +3488,37 @@ onClick={apriRicercaCatalogo}
           }}
           className="min-h-12 min-w-0 rounded-lg border border-zinc-700 bg-black px-3 py-3 text-left text-xs font-black uppercase [overflow-wrap:anywhere] hover:border-yellow-400 sm:text-sm shadow-[0_0_14px_rgba(250,204,21,0.14)]"
         >
-          {categoria}
-          {categoria === "Gift Card" && <span className="ml-2 inline-block rounded-full bg-yellow-400 px-2 py-1 text-[10px] text-black">NUOVA</span>}
+          {categoria !== "Gift Card" && (
+  <img
+    src={
+      ({
+        "Premium Filtred": "/categorie/premium-filtred.jpg",
+        "Frozen e Static": "/categorie/frozen-static.jpg",
+        "Rosin & Pen": "/categorie/rosin-pen.jpg",
+        "Flowers": "/categorie/flowers.jpg",
+        "Dry Work": "/categorie/dry-work.jpg",
+        "White": "/categorie/white.jpg",
+        "Tabacchi biologici": "/categorie/tabacchi-biologici.jpg",
+        "Gadget": "/categorie/gadget.jpg",
+        "Abbigliamento": "/categorie/abbigliamento.jpg",
+      } as Record<string, string>)[categoria]
+    }
+    alt=""
+    loading="lazy"
+    decoding="async"
+    draggable={false}
+    data-no-preview="true"
+    className="pointer-events-none mb-2 h-16 w-full rounded-xl object-cover"
+  />
+)}
+
+{categoria}
+
+{categoria === "Gift Card" && (
+  <span className="ml-2 inline-block rounded-full bg-yellow-400 px-2 py-1 text-[10px] text-black">
+    NUOVA
+  </span>
+)}
         </button>
       ))}
     </div>
