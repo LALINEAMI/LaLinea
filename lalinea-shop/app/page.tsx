@@ -4027,6 +4027,7 @@ onClick={apriRicercaCatalogo}
 </div>
 {/* PRODOTTI PREMIUM FILTRED */}
 {/* GORILLA SKITTLEZ */}
+{/* LALINEA_GORILLA_SOLO_PREMIUM_V1 */ categoriaAttiva === "Premium Filtred" && (
 <div className="mt-10 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
   <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
     Premium Filtred
@@ -4139,6 +4140,7 @@ onClick={apriRicercaCatalogo}
     </div>
   </div>
 </div>
+)}
 {/* PREMIUM FILTRED - RUNTZ X MASTER ALIEN COOKIES */}
 {categoriaAttiva === "Premium Filtred" && (
   <div
