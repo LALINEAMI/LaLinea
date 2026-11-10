@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  font-family: inherit;
+  background-color: #000000;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.88), rgba(0, 0, 0, 0.88)),
+    url("/sfondo.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: min(85vw, 900px);
+  background-attachment: fixed;
+}
+
+main {
+  background-color: transparent !important;
+}
+
+main section {
+  background-color: transparent !important;
+}
+
+main article {
+  background-color: rgba(0, 0, 0, 0.55) !important;
+}
+/* Unico sfondo fisso per desktop, smartphone e tablet */
+body {
+  min-height: 100%;
+  position: relative;
+  overflow-x: hidden;
+  background-color: #000 !important;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: 0;
+  pointer-events: none;
+
+  background-image:
+    linear-gradient(
+      rgba(0, 0, 0, 0.55),
+      rgba(0, 0, 0, 0.55)
+    ),
+    url("/lalinea.jpg");
+
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+body > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* FIX SCROLL SOLO DESKTOP */
+@media (min-width: 768px) {
+  html,
+  body {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    height: auto !important;
+  }
+
+  #lalinea-pagina,
+  .lalinea-mobile-shell {
+    overflow-y: visible !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+}
+@media (min-width: 768px) {
+  #lalinea-pagina {
+    height: 100dvh !important;
+    min-height: 0 !important;
+    max-height: 100dvh !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    touch-action: pan-y;
+  }
+}

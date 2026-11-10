@@ -104,3 +104,379 @@ body > * {
     touch-action: pan-y;
   }
 }
+
+/* LALINEA_DESKTOP_ORO_START */
+@font-face {
+  font-family: "LaLinea Desktop Oro";
+  src: url("/fonts/lalinea-desktop-oro.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  #lalinea-pagina:has(.ll-vertical-tools) {
+    --ll-tools-height: clamp(260px, 38dvh, 340px);
+  }
+
+  #lalinea-pagina .ll-vertical-tools {
+    left: 24px;
+    bottom: 24px;
+    grid-auto-columns: clamp(150px, calc((58vw - 60px) / 3), 192px);
+    width: max-content;
+    height: var(--ll-tools-height);
+    gap: 12px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  #lalinea-pagina .ll-tool-card,
+  #lalinea-pagina .ll-best-sellers {
+    isolation: isolate;
+    border: 2px solid #ffdc44;
+    border-radius: 26px;
+    background: linear-gradient(145deg, #232725 0%, #101312 38%, #050706 100%);
+    box-shadow:
+      inset 0 2px 0 #fff6ad80,
+      inset 0 -2px 0 #8a5d14,
+      0 0 0 2px #151a08,
+      0 0 0 3px #d8e83f70,
+      0 7px 20px #0009,
+      0 0 14px #d7e63a12;
+  }
+
+  #lalinea-pagina .ll-tool-card::before,
+  #lalinea-pagina .ll-best-sellers::before {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    z-index: 0;
+    border: 1px solid #bce94b80;
+    border-radius: 20px;
+    box-shadow: inset 0 1px 0 #fff7a542;
+    pointer-events: none;
+  }
+
+  #lalinea-pagina .ll-tool-heading,
+  #lalinea-pagina .ll-tool-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  #lalinea-pagina .ll-tool-heading,
+  #lalinea-pagina .ll-best-sellers-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    min-height: 66px;
+    margin: 7px 7px 0;
+    padding: 8px 30px 8px 8px;
+    border: 1px solid #ffe56b;
+    border-radius: 18px;
+    background: linear-gradient(180deg, #30372b 0%, #141a12 24%, #070b08 65%);
+    box-shadow: inset 0 2px 0 #ffffff24, inset 0 -2px 0 #a6e23770, 0 2px 6px #0009;
+    font-family: "LaLinea Desktop Oro", "Trebuchet MS", sans-serif;
+    font-size: 23px;
+    font-style: normal;
+    font-weight: 400;
+    font-synthesis: none;
+    line-height: 1.05;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    text-align: center;
+    text-wrap: balance;
+    color: #ffe56b;
+    text-shadow: 0 2px 3px #000b;
+  }
+
+  #lalinea-pagina .ll-tool-close,
+  #lalinea-pagina .ll-best-sellers > button {
+    top: 9px;
+    right: 9px;
+    z-index: 3;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ffe56b;
+    border-radius: 50%;
+    background: linear-gradient(#3b412b, #0a0e09 65%);
+    color: #ffe264;
+    box-shadow: inset 0 1px 0 #ffffb05c, 0 2px 5px #0009;
+    font-family: Arial, sans-serif;
+    font-size: 23px;
+    font-weight: 700;
+    line-height: 1;
+    transition: color 150ms ease, border-color 150ms ease;
+  }
+
+  #lalinea-pagina .ll-tool-close:hover,
+  #lalinea-pagina .ll-best-sellers > button:hover {
+    color: #fff8b4;
+    border-color: #c0ff48;
+  }
+
+  #lalinea-pagina .ll-tool-content {
+    gap: 7px;
+    padding: 12px 10px 13px;
+  }
+
+  #lalinea-pagina .ll-tool-name {
+    color: #f5f7ed;
+    font-size: 13px;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+
+  #lalinea-pagina .ll-tool-caption {
+    color: #d9e2bd;
+    font-size: 10px;
+    line-height: 1.35;
+    text-wrap: balance;
+  }
+
+  #lalinea-pagina .ll-tool-action {
+    min-height: 44px;
+    margin-top: auto;
+    padding: 6px 8px;
+    border: 1px solid #b6f643;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #2f3c22 0%, #111b0c 32%, #080e07 64%);
+    color: #ffe56b;
+    box-shadow: inset 0 2px 0 #efffb226, inset 0 -2px 0 #000b, 0 0 0 2px #b1d82e22;
+    font-family: "LaLinea Desktop Oro", "Trebuchet MS", sans-serif;
+    font-size: 23px;
+    font-weight: 400;
+    font-synthesis: none;
+    line-height: 1.1;
+    letter-spacing: 0;
+    transition: border-color 150ms ease, filter 150ms ease;
+  }
+
+  #lalinea-pagina .ll-tool-action[aria-label="Apri il gioco completo LaLinea Game"] {
+    border-color: #f7ef58;
+    background: linear-gradient(180deg, #e3ff88 0%, #aee62f 30%, #70b820 58%, #c0ee36 100%);
+    box-shadow: inset 0 3px 0 #ffffba9c, inset 0 -3px 0 #47720d, 0 0 0 2px #c8f22945, 0 0 12px #a1e93025;
+    text-shadow: 0 1px 2px #183a13;
+  }
+
+  #lalinea-pagina .ll-tool-action:hover {
+    border-color: #ffff9d;
+    filter: brightness(1.1);
+  }
+
+  #lalinea-pagina .ll-tool-tetris-mark {
+    width: 54px;
+    gap: 4px;
+    margin: 5px 0;
+    filter: drop-shadow(0 3px 0 #050905) drop-shadow(0 0 5px #c3e93633);
+  }
+
+  #lalinea-pagina .ll-tool-content:has(.ll-tool-tetris-mark) > .ll-tool-name {
+    display: none;
+  }
+
+  #lalinea-pagina .ll-tool-tetris-mark span {
+    border: 1px solid #f9e86b;
+    border-radius: 5px;
+    background: linear-gradient(145deg, #fff6a1, #efc525 58%, #b38212);
+    box-shadow: inset 0 2px 0 #ffffbb9c, inset 0 -2px 0 #9d6a14;
+  }
+
+  #lalinea-pagina .ll-tool-tetris-mark span:last-child {
+    border-color: #c7ff58;
+    background: linear-gradient(145deg, #caff64, #5dd95a 60%, #33882c);
+  }
+
+  #lalinea-pagina .ll-tool-feedback-photo {
+    border: 1px solid #e9da54;
+    border-radius: 12px;
+    background: #090d0a;
+    box-shadow: inset 0 0 0 2px #050705, 0 2px 7px #0007;
+  }
+
+  #lalinea-pagina .ll-tool-feedback-photo img {
+    object-fit: contain;
+  }
+
+  #lalinea-pagina .ll-tool-sound-logo {
+    width: 56px;
+    height: 56px;
+    margin: 9px 0 11px;
+    border: 2px solid #121912;
+    border-radius: 50%;
+    outline: 1px solid #ffe77a;
+    outline-offset: 9px;
+    box-shadow: 0 0 0 5px #292e27, 0 0 0 8px #101610, 0 0 0 9px #596242, 0 4px 12px #000b;
+    object-fit: contain;
+  }
+
+  #lalinea-pagina .ll-tool-player-controls {
+    flex-direction: row;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  #lalinea-pagina .ll-tool-skip-row {
+    width: auto;
+    gap: 6px;
+  }
+
+  #lalinea-pagina .ll-tool-round {
+    flex: 0 0 auto;
+    width: 29px;
+    height: 29px;
+    border: 1px solid #ffe279;
+    border-radius: 50%;
+    background: linear-gradient(160deg, #30372b, #070a08 70%);
+    color: #f3f4e8;
+    box-shadow: inset 0 1px 0 #ffffff24, 0 2px 5px #0008;
+  }
+
+  #lalinea-pagina .ll-tool-round svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  #lalinea-pagina .ll-tool-play {
+    width: 42px;
+    height: 42px;
+    border: 2px solid #f7eb65;
+    background: linear-gradient(155deg, #e1ff8c, #91d82b 42%, #5f9d1c);
+    color: #142c0d;
+    box-shadow: inset 0 2px 0 #ffffd580, 0 0 0 2px #6f9f203b;
+  }
+
+  #lalinea-pagina .ll-tool-round:hover {
+    filter: brightness(1.15);
+  }
+
+  #lalinea-pagina .ll-best-sellers {
+    right: 24px !important;
+    bottom: 24px !important;
+    width: min(390px, calc(38vw - 36px)) !important;
+    height: var(--ll-tools-height, clamp(260px, 38dvh, 340px)) !important;
+    max-height: none !important;
+  }
+
+  #lalinea-pagina .ll-best-sellers-title {
+    position: relative;
+    z-index: 1;
+    font-size: 22px;
+  }
+
+  #lalinea-pagina .ll-best-sellers-grid {
+    position: relative;
+    z-index: 1;
+    gap: 7px;
+    padding: 10px;
+    background: transparent;
+  }
+
+  #lalinea-pagina .ll-best-sellers-grid > button {
+    border: 1px solid #efd55a;
+    border-radius: 12px;
+    background: #080b09;
+    box-shadow: inset 0 1px 0 #ffffff2b, 0 2px 6px #0007;
+  }
+
+  #lalinea-pagina .ll-best-seller-label {
+    display: flex;
+    flex: 0 0 auto !important;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px !important;
+    padding: 7px 4px;
+    border-top: 1px solid #ecdb6159;
+    background: #0b100c;
+    color: #f1f3e6;
+    font-size: 9px;
+    line-height: 1.3;
+    text-wrap: balance;
+  }
+
+  #lalinea-pagina .ll-best-sellers-ticker-wrap {
+    position: relative;
+    z-index: 1;
+    margin: 0 8px 8px;
+    padding: 8px 0;
+    border: 1px solid #acd937;
+    border-radius: 999px;
+    background: linear-gradient(#25301b, #080e08 65%);
+    color: #f3f4e8;
+    font-size: 10px;
+  }
+
+  #lalinea-pagina .ll-best-sellers-ticker-wrap:hover .best-sellers-ticker,
+  #lalinea-pagina .ll-best-sellers-ticker-wrap:focus-within .best-sellers-ticker {
+    animation-play-state: paused;
+  }
+
+  #lalinea-pagina .ll-vertical-tools button:focus-visible,
+  #lalinea-pagina .ll-best-sellers button:focus-visible {
+    outline: 2px solid #fff7a5;
+    outline-offset: -4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #lalinea-pagina .ll-tool-close,
+    #lalinea-pagina .ll-tool-action {
+      transition: none;
+    }
+  }
+}
+/* LALINEA_DESKTOP_ORO_END */
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  #lalinea-pagina:has(.ll-vertical-tools) {
+    --ll-tools-height: clamp(320px, 42dvh, 380px);
+  }
+
+  #lalinea-pagina .ll-vertical-tools {
+    grid-auto-columns: clamp(196px, calc((62vw - 60px) / 3), 224px);
+  }
+
+  #lalinea-pagina .ll-tool-heading,
+  #lalinea-pagina .ll-best-sellers-title {
+    min-height: 90px;
+    padding: 8px 24px 8px 6px;
+    font-size: 28px;
+    line-height: 1.3;
+    letter-spacing: 0.06em;
+    text-shadow: none;
+  }
+
+  #lalinea-pagina .ll-best-sellers-title {
+    font-size: 24px;
+  }
+
+  #lalinea-pagina .ll-tool-action {
+    min-height: 48px;
+    font-size: 26px;
+    line-height: 1.25;
+    letter-spacing: 0.06em;
+    text-shadow: none;
+  }
+
+  #lalinea-pagina .ll-tool-action[aria-label="Apri il gioco completo LaLinea Game"] {
+    font-size: 30px;
+    text-shadow: none;
+  }
+
+  #lalinea-pagina .ll-tool-name,
+  #lalinea-pagina .ll-tool-caption {
+    font-family: "Avenir Next", "Trebuchet MS", sans-serif;
+    font-weight: 600;
+    line-height: 1.45;
+    letter-spacing: 0.035em;
+  }
+
+  #lalinea-pagina .ll-tool-name {
+    font-size: 14px;
+  }
+
+  #lalinea-pagina .ll-tool-caption {
+    font-size: 12px;
+  }
+}

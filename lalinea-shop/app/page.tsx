@@ -3428,7 +3428,12 @@ onClick={apriRicercaCatalogo}
     ← Home
   </button>
 
-  <p className="min-w-0 flex-1 truncate text-center text-[11px] font-black uppercase tracking-[0.08em] text-white">
+  {(vistaMobile === "shop" || vistaMobile === "gift-card") ? (
+  <button className="min-w-0 flex-1 truncate text-center text-[11px] font-black uppercase tracking-[0.08em] text-white" type="button" data-ll-categorie-rapide="1"
+    onClick={() => setMenuAperto(true)} aria-haspopup="dialog" aria-expanded={menuAperto}
+    aria-label={"Cambia categoria, categoria attuale: " + (vistaMobile === "gift-card" ? "Gift Card" : categoriaAttiva)}
+    style={{ ...({}), height: 40, padding: "3px 6px", border: "1px solid rgba(250,204,21,.55)", borderRadius: 12, background: "rgba(250,204,21,.08)", lineHeight: 1.2 }}>
+    <span style={{ display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
     {vistaMobile === "shop"
       ? categoriaAttiva
       : ({
@@ -3441,7 +3446,23 @@ onClick={apriRicercaCatalogo}
           delivery: "Delivery",
           contatti: "Contatti",
         } as Record<string, string>)[vistaMobile] || "LaLinea"}
-  </p>
+  </span>
+    <span aria-hidden="true" style={{ display: "block", marginTop: 2, fontSize: 10, color: "#fde047", letterSpacing: ".02em" }}>Cambia categoria ▾</span>
+  </button>
+) : (<p className="min-w-0 flex-1 truncate text-center text-[11px] font-black uppercase tracking-[0.08em] text-white">
+    {vistaMobile === "shop"
+      ? categoriaAttiva
+      : ({
+          "gift-card": "Gift Card",
+          carrello: "Carrello",
+          promo: "Le promo",
+          tracking: "Tracking",
+          "dicono-di-noi": "Dicono di noi",
+          point: "I nostri point",
+          delivery: "Delivery",
+          contatti: "Contatti",
+        } as Record<string, string>)[vistaMobile] || "LaLinea"}
+  </p>)}
 
   <button
     type="button"
@@ -6004,6 +6025,182 @@ onClick={apriRicercaCatalogo}
     </div>
   </div>
 )}
+
+{/* ROSIN & PEN - GORILLA FONDUE */}
+{(() => {
+  const finePromoFondue = Date.parse("2026-11-13T07:54:12+01:00");
+  const prezzoFondue1g = () => Date.now() < finePromoFondue ? 23 : 30;
+  const promoAttiva = prezzoFondue1g() === 23;
+  const idUnGrammo = "gorilla-fondue-1g";
+
+  const promoNelCarrello = carrello.some(item =>
+    String(item.id) === idUnGrammo && item.prezzo !== 30
+  );
+
+  const aggiornaPrezzoFondue = (prezzo: number) => {
+    setCarrello(prev => prev.map(item =>
+      String(item.id) === idUnGrammo && item.prezzo !== prezzo
+        ? { ...item, prezzo }
+        : item
+    ));
+  };
+
+  return (
+    <>
+      <span hidden ref={nodo => {
+        if (!nodo || (!promoAttiva && !promoNelCarrello)) return;
+
+        let applicata = false;
+        const applicaScadenza = () => {
+          if (applicata || Date.now() < finePromoFondue) return;
+          applicata = true;
+          aggiornaPrezzoFondue(30);
+
+          if (promoNelCarrello) {
+            window.alert(
+              "La promo Gorilla Fondue è terminata. 1 g costa ora 30 €. Controlla il totale del carrello."
+            );
+          }
+        };
+
+        const timer = window.setTimeout(
+          applicaScadenza,
+          Math.max(0, finePromoFondue - Date.now())
+        );
+        document.addEventListener("visibilitychange", applicaScadenza);
+
+        return () => {
+          window.clearTimeout(timer);
+          document.removeEventListener("visibilitychange", applicaScadenza);
+        };
+      }} />
+
+      {categoriaAttiva === "Rosin & Pen" && (
+        <div className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
+          <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+            Rosin &amp; Pen
+          </p>
+          <h3 className="mt-2 text-3xl font-black uppercase text-white">
+            🦧 Gorilla Fondue 🧀
+          </h3>
+          <p className="mt-2 font-bold text-yellow-300">
+            🧈 Budder from Rosin 🧈 · Crossed by us
+          </p>
+
+          <div className="mt-6 space-y-3">
+            <InfoRiga etichetta="🔥 PRESSATURA">Pressato una volta a 55 °C.</InfoRiga>
+            <InfoRiga etichetta="🧬 GENETICA">Gorilla Skit × Fruity Cheese.</InfoRiga>
+            <InfoRiga etichetta="🕸️ MICRONAGGIO">90u.</InfoRiga>
+            <InfoRiga etichetta="🛌 / 🕺 BILANCIAMENTO">50% / 50%.</InfoRiga>
+            <InfoRiga etichetta="🍽️ PROFILO AROMATICO">
+              Formaggio, uva, caramella zuccherata e colla di Gorilla.
+            </InfoRiga>
+            <InfoRiga etichetta="🧊 CRIOTERAPIA">
+              24 h prima e 1 h dopo l’estrazione.
+            </InfoRiga>
+            <InfoRiga etichetta="🤒 LAVORAZIONE">
+              Lavorato in casa senza shock termici.
+            </InfoRiga>
+            <InfoRiga etichetta="🧑‍🍳 HOME MADE">
+              Prodotto interamente in casa con presse Qnubu e sacchetti Qnubu monouso.
+            </InfoRiga>
+            <InfoRiga etichetta="🫙 CONFEZIONE">
+              Vasetto nero in vetro borosilicato, realizzato appositamente per LaLinea.
+            </InfoRiga>
+          </div>
+
+          <div className="mt-6 grid gap-4 md:grid-cols-2 md:items-start">
+            <video
+              src="/products/rosin/fonduta1.mp4"
+              poster="/products/rosin/fonduta2.jpg"
+              controls
+              playsInline
+              preload="metadata"
+              aria-label="Video Gorilla Fondue"
+              data-no-preview="true"
+              className="max-h-96 w-full rounded-2xl border border-yellow-300/50 bg-black object-contain"
+            />
+
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+              {[2, 3, 4, 5, 6, 7, 8].map(numero => (
+                <img
+                  key={numero}
+                  src={`/products/rosin/fonduta${numero}.jpg`}
+                  alt={`Gorilla Fondue, foto ${numero - 1}`}
+                  loading="lazy"
+                  decoding="async"
+                  className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover"
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-6">
+            {promoAttiva && (
+              <p className="mb-4 rounded-xl border border-lime-300/70 bg-lime-300/10 px-3 py-2 text-sm font-bold text-lime-200">
+                🚀 Promo lancio · 1 g a 23 € fino al{" "}
+                {new Date(finePromoFondue).toLocaleString("it-IT", {
+                  dateStyle: "short",
+                  timeStyle: "short",
+                  timeZone: "Europe/Rome",
+                })}
+              </p>
+            )}
+
+            <p className="mb-3 font-bold uppercase text-white">Seleziona quantità</p>
+            <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+              {[
+                { grammi: "1g", prezzo: promoAttiva ? 23 : 30 },
+                { grammi: "2g", prezzo: 45 },
+                { grammi: "5g", prezzo: 100 },
+                { grammi: "10g", prezzo: 180 },
+              ].map(opzione => (
+                <button
+                  key={opzione.grammi}
+                  type="button"
+                  className="rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center shadow-[0_0_14px_rgba(250,204,21,0.16)]"
+                  onClick={() => {
+                    const id = "gorilla-fondue-" + opzione.grammi;
+                    const prezzo = id === idUnGrammo
+                      ? prezzoFondue1g()
+                      : opzione.prezzo;
+
+                    if (prezzo !== opzione.prezzo) {
+                      aggiornaPrezzoFondue(prezzo);
+                      window.alert(`Il prezzo di 1 g è ora ${prezzo} €. Tocca di nuovo per aggiungerlo.`);
+                      return;
+                    }
+
+                    setCarrello(prev => {
+                      if (prev.some(item => String(item.id) === id)) {
+                        return prev.map(item => String(item.id) === id
+                          ? { ...item, prezzo, quantita: item.quantita + 1 }
+                          : item);
+                      }
+
+                      return [...prev, {
+                        id: id as any,
+                        nome: "Gorilla Fondue " + opzione.grammi,
+                        prezzo,
+                        quantita: 1,
+                      }];
+                    });
+                  }}
+                >
+                  <p className="text-xl font-black text-white">{opzione.grammi}</p>
+                  <p className="mt-3 text-xl font-black lalinea-price-neon">{opzione.prezzo} €</p>
+                  <p className="mt-5 text-sm font-black uppercase text-white">
+                    Aggiungi al carrello
+                  </p>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+})()}
 {/* WHOLE MELT SUGAR SPRITZ */}
 {categoriaAttiva === "Rosin & Pen" && (
   <div

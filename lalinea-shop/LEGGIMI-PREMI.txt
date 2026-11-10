@@ -1,0 +1,22 @@
+LA MILANESE · AGGIORNAMENTO PREMI
+
+Il buono da 100 € richiede 8.000 Soldi LaLinea e 6.000 punti VIP già
+puntati e disponibili per il riscatto. Le puntate a pagamento contano
+per la quota punti. I giri extra possono aggiungere LL al saldo.
+Ogni riscatto usa entrambe le quote. Eventuali eccedenze si conservano.
+I buoni emessi conservano il valore e la scadenza originali.
+
+Nel Codespace carica LaLinea-LaMilanese-Premi.zip in lalinea-shop.
+Nel secondo terminale incolla:
+
+cd /workspaces/LaLinea/lalinea-shop && unzip -n LaLinea-LaMilanese-Premi.zip && node ribilancia-la-milanese.mjs
+
+Lo script aggiorna i due file della slot e stampa il percorso della copia
+degli originali. Dopo il messaggio "Interfaccia premi aggiornata", apri
+02-ribilancia-la-milanese.sql e copia il file intero in una nuova query
+nel SQL Editor del progetto Supabase già usato per La Milanese.
+Premi Run. Il risultato atteso è 8000 e 6000.
+
+Ricarica l'anteprima della porta 3000 e apri Premi e Bonus. Verifica che
+i progressi mostrino 8.000 LL e 6.000 PT. Il riscatto usa queste soglie
+quando l'interfaccia le riceve dal database.

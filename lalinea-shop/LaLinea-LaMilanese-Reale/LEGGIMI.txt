@@ -1,0 +1,50 @@
+LA MILANESE CON PUNTI VIP E BUONI REALI
+
+La versione demo resta online fino al deploy della versione collegata.
+Il pulsante già in home continua ad aprire /lalinea-slot.html.
+Il saldo iniziale della slot è il saldo VIP attuale. I Soldi LaLinea, i
+progressi e i buoni di prova non vengono trasferiti dal browser al profilo.
+
+1. Estrai questa cartella in lalinea-shop. Nel terminale del Codespace esegui:
+
+   cd /workspaces/LaLinea/lalinea-shop
+   node LaLinea-LaMilanese-Reale/installa.mjs --check
+
+   Il controllo legge i file e si ferma se trova una versione non riconosciuta.
+   Se si ferma, conserva il messaggio: indica il file da verificare.
+
+2. Nel SQL Editor di Supabase esegui per intero 00-collaudo-la-milanese.sql.
+   Il test crea clienti finti in uno schema isolato e chiude con ROLLBACK.
+   Se il test passa, esegui 01-attiva-la-milanese.sql nel database destinato
+   alla nuova versione. La migrazione aggiunge tabelle e funzioni della slot.
+
+3. Nel terminale, sempre dentro lalinea-shop, esegui:
+
+   node LaLinea-LaMilanese-Reale/installa.mjs
+
+   L'installazione conserva una copia dei file modificati e rimuove soltanto
+   l'HTML pubblico della demo riconosciuta. Il terminale mostra i file e i
+   comandi Git, che restano separati dall'installazione.
+
+4. Prova in anteprima con un profilo e dati di collaudo. Da disconnesso si
+   apre /vip. Dopo il login, un giro a pagamento scala i punti visibili
+   nel profilo. Controlla il riscatto e il carrello prima di pubblicare:
+   il codice LLM è personale e il checkout restituisce un solo ordine
+   anche se la stessa conferma viene ritentata.
+
+REGOLE RIPRESE DALLA DEMO
+
+- Puntate da 5 a 50 punti VIP, con le stesse linee e moltiplicatori.
+- 1.000 LL e 200 punti già spesi e non conteggiati in altri riscatti
+  permettono di emettere il buono da 100 euro. La quota dei punti
+  è una soglia di spesa, non un secondo addebito.
+- Bonus una volta al giorno dopo 30 minuti di gioco cumulativi.
+  Contano gli intervalli fino a 60 secondi fra due giri confermati.
+  I giri extra da 10 punti non addebitano il saldo VIP.
+- Il bonus mantiene le probabilità della demo: 5 giri al 50%, 10 al
+  35%, 15 al 14%, buono da 50 euro all'1%.
+- Buoni validi 30 giorni, utilizzabili una volta dal titolare sul totale
+  prodotti, fino a concorrenza del totale. Le spese di consegna restano
+  separate. L'ordine VIP registra il totale dei prodotti dopo il buono.
+- Il carrello riusa i costi dei premi del sito. Consumo del buono,
+  eventuali punti dei premi nel carrello e ordine sono una transazione.

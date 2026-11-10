@@ -1,0 +1,66 @@
+import { createHash, createHmac, timingSafeEqual } from "node:crypto";
+import { getSupabaseAdmin } from "./supabaseAdmin";
+
+export const SESSION_COOKIE = "ll_game_session";
+export const SESSION_SECONDS = 7 * 24 * 60 * 60;
+
+type Customer = { id: string | number; telefono: string; pin_hash: string };
+
+export class GameError extends Error {
+  constructor(message: string, public status: number) { super(message); }
+}
+
+function fingerprint(pinHash: string) {
+  return createHash("sha256").update(pinHash).digest("hex").slice(0, 32);
+}
+
+function sign(value: string) {
+  const key = process.env.SB_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!key) throw new GameError("Accesso VIP non disponibile.", 503);
+  return createHmac("sha256", key).update("lalinea-game-session-v1:" + value).digest("base64url");
+}
+
+export function makeSession(customer: Customer) {
+  const payload = Buffer.from(JSON.stringify({
+    id: String(customer.id), pin: fingerprint(customer.pin_hash),
+    exp: Math.floor(Date.now() / 1000) + SESSION_SECONDS,
+  })).toString("base64url");
+  return payload + "." + sign(payload);
+}
+
+function readSession(token: string | undefined): { id: string; pin: string } | null {
+  if (!token || token.length > 768) return null;
+  const parts = token.split(".");
+  if (parts.length !== 2) return null;
+  const expected = Buffer.from(sign(parts[0]));
+  const actual = Buffer.from(parts[1]);
+  if (actual.length !== expected.length || !timingSafeEqual(actual, expected)) return null;
+  try {
+    const data = JSON.parse(Buffer.from(parts[0], "base64url").toString("utf8"));
+    const now = Date.now() / 1000;
+    if (typeof data.id !== "string" || !/^[A-Za-z0-9_-]{1,96}$/.test(data.id)
+      || typeof data.pin !== "string" || !Number.isInteger(data.exp)
+      || data.exp <= now || data.exp > now + SESSION_SECONDS + 60) return null;
+    return { id: data.id, pin: data.pin };
+  } catch {
+    return null;
+  }
+}
+
+export async function authenticate(token: string | undefined) {
+  const session = readSession(token);
+  if (!session) throw new GameError("Accedi con il tuo profilo VIP.", 401);
+  const { data, error } = await getSupabaseAdmin().from("vip_customers")
+    .select("id, telefono, pin_hash").eq("id", session.id).maybeSingle();
+  if (error) throw new GameError("Accesso VIP non disponibile.", 503);
+  if (!data || typeof data.pin_hash !== "string" || fingerprint(data.pin_hash) !== session.pin) {
+    throw new GameError("Accedi di nuovo con il tuo profilo VIP.", 401);
+  }
+  return data as Customer;
+}
+
+export async function rpc<T = Record<string, unknown>>(name: string, args: Record<string, unknown>) {
+  const { data, error } = await getSupabaseAdmin().rpc(name, args);
+  if (error || !data) throw new GameError("La Milanese è temporaneamente non disponibile.", 503);
+  return data as T;
+}

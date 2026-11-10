@@ -1,0 +1,42 @@
+LALINEA DESKTOP ORO
+
+Contenitori desktop con cornici oro-lime e il font a colori LaLinea Liquid.
+
+INSTALLAZIONE
+
+Carica LaLinea-Desktop-Oro.zip nella cartella lalinea-shop di Codespaces.
+Esegui nel secondo terminale questi comandi insieme.
+
+cd /workspaces/LaLinea/lalinea-shop &&
+unzip -o LaLinea-Desktop-Oro.zip &&
+node LaLinea-Desktop-Oro/installa.mjs
+
+Il pacchetto aggiorna app/globals.css e installa il font dedicato in
+public/fonts/lalinea-desktop-oro.woff2.
+
+I titoli e i pulsanti usano il font a colori fornito dal proprietario del sito.
+Il player continua a usare la sua immagine già presente sul sito.
+Le recensioni e i video provengono dai contenitori esistenti.
+
+Le regole visive sono tutte dentro il media query da 1024 px con hover e
+puntatore fine. Il font ha un nome dedicato usato dentro quel blocco.
+
+Lo script controlla i contenitori prima di procedere e conserva una copia
+del CSS precedente nella cartella backup di questo pacchetto.
+Puoi rieseguirlo per aggiornare il blocco desktop oro.
+
+VERIFICA
+
+Ricarica la pagina desktop dopo l'installazione e controlla titoli, immagini,
+chiusura dei moduli e player musicale. Riduci poi la finestra sotto 768 px e
+verifica la home mobile e lo scorrimento interno del catalogo.
+L'anteprima grafica approvata è un riferimento illustrativo. Il codice usa
+gradienti e cornici CSS insieme al font originale, quindi la resa precisa
+dei riflessi può differire dall'immagine.
+
+La verifica automatica copre installazione, aggiornamento, integrità del font,
+conservazione del codice della pagina e isolamento delle nuove regole.
+La resa nel browser del sito deve essere verificata dopo l'installazione.
+
+Per il solo controllo preliminare puoi usare
+node LaLinea-Desktop-Oro/installa.mjs --check
