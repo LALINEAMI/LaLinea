@@ -6045,7 +6045,7 @@ onClick={apriRicercaCatalogo}
 
     <div className="mt-6 grid gap-3 sm:grid-cols-2">
       <InfoRiga etichetta="💎 PRODOTTO">
-        Liquid Live Diamonds a base di CBD
+        Liquid Live Diamonds
       </InfoRiga>
 
       <InfoRiga etichetta="📦 DISPOSITIVO">
