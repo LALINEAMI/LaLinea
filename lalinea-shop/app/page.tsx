@@ -6026,6 +6026,197 @@ onClick={apriRicercaCatalogo}
   </div>
 )}
 
+{/* COOKIES LIQUID LIVE DIAMONDS DUAL TANK */}
+{categoriaAttiva === "Rosin & Pen" && (
+  <div
+    id="cookies-liquid-live-diamonds-dual-tank"
+    className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-lg sm:p-6"
+  >
+    <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+      Rosin & Pen
+    </p>
+
+    <h3 className="mt-2 break-words text-3xl font-black uppercase text-white">
+      🍪 Cookies Liquid Live Diamonds Dual Tank 💎
+      <span className="mt-2 block text-lg tracking-wide text-yellow-300">
+        🫐🍌 Blueberry Banana + Ridgeline Lantz 🌿
+      </span>
+    </h3>
+
+    <div className="mt-6 grid gap-3 sm:grid-cols-2">
+      <InfoRiga etichetta="💎 PRODOTTO">
+        Liquid Live Diamonds a base di CBD
+      </InfoRiga>
+
+      <InfoRiga etichetta="📦 DISPOSITIVO">
+        Vaporizzatore monouso all-in-one
+      </InfoRiga>
+
+      <InfoRiga etichetta="⚖️ CONTENUTO TOTALE">
+        2,0 g complessivi per dispositivo
+      </InfoRiga>
+
+      <InfoRiga etichetta="🔀 TECNOLOGIA DUAL TANK">
+        Doppio serbatoio per alternare o combinare le due varietà
+      </InfoRiga>
+
+      <InfoRiga etichetta="🫐🍌 VARIETÀ 1">
+        Blueberry Banana — Indica. Gusto dolce e fruttato,
+        effetto rilassante.
+      </InfoRiga>
+
+      <InfoRiga etichetta="🌿 VARIETÀ 2">
+        Ridgeline Lantz — Hybrid. Gusto complesso e terroso,
+        effetto bilanciato.
+      </InfoRiga>
+
+      <InfoRiga etichetta="🎁 CONFEZIONE">
+        1 pezzo equivale a 1 dispositivo da 2,0 g complessivi
+      </InfoRiga>
+    </div>
+
+    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
+      <video
+        src="/products/rosin/cok1.mp4"
+        poster="/products/rosin/cok2.jpg"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover sm:w-1/2"
+      />
+
+      <div className="grid flex-1 grid-cols-2 gap-3">
+        {[2, 3, 4, 5, 6, 7].map((numero) => (
+          <img
+            key={numero}
+            src={"/products/rosin/cok" + numero + ".jpg"}
+            alt={"Cookies Liquid Live Diamonds Dual Tank foto " + numero}
+            loading="lazy"
+            decoding="async"
+            className="aspect-square w-full rounded-xl border border-yellow-300/50 object-cover"
+          />
+        ))}
+      </div>
+    </div>
+
+    <div className="mt-6">
+      <p className="mb-2 font-bold uppercase text-white">
+        🛍️ Seleziona quantità
+      </p>
+
+      <p className="mb-4 text-sm text-zinc-300">
+        1 pezzo = 1 dispositivo da 2,0 g complessivi.
+      </p>
+
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        {[
+          { pezzi: 1, prezzo: 120 },
+          { pezzi: 3, prezzo: 290 },
+          { pezzi: 5, prezzo: 320 },
+          { pezzi: 10, prezzo: 650 },
+        ].map((opzione) => {
+          const confezioniNelCarrello = carrello.reduce(
+            (totale, item) => {
+              const formato = String(item.id).match(
+                /^cookies-liquid-live-diamonds-dual-tank-(1|3|5|10)pz$/
+              );
+
+              return totale +
+                (formato ? Number(formato[1]) * item.quantita : 0);
+            },
+            0
+          );
+
+          const limiteSuperato =
+            confezioniNelCarrello + opzione.pezzi > 10;
+
+          return (
+            <button
+              key={opzione.pezzi}
+              type="button"
+              disabled={limiteSuperato}
+              onClick={() => {
+                const id =
+                  "cookies-liquid-live-diamonds-dual-tank-" +
+                  opzione.pezzi +
+                  "pz";
+
+                setCarrello((prev) => {
+                  const totaleConfezioni = prev.reduce(
+                    (totale, item) => {
+                      const formato = String(item.id).match(
+                        /^cookies-liquid-live-diamonds-dual-tank-(1|3|5|10)pz$/
+                      );
+
+                      return totale +
+                        (formato ? Number(formato[1]) * item.quantita : 0);
+                    },
+                    0
+                  );
+
+                  if (totaleConfezioni + opzione.pezzi > 10) {
+                    return prev;
+                  }
+
+                  const esistente = prev.find(
+                    (item) => String(item.id) === id
+                  );
+
+                  if (esistente) {
+                    return prev.map((item) =>
+                      String(item.id) === id
+                        ? {
+                            ...item,
+                            prezzo: opzione.prezzo,
+                            quantita: item.quantita + 1,
+                          }
+                        : item
+                    );
+                  }
+
+                  return [
+                    ...prev,
+                    {
+                      id: id as any,
+                      nome:
+                        "Cookies Liquid Live Diamonds Dual Tank 2 g - " +
+                        "Blueberry Banana + Ridgeline Lantz - " +
+                        opzione.pezzi +
+                        (opzione.pezzi === 1
+                          ? " confezione"
+                          : " confezioni"),
+                      prezzo: opzione.prezzo,
+                      quantita: 1,
+                    },
+                  ];
+                });
+              }}
+              className="flex flex-col items-start rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-left transition-colors enabled:hover:bg-zinc-900 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              <p className="text-lg font-black uppercase text-white sm:text-xl">
+                {opzione.pezzi}{" "}
+                {opzione.pezzi === 1 ? "pezzo" : "pezzi"}
+              </p>
+
+              <p className="mt-3 text-xl font-black lalinea-price-neon">
+                {opzione.prezzo.toLocaleString("it-IT")} €
+              </p>
+
+              <p className="mt-3 text-xs font-black uppercase text-white">
+                {limiteSuperato
+                  ? "Limite di 10 confezioni"
+                  : "Aggiungi al carrello"}
+              </p>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  </div>
+)}
+
 {/* ROSIN & PEN - GORILLA FONDUE */}
 {(() => {
   const finePromoFondue = Date.parse("2026-11-13T07:54:12+01:00");
