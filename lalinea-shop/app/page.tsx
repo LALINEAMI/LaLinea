@@ -836,6 +836,39 @@ const VPN_SECURITY_ROUTES = [
 ] as const;
 
 export default function Home() {
+  const scadenzaPromoJackHerer = Date.parse(
+  "2026-11-16T00:02:00+01:00"
+);
+
+const [promoJackHererAttiva, setPromoJackHererAttiva] = useState(false);
+
+useEffect(() => {
+  let timer: number | undefined;
+
+  const aggiornaPromo = () => {
+    if (timer !== undefined) window.clearTimeout(timer);
+
+    const tempoResiduo = scadenzaPromoJackHerer - Date.now();
+    setPromoJackHererAttiva(tempoResiduo > 0);
+
+    if (tempoResiduo > 0) {
+      timer = window.setTimeout(
+        aggiornaPromo,
+        Math.min(tempoResiduo, 2147483647)
+      );
+    }
+  };
+
+  aggiornaPromo();
+  window.addEventListener("focus", aggiornaPromo);
+  document.addEventListener("visibilitychange", aggiornaPromo);
+
+  return () => {
+    if (timer !== undefined) window.clearTimeout(timer);
+    window.removeEventListener("focus", aggiornaPromo);
+    document.removeEventListener("visibilitychange", aggiornaPromo);
+  };
+}, [scadenzaPromoJackHerer]);
   const [popupConsegne, setPopupConsegne] = useState<string | null>(null);
   const [vpnRouteIndex, setVpnRouteIndex] = useState(0);
 
@@ -6974,6 +7007,162 @@ onClick={apriRicercaCatalogo}
             </p>
 
             <p className="mt-5 text-sm font-black uppercase text-white">
+              Aggiungi al carrello
+            </p>
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+)}
+{/* FLOWERS - CALI ITA JACK HERER */}
+{categoriaAttiva === "Flowers" && (
+  <div
+    id="cali-ita-jack-herer"
+    className="mt-8 rounded-3xl border border-yellow-300/80 bg-black/85 p-4 shadow-lg"
+  >
+    <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+      Flowers
+    </p>
+
+    <div className="mt-3 space-y-2 text-center">
+      <p className="text-2xl font-black uppercase text-yellow-400">
+        🇺🇸 CALI ITA 🇮🇹
+      </p>
+
+      <h3 className="text-2xl font-black uppercase text-white sm:text-3xl">
+        🌲🍋 JACK HERER 🍋🌲
+      </h3>
+    </div>
+
+    {promoJackHererAttiva && (
+      <div className="mt-4 rounded-2xl border border-green-400 bg-green-950/40 p-4 text-center">
+        <p className="text-lg font-black uppercase text-green-400">
+          🔥 PROMO LANCIO 🔥
+        </p>
+
+        <p className="mt-2 text-2xl font-black uppercase text-green-300">
+          20G A 120€
+        </p>
+
+        <p className="mt-2 text-sm font-bold text-white">
+          Fino a lunedì 16 novembre alle 00:02 · Ora italiana
+        </p>
+      </div>
+    )}
+
+    <div className="mt-6 space-y-3">
+      <InfoRiga etichetta="BILANCIAMENTO">
+        Indica 45% - Sativa 55%
+      </InfoRiga>
+
+      <InfoRiga etichetta="GENETICA">
+        Haze x Northern Lights #5 x Shiva Skunk
+      </InfoRiga>
+
+      <InfoRiga etichetta="GUSTO">
+        Pino 🌲, Agrumi 🍋, Spezie terrose 🌿
+      </InfoRiga>
+    </div>
+
+    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
+      <video
+        src="/products/flowers/JAK1.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/35 object-cover sm:w-1/2"
+        preload="metadata"
+      />
+
+      <div className="grid flex-1 grid-cols-2 gap-3 md:grid-cols-4">
+        {[2, 3, 4, 6, 7, 8, 9].map((numero) => (
+          <img
+            key={numero}
+            src={`/products/flowers/JAK${numero}.jpg`}
+            alt={`CALI ITA JACK HERER foto ${numero}`}
+            className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        ))}
+      </div>
+    </div>
+
+    <div className="mt-6">
+      <p className="mb-3 font-bold uppercase text-white">
+        Seleziona quantità
+      </p>
+
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        {[
+          { grammi: "5G", prezzo: 40, promo: false },
+          { grammi: "10G", prezzo: 75, promo: false },
+          ...(promoJackHererAttiva
+            ? [{ grammi: "20G", prezzo: 120, promo: true }]
+            : []),
+          { grammi: "25G", prezzo: 165, promo: false },
+          { grammi: "50G", prezzo: 300, promo: false },
+          { grammi: "100G", prezzo: 410, promo: false },
+          { grammi: "500G", prezzo: 1900, promo: false },
+          { grammi: "1KG", prezzo: 3000, promo: false },
+        ].map((opzione) => (
+          <button
+            key={opzione.grammi}
+            type="button"
+            onClick={() => {
+              if (
+                opzione.promo &&
+                Date.now() >= scadenzaPromoJackHerer
+              ) {
+                setPromoJackHererAttiva(false);
+                return;
+              }
+
+              const id = `cali-ita-jack-herer-${opzione.grammi}`;
+
+              setCarrello((prev) => {
+                const esistente = prev.find(
+                  (item) => String(item.id) === id
+                );
+
+                if (esistente) {
+                  return prev.map((item) =>
+                    String(item.id) === id
+                      ? { ...item, quantita: item.quantita + 1 }
+                      : item
+                  );
+                }
+
+                return [
+                  ...prev,
+                  {
+                    id: id as any,
+                    nome: `CALI ITA - JACK HERER ${opzione.grammi}`,
+                    prezzo: opzione.prezzo,
+                    quantita: 1,
+                  },
+                ];
+              });
+            }}
+            className="rounded-2xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-left transition hover:border-green-400"
+          >
+            <p className="text-xl font-black text-white">
+              {opzione.grammi}
+            </p>
+
+            {opzione.promo && (
+              <p className="mt-2 text-xs font-black uppercase text-green-400">
+                🔥 PROMO LANCIO
+              </p>
+            )}
+
+            <p className="mt-3 text-xl font-black lalinea-price-neon">
+              {opzione.prezzo} €
+            </p>
+
+            <p className="mt-2 text-xs font-black uppercase text-white">
               Aggiungi al carrello
             </p>
           </button>

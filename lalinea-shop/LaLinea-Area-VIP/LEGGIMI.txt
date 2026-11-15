@@ -1,0 +1,72 @@
+LALINEA — STORICO ORDINI E TESSERA VIP CON QR
+
+Il pacchetto è pronto per l'installazione, NON è già installato sul sito Vercel.
+La parte gestionale richiede l’aggiornamento Area VIP con tessere QR, pubblicato
+in questa chat. Lo riconosci dalla nuova sezione Area VIP in Amministratori.
+
+1. CARICA LA CARTELLA
+Estrai lo ZIP. Trascina la cartella LaLinea-Area-VIP nel progetto in Codespaces,
+accanto al package.json del sito. Non copiare a mano le cartelle dei modelli:
+i file finiscono in .txt per non entrare nella compilazione di Next.js.
+
+2. APPLICA LA MODIFICA
+Dal terminale del sito esegui:
+node LaLinea-Area-VIP/scripts/applica-area-vip.cjs
+npm run build
+
+Il comando controlla il codice ricevuto in chat. Aggiunge la nuova sezione alla
+sola app/vip/page.tsx e copia i nuovi file del servizio VIP e del generatore QR.
+Conserva l'originale in app/vip/page.tsx.prima-area-vip. Non aggiungere il backup
+al commit. Ripetere il comando dopo il successo non aggiunge una seconda sezione.
+Se trova file diversi o conflitti si ferma senza sovrascriverli.
+NON modifica app/api/vip/login/route.ts, sessioni giochi, checkout o carrello.
+NON esegue git commit, git push o pubblicazione.
+
+3. COLLEGA IL SITO AL GESTIONALE
+Apri il gestionale come titolare:
+https://lalinea-clienti-link.jonathan-codispoti42.chatgpt.site
+Amministratori → Area VIP del sito: ordini e tessere QR → Genera chiave.
+Copia il valore nella variabile SERVER di Vercel:
+LALINEA_VIP_PORTAL_KEY
+Non usare NEXT_PUBLIC_ e non incollare il valore nel codice o in chat.
+La chiave compare una sola volta: sostituirla richiede aggiornare Vercel.
+Poi pubblica il codice del sito con il normale flusso Git/Vercel, dopo la build.
+Non è necessario eseguire SQL aggiuntivo su Supabase.
+
+COSA VEDRÀ IL CLIENTE
+Dopo il normale accesso VIP: tessera QR personale e storico paginato degli ordini.
+Gli stati Ricevuto/In preparazione/In consegna provengono dal gestionale.
+Consegnato compare solo se esiste la conferma reale di consegna del gestionale.
+Un ordine finanziariamente confirmed non viene automaticamente chiamato consegnato.
+Se il collegamento non risponde, lo stato appare da verificare: non viene inventato.
+Prodotti e orario compaiono se sono stati collegati dal messaggio originale.
+Il saldo e lo storico punti si aggiornano con la stessa verifica telefono/PIN;
+il login originale e i collegamenti a Mario, La Milanese e classifica restano.
+L'aggiornamento automatico avviene ogni minuto soltanto con la pagina visibile.
+I PIN restano nella memoria della pagina già prevista dal login e non vengono
+salvati nel QR, negli URL, nel localStorage o inviati al gestionale.
+
+COME SI LEGGE IL QR
+Il cliente può mostrare il QR o scaricarlo. Il dipendente lo scansiona con la
+fotocamera del telefono e apre il bot. Solo gli amministratori Telegram già
+approvati possono leggere il nome e il saldo attuale; il QR non autorizza accessi.
+L'apertura della tessera non accredita punti e non conferma ordini.
+
+LIMITI E VERIFICHE
+Il pacchetto copre storico ordini e QR. Preferiti e avvisi di disponibilità
+richiedono ancora il blocco della scheda prodotto e non sono compresi.
+Lo storico mostra solo gli ordini già registrati nel profilo VIP autenticato.
+Non può inventare ordini mancanti né ricostruire dettagli mai ricevuti.
+Sono stati verificati tipi TypeScript, API con PIN corretto/errato, isolamento
+tra clienti, paginazione, dati mancanti, mancata disponibilità del servizio,
+QR decodificabile e accessi dei dipendenti in ambiente isolato.
+La build completa del tuo repository e la prova reale su Vercel restano da fare
+con npm run build e con il codice effettivamente installato/configurato.
+
+RIPRISTINO
+Ripristina app/vip/page.tsx dal file .prima-area-vip se vuoi rimuovere la sezione.
+Il vecchio login, i punti, gli ordini e il checkout non sono riscritti dal pacchetto.
+
+TERZE PARTI
+qrcode-generator 2.0.4, Copyright (c) 2009 Kazuhiko Arase, licenza MIT inclusa.
+Il QR viene generato sul server del sito, senza servizi di immagini esterni.
