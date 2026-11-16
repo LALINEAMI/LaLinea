@@ -837,7 +837,7 @@ const VPN_SECURITY_ROUTES = [
 
 export default function Home() {
   const scadenzaPromoJackHerer = Date.parse(
-  "2026-11-16T00:02:00+01:00"
+  "2026-11-18T00:02:00+01:00"
 );
 
 const [promoJackHererAttiva, setPromoJackHererAttiva] = useState(false);
