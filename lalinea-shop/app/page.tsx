@@ -837,7 +837,7 @@ const VPN_SECURITY_ROUTES = [
 
 export default function Home() {
   const scadenzaPromoJackHerer = Date.parse(
-  "2026-11-18T00:02:00+01:00"
+  "2026-11-18bT00:02:00+01:00"
 );
 
 const [promoJackHererAttiva, setPromoJackHererAttiva] = useState(false);
@@ -7015,6 +7015,232 @@ onClick={apriRicercaCatalogo}
     </div>
   </div>
 )}
+{/* FLOWERS - SPALIEXOTICS TROPSANTO */}
+{(() => {
+  const inizioPromo = Date.parse("2026-11-18T04:00:00+01:00");
+  const finePromo = inizioPromo + 48 * 60 * 60 * 1000;
+  const idBase = 7_650_000;
+  const id15g = idBase + 15;
+
+  const promoAttiva = (ora: number) => ora >= inizioPromo && ora < finePromo;
+
+  const formati = [
+    { grammi: 5, prezzo: 40 },
+    { grammi: 10, prezzo: 80 },
+    { grammi: 15, prezzo: 130 },
+    { grammi: 25, prezzo: 210 },
+    { grammi: 50, prezzo: 360 },
+    { grammi: 100, prezzo: 440 },
+    { grammi: 500, prezzo: 2000 },
+    { grammi: 1000, prezzo: 3600 },
+  ];
+
+  return (
+    <div
+      hidden={categoriaAttiva !== "Flowers"}
+      ref={(blocco) => {
+        if (!blocco) return;
+
+        const elementiPromo = blocco.querySelectorAll<HTMLElement>("[data-tropsanto-promo]");
+        const timerTesto = blocco.querySelector<HTMLElement>("[data-tropsanto-timer]");
+        const prezzo15g = blocco.querySelector<HTMLElement>("[data-tropsanto-prezzo]");
+        let timer: number | undefined;
+
+        const aggiorna = () => {
+          window.clearTimeout(timer);
+          const ora = Date.now();
+          const attiva = promoAttiva(ora);
+          const prezzo = attiva ? 100 : 130;
+
+          elementiPromo.forEach((elemento) => {
+            elemento.hidden = !attiva;
+          });
+
+          if (prezzo15g) prezzo15g.textContent = `${prezzo} €`;
+
+          if (attiva && timerTesto) {
+            const secondi = Math.ceil((finePromo - ora) / 1000);
+            const ore = Math.floor(secondi / 3600);
+            const minuti = Math.floor(secondi / 60) % 60;
+            timerTesto.textContent = [ore, minuti, secondi % 60]
+              .map((n) => String(n).padStart(2, "0"))
+              .join(":");
+          }
+
+          if (carrello.some((riga) => riga.id === id15g && riga.prezzo !== prezzo)) {
+            setCarrello((righe) =>
+              righe.map((riga) => riga.id === id15g ? { ...riga, prezzo } : riga)
+            );
+          }
+
+          let prossimo = finePromo;
+          if (ora < inizioPromo) prossimo = inizioPromo;
+          else if (attiva && timerTesto && !document.hidden) {
+            prossimo = Math.min(ora + 1000, finePromo);
+          }
+
+          if (prossimo > ora) {
+            timer = window.setTimeout(aggiorna, Math.min(prossimo - ora, 2_147_483_647));
+          }
+        };
+
+        aggiorna();
+        window.addEventListener("focus", aggiorna);
+        document.addEventListener("visibilitychange", aggiorna);
+
+        return () => {
+          window.clearTimeout(timer);
+          window.removeEventListener("focus", aggiorna);
+          document.removeEventListener("visibilitychange", aggiorna);
+        };
+      }}
+    >
+      {categoriaAttiva === "Flowers" && (
+        <div
+          id="spaliexotics-tropsanto"
+          className="mt-8 rounded-3xl border border-yellow-300/80 bg-black/85 p-4 shadow-lg"
+        >
+          <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+            Flowers
+          </p>
+
+          <p className="mt-3 text-center text-2xl font-black uppercase text-yellow-400">
+            🇪🇸 SPALIEXOTICS 🇺🇸
+          </p>
+          <h3 className="mt-2 text-center text-2xl font-black uppercase text-white sm:text-3xl">
+            🍊 TROPSANTO 🍄
+          </h3>
+
+          <div
+            hidden
+            data-tropsanto-promo
+            className="mt-4 rounded-2xl border border-green-400 bg-green-950/40 p-4 text-center"
+          >
+            <p className="text-lg font-black uppercase text-green-400">
+              🚀 PROMO LANCIO 🚀
+            </p>
+            <p className="mt-2 text-2xl font-black text-green-300">15 G A 100 €</p>
+            <p className="mt-2 font-bold text-white">
+              Scade tra <span data-tropsanto-timer role="timer" className="font-mono tabular-nums" />
+            </p>
+            <p className="mt-1 text-sm text-zinc-200">
+              Alla scadenza i 15 g passano a 130 €, anche nel carrello.
+            </p>
+          </div>
+
+          <div className="mt-6 space-y-3">
+            <InfoRiga etichetta="🧬 GENETICA">
+              GMO (Garlic Cookies) × Tropicana Cookies
+            </InfoRiga>
+            <InfoRiga etichetta="🧑‍🌾 PROPRIETARIO">
+              Oni Seed Co.
+            </InfoRiga>
+            <InfoRiga etichetta="🍽️ GUSTO">
+              Agrumi aspri, biscotto dolce, aglio (funky), diesel e spezie con note di cannella.
+            </InfoRiga>
+            <InfoRiga etichetta="🛌/🕺 BILANCIAMENTO">
+              70% Indica · 30% Sativa
+            </InfoRiga>
+            <InfoRiga etichetta="🫠 EFFETTI">
+              Euforia cerebrale iniziale seguita da profondo rilassamento fisico, calma e sonnolenza.
+            </InfoRiga>
+            <InfoRiga etichetta="🧃 TERPENI">
+              Limonene, beta-cariofillene e mircene.
+            </InfoRiga>
+          </div>
+
+          <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
+            <video
+              src="/products/flowers/santo1.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/35 object-cover sm:w-1/2"
+            />
+
+            <div className="grid flex-1 grid-cols-2 gap-3 md:grid-cols-4">
+              {[2, 3, 4, 5, 6, 7, 8, 9, 10].map((numero) => (
+                <img
+                  key={numero}
+                  src={`/products/flowers/santo${numero}.jpg`}
+                  alt={`SPALIEXOTICS TROPSANTO foto ${numero - 1} di 9`}
+                  loading="lazy"
+                  decoding="async"
+                  className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover"
+                />
+              ))}
+            </div>
+          </div>
+
+          <p className="mb-3 mt-6 font-bold uppercase text-white">
+            Seleziona quantità
+          </p>
+
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+            {formati.map(({ grammi, prezzo: listino }) => {
+              const formato = grammi === 1000 ? "1KG" : `${grammi}G`;
+              const id = idBase + grammi;
+
+              return (
+                <button
+                  key={id}
+                  type="button"
+                  onClick={(evento) => {
+                    const prezzo = grammi === 15 && promoAttiva(Date.now()) ? 100 : listino;
+
+                    if (grammi === 15) {
+                      const mostrato = evento.currentTarget.querySelector("[data-tropsanto-prezzo]");
+                      if (mostrato && mostrato.textContent !== `${prezzo} €`) {
+                        mostrato.textContent = `${prezzo} €`;
+                        window.alert(`Il prezzo dei 15 g è ora ${prezzo} €. Premi di nuovo per aggiungerli.`);
+                        return;
+                      }
+                    }
+
+                    setCarrello((righe) => {
+                      if (righe.some((riga) => riga.id === id)) {
+                        return righe.map((riga) =>
+                          riga.id === id
+                            ? { ...riga, prezzo, quantita: riga.quantita + 1 }
+                            : riga
+                        );
+                      }
+
+                      return [
+                        ...righe,
+                        { id, nome: `SPALIEXOTICS - TROPSANTO ${formato}`, prezzo, quantita: 1 },
+                      ];
+                    });
+                  }}
+                  className="rounded-2xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-left transition hover:border-green-400"
+                >
+                  <span className="block text-xl font-black text-white">{formato}</span>
+
+                  {grammi === 15 && (
+                    <span hidden data-tropsanto-promo className="text-xs font-black text-green-400">
+                      🚀 PROMO LANCIO
+                    </span>
+                  )}
+
+                  <span className="lalinea-price-neon mt-3 block text-xl font-black">
+                    {grammi === 15 ? <span data-tropsanto-prezzo /> : `${listino} €`}
+                  </span>
+
+                  <span className="mt-2 block text-xs font-black uppercase text-white">
+                    Aggiungi al carrello
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+})()}
+
 {/* FLOWERS - CALI ITA JACK HERER */}
 {categoriaAttiva === "Flowers" && (
   <div
