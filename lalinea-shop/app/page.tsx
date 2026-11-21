@@ -4080,6 +4080,106 @@ onClick={apriRicercaCatalogo}
   </div>
 </div>
 {/* PRODOTTI PREMIUM FILTRED */}
+{/* PREMIUM FILTRED - SWEDISH FISH PANCAKE 73U */}
+{categoriaAttiva === "Premium Filtred" && (
+  <div
+    id="swedish-fish-pancake-73u"
+    className="mt-10 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5"
+  >
+    <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+      Premium Filtred
+    </p>
+    <h3 className="mt-2 text-3xl font-black uppercase text-white">
+      🍊🍣🥞 SWEDISH FISH PANCAKE 🇸🇪
+    </h3>
+
+    <div className="mt-6 space-y-3">
+      <InfoRiga etichetta="🧬 GENETICA">
+        Swedish Fish (Phishead Kush × Swedish Nectar) × Pancakes (London Pound Cake #75 × Kush Mints #11)
+      </InfoRiga>
+      <InfoRiga etichetta="🧑‍🌾 PROPRIETARIO">
+        Incrocio da linee Panoramic Cannabis × Cookies / Seed Junky Genetics
+      </InfoRiga>
+      <InfoRiga etichetta="🕸️ FILTRO">FILTRED 73U</InfoRiga>
+      <InfoRiga etichetta="🍽️ GUSTO">
+        Caramella gommosa ai frutti di bosco, mirtillo dolce, pastella burrosa, vaniglia e leggere note speziate.
+      </InfoRiga>
+      <InfoRiga etichetta="🛌/🕺 BILANCIAMENTO">
+        60% Indica / 40% Sativa
+      </InfoRiga>
+      <InfoRiga etichetta="🫠 EFFETTI">
+        Spinta mentale euforica e creativa iniziale, seguita da un rilassamento fisico avvolgente e calmante.
+      </InfoRiga>
+      <InfoRiga etichetta="🧃 TERPENI DOMINANTI">
+        Beta-Cariofillene, Limonene, Linalolo (con note di Mircene)
+      </InfoRiga>
+    </div>
+
+    <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start">
+      <video
+        src="/products/premium-filtred/sonic1.mp4"
+        poster="/products/premium-filtred/sonic2.jpg"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        className="aspect-video w-full flex-shrink-0 rounded-2xl border border-yellow-300/50 object-cover shadow-[0_0_18px_rgba(250,204,21,0.16)] sm:aspect-square sm:w-1/4"
+      />
+      <div className="grid flex-1 grid-cols-2 gap-3 md:grid-cols-3">
+        {[2, 3, 4, 6, 7].map((numero) => (
+          <img
+            key={numero}
+            src={`/products/premium-filtred/sonic${numero}.jpg`}
+            alt={`Swedish Fish Pancake 73U · foto ${numero}`}
+            loading="lazy"
+            decoding="async"
+            className="aspect-square w-full rounded-xl border border-yellow-300/35 object-cover shadow-[0_0_12px_rgba(250,204,21,0.10)]"
+          />
+        ))}
+      </div>
+    </div>
+
+    <div className="mt-6">
+      <p className="mb-3 font-bold uppercase text-white">Seleziona quantità</p>
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        {[
+          { id: 730005, grammi: "5G",   prezzo: 35 },
+          { id: 730010, grammi: "10G",  prezzo: 65 },
+          { id: 730025, grammi: "25G",  prezzo: 150 },
+          { id: 730050, grammi: "50G",  prezzo: 220 },
+          { id: 730100, grammi: "100G", prezzo: 400 },
+          { id: 730500, grammi: "500G", prezzo: 1900 },
+          { id: 731000, grammi: "1K",   prezzo: 2900 },
+        ].map(({ id, grammi, prezzo }) => (
+          <button
+            key={id}
+            type="button"
+            onClick={() => {
+              setCarrello((prev) => {
+                if (prev.some((item) => item.id === id)) {
+                  return prev.map((item) =>
+                    item.id === id ? { ...item, quantita: item.quantita + 1 } : item
+                  );
+                }
+                return [...prev, { id, nome: `Swedish Fish Pancake 73U ${grammi}`, prezzo, quantita: 1 }];
+              });
+            }}
+            className="rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-4 text-center shadow-[0_0_14px_rgba(250,204,21,0.16)]"
+          >
+            <span className="block text-xl font-black text-white">{grammi}</span>
+            <span className="mt-3 block text-xl font-black lalinea-price-neon">{prezzo} €</span>
+            <span className="mt-2 block text-xs font-black uppercase text-white">Aggiungi al carrello</span>
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <p className="mt-4 text-sm font-bold uppercase text-zinc-400">
+      Per quantità maggiori, contattare in privato. Nella sezione Contatti troverete tutte le info.
+    </p>
+  </div>
+)}
 {/* GORILLA SKITTLEZ */}
 {/* LALINEA_GORILLA_SOLO_PREMIUM_V1 */ categoriaAttiva === "Premium Filtred" && (
 <div className="mt-10 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
