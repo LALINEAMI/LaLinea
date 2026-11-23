@@ -6,6 +6,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { isBuonoMilanese, usaBuonoMilanese, validaBuonoMilanese } from "../lib/laMilaneseCart";
 import { createPortal as laLineaGamePortal } from "react-dom";
 import FruityCheese from "./components/FruityCheese";
+import BannerEsaurito from "../components/BannerEsaurito";
 
 function mescolaNumeri(valori: number[]) {
   const copia = [...valori];
@@ -8319,7 +8320,7 @@ onClick={apriRicercaCatalogo}
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
       FRANCO FULLGAS
     </h3>
-
+<BannerEsaurito stato="restock" />
     <div className="mt-6 space-y-3">
       <InfoRiga etichetta="GENETICA">
         Sunset Sherbert x Diagonal Og
