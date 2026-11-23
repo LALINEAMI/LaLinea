@@ -4093,7 +4093,7 @@ onClick={apriRicercaCatalogo}
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
       🍊🍣🥞 SWEDISH FISH PANCAKE 🇸🇪
     </h3>
-
+<BannerEsaurito stato="disponibile" />
     <div className="mt-6 space-y-3">
       <InfoRiga etichetta="🧬 GENETICA">
         Swedish Fish (Phishead Kush × Swedish Nectar) × Pancakes (London Pound Cake #75 × Kush Mints #11)
@@ -4190,7 +4190,7 @@ onClick={apriRicercaCatalogo}
   <h3 className="mt-2 text-3xl font-black uppercase text-white">
     {GORILLA_SKITTLEZ_NOME}
   </h3>
-
+<BannerEsaurito stato="disponibile" />
   <div className="mt-6 space-y-3">
     <InfoRiga etichetta="GENETICA">Gorilla Glue #4 × Original Z (Zkittlez)</InfoRiga>
     <InfoRiga etichetta="BILANCIAMENTO">60% Indica / 40% Sativa</InfoRiga>
@@ -4309,7 +4309,7 @@ onClick={apriRicercaCatalogo}
     <h3 className="mt-3 break-words text-2xl font-black uppercase leading-tight text-white sm:text-3xl">
       🍭🍪 RUNTZ X MASTER ALIEN COOKIES 🍪🍭
     </h3>
-
+<BannerEsaurito stato="disponibile" />
     <div className="mt-6 space-y-3">
       <InfoRiga etichetta="🕸️">220/160/90</InfoRiga>
       <InfoRiga etichetta="CREATORI DELLA GENETICA">
@@ -4434,7 +4434,7 @@ onClick={apriRicercaCatalogo}
       <h3 className="mt-2 text-3xl font-black uppercase text-white">
         LAMPONI 120U
       </h3>
-
+<BannerEsaurito stato="ultime" />
     <div className="mt-6 space-y-3">
       <InfoRiga etichetta="FARM">Maradona Selection</InfoRiga>
       <InfoRiga etichetta="BILANCIAMENTO">Indica 50% — Sativa 50%</InfoRiga>
@@ -4531,7 +4531,7 @@ onClick={apriRicercaCatalogo}
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
       VOLTUS Z
     </h3>
-
+<BannerEsaurito stato="ultime" />
     <div className="mt-6 space-y-3">
       <InfoRiga etichetta="BILANCIAMENTO">60% Indica — 40% Sativa</InfoRiga>
       <InfoRiga etichetta="EDIZIONE">Limitata, prodotta da Greatfull Seed</InfoRiga>
@@ -4704,7 +4704,7 @@ onClick={apriRicercaCatalogo}
   <h3 className="mt-2 text-3xl font-black uppercase text-white">
     LEMON CHERRY GELATO 
   </h3>
-
+<BannerEsaurito stato="restock" />
   <div className="mt-6 space-y-3">
     <InfoRiga etichetta="FARM">Magic Mountain Farmers</InfoRiga>
     <InfoRiga etichetta="BILANCIAMENTO">60% Indica — 40% Sativa</InfoRiga>
@@ -4862,7 +4862,7 @@ onClick={apriRicercaCatalogo}
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
       BLUEBERRY PREMIUM 73ü
     </h3>
-
+<BannerEsaurito stato="ultime" />
     <div className="mt-6 space-y-3">
       <InfoRiga etichetta="FARM">Zaza Farm Morocco</InfoRiga>
       <InfoRiga etichetta="BILANCIAMENTO">80% Indica — 20% Sativa</InfoRiga>
@@ -5001,7 +5001,7 @@ onClick={apriRicercaCatalogo}
   <h3 className="mt-2 text-3xl font-black uppercase text-white">
     SNOWHEADS 90u
   </h3>
-
+<BannerEsaurito stato="ultime" />
   <div className="mt-6 space-y-3">
     <InfoRiga etichetta="INDICA">Dato non specificato</InfoRiga>
     <InfoRiga etichetta="SATIVA">Dato non specificato</InfoRiga>
@@ -5136,7 +5136,7 @@ onClick={apriRicercaCatalogo}
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
       PINK LEMON 120U PREMIUM
     </h3>
-
+<BannerEsaurito stato="disponibile" />
     <div className="mt-6 space-y-3">
       <InfoRiga etichetta="BILANCIAMENTO">Indica 80% — Sativa 20%</InfoRiga>
       <InfoRiga etichetta="GENETICA">Purple Kush × Lemon Skunk × Anonymous St.</InfoRiga>

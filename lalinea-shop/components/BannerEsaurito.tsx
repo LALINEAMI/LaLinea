@@ -1,4 +1,8 @@
 const stati = {
+disponibile: {
+    testo: "DISPONIBILE",
+    colori: "border-green-400/80 bg-green-700/75",
+  },
   ultime: {
     testo: "ULTIME DISPONIBILITÀ",
     colori: "border-orange-400/80 bg-orange-700/75",

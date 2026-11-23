@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, type ComponentType, type ReactNode } from "react";
-
+import BannerEsaurito from "../../components/BannerEsaurito";
 type Props = {
   InfoRiga: ComponentType<{ etichetta: string; children: ReactNode }>;
   onAggiungi: (grammi: string, prezzo: number) => void;
@@ -69,7 +69,7 @@ export default function FruityCheese({ InfoRiga, onAggiungi }: Props) {
       <h3 className="mt-2 text-3xl font-black uppercase text-white">
         🧀FRUITY CHEESE🧀
       </h3>
-
+<BannerEsaurito stato="disponibile" />
       <div className="mt-6 space-y-3">
         <InfoRiga etichetta="🕸️">160/90/73</InfoRiga>
         <InfoRiga etichetta="CREATORI DELLA GENETICA">
