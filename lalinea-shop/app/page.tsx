@@ -8776,7 +8776,7 @@ onClick={apriRicercaCatalogo}
 )}
 {/* WHITE - EGG HUANUCO */}
 {categoriaAttiva === "White" && (
-  <div className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
+  <div id="egg-huanuco" className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">
     <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
       White
     </p>
@@ -10495,69 +10495,70 @@ rel="noopener noreferrer"
     I PIÙ VENDUTI DELLA SETTIMANA
   </div>
 
-  <div className="ll-best-sellers-grid grid grid-cols-3 gap-1 bg-black p-2">
-    {/* 1 - TUNA OG STATIC */}
-<button
-  type="button"
-  onClick={() => apriProdottoCatalogo("Frozen e Static", "tuna-og-static")}
-  className="overflow-hidden rounded-xl border border-yellow-400/60 shadow-lg"
-  aria-label="Apri TUNA OG STATIC"
->
-  <video
-    src="/products/frozen-static/tonno1.mp4"
-    data-no-preview="true"
-    autoPlay
-    muted
-    loop
-    playsInline
-    className="aspect-square w-full object-cover"
-    preload="metadata"
-  />
-  <span className="ll-best-seller-label block border-t border-yellow-400/30 bg-black px-1 py-2 text-center font-black text-white">
-    1° TUNA OG STATIC
-  </span>
-</button>
-
-{/* 2 - ZAZAYA x KEY LIME PIE CAKE */}
-<button
-  type="button"
-  onClick={() => apriProdottoCatalogo("Rosin & Pen", "zazaya-key-lime-pie-cake")}
-  className="overflow-hidden rounded-xl border border-yellow-400/60 shadow-lg"
-  aria-label="Apri ZAZAYA x KEY LIME PIE CAKE"
->
-  <video
-    src="/products/rosin/key1.mp4"
-    data-no-preview="true"
-    autoPlay
-    muted
-    loop
-    playsInline
-    className="aspect-square w-full object-cover"
-    preload="metadata"
-  />
-  <span className="ll-best-seller-label block border-t border-yellow-400/30 bg-black px-1 py-2 text-center font-black text-white">
-    2° ZAZAYA x KEY LIME PIE CAKE
-  </span>
-</button>
-
-    {/* 3 - GOLD PACK */}
+<div className="ll-best-sellers-grid grid grid-cols-3 gap-1 bg-black p-2">
+    {/* 1 - TROPICANA COOKIES */}
     <button
       type="button"
-      onClick={() => apriProdottoCatalogo("", "gold-pack-card", "promo")}
-      className="overflow-hidden rounded-xl border border-yellow-400/60 shadow-[0_0_16px_rgba(250,204,21,0.18)]"
-      aria-label="Apri Gold Pack"
+      onClick={() => apriProdottoCatalogo("Flowers", "tropicana-cookies")}
+      className="overflow-hidden rounded-xl border border-yellow-400/60 shadow-lg"
+      aria-label="Apri TROPICANA COOKIES"
     >
       <video
-        src="/products/promo/gold.mp4"
+        src="/products/flowers/tropicana1.mp4"
         data-no-preview="true"
         autoPlay
         muted
         loop
         playsInline
         className="aspect-square w-full object-cover"
-       preload="metadata"/>
+        preload="metadata"
+      />
+      <span className="ll-best-seller-label block border-t border-yellow-400/30 bg-black px-1 py-2 text-center font-black text-white">
+        1° TROPICANA COOKIES
+      </span>
+    </button>
+
+    {/* 2 - PINEAPPLE DONUT */}
+    <button
+      type="button"
+      onClick={() => apriProdottoCatalogo("Flowers", "pineapple-donut")}
+      className="overflow-hidden rounded-xl border border-yellow-400/60 shadow-lg"
+      aria-label="Apri PINEAPPLE DONUT"
+    >
+      <video
+        src="/products/flowers/ananas1.mp4"
+        data-no-preview="true"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="aspect-square w-full object-cover"
+        preload="metadata"
+      />
+      <span className="ll-best-seller-label block border-t border-yellow-400/30 bg-black px-1 py-2 text-center font-black text-white">
+        2° PINEAPPLE DONUT
+      </span>
+    </button>
+
+    {/* 3 - EGG HUANUCO */}
+    <button
+      type="button"
+      onClick={() => apriProdottoCatalogo("White", "egg-huanuco")}
+      className="overflow-hidden rounded-xl border border-yellow-400/60 shadow-[0_0_16px_rgba(250,204,21,0.18)]"
+      aria-label="Apri EGG HUANUCO"
+    >
+      <video
+        src="/products/other/HUANUCO1.MP4"
+        data-no-preview="true"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="aspect-square w-full object-cover"
+        preload="metadata"
+      />
       <span className="ll-best-seller-label block border-t border-yellow-400/30 bg-black px-1 py-1 text-[9px] font-bold uppercase leading-tight text-yellow-300 md:hidden">
-        3° PACK GOLD
+        3° EGG HUANUCO
       </span>
     </button>
   </div>
@@ -10567,27 +10568,27 @@ rel="noopener noreferrer"
       {[0, 1].map((ripetizione) => (
         <div key={ripetizione} className="inline-flex items-center">
           <button
-  type="button"
-  onClick={() => apriProdottoCatalogo("Frozen e Static", "tuna-og-static")}
-  className="mx-6 font-black text-yellow-400"
->
-  🥇 1° TUNA OG STATIC
-</button>
-
-<button
-  type="button"
-  onClick={() => apriProdottoCatalogo("Rosin & Pen", "zazaya-key-lime-pie-cake")}
-  className="mx-6 font-black text-white"
->
-  🥈 2° ZAZAYA x KEY LIME PIE CAKE
-</button>
+            type="button"
+            onClick={() => apriProdottoCatalogo("Flowers", "tropicana-cookies")}
+            className="mx-6 font-black text-yellow-400"
+          >
+            🥇 1° TROPICANA COOKIES
+          </button>
 
           <button
             type="button"
-            onClick={() => apriProdottoCatalogo("", "gold-pack-card", "promo")}
+            onClick={() => apriProdottoCatalogo("Flowers", "pineapple-donut")}
+            className="mx-6 font-black text-white"
+          >
+            🥈 2° PINEAPPLE DONUT
+          </button>
+
+          <button
+            type="button"
+            onClick={() => apriProdottoCatalogo("White", "egg-huanuco")}
             className="mx-6 font-black text-yellow-400"
           >
-            🥉 3° PACK GOLD
+            🥉 3° EGG HUANUCO
           </button>
         </div>
       ))}
