@@ -8774,6 +8774,114 @@ onClick={apriRicercaCatalogo}
     </div>
   </div>
 )}
+{/* WHITE — SWEET PURE
+    Cartella: lalinea-shop/public/products/other/
+    Foto: pur4.jpg, pur5.jpg, pur6.jpg, pur7.jpg, pur8.jpg, pur9.jpg
+    Video: pur10.mp4
+*/}
+{categoriaAttiva === "White" && (
+  <div
+    id="sweet-pure"
+    aria-labelledby="titolo-sweet-pure"
+    className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5"
+  >
+    <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+      White
+    </p>
+    <h3 id="titolo-sweet-pure" className="mt-2 text-3xl font-black uppercase text-white">
+      Sweet Pure
+    </h3>
+
+    <BannerEsaurito stato="disponibile" />
+
+    {/* VIDEO + FOTO */}
+    <div className="mt-6 grid min-w-0 items-start gap-4 md:grid-cols-2">
+      <video
+        src="/products/other/pur10.mp4"
+        poster="/products/other/pur4.jpg"
+        aria-label="Video di Sweet Pure"
+        autoPlay
+        muted
+        loop
+        playsInline
+        controls
+        preload="metadata"
+        className="aspect-video w-full rounded-2xl border border-yellow-300/35 bg-black object-contain"
+      />
+
+      <div className="grid min-w-0 grid-cols-2 gap-3">
+        {[
+          "/products/other/pur4.jpg",
+          "/products/other/pur5.jpg",
+          "/products/other/pur6.jpg",
+          "/products/other/pur7.jpg",
+          "/products/other/pur8.jpg",
+          "/products/other/pur9.jpg",
+        ].map((src, indice) => (
+          <img
+            key={src}
+            src={src}
+            alt={`Sweet Pure — foto ${indice + 1}`}
+            loading="lazy"
+            decoding="async"
+            className="aspect-square w-full rounded-xl border border-yellow-300/35 bg-black object-contain"
+          />
+        ))}
+      </div>
+    </div>
+
+    {/* QUANTITÀ E CARRELLO */}
+    <div className="mt-6">
+      <p className="mb-3 font-bold uppercase text-white">
+        Seleziona quantità
+      </p>
+
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
+        {[
+          { id: 650001, pezzi: 1, prezzo: 70 },
+          { id: 650002, pezzi: 2, prezzo: 140 },
+          { id: 650005, pezzi: 5, prezzo: 280 },
+        ].map(({ id, pezzi, prezzo }) => (
+          <button
+            key={id}
+            type="button"
+            aria-label={`Sweet Pure, confezione da ${pezzi}, ${prezzo} euro: aggiungi al carrello`}
+            onClick={() => {
+              setCarrello((prev) => {
+                if (prev.some((item) => String(item.id) === String(id))) {
+                  return prev.map((item) =>
+                    String(item.id) === String(id)
+                      ? { ...item, quantita: item.quantita + 1 }
+                      : item
+                  );
+                }
+
+                return [
+                  ...prev,
+                  {
+                    id,
+                    nome: `Sweet Pure · ${pezzi}`,
+                    prezzo,
+                    quantita: 1,
+                  },
+                ];
+              });
+            }}
+            className="rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-3 text-left text-white hover:bg-zinc-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-yellow-300"
+          >
+            <span className="lalinea-price-neon block text-xl font-black">
+              {`${pezzi}:${prezzo}`}
+            </span>
+            <span className="mt-2 block text-xs font-black uppercase text-yellow-300">
+              Aggiungi al carrello
+            </span>
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+)}
+
 {/* WHITE - EGG HUANUCO */}
 {categoriaAttiva === "White" && (
   <div id="egg-huanuco" className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 shadow-[0_0_28px_rgba(250,204,21,0.16)] sm:p-5">

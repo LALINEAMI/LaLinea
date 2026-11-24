@@ -1,0 +1,441 @@
+diff --git a/lalinea-shop/app/components/TastoAvvento.tsx b/lalinea-shop/app/components/TastoAvvento.tsx
+new file mode 100644
+index 0000000..8d19833
+--- /dev/null
++++ b/lalinea-shop/app/components/TastoAvvento.tsx
+@@ -0,0 +1,51 @@
++"use client";
++
++import dynamic from "next/dynamic";
++import { useRef, useState } from "react";
++
++const CalendarioConAccesso = dynamic(
++  () => import("../vip/CalendarioAvvento").then((modulo) => modulo.CalendarioConAccesso),
++  { loading: () => <p role="status" className="p-4 text-white">Caricamento del calendario…</p> },
++);
++
++export default function TastoAvvento() {
++  const finestra = useRef<HTMLDialogElement>(null);
++  const [aperto, setAperto] = useState(false);
++
++  return (
++    <>
++      <a
++        href="/vip/avvento"
++        aria-label="Advent Cal. – Apri il calendario dell’Avvento"
++        aria-haspopup="dialog"
++        aria-controls="avvento-catalogo"
++        className="inline-flex min-h-11 min-w-11 shrink-0 flex-col items-center justify-center gap-0.5 rounded-xl border-2 border-red-500 bg-linear-to-b from-emerald-950 to-black px-2 py-1 text-center font-black uppercase leading-none shadow-[0_0_10px_rgba(239,68,68,0.35)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:scale-95"
++        onClick={(evento) => {
++          const dialogo = finestra.current;
++          if (!dialogo?.showModal || evento.button !== 0 || evento.metaKey || evento.ctrlKey || evento.shiftKey || evento.altKey) return;
++          evento.preventDefault();
++          dialogo.showModal();
++          setAperto(true);
++        }}
++      >
++        <span lang="en" className="text-[11px] tracking-wide text-green-300">Advent</span>
++        <span lang="en" className="text-xs text-white">Cal.</span>
++      </a>
++
++      <dialog
++        ref={finestra}
++        id="avvento-catalogo"
++        aria-label="Calendario dell’Avvento"
++        onClose={() => setAperto(false)}
++        className="fixed inset-0 m-auto max-h-[86dvh] w-11/12 max-w-lg overflow-y-auto overscroll-contain rounded-2xl border border-red-400 bg-zinc-950 p-4 text-white shadow-2xl backdrop:bg-black/80 [&>section]:my-2"
++      >
++        <form method="dialog" className="flex justify-end">
++          <button className="min-h-11 rounded-lg border border-zinc-600 px-4 font-bold focus-visible:outline-2 focus-visible:outline-white">
++            Chiudi
++          </button>
++        </form>
++        {aperto && <CalendarioConAccesso />}
++      </dialog>
++    </>
++  );
++}
+diff --git a/lalinea-shop/app/page.tsx b/lalinea-shop/app/page.tsx
+index 402a7bc..e485da4 100644
+--- a/lalinea-shop/app/page.tsx
++++ b/lalinea-shop/app/page.tsx
+@@ -3,6 +3,7 @@
+ 
+ 
+ import { useEffect, useRef, useState, type ReactNode } from "react";
++import TastoAvvento from "./components/TastoAvvento";
+ import { isBuonoMilanese, usaBuonoMilanese, validaBuonoMilanese } from "../lib/laMilaneseCart";
+ import { createPortal as laLineaGamePortal } from "react-dom";
+ import FruityCheese from "./components/FruityCheese";
+@@ -3360,9 +3361,9 @@ return (
+ </header>
+ 
+ <div className="ll-mobile-home md:hidden" aria-label="Catalogo mobile LaLinea">
+-  <div className="mb-3 flex items-end justify-between gap-3">
+-    <div>
+-      <p className="ll-catalog-kicker text-[10px] font-black uppercase tracking-[0.32em] text-yellow-400">
++  <div className="mb-3 flex flex-wrap items-center justify-between gap-2 min-[360px]:flex-nowrap min-[360px]:gap-1.5">
++    <div className="min-w-0 basis-full min-[360px]:flex-1">
++      <p className="ll-catalog-kicker text-[9px] font-black uppercase tracking-[0.16em] text-yellow-400 min-[430px]:text-[10px] min-[430px]:tracking-[0.32em]">
+         LALINEA / CATALOGO
+       </p>
+       <h1 className="mt-1 text-[1.55rem] font-black uppercase leading-none tracking-[-0.03em] text-white">
+@@ -3387,15 +3388,14 @@ onClick={apriRicercaCatalogo}
+     <path d="m20 20-4-4" />
+   </svg>
+ </button>
+-    <div className="flex flex-col items-end gap-1 origin-bottom-right scale-[0.82]">
+-     <a
+-  href="/lalinea-slot.html"
+-  className="inline-flex shrink-0 flex-col items-center gap-1 rounded-xl border border-yellow-400 bg-black px-4 py-2 text-center font-black uppercase text-yellow-300 hover:bg-yellow-400 hover:text-black"
+->
+-  <span className="text-xs">Gioca a</span>
+-  <span className="text-sm">La Milanese</span>
+-</a>
+-    </div>
++    <TastoAvvento />
++    <a
++      href="/lalinea-slot.html"
++      className="inline-flex min-h-11 w-20 shrink-0 flex-col items-center justify-center gap-0.5 rounded-xl border border-yellow-400 bg-black px-1 py-1.5 text-center font-black uppercase leading-tight text-yellow-300 hover:bg-yellow-400 hover:text-black"
++    >
++      <span className="text-[10px]">Gioca a</span>
++      <span className="text-xs">La Milanese</span>
++    </a>
+   </div>
+ 
+   <div className="ll-mobile-category-grid">
+@@ -11090,4 +11090,4 @@ rel="noopener noreferrer"
+ 
+ </main>
+ );
+-}
+\ No newline at end of file
++}
+diff --git a/lalinea-shop/app/vip/AccessoVip.tsx b/lalinea-shop/app/vip/AccessoVip.tsx
+new file mode 100644
+index 0000000..58921b3
+--- /dev/null
++++ b/lalinea-shop/app/vip/AccessoVip.tsx
+@@ -0,0 +1,116 @@
++"use client";
++
++import { useState } from "react";
++
++export type Cliente = {
++  nome: string;
++  telefono: string;
++  punti: number;
++};
++
++export type Movimento = {
++  id: string;
++  punti: number;
++  descrizione: string;
++  created_at: string;
++};
++
++type Props = {
++  telefonoIniziale?: string;
++  calendario?: boolean;
++  onAccesso: (dati: { cliente: Cliente; movimenti?: Movimento[] }, telefono: string, pin: string) => void;
++};
++
++export default function AccessoVip({ telefonoIniziale = "", calendario = false, onAccesso }: Props) {
++  const [telefono, setTelefono] = useState(telefonoIniziale);
++  const [pin, setPin] = useState("");
++  const [errore, setErrore] = useState("");
++  const [caricamento, setCaricamento] = useState(false);
++
++  return (
++    <form
++      className="w-full max-w-md border border-yellow-400 bg-zinc-950 p-6"
++      onSubmit={async (evento) => {
++        evento.preventDefault();
++        setErrore("");
++        setCaricamento(true);
++
++        try {
++          const risposta = await fetch("/api/vip/login", {
++            method: "POST",
++            headers: {
++              "Content-Type": "application/json",
++            },
++            body: JSON.stringify({
++              telefono,
++              pin,
++            }),
++          });
++
++          const dati = await risposta.json();
++
++          if (!risposta.ok) {
++            throw new Error(dati.error || "Accesso non riuscito");
++          }
++
++          onAccesso(dati, telefono, pin);
++        } catch (errore) {
++          setErrore(
++            errore instanceof Error
++              ? errore.message
++              : "Errore durante l’accesso"
++          );
++        } finally {
++          setCaricamento(false);
++        }
++      }}
++    >
++      <p className="text-center text-sm font-black uppercase tracking-widest text-yellow-400">
++        LaLinea
++      </p>
++
++      <h1 className="mt-3 text-center text-3xl font-black uppercase">
++        {calendario ? "Calendario dell’Avvento" : "Area VIP"}
++      </h1>
++
++      <p className="mt-2 text-center text-zinc-400">
++        {calendario ? "Accedi con il tuo numero e il PIN VIP per vedere le caselle." : "Accedi per controllare i tuoi punti."}
++      </p>
++
++      <input
++        type="tel"
++        aria-label="Numero di telefono"
++        placeholder="Numero di telefono"
++        value={telefono}
++        onChange={(evento) => setTelefono(evento.target.value)}
++        required
++        className="mt-8 w-full border border-zinc-700 bg-black px-4 py-3"
++      />
++
++      <input
++        type="password"
++        inputMode="numeric"
++        aria-label="PIN personale"
++        placeholder="PIN personale"
++        value={pin}
++        onChange={(evento) => setPin(evento.target.value)}
++        required
++        className="mt-3 w-full border border-zinc-700 bg-black px-4 py-3"
++      />
++
++      {errore && (
++        <p role="alert" className="mt-4 bg-red-950 p-3 text-red-200">
++          {errore}
++        </p>
++      )}
++
++      <button
++        type="submit"
++        disabled={caricamento}
++        className="mt-6 w-full bg-yellow-400 px-4 py-4 font-black uppercase text-black disabled:opacity-50"
++      >
++        {caricamento ? "Accesso..." : calendario ? "Apri il calendario" : "Entra nell’area VIP"}
++      </button>
++    </form>
++  );
++}
+diff --git a/lalinea-shop/app/vip/CalendarioAvvento.tsx b/lalinea-shop/app/vip/CalendarioAvvento.tsx
+index fca3cd0..491a24d 100644
+--- a/lalinea-shop/app/vip/CalendarioAvvento.tsx
++++ b/lalinea-shop/app/vip/CalendarioAvvento.tsx
+@@ -1,6 +1,7 @@
+ "use client";
+ 
+ import { useCallback, useEffect, useRef, useState } from "react";
++import AccessoVip from "./AccessoVip";
+ 
+ type Casella = {
+   day: string;
+@@ -27,7 +28,15 @@ const oraItaliana = new Intl.DateTimeFormat("it-IT", {
+   day: "numeric", month: "long", hour: "2-digit", minute: "2-digit", timeZone: "Europe/Rome",
+ });
+ 
+-export default function CalendarioAvvento() {
++export function CalendarioConAccesso() {
++  const [serveAccesso, setServeAccesso] = useState(false);
++  const richiediAccesso = useCallback(() => setServeAccesso(true), []);
++  return serveAccesso
++    ? <AccessoVip calendario onAccesso={() => setServeAccesso(false)} />
++    : <CalendarioAvvento onAccessoRichiesto={richiediAccesso} />;
++}
++
++export default function CalendarioAvvento({ onAccessoRichiesto }: { onAccessoRichiesto?: () => void }) {
+   const [stato, setStato] = useState<Calendario | null>(null);
+   const [scelta, setScelta] = useState("");
+   const [occupato, setOccupato] = useState(false);
+@@ -48,6 +57,10 @@ export default function CalendarioAvvento() {
+         body: giorno ? JSON.stringify({ day: giorno }) : undefined,
+         credentials: "same-origin", cache: "no-store", signal: controller.signal,
+       });
++      if (r.status === 401 && onAccessoRichiesto && !controller.signal.aborted) {
++        onAccessoRichiesto();
++        return;
++      }
+       const dati = await r.json();
+       if (!r.ok) throw new Error(dati.error || "Calendario non disponibile.");
+       if (controller.signal.aborted) return;
+@@ -58,7 +71,7 @@ export default function CalendarioAvvento() {
+     } finally {
+       if (richiesta.current === controller) { richiesta.current = null; setOccupato(false); }
+     }
+-  }, []);
++  }, [onAccessoRichiesto]);
+ 
+   useEffect(() => {
+     void aggiorna();
+diff --git a/lalinea-shop/app/vip/avvento/page.tsx b/lalinea-shop/app/vip/avvento/page.tsx
+new file mode 100644
+index 0000000..48bd54d
+--- /dev/null
++++ b/lalinea-shop/app/vip/avvento/page.tsx
+@@ -0,0 +1,11 @@
++import { CalendarioConAccesso } from "../CalendarioAvvento";
++
++export const metadata = { title: "Calendario dell’Avvento | LaLinea" };
++
++export default function PaginaAvvento() {
++  return (
++    <main className="mx-auto w-full max-w-lg px-4 py-20 text-white">
++      <CalendarioConAccesso />
++    </main>
++  );
++}
+diff --git a/lalinea-shop/app/vip/page.tsx b/lalinea-shop/app/vip/page.tsx
+index bb4d00f..b41e913 100644
+--- a/lalinea-shop/app/vip/page.tsx
++++ b/lalinea-shop/app/vip/page.tsx
+@@ -3,27 +3,13 @@
+ import { useState } from "react";
+ import VipNovita from "./VipNovita";
+ import CalendarioAvvento from "./CalendarioAvvento";
+-
+-type Cliente = {
+-  nome: string;
+-  telefono: string;
+-  punti: number;
+-};
+-
+-type Movimento = {
+-  id: string;
+-  punti: number;
+-  descrizione: string;
+-  created_at: string;
+-};
++import AccessoVip, { type Cliente, type Movimento } from "./AccessoVip";
+ 
+ export default function VipPage() {
+   const [telefono, setTelefono] = useState("");
+   const [pin, setPin] = useState("");
+   const [cliente, setCliente] = useState<Cliente | null>(null);
+   const [movimenti, setMovimenti] = useState<Movimento[]>([]);
+-  const [errore, setErrore] = useState("");
+-  const [caricamento, setCaricamento] = useState(false);
+ 
+   if (cliente) {
+     return (
+@@ -111,94 +97,19 @@ export default function VipPage() {
+ 
+   return (
+     <main className="flex min-h-screen items-center justify-center bg-black px-4 py-24 text-white">
+-      <form
+-        className="w-full max-w-md border border-yellow-400 bg-zinc-950 p-6"
+-        onSubmit={async (evento) => {
+-          evento.preventDefault();
+-          setErrore("");
+-          setCaricamento(true);
+-
+-          try {
+-            const risposta = await fetch("/api/vip/login", {
+-              method: "POST",
+-              headers: {
+-                "Content-Type": "application/json",
+-              },
+-              body: JSON.stringify({
+-                telefono,
+-                pin,
+-              }),
+-            });
+-
+-            const dati = await risposta.json();
+-
+-            if (!risposta.ok) {
+-              throw new Error(dati.error || "Accesso non riuscito");
+-            }
+-
+-            if (new URLSearchParams(window.location.search).get("gioco") === "milanese") {
+-              window.location.replace("/lalinea-slot.html");
+-              return;
+-            }
+-
+-            setCliente(dati.cliente);
+-            setMovimenti(dati.movimenti || []);
+-          } catch (errore) {
+-            setErrore(
+-              errore instanceof Error
+-                ? errore.message
+-                : "Errore durante l’accesso"
+-            );
+-          } finally {
+-            setCaricamento(false);
++      <AccessoVip
++        telefonoIniziale={telefono}
++        onAccesso={(dati, numero, pinInserito) => {
++          if (new URLSearchParams(window.location.search).get("gioco") === "milanese") {
++            window.location.replace("/lalinea-slot.html");
++            return;
+           }
++          setTelefono(numero);
++          setPin(pinInserito);
++          setCliente(dati.cliente);
++          setMovimenti(dati.movimenti || []);
+         }}
+-      >
+-        <p className="text-center text-sm font-black uppercase tracking-widest text-yellow-400">
+-          LaLinea
+-        </p>
+-
+-        <h1 className="mt-3 text-center text-3xl font-black uppercase">
+-          Area VIP
+-        </h1>
+-
+-        <p className="mt-2 text-center text-zinc-400">
+-          Accedi per controllare i tuoi punti.
+-        </p>
+-
+-        <input
+-          type="tel"
+-          placeholder="Numero di telefono"
+-          value={telefono}
+-          onChange={(evento) => setTelefono(evento.target.value)}
+-          required
+-          className="mt-8 w-full border border-zinc-700 bg-black px-4 py-3"
+-        />
+-
+-        <input
+-          type="password"
+-          inputMode="numeric"
+-          placeholder="PIN personale"
+-          value={pin}
+-          onChange={(evento) => setPin(evento.target.value)}
+-          required
+-          className="mt-3 w-full border border-zinc-700 bg-black px-4 py-3"
+-        />
+-
+-        {errore && (
+-          <p className="mt-4 bg-red-950 p-3 text-red-200">
+-            {errore}
+-          </p>
+-        )}
+-
+-        <button
+-          type="submit"
+-          disabled={caricamento}
+-          className="mt-6 w-full bg-yellow-400 px-4 py-4 font-black uppercase text-black disabled:opacity-50"
+-        >
+-          {caricamento ? "Accesso..." : "Entra nell’area VIP"}
+-        </button>
+-      </form>
++      />
+     </main>
+   );
+ }
+\ No newline at end of file
