@@ -3,6 +3,7 @@
 
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import TastoAvvento from "./components/TastoAvvento";
 import { isBuonoMilanese, usaBuonoMilanese, validaBuonoMilanese } from "../lib/laMilaneseCart";
 import { createPortal as laLineaGamePortal } from "react-dom";
 import FruityCheese from "./components/FruityCheese";
@@ -3360,9 +3361,9 @@ return (
 </header>
 
 <div className="ll-mobile-home md:hidden" aria-label="Catalogo mobile LaLinea">
-  <div className="mb-3 flex items-end justify-between gap-3">
-    <div>
-      <p className="ll-catalog-kicker text-[10px] font-black uppercase tracking-[0.32em] text-yellow-400">
+  <div className="mb-3 flex flex-wrap items-center justify-between gap-2 min-[360px]:flex-nowrap min-[360px]:gap-1.5">
+    <div className="min-w-0 basis-full min-[360px]:flex-1">
+      <p className="ll-catalog-kicker text-[9px] font-black uppercase tracking-[0.16em] text-yellow-400 min-[430px]:text-[10px] min-[430px]:tracking-[0.32em]">
         LALINEA / CATALOGO
       </p>
       <h1 className="mt-1 text-[1.55rem] font-black uppercase leading-none tracking-[-0.03em] text-white">
@@ -3387,15 +3388,14 @@ onClick={apriRicercaCatalogo}
     <path d="m20 20-4-4" />
   </svg>
 </button>
-    <div className="flex flex-col items-end gap-1 origin-bottom-right scale-[0.82]">
-     <a
-  href="/lalinea-slot.html"
-  className="inline-flex shrink-0 flex-col items-center gap-1 rounded-xl border border-yellow-400 bg-black px-4 py-2 text-center font-black uppercase text-yellow-300 hover:bg-yellow-400 hover:text-black"
->
-  <span className="text-xs">Gioca a</span>
-  <span className="text-sm">La Milanese</span>
-</a>
-    </div>
+    <TastoAvvento />
+    <a
+      href="/lalinea-slot.html"
+      className="inline-flex min-h-11 w-20 shrink-0 flex-col items-center justify-center gap-0.5 rounded-xl border border-yellow-400 bg-black px-1 py-1.5 text-center font-black uppercase leading-tight text-yellow-300 hover:bg-yellow-400 hover:text-black"
+    >
+      <span className="text-[10px]">Gioca a</span>
+      <span className="text-xs">La Milanese</span>
+    </a>
   </div>
 
   <div className="ll-mobile-category-grid">

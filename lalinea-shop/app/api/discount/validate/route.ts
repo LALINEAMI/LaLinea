@@ -17,6 +17,14 @@ export async function POST(request: Request) {
       );
     }
 
+    // Queste sette voci sono i modelli del calendario. Il VIP riceve un codice personale.
+    if (/^AVVENTO[1-7]$/.test(codicePulito)) {
+      return NextResponse.json(
+        { valido: false, error: "Copia il tuo buono personale dal calendario nell’Area VIP." },
+        { status: 400 }
+      );
+    }
+
     const supabase = getSupabaseAdmin();
 
     const { data: sconto, error } = await supabase

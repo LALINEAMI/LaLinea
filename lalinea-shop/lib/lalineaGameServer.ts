@@ -5,6 +5,7 @@ import { ENGINE_VERSION, Game } from "./lalinea-game-core.mjs";
 export const SESSION_COOKIE = "ll_game_session";
 export const SESSION_SECONDS = 7 * 24 * 60 * 60;
 const CODE = /^LLG-[A-F0-9]{24}$/;
+const BUONO_AVVENTO_2026 = /^LLG-AD2625[A-F0-9]{18}$/;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 type Customer = { id: string | number; nome: string; telefono: string; pin_hash: string };
 type Run = { id: string; customer_id: string; level: number; seed: number; engine: string; created_at: string; completed_at: string | null };
@@ -35,6 +36,7 @@ export function readSession(token: string | undefined, now = Date.now()): { id: 
   } catch { return null; }
 }
 const dbMessages: Record<string, string> = {
+  AVV_NON_DISPONIBILE: "Il buono dell’Avvento è scaduto, disattivato o esaurito.",
   LLG_LEVEL_LOCKED: "Completa prima il livello precedente.", LLG_RUN_NOT_FOUND: "Partita non trovata: avvia di nuovo il livello.",
   LLG_RUN_EXPIRED: "La partita è scaduta. Riprova il livello per ottenere il premio.", LLG_NO_CREDIT: "Non hai credito disponibile.",
   LLG_VOUCHER_NOT_FOUND: "Buono non valido per questo cliente.", LLG_VOUCHER_USED: "Questo buono è già stato utilizzato.",
@@ -134,6 +136,12 @@ export async function createVoucher(customer: Customer) {
 }
 export async function validateVoucher(customer: Customer, code: unknown, requestKey?: unknown) {
   if (typeof code !== "string" || !CODE.test(code)) throw new GameError("Codice buono non valido.");
+  if (BUONO_AVVENTO_2026.test(code)) {
+    const avvento = await rpc<{ valido: true; valore: number; tipo: "fisso" } | null>("ll_avv26_verifica", {
+      p_cliente: String(customer.id), p_codice: code, p_richiesta: typeof requestKey === "string" ? requestKey : null,
+    });
+    if (avvento) return avvento;
+  }
   const rows = await database<(Voucher & { customer_id: string })[]>(query("llg_vouchers", "code,customer_id,amount_cents,used_at,cancelled_at,request_key,applied_cents", "code", code));
   const voucher = rows[0]; if (!voucher || voucher.customer_id !== String(customer.id)) throw new GameError("Buono non valido per questo cliente.", 403);
   if (voucher.cancelled_at) throw new GameError("Hai generato un nuovo buono: utilizza l’ultimo codice.", 409);
@@ -162,7 +170,11 @@ export async function consumeVoucher(customer: Customer, body: Record<string, un
     || typeof telefono !== "string" || telefono.trim() !== customer.telefono) throw new GameError("Usa il numero VIP associato al buono e un carrello con prodotti a pagamento.");
   const { points, prizes } = calculatePoints(body.premi);
   const context = createHash("sha256").update(JSON.stringify({ code, subtotalCents, deliveryCents, telefono: customer.telefono, prizes })).digest("hex");
-  const result = await rpc("llg_consume", { p_customer_id: String(customer.id), p_code: code, p_request_key: requestKey,
-    p_context_hash: context, p_total_cents: subtotalCents, p_points: points, p_delivery_cents: deliveryCents });
+  const args = { p_customer_id: String(customer.id), p_code: code, p_request_key: requestKey,
+    p_context_hash: context, p_total_cents: subtotalCents, p_points: points, p_delivery_cents: deliveryCents };
+  const premio = BUONO_AVVENTO_2026.test(code)
+    ? await rpc<Record<string, unknown> | null>("ll_avv26_spendi", args)
+    : null;
+  const result = premio ?? await rpc<Record<string, unknown>>("llg_consume", args);
   return { ...result, valido: true, valore: Number(result.appliedCents) / 100 };
 }
