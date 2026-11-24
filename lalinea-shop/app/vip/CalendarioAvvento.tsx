@@ -16,6 +16,7 @@ type Casella = {
 type Calendario = {
   today: string;
   now: string;
+  welcomeDay?: string;
   next: string | null;
   entries: Casella[];
   notice: string | null;
@@ -98,7 +99,14 @@ export default function CalendarioAvvento({ onAccessoRichiesto }: { onAccessoRic
 
   const aperte = stato?.entries || [];
   const attuale = aperte.find(c => c.day === scelta) || aperte[0];
+  const giornoBenvenuto = stato?.welcomeDay;
+  const benvenutoAperto = aperte.find(c => c.day === giornoBenvenuto);
   const inAttesa = !!(stato?.next && Date.parse(stato.next) > Date.parse(stato.now));
+  function seleziona(giorno: string, giaAperta?: Casella) {
+    setCopiato("");
+    if (giaAperta) setScelta(giorno);
+    else void aggiorna(giorno);
+  }
   async function copia(codice: string) {
     try { await navigator.clipboard.writeText(codice); setCopiato(codice); }
     catch { setCopiato("manuale"); }
@@ -110,6 +118,18 @@ export default function CalendarioAvvento({ onAccessoRichiesto }: { onAccessoRic
       <p className="mt-1 text-sm text-zinc-300">1–25 dicembre 2026 · Una casella ogni 24 ore.</p>
       {stato && (
         <>
+          {giornoBenvenuto && (stato.today === giornoBenvenuto || benvenutoAperto) && (
+            <button
+              type="button"
+              disabled={occupato}
+              aria-pressed={!!benvenutoAperto && attuale?.day === giornoBenvenuto}
+              onClick={() => seleziona(giornoBenvenuto, benvenutoAperto)}
+              className="mt-4 min-h-11 w-full rounded-xl border-2 border-red-500 bg-emerald-950 px-4 py-3 text-left text-white focus-visible:outline-2 focus-visible:outline-white"
+            >
+              <span className="block text-xs font-bold uppercase tracking-wide text-emerald-200">24 novembre · Speciale di benvenuto</span>
+              <span className="block font-black">🎁 {benvenutoAperto ? "Rivedi la casella di benvenuto" : "Apri la casella di benvenuto"}</span>
+            </button>
+          )}
           <div className="my-4 grid grid-cols-5 gap-2">
             {Array.from({ length: 25 }, (_, i) => {
               const numero = i + 1;
@@ -125,18 +145,14 @@ export default function CalendarioAvvento({ onAccessoRichiesto }: { onAccessoRic
                   aria-label={(premio ? "Rivedi" : "Apri") + " la casella del " + numero + " dicembre"}
                   aria-pressed={!!premio && attuale?.day === day}
                   className={"min-h-11 rounded-lg border text-base font-black focus-visible:outline-2 focus-visible:outline-white " + colore}
-                  onClick={() => {
-                    setCopiato("");
-                    if (premio) setScelta(day);
-                    else void aggiorna(day);
-                  }}>
+                  onClick={() => seleziona(day, premio)}>
                   {numero}
                 </button>
               );
             })}
           </div>
           <p className="text-sm text-zinc-300" aria-live="polite">
-            {stato.notice || (stato.today < inizio ? "La prima casella si apre il 1° dicembre."
+            {stato.notice || (stato.today < inizio ? "Le 25 caselle del calendario iniziano il 1° dicembre."
               : stato.today > fine ? "Calendario concluso. Qui ritrovi i buoni ottenuti."
               : stato.next && inAttesa && Date.parse(stato.next) >= Date.parse("2026-12-26T00:00:00+01:00") ? "Hai aperto la tua ultima casella."
               : stato.next && inAttesa ? "Prossima apertura il " + oraItaliana.format(new Date(stato.next)) + "."
@@ -144,9 +160,11 @@ export default function CalendarioAvvento({ onAccessoRichiesto }: { onAccessoRic
           </p>
           {attuale && (
             <div className="mt-4 rounded-xl border border-zinc-700 bg-black p-4" aria-live="polite">
-              <p className="text-sm text-zinc-300">{Number(attuale.day.slice(-2))} dicembre</p>
+              <p className="text-sm text-zinc-300">{attuale.day === giornoBenvenuto ? "Benvenuto · 24 novembre" : Number(attuale.day.slice(-2)) + " dicembre"}</p>
               <p className="mt-1 font-black text-yellow-300">
-                {attuale.amount ? "Hai trovato un buono da " + euro.format(attuale.amount) : "Questa casella non contiene un buono."}
+                {attuale.amount ? "Hai trovato un buono da " + euro.format(attuale.amount)
+                  : attuale.day === giornoBenvenuto ? "Hai trovato gli auguri del club. Buon Avvento! 🎄"
+                  : "Questa casella non contiene un buono."}
               </p>
               {attuale.voucher && attuale.active && (
                 <>

@@ -32,12 +32,22 @@ export async function GET(request: NextRequest) {
   return calendar(request, null);
 }
 
+function origineDelCalendario(request: NextRequest) {
+  const origine = request.headers.get("origin");
+  if (origine === request.nextUrl.origin) return true;
+
+  const { CODESPACES, CODESPACE_NAME, GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN } = process.env;
+  if (CODESPACES !== "true" || !CODESPACE_NAME || !GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN) return false;
+  const porta = process.env.PORT || request.nextUrl.port || "3000";
+  return origine === `https://${CODESPACE_NAME}-${porta}.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}`;
+}
+
 export async function POST(request: NextRequest) {
-  if (request.headers.get("origin") !== request.nextUrl.origin) {
+  if (!origineDelCalendario(request)) {
     return reply({ error: "Richiesta non consentita." }, 403);
   }
   const body = await request.json().catch(() => null);
-  if (typeof body?.day !== "string" || !/^2026-12-(0[1-9]|1[0-9]|2[0-5])$/.test(body.day)) {
+  if (typeof body?.day !== "string" || !/^2026-(11-24|12-(0[1-9]|1[0-9]|2[0-5]))$/.test(body.day)) {
     return reply({ error: "Seleziona la casella del giorno." }, 400);
   }
   return calendar(request, body.day);
