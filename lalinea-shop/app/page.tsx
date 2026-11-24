@@ -5248,7 +5248,7 @@ onClick={apriRicercaCatalogo}
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
       Bruce Banner F.F in dischi Premium
     </h3>
-
+<BannerEsaurito stato="ultime" />
     <div className="mt-6 space-y-3">
       <InfoRiga etichetta="GENETICA">
         OG Kush X Strawberry OG
@@ -5408,7 +5408,7 @@ onClick={apriRicercaCatalogo}
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
       G.M.O
     </h3>
-
+<BannerEsaurito stato="ultime" />
     <p className="mt-2 font-bold text-white">
       Brand: no farm
     </p>
@@ -5529,7 +5529,7 @@ onClick={apriRicercaCatalogo}
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
       TUNA OG STATIC
     </h3>
-
+<BannerEsaurito stato="ultime" />
     <p className="mt-1 text-xl font-black uppercase text-yellow-400">
       TUNA OG · TUNA KUSH
     </p>
@@ -5644,7 +5644,7 @@ onClick={apriRicercaCatalogo}
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
       ALIEN OG PLASMA X1
     </h3>
-
+<BannerEsaurito stato="disponibile" />
     <p className="mt-1 text-xl font-black uppercase text-yellow-400">
       ALIEN PLASMA STATIC
     </p>
@@ -5746,7 +5746,7 @@ onClick={apriRicercaCatalogo}
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
       COOKIES X RUNTZ 2.0
     </h3>
-
+<BannerEsaurito stato="disponibile" />
     <p className="mt-1 text-xl font-black uppercase text-yellow-400">
       PREMIUM STATIC 120ü
     </p>
@@ -5899,7 +5899,7 @@ onClick={apriRicercaCatalogo}
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
       ORANGE PUNCH FROZEN
     </h3>
-
+<BannerEsaurito stato="disponibile" />
     <div className="mt-6 space-y-3">
       <InfoRiga etichetta="FARM">Pablito Farm</InfoRiga>
       <InfoRiga etichetta="FORMATO">Bolle Glassy da 50gr</InfoRiga>
@@ -5977,7 +5977,7 @@ onClick={apriRicercaCatalogo}
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
       SOUR DIESEL X FORBIDDEN FRUIT
     </h3>
-
+<BannerEsaurito stato="disponibile" />
     <div className="mt-6 space-y-3">
       <InfoRiga etichetta="FARM">Pablito Farm</InfoRiga>
       <InfoRiga etichetta="FORMATO">Bolle Glassy da 50gr</InfoRiga>
@@ -6068,7 +6068,7 @@ onClick={apriRicercaCatalogo}
     <h3 className="mt-2 text-2xl font-black uppercase text-white">
       LEMON STATIC PREMIUM
     </h3>
-
+<BannerEsaurito stato="ultime" />
     <div className="mt-6 space-y-3">
       <InfoRiga etichetta="BILANCIAMENTO">Indica 50% — Sativa 50%</InfoRiga>
       <InfoRiga etichetta="GUSTO">Buccia di limone, cedro, sentori di Kush e pino</InfoRiga>
@@ -6176,7 +6176,7 @@ onClick={apriRicercaCatalogo}
         🫐🍌 Blueberry Banana + Ridgeline Lantz 🌿
       </span>
     </h3>
-
+<BannerEsaurito stato="disponibile" />
     <div className="mt-6 grid gap-3 sm:grid-cols-2">
       <InfoRiga etichetta="💎 PRODOTTO">
         Liquid Live Diamonds
@@ -6408,6 +6408,7 @@ onClick={apriRicercaCatalogo}
           <h3 className="mt-2 text-3xl font-black uppercase text-white">
             🦧 Gorilla Fondue 🧀
           </h3>
+          <BannerEsaurito stato="disponibile" />
           <p className="mt-2 font-bold text-yellow-300">
             🧈 Budder from Rosin 🧈 · Crossed by us
           </p>
@@ -6539,7 +6540,7 @@ onClick={apriRicercaCatalogo}
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
       WHOLE MELT
     </h3>
-
+<BannerEsaurito stato="ultime" />
     <p className="mt-2 text-lg font-black uppercase tracking-wide text-yellow-300">
       Sugar Spritz x Melted Strawberry Banana
     </p>
@@ -6764,7 +6765,7 @@ onClick={apriRicercaCatalogo}
     <h3 className="mt-3 text-3xl font-black uppercase text-white sm:text-4xl">
       HONEY BANANA x ACAI MINT
     </h3>
-
+<BannerEsaurito stato="ultime" />
     <p className="mt-2 text-lg font-black uppercase tracking-wide text-green-300">
       2G DIAMOND + LIVE
     </p>
@@ -6855,7 +6856,7 @@ onClick={apriRicercaCatalogo}
 >
   WHOLE MELT DUAL CHAMBER
 </h3>
-
+<BannerEsaurito stato="disponibile" />
     <p className="mt-2 text-lg font-black uppercase tracking-wide text-yellow-300">
       KEY LIME CAKE x ZAZAYA
     </p>
@@ -6951,7 +6952,7 @@ onClick={apriRicercaCatalogo}
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
       ROSIN H HOMEMADE 37u
     </h3>
-
+<BannerEsaurito stato="disponibile" />
     <div className="mt-6 space-y-3">
       <InfoRiga etichetta="PRODUZIONE">Rosin prodotto a Milano da noi</InfoRiga>
       <InfoRiga etichetta="PROCESSO">Presse Qnubu, crioterapia e una lunga cura</InfoRiga>
@@ -7031,7 +7032,7 @@ onClick={apriRicercaCatalogo}
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
       LIVE ROS ETH TROPICANA COOKIES 45u
     </h3>
-
+<BannerEsaurito stato="disponibile" />
     <div className="mt-6 space-y-3">
       <InfoRiga etichetta="NOTA">Per quantitativi più grossi, vi preghiamo di ordinare con qualche giorno di anticipo.</InfoRiga>
     </div>
@@ -7211,7 +7212,7 @@ onClick={apriRicercaCatalogo}
           <h3 className="mt-2 text-center text-2xl font-black uppercase text-white sm:text-3xl">
             🍊 TROPSANTO 🍄
           </h3>
-
+<BannerEsaurito stato="disponibile" />
           <div
             hidden
             data-tropsanto-promo
@@ -7361,7 +7362,7 @@ onClick={apriRicercaCatalogo}
         🌲🍋 JACK HERER 🍋🌲
       </h3>
     </div>
-
+<BannerEsaurito stato="disponibile" />
     {promoJackHererAttiva && (
       <div className="mt-4 rounded-2xl border border-green-400 bg-green-950/40 p-4 text-center">
         <p className="text-lg font-black uppercase text-green-400">
@@ -7519,7 +7520,7 @@ onClick={apriRicercaCatalogo}
         🍍🍩PINEAPPLE DONUT 🍩🍍
       </h3>
     </div>
-
+<BannerEsaurito stato="disponibile" />
     <div className="mt-6 space-y-3">
       <InfoRiga etichetta="BILANCIAMENTO">
         Sativa 70% - Indica 30%
@@ -7635,7 +7636,7 @@ onClick={apriRicercaCatalogo}
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
       LEMON CHERRY GELATO 2.0
     </h3>
-
+<BannerEsaurito stato="disponibile" />
     <div className="mt-6 space-y-3">
       <InfoRiga etichetta="GENETICA">Sunset Sherbert x Girls Scout Cookies</InfoRiga>
       <InfoRiga etichetta="BILANCIAMENTO">Ibrida a predominanza Indica</InfoRiga>
@@ -7850,7 +7851,7 @@ onClick={apriRicercaCatalogo}
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
       TROPICANA COOKIES CALISPAIN
     </h3>
-
+<BannerEsaurito stato="disponibile" />
     <div className="mt-6 space-y-3">
       <InfoRiga etichetta="BILANCIAMENTO">Sativa 70% — Indica 30%</InfoRiga>
       <InfoRiga etichetta="GUSTO">Cedro, biscotti, limone, fiori tropicali</InfoRiga>
@@ -7960,7 +7961,7 @@ onClick={apriRicercaCatalogo}
   <h3 className="mt-2 text-3xl font-black uppercase text-white">
     LEMON GUMP
   </h3>
-
+<BannerEsaurito stato="ultime" />
 <div className="mt-6 space-y-3">
       <InfoRiga etichetta="BILANCIAMENTO">Indica 50% — Sativa 50%</InfoRiga>
       <InfoRiga etichetta="GUSTO">Lime, agrumi, pompelmo</InfoRiga>
@@ -8074,7 +8075,7 @@ onClick={apriRicercaCatalogo}
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
       LAUGHING BUDDHA
     </h3>
-
+<BannerEsaurito stato="ultime" />
     <div className="mt-6 space-y-3">
       <InfoRiga etichetta="PROPRIETARIO DEL SEME">Rare Seed</InfoRiga>
       <InfoRiga etichetta="PAESE DI COLTIVAZIONE">Spagna</InfoRiga>
@@ -8183,7 +8184,7 @@ onClick={apriRicercaCatalogo}
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
       MOUSSE SUPER BOOF
     </h3>
-
+  <BannerEsaurito stato="terminato" />
     <div className="mt-6 space-y-3">
       <InfoRiga etichetta="GENETICA">
         Black Cherry x Tropicana Cookies
@@ -8462,7 +8463,7 @@ onClick={apriRicercaCatalogo}
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
       GROVE STREET OG
     </h3>
-
+<BannerEsaurito stato="ultime" />
     <div className="mt-6 space-y-3">
       <InfoRiga etichetta="FATTORIA">Sconosciuta</InfoRiga>
       <InfoRiga etichetta="BILANCIAMENTO">Indica 60% — Sativa 40%</InfoRiga>
@@ -8569,7 +8570,7 @@ onClick={apriRicercaCatalogo}
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
       TOBACCO BIO SHELDIA X JOINT
     </h3>
-
+<BannerEsaurito stato="terminato" />
     <div className="mt-6 space-y-3">
       <InfoRiga etichetta="PROVENIENZA">Albania, Regione dello SHELDIA</InfoRiga>
       <InfoRiga etichetta="DESCRIZIONE">
@@ -8664,7 +8665,7 @@ onClick={apriRicercaCatalogo}
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
       🤴 EL REY 🤴
     </h3>
-
+<BannerEsaurito stato="disponibile" />
     <div className="mt-6 space-y-3">
       <InfoRiga etichetta="PROVENIENZA">
         🇵🇪 PERÙ
@@ -8783,7 +8784,7 @@ onClick={apriRicercaCatalogo}
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
       EGG HUANUCO
     </h3>
-
+<BannerEsaurito stato="disponibile" />
     {/* BADGE */}
     <div className="mt-3 inline-flex items-center gap-2 rounded-full border border-yellow-300 bg-yellow-400/10 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-yellow-300 shadow-[0_0_18px_rgba(250,204,21,0.28)]">
       ★ PRODOTTO ESCLUSIVO
@@ -8894,7 +8895,7 @@ onClick={apriRicercaCatalogo}
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
       🇮🇳 K BLU LABEL 🇮🇳
     </h3>
-
+<BannerEsaurito stato="disponibile" />
     <div className="mt-6 space-y-3">
       <InfoRiga etichetta="TIPOLOGIA">
         Isomero r
@@ -9018,7 +9019,7 @@ onClick={apriRicercaCatalogo}
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
       LOGO SODA
     </h3>
-
+<BannerEsaurito stato="ultime" />
     <div className="mt-6 space-y-3">
       <InfoRiga etichetta="LAVORAZIONE">Doppio lavaggio, foro di areazione, in guaina originale</InfoRiga>
     </div>
@@ -9104,7 +9105,7 @@ onClick={apriRicercaCatalogo}
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
       DIESEL COLO
     </h3>
-
+<BannerEsaurito stato="terminato" />
     <div className="mt-6 space-y-3">
       <InfoRiga etichetta="LAVORAZIONE">Lavaggio Kerosene, Brick da 1kg</InfoRiga>
       <InfoRiga etichetta="DESCRIZIONE">Colombiana classica ad impatto fisico praticamente immediato. No levamisolo, no lido.</InfoRiga>
@@ -9223,7 +9224,7 @@ onClick={apriRicercaCatalogo}
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
       BOLIVIAN DOLLAR LOGO
     </h3>
-
+<BannerEsaurito stato="ultime" />
     <div className="mt-6 space-y-3">
       <InfoRiga etichetta="PRODUZIONE">Artigianale a doppio lavaggio</InfoRiga>
       <InfoRiga etichetta="LOGISTICA">Ship via aerea, poca disponibilità</InfoRiga>
@@ -9376,7 +9377,7 @@ onClick={apriRicercaCatalogo}
               <h3 className="mt-4 text-4xl font-black uppercase">
                 Cover LaLinea UltraResistente
               </h3>
-
+<BannerEsaurito stato="restock" />
               <p className="mt-6 text-lg text-zinc-400">
                 Cover iPhone LaLinea UltraResistente con adattatore MagSafe.
               </p>
@@ -9456,7 +9457,7 @@ onClick={apriRicercaCatalogo}
         <h3 className="mt-4 text-4xl font-black uppercase">
           Portachiavi in resina
         </h3>
-
+<BannerEsaurito stato="disponibile" />
         <p className="mt-6 text-lg text-zinc-400">
           In euro: regalo
         </p>
@@ -9513,7 +9514,7 @@ onClick={apriRicercaCatalogo}
       <h3 className="mt-2 text-3xl font-black uppercase">
         CALZE LALINEA
       </h3>
-
+<BannerEsaurito stato="restock" />
       <div className="mt-4 space-y-1">
         <p className="text-xl font-black text-yellow-400">
           300 PUNTI
