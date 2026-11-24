@@ -7768,7 +7768,7 @@ onClick={apriRicercaCatalogo}
     <h3 className="mt-2 text-3xl font-black uppercase text-white">
       #GORILLA GLUE 2 CALISPAIN
     </h3>
-
+<BannerEsaurito stato="terminato" />
     <div className="mt-6 space-y-3">
       <InfoRiga etichetta="BILANCIAMENTO">Indica 70% — Sativa 30%</InfoRiga>
       <InfoRiga etichetta="GUSTO">Diesel, colla, pino, gas</InfoRiga>
