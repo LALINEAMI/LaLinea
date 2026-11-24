@@ -7117,6 +7117,111 @@ onClick={apriRicercaCatalogo}
     </div>
   </div>
 )}
+{/* FLOWERS - DURBAN POISON */}
+{categoriaAttiva === "Flowers" && (
+  <div
+    id="durban-poison"
+    aria-labelledby="durban-poison-titolo"
+    className="mt-8 rounded-3xl border border-yellow-300/70 bg-black/85 p-4 text-white shadow-lg sm:p-5"
+  >
+    <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-400">
+      Flowers
+    </p>
+    <h3 id="durban-poison-titolo" className="mt-2 text-3xl font-black uppercase">
+      🌿 Durban Poison 🇿🇦
+    </h3>
+    <BannerEsaurito stato="disponibile" />
+
+    <div className="mt-6 space-y-3">
+      <InfoRiga etichetta="🧬 Genetica">
+        100% sativa pura (landrace sudafricana).
+      </InfoRiga>
+      <InfoRiga etichetta="👃 Aroma">
+        🍬 Dolce, con note di 🌿 anice, 🖤 liquirizia, 🌲 pino e 🍋 agrumi.
+      </InfoRiga>
+      <InfoRiga etichetta="⚡ Effetti riportati">
+        ☕ Energizzante, 🧠 cerebrale, ✨ euforico, 🎨 creativo.
+      </InfoRiga>
+      <InfoRiga etichetta="🌱 Pianta">
+        📏 Alta, 🌸 fioritura rapida (8–9 settimane), 🛡️ molto resistente, ❄️ cime resinose.
+      </InfoRiga>
+    </div>
+
+    <div className="mt-6 grid min-w-0 items-start gap-4 md:grid-cols-2">
+      <video
+        src="/products/flowers/pozi9.mp4"
+        poster="/products/flowers/pozi1.jpg"
+        aria-label="Video di Durban Poison"
+        autoPlay muted loop playsInline controls preload="metadata"
+        className="aspect-video w-full rounded-2xl border border-yellow-300/35 bg-black object-contain"
+      />
+      <div className="grid min-w-0 grid-cols-2 gap-3">
+        {[
+          "/products/flowers/pozi1.jpg",
+          "/products/flowers/pozi2.jpg",
+          "/products/flowers/pozi3.jpg",
+          "/products/flowers/pozi5.jpg",
+          "/products/flowers/pozi7.jpg",
+          "/products/flowers/pozi8.jpg",
+        ].map((src, indice) => (
+          <img
+            key={src}
+            src={src}
+            alt={`Durban Poison — foto ${indice + 1} di 6`}
+            loading="lazy"
+            decoding="async"
+            className="aspect-square w-full rounded-xl border border-yellow-300/35 bg-black object-contain"
+          />
+        ))}
+      </div>
+    </div>
+
+    <div className="mt-6">
+      <p className="mb-3 font-bold uppercase">Seleziona quantità</p>
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        {[
+          { grammi: 5,    prezzo: 40 },
+          { grammi: 10,   prezzo: 75 },
+          { grammi: 25,   prezzo: 165 },
+          { grammi: 50,   prezzo: 300 },
+          { grammi: 100,  prezzo: 410 },
+          { grammi: 500,  prezzo: 1900 },
+          { grammi: 1000, prezzo: 3000 },
+        ].map(({ grammi, prezzo }) => {
+          const id = 45_720_000 + grammi;
+          const formato = grammi === 1000 ? "1 kg" : `${grammi} g`;
+
+          return (
+            <button
+              key={id}
+              type="button"
+              aria-label={`Aggiungi Durban Poison ${formato} al carrello per ${prezzo} euro`}
+              onClick={() => {
+                setCarrello((prev) => {
+                  const indice = prev.findIndex((riga) => String(riga.id) === String(id));
+                  if (indice === -1) {
+                    return [
+                      ...prev,
+                      { id, nome: `Durban Poison · ${formato}`, prezzo, quantita: 1 },
+                    ];
+                  }
+                  return prev.map((riga, i) =>
+                    i === indice ? { ...riga, quantita: riga.quantita + 1 } : riga
+                  );
+                });
+              }}
+              className="rounded-xl border border-yellow-300 bg-zinc-950 px-4 py-3 text-left hover:bg-zinc-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-yellow-300"
+            >
+              <span className="block text-xl font-black">{formato}</span>
+              <span className="lalinea-price-neon mt-2 block text-xl font-black">{prezzo} €</span>
+              <span className="mt-2 block text-xs font-black uppercase">Aggiungi al carrello</span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  </div>
+)}
 {/* FLOWERS - SPALIEXOTICS TROPSANTO */}
 {(() => {
   const inizioPromo = Date.parse("2026-11-18T04:00:00+01:00");
