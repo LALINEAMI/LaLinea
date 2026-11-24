@@ -10316,6 +10316,24 @@ onClick={(e) => {
     PRENOTA IL RITIRO
   </a>
 </div>
+{/* POINT 06 - MOSCOVA */}
+<div className="mt-4 rounded-2xl border border-zinc-800 bg-black p-6 shadow-[0_0_14px_rgba(250,204,21,0.14)]">
+  <p className="text-xs font-bold uppercase tracking-[0.25em] text-yellow-400">
+    POINT 06
+  </p>
+
+  <h3 className="mt-3 text-2xl font-black uppercase">Moscova</h3>
+
+  <a
+    href="https://t.me/LaLineaMiOrdini"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Prenota il ritiro a Moscova"
+    className="mt-6 block bg-yellow-400 px-5 py-4 text-center font-black uppercase tracking-widest text-black"
+  >
+    PRENOTA IL RITIRO
+  </a>
+</div>
           </div>
         
       </section>
