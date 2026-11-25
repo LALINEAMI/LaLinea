@@ -9247,10 +9247,10 @@ onClick={apriRicercaCatalogo}
 
       <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">
         {[
-          { grammi: "1G", prezzo: 70 },
-          { grammi: "3G", prezzo: 180 },
-          { grammi: "5G", prezzo: 260 },
-          { grammi: "10G", prezzo: 470 },
+          { grammi: "1G", prezzo: 40 },
+          { grammi: "3G", prezzo: 120 },
+          { grammi: "5G", prezzo: 180 },
+          { grammi: "10G", prezzo: 350 },
           { grammi: "50G", prezzo: 1900 },
           { grammi: "100G", prezzo: 3500 },
         ].map((opzione) => (
